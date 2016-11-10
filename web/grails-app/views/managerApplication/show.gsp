@@ -74,55 +74,6 @@
               </li>
               <g:form name="companyVerify" action="rejected">
                 <li class="fieldcontain">
-                  <span id="address-label" class="property-label">Representantes Legales</span>
-                  <input type="hidden" name="legalRepresentatives" value="${company.legalRepresentatives*.id.join(',')}" />
-                  <div class="property-value" aria-labelledby="${label}-label">
-                    <g:each in="${legalRepresentatives}" var="user,documents">
-                      ${user.profile.fullName} <i>${user.profile.info()}</i>
-                      <input type="hidden" name="legalRepresentativeDocuments-${user.id}" value="${documents*.id.join(',')}" />
-                      <br />
-                      <g:each var="document" in="${documents}">
-                        <div class="col-md-12">
-                          <div class="col-md-3">
-                            <a href="${baseUrlDocuments}/${document.title}.${document.mimeType}" class="btn btn-default" download><i class="fa fa-download"></i></a>
-                            <button type="button" class="btn btn-primary document" path="${baseUrlDocuments}/${document.title}.${document.mimeType}" data-toggle="modal" data-target="#myModal"><g:message code="document.type.${document.type}"/></button>
-                          </div>
-                          <div class="col-md-2">
-                            <input type="checkbox" class="document-rejected" id="${document.id}" value="${document.id}"> Rechazado
-                          </div>
-                          <div class="col-md-5">
-                            <textarea rows="2" cols="50" placeholder="Razón de rechazo" name="legalRepresentative-${document.id}" class="form-control reason-${document.id}" style="overflow:auto;resize:none;display:none;"></textarea>
-                          </div>
-                        </div>
-                        <p><br /><br /></p>
-                      </g:each>
-                      <p><br /><br /></p>
-                      <p><br /><hr style="width: 100%; color: black; height: 1px; background-color:black;"></p>
-                    </g:each>
-                  </div>
-                </li>
-                <li class="fieldcontain">
-                  <span id="address-label" class="property-label">Documentos</span>
-                  <div class="property-value" aria-labelledby="${label}-label">
-                    <input type="hidden" name="documents" value="${company.documents*.id.join(',')}" />
-                    <g:each var="document" in="${company.documents.sort{it.type}}" >
-                      <div class="col-md-12">
-                        <div class="col-md-3">
-                          <a href="${baseUrlDocuments}/${document.title}.${document.mimeType}" class="btn btn-default" download><i class="fa fa-download"></i></a>
-                          <button type="button" class="btn btn-primary document" path="${baseUrlDocuments}/${document.title}.${document.mimeType}" data-toggle="modal" data-target="#myModal"><g:message code="document.type.${document.type}"/></button>
-                        </div>
-                        <div class="col-md-3">
-                          <input type="checkbox" class="document-rejected" id="${document.id}" value="${document.id}"> Rechazado
-                        </div>
-                        <div class="col-md-5">
-                          <textarea rows="2" cols="50" placeholder="Razon de rechazo" name="document-${document.id}" class="form-control reason-${document.id}" style="overflow:auto;resize:none;display:none;"></textarea>
-                        </div>
-                      </div>
-                      <p><br /><br /></p>
-                    </g:each>
-                  </div>
-                </li>
-                <li class="fieldcontain">
                   <span id="address-label" class="property-label">Otra Razón del Rechazo</span>
                   <div class="property-value" aria-labelledby="${label}-label">
                     <textarea name="reason" style="overflow:auto;resize:none" class="form-control" rows="3"></textarea>

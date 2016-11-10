@@ -79,7 +79,7 @@
   </form>
   <div class="property-value">
     <sec:ifAnyGranted roles="ROLE_INTEGRADO">
-    <g:if test="${available && legalRepresentativesAvilableWithDocuments}">
+    <g:if test="${available}">
     <g:link controller="requestCompany" action="create" class="btn btn-success btn-block" params="[companyId:company.id]">Enviar mi Solicitud</g:link>
   </g:if>
   <g:else>
@@ -176,7 +176,7 @@
 </div>
 
 <!-- Representantes -->
-<div class="">
+<!--div class="">
   <div class="portlet portlet-blue">
     <div class="portlet-heading">
       <div class="portlet-title">
@@ -199,10 +199,10 @@
 </div>
 <div class="portlet-footer"></div>
 </div>
-</div>
+</div-->
 
 <!-- Documentos -->
-<div class="">
+<!--div class="">
 <div class="portlet portlet-blue">
   <div class="portlet-heading">
     <div class="portlet-title">
@@ -227,7 +227,7 @@
 </div>
 <div class="portlet-footer"></div>
 </div>
-</div>
+</div-->
 
 <!-- Direcciones -->
 <div class="">
