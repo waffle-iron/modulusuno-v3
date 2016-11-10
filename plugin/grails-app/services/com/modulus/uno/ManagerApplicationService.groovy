@@ -22,7 +22,7 @@ class ManagerApplicationService {
     company.status = CompanyStatus.ACCEPTED
     company.save()
     log.info company.dump()
-    createNewPasswordForLegalRepresentatives(company)
+    //createNewPasswordForLegalRepresentatives(company)
     emailSenderService.notifyAcceptedCompany(company)
     company
   }
