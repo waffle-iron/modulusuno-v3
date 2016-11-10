@@ -156,10 +156,10 @@ class CompanyService {
   }
 
   boolean isEnableToSendNotificationIntegrated(Company company) {
-    int docsMin = 4
+    /*int docsMin = 4
     if (company.taxRegime == CompanyTaxRegime.FISICA_EMPRESARIAL)
-      docsMin = 5
-    if (company.banksAccounts && company.addresses && company.documents.size() == docsMin && (company.status == CompanyStatus.CREATED || company.status == CompanyStatus.REJECTED ))
+      docsMin = 5*/
+    if (company.banksAccounts && company.addresses && (company.status == CompanyStatus.CREATED || company.status == CompanyStatus.REJECTED ))
       return true
     false
   }
