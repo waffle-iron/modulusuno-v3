@@ -8,6 +8,8 @@ class BusinessEntity implements ClientBusinessEntity, ProviderBusinessEntity, Em
 
   BusinessEntityType type
 
+  String artemisaId
+
   static hasMany = [
   addresses:Address,
   names:ComposeName,
@@ -17,6 +19,7 @@ class BusinessEntity implements ClientBusinessEntity, ProviderBusinessEntity, Em
   static fetchMode = [names: 'eager']
 
   static constraints = {
+    artemisaId nullable:true
     website nullable:true,blank:false,size:5..50,url:true
     rfc(blank:false,size:10..50, validator: { val, obj ->
       if(obj.type == BusinessEntityType.FISICA && !(val ==~ /^[A-Z]{4}([0-9]{2})(1[0-2]|0[1-9])([0-3][0-9])([A-Z0-9]{3})$/) ) {

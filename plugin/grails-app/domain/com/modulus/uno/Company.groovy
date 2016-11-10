@@ -12,6 +12,8 @@ class Company {
   Integer numberOfAuthorizations = 1
   CompanyTaxRegime taxRegime = CompanyTaxRegime.MORAL
 
+  String artemisaId
+
   static hasMany = [banksAccounts:BankAccount,
                     documents:S3Asset,
                     legalRepresentatives:User,
@@ -35,6 +37,7 @@ class Company {
     grossAnnualBilling max:250000000.00
     rfc unique:true,blank:false,size:10..50,matches:/^[A-Z]{3,4}([0-9]{2})(1[0-2]|0[1-9])([0-3][0-9])([A-Z0-9]{3})$/
     numberOfAuthorizations nullable:false
+    artemisaId nullable:true
   }
 
   String toString(){
