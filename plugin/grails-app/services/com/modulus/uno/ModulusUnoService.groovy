@@ -71,7 +71,7 @@ class ModulusUnoService {
   }
 
   def createAccount(Company company) {
-    def command = new CreateAccountCommand(payerAccount:grailsApplication.config.modulus.stpPayerAccount, uuid:company.uuid, name:company.bussinessName, email:company.legalRepresentatives.first().profile.email)
+    def command = new CreateAccountCommand(payerAccount:grailsApplication.config.modulus.stpPayerAccount, uuid:company.uuid, name:company.bussinessName, email:company.actors.first().profile.email)
     def accountResult = restService.sendCommandWithAuth(command, grailsApplication.config.modulus.users)
     log.info "New Account ${accountResult}"
     accountResult
