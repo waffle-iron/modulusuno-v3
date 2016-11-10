@@ -41,11 +41,11 @@ class CompanyController {
           }
         }
         def isAvailable = companyService.isEnableToSendNotificationIntegrated(company)
-          def legalRepresentativesWithDocuments = true
+          /*def legalRepresentativesWithDocuments = true
           if (company.taxRegime == CompanyTaxRegime.MORAL)
-            legalRepresentativesWithDocuments = userService.containsUsersWithDocumentsByCompany(company.legalRepresentatives,company)
+            legalRepresentativesWithDocuments = userService.containsUsersWithDocumentsByCompany(company.legalRepresentatives,company)*/
 
-            respond company, model:[legalRepresentativesAvilableWithDocuments:legalRepresentativesWithDocuments, clients:clientService.getClientsFromCompany(company),providers:providerService.getProvidersFromCompany(company),available:isAvailable,balance:balance,usd:usd]
+        respond company, model:[ clients:clientService.getClientsFromCompany(company),providers:providerService.getProvidersFromCompany(company),available:isAvailable,balance:balance,usd:usd]
       } else {
         flash.message = message(code: 'company.blocket.validate')
         redirect(action:"index")
