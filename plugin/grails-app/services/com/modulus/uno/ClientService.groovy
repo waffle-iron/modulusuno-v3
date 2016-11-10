@@ -37,7 +37,7 @@ class ClientService {
   }
 
   ClientLink generateSubAccountStp(ClientLink client, BusinessEntity businessEntity) {
-    CreateAccountCommand command = new CreateAccountCommand(payerAccount:client.company.accounts.first().stpClabe, uuid:businessEntity.uuid, name:businessEntity.toString(), email:client.company.legalRepresentatives.first().profile.email)
+    CreateAccountCommand command = new CreateAccountCommand(payerAccount:client.company.accounts.first().stpClabe, uuid:businessEntity.uuid, name:businessEntity.toString(), email:client.company.actors.first().profile.email)
     client.stpClabe = modulusUnoService.generateSubAccountStpForClient(command)
     client.save()
     client
