@@ -1,7 +1,8 @@
 package com.modulus.uno
 import java.text.*
+import grails.validation.Validateable
 
-class PurchaseOrderItemCommand {
+class PurchaseOrderItemCommand implements Validateable{
 
     String name
     String quantity

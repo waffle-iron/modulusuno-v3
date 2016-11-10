@@ -1,6 +1,8 @@
 package com.modulus.uno
 
-class ChangePasswordCommand {
+import grails.validation.Validateable
+
+class ChangePasswordCommand implements Validateable{
   String password
   String confirmPassword
 
