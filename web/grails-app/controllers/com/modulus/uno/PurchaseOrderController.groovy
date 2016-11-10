@@ -1,0 +1,278 @@
+package com.modulus.uno
+
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
+import grails.converters.JSON
+import wslite.rest.*
+
+
+class PurchaseOrderController {
+
+  static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+  BusinessEntityService businessEntityService
+  PurchaseOrderService purchaseOrderService
+  def springSecurityService
+  def companyService
+  def emailSenderService
+
+  // TODO: Refactor, código posiblemente repetido
+  def addDocumentToPurchaseOrder(PurchaseOrder purchaseOrder){
+    def document = params.invoiceDocument
+    if (purchaseOrderService.validateDocument(purchaseOrder, document)){
+      purchaseOrderService.addInvoiceToPurchaseOrder(document, purchaseOrder.id, "invoiceForPO")
+    } else {
+      params.badfile = "La extensión del archivo no es válida, o ya existe"
+    }
+    redirect action:"show", id:purchaseOrder.id, params:params
+  }
+
+  def cancelPurchaseOrder(PurchaseOrder order){
+    order.status = PurchaseOrderStatus.CANCELADA
+    order.save flush:true
+
+    if (order.isMoneyBackOrder) {
+      redirect action:'listMoneyBackOrders', params:[status:'POR_AUTORIZAR']
+    } else {
+      redirect action:'list', params:[status:'POR_AUTORIZAR']
+    }
+  }
+
+  def chooseProviderForPurchase(){
+    Company company = Company.get(session.company)
+    def providers = getBusinessEntitiesToChoose(params, company)
+    def provider = BusinessEntity.get(params.id)
+    params.company = company
+    render view:'create',model:([purchaseOrder:new PurchaseOrder(isMoneyBackOrder:new Boolean(params.isMoneyBackOrder)), company:company, providers:providers, provider:provider] + params)
+  }
+
+  def confirmThePurchaseOrder(PurchaseOrder order){
+    if (companyService.enoughBalanceCompany(order.company, order.total)){
+      def user = springSecurityService.currentUser
+      purchaseOrderService.addAuthorizationToPurchaseOrder(order, user)
+      if (purchaseOrderService.isFullAuthorized(order)){
+        purchaseOrderService.authorizePurchaseOrder(order)
+        emailSenderService.sendPurchaseOrderAuthorized(order)
+      }
+      if (order.isMoneyBackOrder) {
+        redirect action:'listMoneyBackOrders', params:[status:'POR_AUTORIZAR']
+      } else {
+        redirect action:'list', params:[status:'POR_AUTORIZAR']
+      }
+      return
+    } else {
+      String insufficientBalance = message(code:'company.insufficient.balance')
+      render view:'show', model:[purchaseOrder:order, insufficientBalance:insufficientBalance]
+    }
+  }
+
+  def create() {
+    Company company = Company.get(session.company.toLong())
+    respond new PurchaseOrder(params), model:[company:company]
+  }
+
+  def createMoneyBackOrder(){
+    Company company = Company.get(session.company)
+    PurchaseOrder order = new PurchaseOrder()
+    order.isMoneyBackOrder = true
+    render view:'create', model:[purchaseOrder: order, company:company]
+  }
+
+  def createWithInvoice() {
+
+  }
+
+  @Transactional
+  def delete(PurchaseOrder purchaseOrder) {
+
+    if (purchaseOrder == null) {
+      transactionStatus.setRollbackOnly()
+      notFound()
+      return
+    }
+
+    purchaseOrder.delete flush:true
+
+    request.withFormat {
+      form multipartForm {
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrder.id])
+        redirect action:"index", method:"GET"
+      }
+      '*'{ render status: NO_CONTENT }
+    }
+  }
+
+  def edit(PurchaseOrder purchaseOrder) {
+    respond purchaseOrder
+  }
+
+  def executePurchaseOrder(PurchaseOrder order){
+    String messageSuccess = message(code:"purchaseOrder.already.executed")
+    if (purchaseOrderIsInStatus(order, PurchaseOrderStatus.AUTORIZADA)) {
+      purchaseOrderService.payPurchaseOrder(order)
+      messageSuccess = message(code:"purchaseOrder.executed.message")
+    }
+
+    if (order.isMoneyBackOrder) {
+      redirect action:'listMoneyBackOrders', params:[status:PurchaseOrderStatus.AUTORIZADA, messageSuccess:messageSuccess]
+    } else {
+      redirect action:'list', params:[status:PurchaseOrderStatus.AUTORIZADA, messageSuccess:messageSuccess]
+    }
+  }
+
+  private Boolean purchaseOrderIsInStatus(PurchaseOrder order, def statusExpected) {
+    order.status == statusExpected
+  }
+
+  List<BusinessEntity> getBusinessEntitiesToChoose(def params, Company company){
+    List<BusinessEntity> providers = businessEntityService.findBusinessEntityByKeyword(params.q, "PROVIDER", company)
+    List<BusinessEntity> employees = businessEntityService.findBusinessEntityByKeyword(params.q, "EMPLOYEE", company)
+    if (new Boolean(params.isMoneyBackOrder)){
+      return employees
+    }
+    providers+=employees
+  }
+
+  def index() {
+    def roles = springSecurityService.getPrincipal().getAuthorities()
+    def company
+    if (Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN")) {
+      company = Company.findById(params.companyId)
+    } else {
+      company = Company.findById(session.company.toLong())
+    }
+    respond PurchaseOrder.findAllByCompany(company), model:[company:company]
+  }
+
+  def list() {
+    params.max = params.max ?: 10
+    def purchaseOrders = purchaseOrderService.getPurchaseOrdersToList(session.company ? session.company.toLong() : session.company, params)
+
+    [purchaseOrder: purchaseOrders.list, purchaseOrderCount: purchaseOrders.items, messageSuccess:params.messageSuccess]
+  }
+
+  def listMoneyBackOrders(){
+    def purchaseOrders = purchaseOrderService.getMoneyBackOrdersToList(session.company ? session.company.toLong() : session.company, params)
+
+    render view:'list', model:[purchaseOrder: purchaseOrders.list, purchaseOrderCount: purchaseOrders.items, isMoneyBackOrder:true, messageSuccess:params.messageSuccess]
+  }
+
+  protected void notFound() {
+    request.withFormat {
+      form multipartForm {
+        flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
+        redirect action: "index", method: "GET"
+      }
+      '*'{ render status: NOT_FOUND }
+    }
+  }
+
+  def rejectPurchaseOrder(PurchaseOrder order){
+    order.status = PurchaseOrderStatus.RECHAZADA
+    order.save flush:true
+
+    if (order.isMoneyBackOrder) {
+      redirect action:'listMoneyBackOrders', params:[status:'AUTORIZADA']
+    } else {
+      redirect action:'list', params:[status:'AUTORIZADA']
+    }
+  }
+
+  def save() {
+    if(params.orderType == "1"){
+      redirect controller:"feesReceipt", action:"create", params: [businessEntity: params.providerId, bankAccount: params.bankAccountId, company:params.company]
+    } else {
+      def purchaseOrder = purchaseOrderService.createPurchaseOrder(session.company.toLong(), params)
+
+      request.withFormat {
+        form multipartForm {
+          flash.message = purchaseOrder.isMoneyBackOrder ? message(code: 'moneyBackOrder.created', args: [:]) : message(code: 'purchaseOrder.created', args: [:])
+          redirect action:"show", id: purchaseOrder.id, params:params
+        }
+        '*' { respond purchaseOrder, [status: CREATED] }
+      }
+    }
+  }
+
+  def saveInvoiceTmp(){
+    def purchaseOrderInvoice = purchaseOrderService.createPurchaseOrderByInvoice(flash.dataInvoice,session.company.toLong())
+    purchaseOrderService.createPurchaseOrderItemsByInvoice(flash.dataInvoice, purchaseOrderInvoice)
+    redirect action:"list"
+  }
+
+  def searchProviderForPurchase(){
+    Company company = Company.get(session.company)
+    String notFoundBusinessEntity = new Boolean(params.isMoneyBackOrder)?"No se encontró el emp/colaborador":"No se encontró el proveedor"
+    List<BusinessEntity> providers = getBusinessEntitiesToChoose(params, company)
+    if(providers.isEmpty()){
+      flash.message = notFoundBusinessEntity
+    }
+    PurchaseOrder order = new PurchaseOrder(isMoneyBackOrder:new Boolean(params.isMoneyBackOrder))
+    render view:'create',model:( [purchaseOrder:order, company:company, providers:providers] + params)
+  }
+
+  def sendOrderToConfirmation(PurchaseOrder purchaseOrder){
+    purchaseOrderService.requestAuthorizationForTheOrder(purchaseOrder)
+    if (purchaseOrder.isMoneyBackOrder) {
+      redirect action:'listMoneyBackOrders'
+    } else {
+      redirect action:'list'
+    }
+  }
+
+  def sendInvoice(){
+    def invoice = request.getFile('file') ?: params."file[0]"
+    flash.invoiceFile = invoice
+    def responsePOST = purchaseOrderService.callExternalServiceForInvoice(invoice)
+
+    params.remove("file[0]")
+
+    flash.dataInvoice = responsePOST
+    def isAExistentProvirder = businessEntityService.findBusinessEntityAndProviderLinkByRFC(responsePOST.emisor.rfc)
+    def providerExistent
+    def providerBankAccountAndAddress
+    if (isAExistentProvirder == null)
+      providerExistent = message(code:"businessEntity.provider.notExist")
+    if (isAExistentProvirder)
+      providerBankAccountAndAddress = validateBankAccountsAndAddressOfProvider(responsePOST.emisor.rfc)
+    def invoiceInformationAndErrors = ["inf":responsePOST,"errors": providerExistent,"bank": providerBankAccountAndAddress]
+    render invoiceInformationAndErrors as JSON
+  }
+
+  def show(PurchaseOrder purchaseOrder) {
+    Boolean enableAddDocuments = purchaseOrderService.enableAddDocuments(purchaseOrder)
+    respond purchaseOrder, model:[enableAddDocuments:enableAddDocuments, user:springSecurityService.currentUser, baseUrlDocuments:grailsApplication.config.grails.url.base.images]
+  }
+
+  @Transactional
+  def update(PurchaseOrder purchaseOrder) {
+    if (purchaseOrder == null) {
+      transactionStatus.setRollbackOnly()
+      notFound()
+      return
+    }
+
+    if (purchaseOrder.hasErrors()) {
+      transactionStatus.setRollbackOnly()
+      respond purchaseOrder.errors, view:'edit'
+      return
+    }
+
+    purchaseOrder.save flush:true
+
+    request.withFormat {
+      form multipartForm {
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrder.id])
+        redirect purchaseOrder
+      }
+      '*'{ respond purchaseOrder, [status: OK] }
+    }
+  }
+
+  private def validateBankAccountsAndAddressOfProvider(String rfc) {
+    def thisBusinessEntityHaveAAccount = businessEntityService.knowIfBusinessEntityHaveABankAccountOrAddress(rfc)
+    if (thisBusinessEntityHaveAAccount.flatten().size() < 2)
+      message(code:"businessEntity.provider.not.bank.account.or.not.address")
+  }
+
+}
