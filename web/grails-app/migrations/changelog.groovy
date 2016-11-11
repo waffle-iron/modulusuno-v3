@@ -16,6 +16,6 @@ databaseChangeLog = {
     include file: 'adding-column-uuid-to-business-entity.groovy'
 //    include file: 'initializing-uuid-for-existing-business-entity.groovy'
     include file: 'drop-modulusunoaccounts_and_update_status-for-all-companies.groovy'
-    include file: 'change-elements-db-new-version.groovy'
+ //   include file: 'change-elements-db-new-version.groovy'
     include file: 'adding-ids-of-artimisa.groovy'
 }
