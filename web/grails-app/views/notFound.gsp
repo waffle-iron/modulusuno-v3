@@ -9,7 +9,8 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12" align="center" >
-            <h1> IECCE Servicios Financieros </h1>
+            <asset:image src="Logo-ModulusUno-vFINAL-big.png" class="shadow" width="30%" />
+            <br />
             <br />
             <g:link controller="dashboard" class="btn btn-default btn-lg">
               Regresar a la Pagina principal

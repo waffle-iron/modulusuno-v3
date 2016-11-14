@@ -16,7 +16,7 @@
         <div class="col-md-6 col-md-offset-3">
           <div class="login-banner text-center">
             <h1>
-              <asset:image src="logo-iecce-blank.png" class="shadow" />
+              <asset:image src="Logo-ModulusUno-vFINAL-big.png" class="shadow" width="20%" />
             </h1>
           </div>
           <div class="portlet portlet-green">
