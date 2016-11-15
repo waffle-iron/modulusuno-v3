@@ -1,6 +1,7 @@
 package com.modulus.uno
 
-import static groovyx.net.http.ContentType.URLENC
+import static groovyx.net.http.ContentType.*
+import org.apache.http.entity.ContentType.*
 
 class RestService {
 
@@ -23,6 +24,8 @@ class RestService {
 
   def getInvoiceData(def invoice) {
     try {
+      log.info "Calling Service : ${invoice}"
+      log.info "provnado el elvio de un archivo"
       restClientBean.uri = "http://api.makingdevs.com"
       restClientBean.post(
         path: "/InvoiceDetail.groovy",
@@ -51,7 +54,6 @@ class RestService {
   def sendCommand(MessageCommand message, String template){
     try{
       log.info "CALLING Email service: ${template}"
-      log.info message.dump()
       restClientBean.uri = grailsApplication.config.emailer.url
       restClientBean.post(
         path: template,
@@ -77,7 +79,7 @@ class RestService {
   }
 
 
-  private def getAuthMap(){
+  def getAuthMap(){
     [
       username:grailsApplication.config.modulus.username,
       password:grailsApplication.config.modulus.password,
@@ -87,7 +89,7 @@ class RestService {
     ]
   }
 
-  private def obtainingTokenFromModulusUno() {
+  def obtainingTokenFromModulusUno() {
     log.info "Creating RestTemplate Object for obtain token"
     restClientBean.uri = grailsApplication.config.modulus.url
     log.info "Calling Modulus Uno service"
@@ -176,6 +178,20 @@ class RestService {
         path: "${template}/${command.type}/${command.begin}/${command.end}"
       )
       resultGet.responseData
+    } catch(BusinessException ex) {
+      log.warn "Error ${ex.message}"
+      throw new RestException(ex.message)
+    }
+  }
+
+  def sendFilesForInvoiceM1(def message, def token) {
+    try {
+      log.info "httpBuilder"
+      restClientBean.uri = grailsApplication.config.modulus.documents
+      restClientBean.post(
+        path: grailsApplication.config.modulus.invoice,
+        body:message,
+        requestContentType: "multipart/related; boundary=----boundary")
     } catch(BusinessException ex) {
       log.warn "Error ${ex.message}"
       throw new RestException(ex.message)
