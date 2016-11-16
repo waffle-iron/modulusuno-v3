@@ -214,5 +214,10 @@ class CompanyController {
     }
 
   }
+  def sendFilesToCreateInvoice() {
+    def company = Company.findById(session.company.toLong())
+    companyService.sendDocumentsPerInvoice(params, company.rfc)
+    redirect(action:"show",id:"${session.company.toLong()}")
+  }
 
 }
