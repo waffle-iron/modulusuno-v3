@@ -1,7 +1,12 @@
 package com.modulus.uno
 
 import static groovyx.net.http.ContentType.*
-import org.apache.http.entity.ContentType.*
+import groovyx.net.http.HTTPBuilder
+import org.apache.http.entity.mime.MultipartEntity
+import org.apache.http.entity.mime.HttpMultipartMode
+import org.apache.http.entity.mime.content.InputStreamBody
+import org.apache.http.entity.mime.content.StringBody
+import static groovyx.net.http.Method.*
 
 class RestService {
 
@@ -24,8 +29,6 @@ class RestService {
 
   def getInvoiceData(def invoice) {
     try {
-      log.info "Calling Service : ${invoice}"
-      log.info "provnado el elvio de un archivo"
       restClientBean.uri = "http://api.makingdevs.com"
       restClientBean.post(
         path: "/InvoiceDetail.groovy",
@@ -184,15 +187,30 @@ class RestService {
     }
   }
 
-  def sendFilesForInvoiceM1(def message, def token) {
+  def sendFilesForInvoiceM1(def bodyMap, def token) {
     try {
       log.info "httpBuilder"
-      restClientBean.uri = grailsApplication.config.modulus.documents
-      restClientBean.post(
-        path: grailsApplication.config.modulus.invoice,
-        body:message,
-        requestContentType: "multipart/related; boundary=----boundary")
-    } catch(BusinessException ex) {
+
+      def http = new HTTPBuilder("http://localhost:8083/modulusuno-facturacion/emisor")
+      http.request(POST) { req ->
+        requestContentType: "multipart/form-data"
+        MultipartEntity multiPartContent = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
+        // Adding Multi-part file parameters
+        multiPartContent.addPart("cer", new InputStreamBody(bodyMap.cer.inputStream, bodyMap.cer.contentType, bodyMap.cer.originalFilename))
+        multiPartContent.addPart("key", new InputStreamBody(bodyMap.key.inputStream, bodyMap.key.contentType, bodyMap.key.originalFilename))
+        multiPartContent.addPart("logo", new InputStreamBody(bodyMap.logo.inputStream, bodyMap.logo.contentType, bodyMap.logo.originalFilename))
+
+        // Adding another string parameters
+        multiPartContent.addPart("password", new StringBody(bodyMap.password))
+        multiPartContent.addPart("rfc", new StringBody(bodyMap.rfc))
+        multiPartContent.addPart("certNumber", new StringBody(bodyMap.certNumber))
+
+        req.setEntity(multiPartContent)
+        response.success = { resp ->
+          return resp
+        }
+      }
+    } catch(Exception ex) {
       log.warn "Error ${ex.message}"
       throw new RestException(ex.message)
     }
