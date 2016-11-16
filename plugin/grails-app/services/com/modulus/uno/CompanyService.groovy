@@ -16,6 +16,7 @@ class CompanyService {
   def feesReceiptService
   def collaboratorService
   def messageSource
+  def restService
 
   def addingActorToCompany(Company company, User user) {
     company.addToActors(user)
@@ -194,4 +195,23 @@ class CompanyService {
     }
     formattedTransactions
   }
+
+  def sendDocumentsPerInvoice(def params, def rfc) {
+    def keyTmp = params.key
+    def cerTmp = params.cer
+    def logoTmp = params.logo
+    def documents = [key:keyTmp,cer:cerTmp,logo:logoTmp,password:params.password, rfc:rfc, certNumber:params.numCert]
+    String token = restService.obtainingTokenFromModulusUno()
+    def result = restService.sendFilesForInvoiceM1(documents,token)
+    result
+  }
+
+  private def obtainsBytesOfFile(def invoiceDocument) {
+    File tmp = File.createTempFile("${new File(".").getCanonicalPath()}/${invoiceDocument.originalFilename}","")
+    invoiceDocument.transferTo(tmp)
+    tmp.bytes
+  }
+
+
+
 }
