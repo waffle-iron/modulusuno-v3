@@ -81,7 +81,6 @@ class RestService {
     }
   }
 
-
   def getAuthMap(){
     [
       username:grailsApplication.config.modulus.username,
@@ -189,28 +188,37 @@ class RestService {
 
   def sendFilesForInvoiceM1(def bodyMap, def token) {
     try {
-      log.info "httpBuilder"
-
-      def http = new HTTPBuilder("http://localhost:8083/modulusuno-facturacion/emisor")
+      log.info "Calling Service : Send Files for Create invoice"
+      def http = new HTTPBuilder("${grailsApplication.config.modulus.facturacionUrl}/${grailsApplication.config.modulus.invoice}")
       http.request(POST) { req ->
         requestContentType: "multipart/form-data"
         MultipartEntity multiPartContent = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
-        // Adding Multi-part file parameters
         multiPartContent.addPart("cer", new InputStreamBody(bodyMap.cer.inputStream, bodyMap.cer.contentType, bodyMap.cer.originalFilename))
         multiPartContent.addPart("key", new InputStreamBody(bodyMap.key.inputStream, bodyMap.key.contentType, bodyMap.key.originalFilename))
         multiPartContent.addPart("logo", new InputStreamBody(bodyMap.logo.inputStream, bodyMap.logo.contentType, bodyMap.logo.originalFilename))
-
-        // Adding another string parameters
         multiPartContent.addPart("password", new StringBody(bodyMap.password))
         multiPartContent.addPart("rfc", new StringBody(bodyMap.rfc))
         multiPartContent.addPart("certNumber", new StringBody(bodyMap.certNumber))
 
         req.setEntity(multiPartContent)
+        log.info response.dump()
         response.success = { resp ->
-          return resp
+          return resp.statusLine.statusCode
         }
       }
-    } catch(Exception ex) {
+    } catch(BusinessException ex) {
+      log.warn "Error ${ex.message}"
+      throw new RestException(ex.message)
+    }
+  }
+
+  def existEmisorForGenerateInvoice(String rfc) {
+    try {
+      log.info "CALLING Service: Verify if exist emisor"
+      def http = new HTTPBuilder(grailsApplication.config.modulus.facturacionUrl)
+      def resultGet = http.get(path: "${grailsApplication.config.modulus.invoice}/${rfc}")
+      resultGet
+    } catch (BusinessException ex) {
       log.warn "Error ${ex.message}"
       throw new RestException(ex.message)
     }
