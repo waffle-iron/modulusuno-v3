@@ -197,21 +197,19 @@ class CompanyService {
   }
 
   def sendDocumentsPerInvoice(def params, def rfc) {
-    def keyTmp = params.key
-    def cerTmp = params.cer
-    def logoTmp = params.logo
-    def documents = [key:keyTmp,cer:cerTmp,logo:logoTmp,password:params.password, rfc:rfc, certNumber:params.numCert]
+    def documents = [key:params.key,cer:params.cer,logo:params.logo,,password:params.password, rfc:rfc, certNumber:params.numCert]
     String token = restService.obtainingTokenFromModulusUno()
     def result = restService.sendFilesForInvoiceM1(documents,token)
     result
   }
 
-  private def obtainsBytesOfFile(def invoiceDocument) {
-    File tmp = File.createTempFile("${new File(".").getCanonicalPath()}/${invoiceDocument.originalFilename}","")
-    invoiceDocument.transferTo(tmp)
-    tmp.bytes
+  def isAvailableForGenerateInvoces(String rfc) {
+    def response = restService.existEmisorForGenerateInvoice(rfc)
+    isAvailableForInvoices(response)
   }
 
-
+  private def isAvailableForInvoices(def response) {
+    response.find { it.value == false}
+  }
 
 }
