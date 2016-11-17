@@ -15,10 +15,10 @@
           <input type="file" required="true" class="form-control" name="key" />
           <label>Archivo .cer</label>
           <input type="file" required="true" class="form-control" name="cer" />
-          <label>Numero de Certificado</label>
+          <label>Numero de Certificado <small><a href="https://portalsat.plataforma.sat.gob.mx/RecuperacionDeCertificados/">Más Informacion</a></small></label>
           <input type="text" required="true" class="form-control" name="numCert" />
-          <label>Logotipo</label>
-          <input type="file" required="true" class="form-control" name="logo" accept="image/png,image/jpg" />
+          <label>Logotipo <small>(Solo se acepta archivos *.png con dimenciones 254 × 101)</small></label>
+          <input type="file" required="true" class="form-control" name="logo" accept="image/png" />
           <label>Password</label>
           <input type="password" required="true" class="form-control" name="password" />
           <br />
