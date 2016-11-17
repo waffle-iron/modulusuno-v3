@@ -40,7 +40,9 @@ class BusinessEntityController {
   }
 
   def create() {
-    respond new BusinessEntity(params)
+
+    def businessEntity = new BusinessEntity(params)
+    respond businessEntity, model:[clientProviderType: params.clientProviderType]
   }
 
   def createAccountByProvider() {
