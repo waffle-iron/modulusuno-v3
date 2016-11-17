@@ -108,13 +108,13 @@
               </a>
               <ul class="collapse nav" id="registros">
                 <li>
-                  <g:link action="create" controller="businessEntity" params='[type:"${com.modulus.uno.LeadType.CLIENTE}"]' >Alta Cliente</g:link>
+                  <g:link action="create" controller="businessEntity" params='[clientProviderType:"${com.modulus.uno.LeadType.CLIENTE}"]' >Alta Cliente</g:link>
                 </li>
                 <li>
-                  <g:link action="create" controller="businessEntity"  params='[type:"${com.modulus.uno.LeadType.PROVEEDOR}"]'>Alta Proveedor</g:link>
+                  <g:link action="create" controller="businessEntity"  params='[clientProviderType:"${com.modulus.uno.LeadType.PROVEEDOR}"]'>Alta Proveedor</g:link>
                 </li>
                 <li>
-                  <g:link action="create" controller="businessEntity"  params='[type:"${com.modulus.uno.LeadType.EMPLEADO}"]'>Alta Empleado</g:link>
+                  <g:link action="create" controller="businessEntity"  params='[clientProviderType:"${com.modulus.uno.LeadType.EMPLEADO}"]'>Alta Empleado</g:link>
                 </li>
                 <li>
                   <g:link action="createMultiEmployees" controller="businessEntity" >Alta Multiples Empleados</g:link>
