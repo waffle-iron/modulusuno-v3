@@ -215,12 +215,12 @@ class RestService {
   def existEmisorForGenerateInvoice(String rfc) {
     try {
       log.info "CALLING Service: Verify if exist emisor"
-      def http = new HTTPBuilder(grailsApplication.config.modulus.facturacionUrl)
-      def resultGet = http.get(path: "${grailsApplication.config.modulus.invoice}/${rfc}")
-      resultGet
-    } catch (BusinessException ex) {
-      log.warn "Error ${ex.message}"
-      throw new RestException(ex.message)
+      def http = new HTTPBuilder("${grailsApplication.config.modulus.facturacionUrl}")
+      http.get(path: "${grailsApplication.config.modulus.invoice}/${rfc}")
+
+    } catch (Exception ex) {
+      log.info "entro al error"
+      return [error:false]
     }
   }
 
