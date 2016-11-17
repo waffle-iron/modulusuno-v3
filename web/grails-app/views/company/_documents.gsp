@@ -1,11 +1,68 @@
- <div class="property-value" aria-labelledby="${label}-label">
- <div class="text-right">
-  <g:if test="${company.documents}">
-      <g:link action="show" controller="uploadDocuments" params="[companyId:company.id]" class="btn btn-default"><i class="fa fa-eye"></i></g:link>
-  </g:if>
-  <sec:ifAnyGranted roles="ROLE_INTEGRADO">
-      <g:link  controller="uploadDocuments" params="[company:company.id]" class="btn btn-default"><i class="fa fa-plus"></i></g:link>
-  </sec:ifAnyGranted>
+<div class="">
+<div class="portlet portlet-blue">
+  <div class="portlet-heading">
+    <div class="portlet-title">
+      <h4>Archivos para Facturacion</h4>
+      <h6>Se deberan de subir los archivos *.key, *.cer y logo</h6>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div id="defaultPortlet" class="panel-collapse collapse in">
+    <div class="portlet-body">
+      <g:if test="${documents}">
+        <g:form class="form-horizontal" action="sendFilesToCreateInvoice" name="documentsToInvoice" method="POST" enctype="multipart/form-data" >
+          <label>Archivo .key</label>
+          <input type="file" required="true" class="form-control" name="key" />
+          <label>Archivo .cer</label>
+          <input type="file" required="true" class="form-control" name="cer" />
+          <label>Numero de Certificado</label>
+          <input type="text" required="true" class="form-control" name="numCert" />
+          <label>Logotipo</label>
+          <input type="file" required="true" class="form-control" name="logo" accept="image/png,image/jpg" />
+          <label>Password</label>
+          <input type="password" required="true" class="form-control" name="password" />
+          <br />
+          <input type="submit" class="btn btn-green btn-lg" value="Subir" />
+        </g:form>
+      </g:if>
+      <g:else>
+      <ul>
+        <li class="text-primary">
+          <span class="label label-success">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </span>
+          1.- Archivo .key
+        </li>
+        <li class="text-primary">
+          <span class="label label-success">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </span>
+          2.- Archivo .cer
+        </li>
+        <li class="text-primary">
+          <span class="label label-success">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </span>
+          3.- Logotipo
+        </li>
+        <li class="text-primary">
+          <span class="label label-success">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          </span>
+          4.- Password del Certificado
+         </li>
+         <li class="text-primary">
+           <span class="label label-success">
+             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+           </span>
+           5.- Numero de Certificado
+         </li>
+       </ul>
+      </g:else>
+    </div>
+  </div>
+  <div class="portlet-footer"></div>
+  </div>
 </div>
 <br />
 <br />
