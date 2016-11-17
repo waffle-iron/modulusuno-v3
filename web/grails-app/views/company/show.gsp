@@ -203,36 +203,7 @@
 
 <!-- Documentos -->
 <g:if test="${company.status == CompanyStatus.ACCEPTED}">
-  <div class="">
-  <div class="portlet portlet-blue">
-    <div class="portlet-heading">
-      <div class="portlet-title">
-        <h4>Archivos para Facturacion</h4>
-        <h6>Se deberan de subir los archivos *.key, *.cer y logo</h6>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div id="defaultPortlet" class="panel-collapse collapse in">
-      <div class="portlet-body">
-        <g:form class="form-horizontal" action="sendFilesToCreateInvoice" name="documentsToInvoice" method="POST" enctype="multipart/form-data" >
-          <label>Archivo .key</label>
-          <input type="file" required="true" class="form-control" name="key" />
-          <label>Archivo .cer</label>
-          <input type="file" required="true" class="form-control" name="cer" />
-          <label>Numero de Certificado</label>
-          <input type="text" required="true" class="form-control" name="numCert" />
-          <label>Logotipo</label>
-          <input type="file" required="true" class="form-control" name="logo" accept="image/png,image/jpg" />
-          <label>Password</label>
-          <input type="password" required="true" class="form-control" name="password" />
-          <br />
-          <input type="submit" class="btn btn-green btn-lg" value="Subir" />
-        </g:form>
-      </div>
-    </div>
-    <div class="portlet-footer"></div>
-    </div>
-  </div>
+  <g:render template="documents" />
 </g:if>
 
 
