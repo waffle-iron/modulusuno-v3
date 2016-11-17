@@ -31,11 +31,11 @@ class CompanyController {
       redirect  (controller: "dashboard" , action:"index")
     } else {
       company.refresh()
-      def balance
-      def usd
+      def balance, usd, documents
       if (company.status != CompanyStatus.VALIDATE) {
         params.sepomexUrl = grails.util.Holders.grailsApplication.config.sepomex.url
         if (company.status == CompanyStatus.ACCEPTED) {
+          documents = companyService.isAvailableForGenerateInvoces(company.rfc)
           if (company.accounts){
             (balance, usd) = modulusUnoService.consultBalanceOfAccount(company?.accounts?.first()?.timoneUuid)
           }
@@ -45,7 +45,7 @@ class CompanyController {
           if (company.taxRegime == CompanyTaxRegime.MORAL)
             legalRepresentativesWithDocuments = userService.containsUsersWithDocumentsByCompany(company.legalRepresentatives,company)*/
 
-        respond company, model:[ clients:clientService.getClientsFromCompany(company),providers:providerService.getProvidersFromCompany(company),available:isAvailable,balance:balance,usd:usd]
+        respond company, model:[ clients:clientService.getClientsFromCompany(company),providers:providerService.getProvidersFromCompany(company),available:isAvailable,balance:balance,usd:usd,documents:documents]
       } else {
         flash.message = message(code: 'company.blocket.validate')
         redirect(action:"index")
@@ -216,7 +216,8 @@ class CompanyController {
   }
   def sendFilesToCreateInvoice() {
     def company = Company.findById(session.company.toLong())
-    companyService.sendDocumentsPerInvoice(params, company.rfc)
+    def responseStatus = companyService.sendDocumentsPerInvoice(params, company.rfc)
+    flash.responseStatus = responseStatus
     redirect(action:"show",id:"${session.company.toLong()}")
   }
 
