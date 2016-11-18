@@ -26,16 +26,16 @@
 <input id="rfc" name="rfc" value="${businessEntity.rfc}" class="form-control" style="text-transform:uppercase" required="" />
 
 <!-- Usando el command este patrón desaparece en cada campo -->
-<g:if test="${!clientProviderType || clientProviderType == LeadType.EMPLEADO}">
-<div class="fieldcontain empleado">
-  <label id="curpLabel"><g:message code="businessEntity.curp" default="CURP" /></label>
-  <g:if test="${businessEntity?.id}">
-  <input id="curp" name="curp" value="${businessEntity.curp}" class="form-control" style="text-transform:uppercase" novalidate />
-  </g:if>
-  <g:else>
-  <input id="curp" name="curp" value="${params.curp}" class="form-control" style="text-transform:uppercase" novalidate />
-  </g:else>
-</div>
+<g:if test="${clientProviderType || clientProviderType == LeadType.EMPLEADO}">
+  <div class="fieldcontain empleado">
+    <label id="curpLabel"><g:message code="businessEntity.curp" default="CURP" /></label>
+    <g:if test="${businessEntity?.id}">
+    <input id="curp" name="curp" value="${businessEntity.curp}" class="form-control" style="text-transform:uppercase" novalidate />
+    </g:if>
+    <g:else>
+    <input id="curp" name="curp" value="${params.curp}" class="form-control" style="text-transform:uppercase" novalidate />
+    </g:else>
+  </div>
 </g:if>
 
 <div id="website">
