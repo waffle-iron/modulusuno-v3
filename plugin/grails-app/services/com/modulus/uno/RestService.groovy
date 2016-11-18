@@ -201,14 +201,12 @@ class RestService {
         multiPartContent.addPart("certNumber", new StringBody(bodyMap.certNumber))
 
         req.setEntity(multiPartContent)
-        log.info response.dump()
-        response.success = { resp ->
-          return resp.statusLine.statusCode
-        }
+
       }
-    } catch(BusinessException ex) {
-      log.warn "Error ${ex.message}"
-      throw new RestException(ex.message)
+    } catch(Exception ex) {
+      log.info "error completado"
+      log.info "Error ${ex.message}"
+      return "500"
     }
   }
 
