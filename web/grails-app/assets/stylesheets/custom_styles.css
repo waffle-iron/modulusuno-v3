@@ -57,7 +57,7 @@ h2{
 	margin-bottom: 0.5em;
 }
 .navbar-side .side-nav li.panel ul li a{
-	background: #34495e;
+	background: #2980B8;
 	color: rgba(255, 255, 255, 1);
 	padding-left: 3em;
 	font-size: 90%;
@@ -69,11 +69,11 @@ h2{
 .navbar-side .side-nav li.panel ul li a:focus
 {
 	color: rgba(255, 255, 255, 0.8);
-	background: #34495e;
+	background: #2980B8;
 }
 .navbar-side .side-nav li.panel ul li a.active ,
 .navbar-side .side-nav > li > a.active{
-	background: #34495e;
+	background: #2980B8;
 	color: #00ffff;
 }
 /*Titulos*/
@@ -98,7 +98,12 @@ h2{
 	float: left;
 }
 
-
+a,
+a:hover,
+a:active,
+a:focus {
+	color: #ffffff !important;
+}
 
 /*Portlets*/
 .circle-tile{
@@ -108,7 +113,7 @@ h2{
 .circle-tile-content{
 	padding: 1em;
 	text-align: left;
-	color: #34495e;
+	color: #2980B8;
 }
 .circle-tile-content.dark-blue{
 	background: none;
