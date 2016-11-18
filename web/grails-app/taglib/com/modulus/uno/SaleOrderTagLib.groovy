@@ -11,6 +11,14 @@ class SaleOrderTagLib {
   }
 
   def invoiceUrl = { attrs, body ->
-    out << "${grailsApplication.config.modulus.facturacionUrl}${grailsApplication.config.modulus.showFactura}/${attrs.saleOrder.uuid}_${attrs.saleOrder.folio}.${attrs.format}"
+    out << "${grailsApplication.config.modulus.facturacionUrl}${createUrlToShowFile(attrs)}"
   }
+
+  private def createUrlToShowFile(def attrs) {
+    def file = "${attrs.saleOrder.uuid}_${attrs.saleOrder.folio}.${attrs.format}"
+    def rfc = "${attrs.saleOrder.company.rfc}"
+    def url = grailsApplication.config.modulus.showFactura
+    url.replace('#rfc',rfc).replace('#file',file)
+  }
+
 }
