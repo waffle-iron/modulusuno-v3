@@ -25,6 +25,7 @@ class InvoiceService {
     command.emisor.datosFiscales.noInterior = grailsApplication.config.factura.noInterior ?: address.suite
     command.emisor.datosFiscales.regimen = grailsApplication.config.factura.regimen ?: company.taxRegime.code
     datosDeFacturacion.numeroDeCuentaDePago = company.accounts[0].stpClabe
+    command.emitter = company.rfc
 
     command.receptor.datosFiscales.rfc = saleOrder.rfc
     command.receptor.datosFiscales.razonSocial = saleOrder.clientName
