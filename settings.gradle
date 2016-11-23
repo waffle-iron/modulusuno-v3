@@ -1,1 +1,1 @@
-include "web", "plugin", "api"
+include "web", "core", "webservices"

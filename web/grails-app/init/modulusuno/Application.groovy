@@ -21,7 +21,7 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 
   @Override
   void setEnvironment(Environment environment) {
-    def configBase = new File("${System.getProperty('user.home')}/.impulsomx/application-${environment.activeProfiles[0]}.groovy")
+    def configBase = new File("${System.getProperty('user.home')}/.modulusuno/application-${environment.activeProfiles[0]}.groovy")
 
     if(configBase.exists()) {
       println "Loading external configuration from Groovy: ${configBase.absolutePath}"

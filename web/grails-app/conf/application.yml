@@ -5,7 +5,7 @@ beans:
 grails:
     profile: web
     codegen:
-        defaultPackage: integradora_v2
+        defaultPackage: modulusuno
 info:
     app:
         name: '@info.app.name@'

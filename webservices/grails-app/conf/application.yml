@@ -1,8 +1,8 @@
 ---
 grails:
-    profile: web
+  profile: web-api
     codegen:
-        defaultPackage: api
+        defaultPackage: webservices
 info:
     app:
         name: '@info.app.name@'
