@@ -1,6 +1,6 @@
 package com.modulus.uno
 
-class IntegradoraController {
+class ModulusunoController {
 
   def index(){
     render view:'detail'

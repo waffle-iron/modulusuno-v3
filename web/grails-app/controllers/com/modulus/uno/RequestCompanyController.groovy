@@ -9,7 +9,7 @@ class RequestCompanyController {
     def company = Company.findById(session.company.toLong())
     def currentUser = springSecurityService.currentUser
     requestIntegratedService.sendNotificationsOFCompanyToIntegrated(company, currentUser)
-    redirect controller:'integradora'
+    redirect controller:'modulusuno'
   }
 
 }

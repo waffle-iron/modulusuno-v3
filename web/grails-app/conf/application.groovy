@@ -40,7 +40,7 @@ grails.plugin.springsecurity.interceptUrlMap = [
   '/mamangerApplication/**':  ['IS_AUTHENTICATED_FULLY'],
   '/activation/**':           ['permitAll'],
   '/documentTemplates/**':    ['permitAll'],
-  '/integradora/**':          ['IS_AUTHENTICATED_FULLY'],
+  '/modulusuno/**':          ['IS_AUTHENTICATED_FULLY'],
   '/depositOrder/**':         ['IS_AUTHENTICATED_FULLY'],
   '/cashOutOrder/**':         ['IS_AUTHENTICATED_FULLY'],
   '/saleOrder/**':            ['IS_AUTHENTICATED_FULLY'],
