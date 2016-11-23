@@ -143,7 +143,7 @@ class EmailSenderService {
 
   void notifyAcceptedCompany(Company company) {
     String url = "${grailsApplication.config.accepting.integrated}${company.id}"
-    String message = "La Empresa ${company}, ha sido aprobada para formar parte de la Integradora"
+    String message = "La Empresa ${company}, ha sido aprobada para formar parte de de ModulusUno"
     def email = company.actors.first().profile.email
     def command = emailIntegratedCommand(message, url, company.toString(), email)
     restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)

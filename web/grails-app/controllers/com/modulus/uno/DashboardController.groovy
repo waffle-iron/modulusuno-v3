@@ -11,22 +11,6 @@ class DashboardController {
     [companies:companyList, companiesCount: companyList.size()]
   }
 
-  def iecce() {
-    [
-      depositOrderAuthorizedCount : DepositOrder.countByStatus(DepositOrderStatus.AUTHORIZED),
-      cashOutOrderAuthorizedCount : CashOutOrder.countByStatus(CashOutOrderStatus.AUTHORIZED),
-      saleOrderAuthorizedCount : SaleOrder.countByStatus(SaleOrderStatus.AUTORIZADA),
-      saleOrderToCancelBillForExecuteCount : SaleOrder.countByStatus(SaleOrderStatus.CANCELACION_AUTORIZADA),
-      purchaseOrderAuthorizedCount : PurchaseOrder.countByStatusAndIsMoneyBackOrder(PurchaseOrderStatus.AUTORIZADA, false),
-      moneyBackOrderAuthorizedCount : PurchaseOrder.countByStatusAndIsMoneyBackOrder(PurchaseOrderStatus.AUTORIZADA, true),
-      loanOrderAuthorizeCount : LoanOrder.countByStatus(LoanOrderStatus.AUTHORIZED),
-      loanOrderToExecuteCount : LoanOrder.countByStatus(LoanOrderStatus.ACCEPTED),
-      feesReceiptCount : FeesReceipt.countByStatus(FeesReceiptStatus.AUTORIZADA),
-      paymentsToConciliateCount: Payment.countByStatus(PaymentStatus.PENDING),
-      loanPaymentOrderAuthorizedCount : LoanPaymentOrder.countByStatus(LoanPaymentOrderStatus.AUTHORIZED)
-    ]
-  }
-
   def authorizations() {
     Company company = Company.get(session.company)
     render view:'iecce', model:[

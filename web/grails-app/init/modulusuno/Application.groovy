@@ -1,4 +1,4 @@
-package integradora_v2
+package modulusuno
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

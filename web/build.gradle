@@ -23,7 +23,7 @@ plugins {
 }
 
 version "0.1"
-group "integradora_v2"
+group "modulusuno"
 
 apply plugin: "spring-boot"
 apply plugin: "war"
