@@ -18,7 +18,7 @@
     <tr class="${message(code: 'loanOrder.style.background.'+loanOrder.status)}">
       <td class="text-center"><g:link action="show" id="${loanOrder.id}">${loanOrder.id}</g:link></td>
       <td>${loanOrder.company}</td>
-      <td><integradora:formatPrice number="${loanOrder.amount}"/></td>
+      <td><modulusuno:formatPrice number="${loanOrder.amount}"/></td>
       <td>${loanOrder.term}</td>
       <td>${loanOrder.rate}</td>
       <td><g:message code="${loanOrder.status.code}"/></td>

@@ -82,14 +82,14 @@
                 </dd>
                 <dt>Subtotal</dt>
                 <dd>
-                ${integradora.formatPrice(number:purchaseOrder.subtotal)}
+                ${modulusuno.formatPrice(number:purchaseOrder.subtotal)}
                 </dd>
                 <dt>IVA</dt>
-                <dd>${integradora.formatPrice(number:purchaseOrder.totalIVA)}</dd>
+                <dd>${modulusuno.formatPrice(number:purchaseOrder.totalIVA)}</dd>
                 <dt>IEPS</dt>
-                <dd>${integradora.formatPrice(number:purchaseOrder.totalIEPS)}</dd>
+                <dd>${modulusuno.formatPrice(number:purchaseOrder.totalIEPS)}</dd>
                 <dt>Total</dt>
-                <dd>${integradora.formatPrice(number:purchaseOrder.total)}</dd>
+                <dd>${modulusuno.formatPrice(number:purchaseOrder.total)}</dd>
                 <dt>Estado </dt>
                 <dd><g:message code="purchaseOrder.status.${purchaseOrder.status}" default="${purchaseOrder.status}"/></dd>
               </dl>
@@ -286,17 +286,17 @@
               <td>
                 <dl class="dl-horizontal">
                   <dt>Precio:</dt>
-                  <dd>${integradora.formatPrice(number:item.price)}</dd>
+                  <dd>${modulusuno.formatPrice(number:item.price)}</dd>
                   <dt>IEPS:</dt>
-                  <dd>${integradora.formatPrice(number:item.amountIEPS)}</dd>
+                  <dd>${modulusuno.formatPrice(number:item.amountIEPS)}</dd>
                   <dt>IVA:</dt>
-                  <dd>${integradora.formatPrice(number:item.amountIVA)}</dd>
+                  <dd>${modulusuno.formatPrice(number:item.amountIVA)}</dd>
                   <dt>Precio Neto:</dt>
-                  <dd>${integradora.formatPrice(number:item.netPrice)}</dd>
+                  <dd>${modulusuno.formatPrice(number:item.netPrice)}</dd>
                </dl>
               </td>
               <td>${item.unitType}</td>
-              <td class="text-right">${integradora.formatPrice(number:item.netAmount)}</td>
+              <td class="text-right">${modulusuno.formatPrice(number:item.netAmount)}</td>
               <td></td>
             </tr>
             </g:each>
@@ -305,20 +305,20 @@
             <tr>
               <td colspan="6" class="text-right"><strong>Subtotal</strong></td>
               <td class="text-right">
-                ${integradora.formatPrice(number:purchaseOrder.subtotal)}
+                ${modulusuno.formatPrice(number:purchaseOrder.subtotal)}
               </td>
             </tr>
             <tr>
               <td colspan="6" class="text-right"><strong>IEPS</strong></td>
-              <td class="text-right">${integradora.formatPrice(number:purchaseOrder.totalIEPS)}</td>
+              <td class="text-right">${modulusuno.formatPrice(number:purchaseOrder.totalIEPS)}</td>
             </tr>
             <tr>
               <td colspan="6" class="text-right"><strong>IVA</strong></td>
-              <td class="text-right">${integradora.formatPrice(number:purchaseOrder.totalIVA)}</td>
+              <td class="text-right">${modulusuno.formatPrice(number:purchaseOrder.totalIVA)}</td>
             </tr>
             <tr>
               <td colspan="6" class="text-right"><strong>Total</strong></td>
-              <td class="text-right">${integradora.formatPrice(number:purchaseOrder.total)}</td>
+              <td class="text-right">${modulusuno.formatPrice(number:purchaseOrder.total)}</td>
             </tr>
           </tfooter>
         </table>

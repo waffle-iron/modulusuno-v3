@@ -48,7 +48,7 @@
         <tr>
           <td>
           <g:link action="show" id="${commission.id}">
-            ${integradora.formatPrice(number:commission.fee)}
+            ${modulusuno.formatPrice(number:commission.fee)}
           </g:link>
           </td>
           <td>${commission.percentage}</td>

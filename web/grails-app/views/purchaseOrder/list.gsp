@@ -79,7 +79,7 @@
             <td><g:message code="purchaseOrder.status.${purch.status}" default="${purch.status}"/></td>
             <td><g:formatDate format="dd-MM-yyyy hh:mm:ss" date="${purch.dateCreated}"/></td>
             <td>${purch.company}</td>
-            <td class="text-right">${integradora.formatPrice(number: purch.total)}</td>
+            <td class="text-right">${modulusuno.formatPrice(number: purch.total)}</td>
             <g:if test="${!purch.isMoneyBackOrder}">
               <td class="text-center"><g:if test="${purch.isAnticipated}">SÍ</g:if><g:else>NO</g:else></td>
             </g:if>

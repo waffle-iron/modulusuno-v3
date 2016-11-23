@@ -19,7 +19,7 @@
     <div class="form-group">
       <label for="">Monto del préstamo</label>
       <div class="input-group">
-        ${integradora.formatPrice(number: loanPaymentOrder?.loanOrder?.amount)}
+        ${modulusuno.formatPrice(number: loanPaymentOrder?.loanOrder?.amount)}
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
     <div class="form-group">
       <label for="">Saldo Actual</label>
       <div class="input-group">
-        ${integradora.formatPrice(number: currentBalance)}
+        ${modulusuno.formatPrice(number: currentBalance)}
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@
     <div class="form-group">
       <label for="">Intereses</label>
       <div class="input-group">
-        ${integradora.formatPrice(number: loanPaymentOrder.amountInterest)}
+        ${modulusuno.formatPrice(number: loanPaymentOrder.amountInterest)}
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@
     <div class="form-group">
       <label for="">IVA de Intereses</label>
       <div class="input-group">
-        ${integradora.formatPrice(number:loanPaymentOrder.amountIvaInterest)}
+        ${modulusuno.formatPrice(number:loanPaymentOrder.amountIvaInterest)}
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@
     <div class="form-group">
       <label for="">Pago mínimo</label>
       <div class="input-group">
-        ${integradora.formatPrice(number:loanPaymentOrder.amountInterest + loanPaymentOrder.amountIvaInterest)}
+        ${modulusuno.formatPrice(number:loanPaymentOrder.amountInterest + loanPaymentOrder.amountIvaInterest)}
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@
     <div class="form-group">
       <label for="">Abono a capital</label>
       <div class="input-group">
-        ${integradora.formatPrice(number:loanPaymentOrder.amountToCapital)}
+        ${modulusuno.formatPrice(number:loanPaymentOrder.amountToCapital)}
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@
     <div class="form-group">
       <label for="">Total a pagar</label>
       <div class="input-group">
-        ${integradora.formatPrice(number:loanPaymentOrder.amountToCapital + loanPaymentOrder.amountInterest + loanPaymentOrder.amountIvaInterest)}
+        ${modulusuno.formatPrice(number:loanPaymentOrder.amountToCapital + loanPaymentOrder.amountInterest + loanPaymentOrder.amountIvaInterest)}
       </div>
     </div>
   </div>

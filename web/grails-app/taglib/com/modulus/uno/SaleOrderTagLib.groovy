@@ -2,7 +2,7 @@ package com.modulus.uno
 
 class SaleOrderTagLib {
 
-  static namespace = "integradora"
+  static namespace = "modulusuno"
   static defaultEncodeAs = [taglib:'html']
   //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 

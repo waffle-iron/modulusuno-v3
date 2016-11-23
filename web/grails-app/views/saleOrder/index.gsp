@@ -49,14 +49,14 @@
             </td>
             <td>${formatDate(date:saleOrder.dateCreated, format:'dd-MMMM-yyyy HH:mm')}</td>
             <td>${saleOrder.status}</td>
-            <td class="text-right">${integradora.formatPrice(number:saleOrder.subtotal)}</td>
-            <td class="text-right">${integradora.formatPrice(number:saleOrder.totalIEPS)}</td>
-            <td class="text-right">${integradora.formatPrice(number:saleOrder.totalIVA)}</td>
-            <td class="text-right">${integradora.formatPrice(number:saleOrder.total)}</td>
+            <td class="text-right">${modulusuno.formatPrice(number:saleOrder.subtotal)}</td>
+            <td class="text-right">${modulusuno.formatPrice(number:saleOrder.totalIEPS)}</td>
+            <td class="text-right">${modulusuno.formatPrice(number:saleOrder.totalIVA)}</td>
+            <td class="text-right">${modulusuno.formatPrice(number:saleOrder.total)}</td>
             <g:if test="${saleOrder.status == SaleOrderStatus.EJECUTADA}">
               <td>
-                <a href="${integradora.invoiceUrl(saleOrder:saleOrder, format:'pdf')}" class="btn btn-success">PDF</a>
-                <a href="${integradora.invoiceUrl(saleOrder:saleOrder, format:'xml')}" class="btn btn-default">XML</i></a>
+                <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'pdf')}" class="btn btn-success">PDF</a>
+                <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'xml')}" class="btn btn-default">XML</i></a>
               </td>
             </g:if>
           </tr>

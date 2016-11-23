@@ -49,7 +49,7 @@
                   </g:link>
                  </td>
                  <td>${product.name}</td>
-                 <td>${integradora.formatPrice(number:product.price)}</td>
+                 <td>${modulusuno.formatPrice(number:product.price)}</td>
                  <td>${product.ieps}</td>
                  <td>${product.iva}</td>
                  <td>${product.unitType}</td>

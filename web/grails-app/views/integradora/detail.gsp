@@ -33,7 +33,7 @@
               <br/>
               Se revisara la solicitud de su empresa y se crearan las cuentas necesarias para su operacion.
               <br/><br/>
-              <g:link action="logout" controller="integradora" class="btn btn-success">Aceptar</g:link>
+              <g:link action="logout" controller="modulusuno" class="btn btn-success">Aceptar</g:link>
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@
     <g:set value="${loanPaymentOrderList[0].loanOrder}" var="loanOrder"/>
     <tr>
       <td>${loanOrder.company}</td>
-      <td><integradora:formatPrice number="${loanOrder.amount}"/></td>
+      <td><modulusuno:formatPrice number="${loanOrder.amount}"/></td>
       <td>${loanOrder.term}</td>
       <td>${loanOrder.rate}</td>
     </tr>
@@ -43,7 +43,7 @@
       <td>
         <g:formatDate format="dd-MM-yyyy" date="${loanPaymentOrder.datePayment}"/>
       </td>
-      <td><integradora:formatPrice number="${loanPaymentOrder.amountToCapital + loanPaymentOrder.amountInterest + loanPaymentOrder.amountIvaInterest}"/></td>
+      <td><modulusuno:formatPrice number="${loanPaymentOrder.amountToCapital + loanPaymentOrder.amountInterest + loanPaymentOrder.amountIvaInterest}"/></td>
       <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR, ROLE_ADMIN, ROLE_ADMIN_IECCE">
         <td>${loanPaymentOrder.loanOrder.company}</td>
       </sec:ifAnyGranted>

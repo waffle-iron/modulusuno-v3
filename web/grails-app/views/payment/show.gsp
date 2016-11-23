@@ -38,7 +38,7 @@
                 <li class="form-group">
                   <label class="control-label">Monto</label>
                   <div class="form-control" aria-labelledby="${label}-label">
-                    ${integradora.formatPrice(number:payment.amount)}
+                    ${modulusuno.formatPrice(number:payment.amount)}
                   </div>
                 </li>
                 <li class="form-group">
@@ -53,7 +53,7 @@
                     <label class="control-label">Factura</label>
                     <div class="form-control" aria-labelledby="${label}-label">
                       <g:link controller="saleOrder" action="show" id="${payment.saleOrder.id}">
-                        ${payment.saleOrder.clientName} - ${integradora.formatPrice(number:payment.saleOrder.total)}
+                        ${payment.saleOrder.clientName} - ${modulusuno.formatPrice(number:payment.saleOrder.total)}
                       </g:link>
                     </div>
                   </li>

@@ -30,15 +30,15 @@
         </tr>
         <tr>
           <td><strong>Pesos</strong></td>
-          <td>${integradora.formatPrice(number: accountStatement.balanceTransiting)}</td>
-          <td>${integradora.formatPrice(number: (accountStatement.balance.balance-accountStatement.balanceTransiting))}</td>
-          <td>${integradora.formatPrice(number: accountStatement.balance.balance)}</td>
+          <td>${modulusuno.formatPrice(number: accountStatement.balanceTransiting)}</td>
+          <td>${modulusuno.formatPrice(number: (accountStatement.balance.balance-accountStatement.balanceTransiting))}</td>
+          <td>${modulusuno.formatPrice(number: accountStatement.balance.balance)}</td>
         </tr>
         <tr>
           <td><strong>Dólares</strong></td>
-          <td >${integradora.formatPrice(number: 0.00)}</td>
-          <td >${integradora.formatPrice(number: 0.00)}</td>
-          <td >${integradora.formatPrice(number: usd)}</td>
+          <td >${modulusuno.formatPrice(number: 0.00)}</td>
+          <td >${modulusuno.formatPrice(number: 0.00)}</td>
+          <td >${modulusuno.formatPrice(number: usd)}</td>
         </tr>
       </table>
    </div>
@@ -118,12 +118,12 @@
                         <td>${mov.reference?:""}</td>
                         <td>
                           <g:if test="${mov.type.equals('CREDIT')}">
-                            ${integradora.formatPrice(number: mov.amount)}
+                            ${modulusuno.formatPrice(number: mov.amount)}
                           </g:if>
                         </td>
                         <td>
                           <g:if test="${mov.type.equals('DEBIT')}">
-                            ${integradora.formatPrice(number: mov.amount)}
+                            ${modulusuno.formatPrice(number: mov.amount)}
                           </g:if>
                         </td>
                         <td>
@@ -138,7 +138,7 @@
                 </span>
                          </g:else>
                         </td>
-                        <td>${integradora.formatPrice(number: mov.balance)}</td>
+                        <td>${modulusuno.formatPrice(number: mov.balance)}</td>
                       </tr>
                      </g:each>
                    </table>

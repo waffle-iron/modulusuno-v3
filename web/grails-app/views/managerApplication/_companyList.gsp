@@ -17,8 +17,8 @@
           <g:link controller="company" action="show" id="${company.id}">${company.rfc}</g:link>
         </td>
         <td>${company.bussinessName}</td>
-        <td><integradora:formatPrice number="${company.grossAnnualBilling}"/></td>
-        <td><integradora:statusForCompany status="${company.status}"/></td>
+        <td><modulusuno:formatPrice number="${company.grossAnnualBilling}"/></td>
+        <td><modulusuno:statusForCompany status="${company.status}"/></td>
         <sec:ifAnyGranted roles="ROLE_ADMIN">
         <td>
           <a href='${createLink(controller:"managerApplication",action:"show",id:"${company.id}")}' class="btn btn-default">

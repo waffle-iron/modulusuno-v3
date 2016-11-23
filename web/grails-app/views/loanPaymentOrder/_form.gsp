@@ -6,7 +6,7 @@
     <div class="form-group">
       <label for="">Monto del préstamo</label>
       <div class="input-group">
-        ${integradora.formatPrice(number: loanPaymentOrder?.loanOrder?.amount)}
+        ${modulusuno.formatPrice(number: loanPaymentOrder?.loanOrder?.amount)}
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@
     <div class="form-group">
       <label for="">Saldo Actual</label>
       <div class="input-group">
-        ${integradora.formatPrice(number: currentBalance)}
+        ${modulusuno.formatPrice(number: currentBalance)}
         <input type="hidden" id="currentBalance" name="currentBalance" value="${currentBalance}" />
       </div>
     </div>

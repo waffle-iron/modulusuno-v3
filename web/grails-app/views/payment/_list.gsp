@@ -15,7 +15,7 @@
         <g:else>
           <g:link action="show" id="${pay.id}">${pay.company}</g:link></td>
         </g:else>
-      <td>${integradora.formatPrice(number: pay.amount)}</td>
+      <td>${modulusuno.formatPrice(number: pay.amount)}</td>
       <td><g:formatDate format="dd-MM-yyyy hh:mm" date="${pay.dateCreated}"/></td>
       <td>
         <g:message code="payment.${pay.status}"/>

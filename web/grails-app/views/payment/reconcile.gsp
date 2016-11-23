@@ -45,7 +45,7 @@
                   <g:form controller="payment" action="tieOrderWithPayment" id="${payment.id}">
                     <tr>
                       <td> ${i+1} </td>
-                      <td> ${integradora.formatPrice(number: payment.amount)} </td>
+                      <td> ${modulusuno.formatPrice(number: payment.amount)} </td>
                       <td> ${formatDate(date:payment.dateCreated, format:'dd-MMMM-yyyy HH:mm')} </td>
                       <td>
                         <g:select optionKey="id" name="saleOrder.id" from="${saleOrders.collect { if((it.total-payment.amount).abs()<1) it}.findResults{it} }" noSelection="['':'-Escoge un pago-']"/>

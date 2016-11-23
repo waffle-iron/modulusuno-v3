@@ -39,7 +39,7 @@
                 <li class="form-group">
                   <label class="control-label">Monto</label>
                   <div class="form-control" aria-labelledby="${label}-label">
-                    ${integradora.formatPrice(number:depositOrder.amount)}
+                    ${modulusuno.formatPrice(number:depositOrder.amount)}
                   </div>
                 </li>
                 <li class="form-group">

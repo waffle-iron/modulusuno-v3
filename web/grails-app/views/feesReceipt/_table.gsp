@@ -23,10 +23,10 @@
   <tr class="${message(code: 'feesReceipt.style.background.'+feesReceipt.status)}">
     <td class="text-center"><g:link action="show" id="${feesReceipt.id}">${feesReceipt.id}</g:link></td>
     <td>${feesReceipt.collaboratorName}</td>
-    <td class="text-right">${integradora.formatPrice(number: feesReceipt.amount)}</td>
-    <td class="text-right">${integradora.formatPrice(number: feesReceipt.iva)}</td>
-    <td class="text-right">${integradora.formatPrice(number: feesReceipt.isr)}</td>
-    <td class="text-right">${integradora.formatPrice(number: feesReceipt.ivaWithHolding)}</td>
+    <td class="text-right">${modulusuno.formatPrice(number: feesReceipt.amount)}</td>
+    <td class="text-right">${modulusuno.formatPrice(number: feesReceipt.iva)}</td>
+    <td class="text-right">${modulusuno.formatPrice(number: feesReceipt.isr)}</td>
+    <td class="text-right">${modulusuno.formatPrice(number: feesReceipt.ivaWithHolding)}</td>
     <td class="text-center">${feesReceipt.status}</td>
     <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
       <td class="text-center">${feesReceipt.authorizations?.size() ?: 0}</td>

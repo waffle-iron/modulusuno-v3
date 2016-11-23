@@ -45,15 +45,15 @@
         <td style="text-align:center">${mov.reference?:""}</td>
         <td style="text-align:right">
           <g:if test="${mov.type.equals('CREDIT')}">
-            ${integradora.formatPrice(number: mov.amount)}
+            ${modulusuno.formatPrice(number: mov.amount)}
           </g:if>
         </td>
         <td style="text-align:right">
           <g:if test="${mov.type.equals('DEBIT')}">
-            ${integradora.formatPrice(number: mov.amount)}
+            ${modulusuno.formatPrice(number: mov.amount)}
           </g:if>
         </td>
-        <td style="text-align:right">${integradora.formatPrice(number: mov.balance)}</td>
+        <td style="text-align:right">${modulusuno.formatPrice(number: mov.balance)}</td>
       </tr>
      </g:each>
    </table>

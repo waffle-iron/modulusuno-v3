@@ -31,7 +31,7 @@
               <div class="form-group">
                 <label id="amount-label" class="col-sm-5 control-label"><g:message code="depositOrder.amount" /></label>
                 <div class="col-sm-4">
-                  ${integradora.formatPrice(number:depositOrder.amount)}
+                  ${modulusuno.formatPrice(number:depositOrder.amount)}
                 </div>
               </div>
               <br /><br />

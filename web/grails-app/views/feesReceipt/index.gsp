@@ -31,12 +31,12 @@
         <tr>
           <td>
             <g:link action="show" id="${feesReceipt.id}" params="[businessEntity:"${feesReceipt.businessEntity.id}"]">
-              ${integradora.formatPrice(number: feesReceipt.amount)}
+              ${modulusuno.formatPrice(number: feesReceipt.amount)}
             </g:link>
           </td>
-          <td>${integradora.formatPrice(number: feesReceipt.iva)}</td>
-          <td>${integradora.formatPrice(number: feesReceipt.isr)}</td>
-          <td>${integradora.formatPrice(number: feesReceipt.ivaWithHolding)}</td>
+          <td>${modulusuno.formatPrice(number: feesReceipt.iva)}</td>
+          <td>${modulusuno.formatPrice(number: feesReceipt.isr)}</td>
+          <td>${modulusuno.formatPrice(number: feesReceipt.ivaWithHolding)}</td>
           <td>${feesReceipt.businessEntity}</td>
           <td>${feesReceipt.status}</td>
           </tr>

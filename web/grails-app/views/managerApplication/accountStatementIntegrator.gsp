@@ -27,15 +27,15 @@
         </tr>
         <tr>
           <th>Pesos</th>
-          <td style="text-align:right"><h3><span class="label label-warning">${integradora.formatPrice(number: accountStatement.balanceTransiting)}</span></h3></td>
-          <td style="text-align:right"><h3><span class="label label-primary">${integradora.formatPrice(number: (accountStatement.balance.balance-accountStatement.balanceTransiting))}</span></h3></td>
-          <td style="text-align:right"><h3><span class="label label-default">${integradora.formatPrice(number: accountStatement.balance.balance)}</span></h3></td>
+          <td style="text-align:right"><h3><span class="label label-warning">${modulusuno.formatPrice(number: accountStatement.balanceTransiting)}</span></h3></td>
+          <td style="text-align:right"><h3><span class="label label-primary">${modulusuno.formatPrice(number: (accountStatement.balance.balance-accountStatement.balanceTransiting))}</span></h3></td>
+          <td style="text-align:right"><h3><span class="label label-default">${modulusuno.formatPrice(number: accountStatement.balance.balance)}</span></h3></td>
         </tr>
         <tr>
           <th>Dólares</th>
-          <td style="text-align:right"><h3><span class="label label-warning">${integradora.formatPrice(number: 0.00)}</span></h3></td>
-          <td style="text-align:right"><h3><span class="label label-primary">${integradora.formatPrice(number: 0.00)}</span></h3></td>
-          <td style="text-align:right"><h3><span class="label label-default">${integradora.formatPrice(number: 0.00)}</span></h3></td>
+          <td style="text-align:right"><h3><span class="label label-warning">${modulusuno.formatPrice(number: 0.00)}</span></h3></td>
+          <td style="text-align:right"><h3><span class="label label-primary">${modulusuno.formatPrice(number: 0.00)}</span></h3></td>
+          <td style="text-align:right"><h3><span class="label label-default">${modulusuno.formatPrice(number: 0.00)}</span></h3></td>
         </tr>
       </table>
    </div>
@@ -75,12 +75,12 @@
         <td>${mov.reference?:""}</td>
         <td>
           <g:if test="${mov.type.equals('CREDIT')}">
-            ${integradora.formatPrice(number: mov.amount)}
+            ${modulusuno.formatPrice(number: mov.amount)}
           </g:if>
         </td>
         <td>
           <g:if test="${mov.type.equals('DEBIT')}">
-            ${integradora.formatPrice(number: mov.amount)}
+            ${modulusuno.formatPrice(number: mov.amount)}
           </g:if>
         </td>
         <td>
@@ -95,7 +95,7 @@
               </span>
          </g:else>
         </td>
-        <td>${integradora.formatPrice(number: mov.balance)}</td>
+        <td>${modulusuno.formatPrice(number: mov.balance)}</td>
       </tr>
      </g:each>
    </table>

@@ -31,7 +31,7 @@
       <td>
         ${dep.company}
       </td>
-      <td>${integradora.formatPrice(number: dep.amount)}</td>
+      <td>${modulusuno.formatPrice(number: dep.amount)}</td>
       <td><g:formatDate format="dd-MM-yyyy hh:mm" date="${dep.dateCreated}"/></td>
       <td>
         <g:message code="depositOrder.status.${dep.status}"/>

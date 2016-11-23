@@ -44,16 +44,16 @@
                     <td>${saleOrder.clientName}</td>
                     <td>${saleOrder.status}</td>
                     <td>${saleOrder.company.toString()}</td>
-                    <td><integradora:formatPrice number="${saleOrder.subtotal}"/></td>
-                    <td><integradora:formatPrice number="${saleOrder.taxes}"/></td>
-                    <td><integradora:formatPrice number="${saleOrder.total}"/></td>
+                    <td><modulusuno:formatPrice number="${saleOrder.subtotal}"/></td>
+                    <td><modulusuno:formatPrice number="${saleOrder.taxes}"/></td>
+                    <td><modulusuno:formatPrice number="${saleOrder.total}"/></td>
                     <td>
                     <g:link controller="saleOrder" action="show" id="${saleOrder.id}" class="btn btn-default btn-sm">
                         Ver
                       </g:link>
                      <g:if test="${saleOrder.status == SaleOrderStatus.EJECUTADA}">
-                        <a href="${integradora.invoiceUrl(saleOrder:saleOrder, format:'pdf')}" class="btn btn-success">PDF</a>
-                        <a href="${integradora.invoiceUrl(saleOrder:saleOrder, format:'xml')}" class="btn btn-default">XML</i></a>
+                        <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'pdf')}" class="btn btn-success">PDF</a>
+                        <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'xml')}" class="btn btn-default">XML</i></a>
                      </g:if>
                       <g:if test="${saleOrder.status == SaleOrderStatus.POR_AUTORIZAR}">
                         <g:form controller="saleOrder" action="authorizeSaleOrder" id="${saleOrder.id}">

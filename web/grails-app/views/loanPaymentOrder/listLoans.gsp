@@ -54,7 +54,7 @@
                       </g:link>
                       </g:else>
                     </td>
-                    <td class="text-right">${integradora.formatPrice(number: loanOrder.amount)}</td>
+                    <td class="text-right">${modulusuno.formatPrice(number: loanOrder.amount)}</td>
                     <td class="text-center">${loanOrder.term}</td>
                     <td class="text-center">${loanOrder.rate}</td>
                   </tr>

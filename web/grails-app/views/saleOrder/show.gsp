@@ -86,14 +86,14 @@
                 </dd>
                 <dt>Subtotal</dt>
                 <dd>
-                ${integradora.formatPrice(number:saleOrder.subtotal)}
+                ${modulusuno.formatPrice(number:saleOrder.subtotal)}
                 </dd>
                 <dt>IVA</dt>
-                <dd>${integradora.formatPrice(number:saleOrder.totalIVA)}</dd>
+                <dd>${modulusuno.formatPrice(number:saleOrder.totalIVA)}</dd>
                 <dt>IEPS</dt>
-                <dd>${integradora.formatPrice(number:saleOrder.totalIEPS)}</dd>
+                <dd>${modulusuno.formatPrice(number:saleOrder.totalIEPS)}</dd>
                 <dt>Total</dt>
-                <dd>${integradora.formatPrice(number:saleOrder.total)}</dd>
+                <dd>${modulusuno.formatPrice(number:saleOrder.total)}</dd>
                 <dt>Estado</dt>
                 <dd><g:message code="saleOrder.status.${saleOrder.status}" default="${saleOrder.status}"/></dd>
               </dl>
@@ -216,8 +216,8 @@
               </sec:ifAnyGranted>
 
               <g:if test="${saleOrder.status == SaleOrderStatus.EJECUTADA || saleOrder.status == SaleOrderStatus.PAGADA}">
-                <a href="${integradora.invoiceUrl(saleOrder:saleOrder, format:'xml')}" class="btn btn-success">Descarga factura XML</a>
-                <a href="${integradora.invoiceUrl(saleOrder:saleOrder, format:'pdf')}" class="btn btn-default">Descarga factura PDF</a>
+                <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'xml')}" class="btn btn-success">Descarga factura XML</a>
+                <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'pdf')}" class="btn btn-default">Descarga factura PDF</a>
               </g:if>
               </g:if>
               </p>
@@ -311,18 +311,18 @@
                     <td>
                       <dl class="dl-horizontal">
                         <dt>Precio:</dt>
-                        <dd>${integradora.formatPrice(number:item.price)}</dd>
+                        <dd>${modulusuno.formatPrice(number:item.price)}</dd>
                         <dt>IEPS:</dt>
-                        <dd>${integradora.formatPrice(number:item.amountIEPS)}</dd>
+                        <dd>${modulusuno.formatPrice(number:item.amountIEPS)}</dd>
                         <dt>IVA:</dt>
-                        <dd>${integradora.formatPrice(number:item.amountIVA)}</dd>
+                        <dd>${modulusuno.formatPrice(number:item.amountIVA)}</dd>
                         <dt>Neto:</dt>
-                        <dd>${integradora.formatPrice(number:item.netPrice)}</dd>
+                        <dd>${modulusuno.formatPrice(number:item.netPrice)}</dd>
                       </dl>
                     </td>
                     <td>${item.unitType}</td>
                     <td class="text-right">
-                      <strong>${integradora.formatPrice(number:item.netAmount)}</strong>
+                      <strong>${modulusuno.formatPrice(number:item.netAmount)}</strong>
                     </td>
                     <td class="text-center">
                       <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
@@ -340,26 +340,26 @@
           <tr>
             <td colspan="5" class="text-right"><strong>Subtotal</strong></td>
             <td class="text-right">
-              ${integradora.formatPrice(number:saleOrder.subtotal)}
+              ${modulusuno.formatPrice(number:saleOrder.subtotal)}
             </td>
           </tr>
           <tr>
             <td colspan="5" class="text-right"><strong>IEPS</strong></td>
             <td class="text-right">
-              ${integradora.formatPrice(number:saleOrder.totalIEPS)}
+              ${modulusuno.formatPrice(number:saleOrder.totalIEPS)}
             </td>
           </tr>
           <tr>
             <td colspan="5" class="text-right"><strong>IVA</strong></td>
             <td class="text-right">
-              ${integradora.formatPrice(number:saleOrder.totalIVA)}
+              ${modulusuno.formatPrice(number:saleOrder.totalIVA)}
             </td>
           </tr>
           <tr>
             <td colspan="5" class="text-right"><strong>Total</strong></td>
             <td class="text-right">
               <strong>
-                ${integradora.formatPrice(number:saleOrder.total)}
+                ${modulusuno.formatPrice(number:saleOrder.total)}
               </strong>
             </td>
           </tr>

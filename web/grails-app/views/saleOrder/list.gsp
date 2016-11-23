@@ -69,7 +69,7 @@
             <td><g:message code="saleOrder.status.${sale.status}" default="${sale.status}"/> </td>
             <td>${sale.company}</td>
             <td><g:formatDate format="dd-MM-yyyy hh:mm:ss" date="${sale.dateCreated}"/></td>
-            <td class="text-right">${integradora.formatPrice(number: sale.total)}</td>
+            <td class="text-right">${modulusuno.formatPrice(number: sale.total)}</td>
           </tr>
          </g:each>
        </table>

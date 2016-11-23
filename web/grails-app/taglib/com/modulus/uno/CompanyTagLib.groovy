@@ -2,7 +2,7 @@ package com.modulus.uno
 
 class CompanyTagLib {
 
-  static namespace = "integradora"
+  static namespace = "modulusuno"
   static defaultEncodeAs = [taglib:'text']
   //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 

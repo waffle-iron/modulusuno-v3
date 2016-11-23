@@ -48,14 +48,14 @@
              <div class="form-group">
               <label id="grossAnnualBilling-label" class="col-sm-12 control-label">Facturacion Anual Bruta</label>
               <div class="col-sm-12">
-               ${integradora.formatPrice(number:company.grossAnnualBilling)}
+               ${modulusuno.formatPrice(number:company.grossAnnualBilling)}
              </div>
            </div>
            <g:if test="${balance != null}">
            <div class="form-group">
             <label id="grossAnnualBilling-label" class="col-sm-12 control-label">Balance de la Compañia en MXN</label>
             <div class="col-sm-12">
-              ${integradora.formatPrice(number:balance)}
+              ${modulusuno.formatPrice(number:balance)}
             </div>
           </div>
         </g:if>
@@ -63,7 +63,7 @@
         <div class="form-group">
           <label id="grossAnnualBilling-label" class="col-sm-12 control-label">Balance de la Compañia en USD</label>
           <div class="col-sm-12">
-            ${integradora.formatPrice(number:usd)}
+            ${modulusuno.formatPrice(number:usd)}
           </div>
         </div>
       </g:if>

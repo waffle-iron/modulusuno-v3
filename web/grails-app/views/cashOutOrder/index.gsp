@@ -33,7 +33,7 @@
                 <tr>
                   <td>
                     <g:link action="show" id="${cashoutOrder.id}" params="[company:"${cashoutOrder.company.id}"]">
-                    ${integradora.formatPrice(number: cashoutOrder.amount)}
+                    ${modulusuno.formatPrice(number: cashoutOrder.amount)}
                   </g:link>
                   </td>
                   <td>

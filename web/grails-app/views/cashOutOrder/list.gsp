@@ -67,7 +67,7 @@
                     </g:link>
                   </td>
                   <td>
-                    ${integradora.formatPrice(number: cashoutOrder.amount)}
+                    ${modulusuno.formatPrice(number: cashoutOrder.amount)}
                   </td>
                   <td>
                     ${cashoutOrder.account}

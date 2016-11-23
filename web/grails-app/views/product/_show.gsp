@@ -8,7 +8,7 @@
 </div>
 <div class="form-group">
   <label for=""><g:message code="product.price"/>:</label>
-  ${integradora.formatPrice(number:product.price)}
+  ${modulusuno.formatPrice(number:product.price)}
 </div>
 <div class="form-group">
   <label for=""><g:message code="product.ieps"/>:</label>
