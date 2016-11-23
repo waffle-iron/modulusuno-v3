@@ -1,4 +1,4 @@
-package api
+package webservices
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
