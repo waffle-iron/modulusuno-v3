@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
   <head>
-    <title>Integradora de Emprendimientos Culturales | Servicios Financieros</title>
+    <title>Modulus UNO | Servicios Financieros</title>
     <meta name="layout" content="main">
   </head>
   <body>
 
     <div class="page-title">
-    
+
       <h1>
       <i class="fa fa-tachometer fa-3x"></i>
         Tablero principal
@@ -25,7 +25,7 @@
       <div class="col-md-12">
         <g:if test="${companies.isEmpty()}">
         <div class="alert alert-info">
-          <strong>Atención:</strong> Vemos que aún no tienes empresas registradas en la integradora, comienza...
+          <strong>Atención:</strong> Vemos que aún no tienes empresas registradas en Modulus UNO, comienza...
         </div>
         <p>
         <g:link class="btn btn-default btn-lg" controller="company" action="create">
@@ -48,7 +48,7 @@
     </g:if>
     </sec:ifAnyGranted>
     <sec:ifAnyGranted  roles="ROLE_INTEGRADO_AUTORIZADOR">
-      <h1>Seccion para Operaciones de la integradora</h1>
+      <h1>Seccion para Operaciones de Modulus UNO</h1>
     </sec:ifAnyGranted>
 
   </body>

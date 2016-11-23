@@ -9,12 +9,12 @@
       <div class="page-title">
        <h1>
        <i class="fa fa-search-plus fa-3x"></i>
-       Integrados IECCE | Búsqueda de Integrados
+       Modulus UNO | Búsqueda de Empresas
        <small><g:message code="admin.list" /></small>
        </h1>
         <ol class="breadcrumb">
           <li><i class="fa fa-caret-square-o-up"></i> Administracion</li>
-          <li class="active">Seccion de busqueda de integrados</li>
+          <li class="active">Seccion de busqueda de Empresas</li>
         </ol>
       </div>
       <div class="row">

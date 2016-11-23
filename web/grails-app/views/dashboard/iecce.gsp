@@ -10,7 +10,7 @@
       <h1>
         <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
           <i class="fa fa-tachometer fa-3x"></i>
-          Administración de IECCE
+          Administración de Modulus UNO
           <small>Operaciones de los integrados</small>
         </sec:ifAnyGranted>
         <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">

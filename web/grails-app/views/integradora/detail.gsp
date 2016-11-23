@@ -15,7 +15,7 @@
         <div class="col-md-6 col-md-offset-3">
           <div class="login-banner text-center">
             <h1>
-              <asset:image src="logo-iecce-blank.png" class="shadow" />
+              <asset:image src="Logo-ModulusUno-vFINAL-big.png" class="shadow" width="40%"/>
             </h1>
           </div>
           <div class="portlet portlet-green">
@@ -29,9 +29,9 @@
               <g:if test="${flash.message}">
               <div class="message" role="status">${flash.message}</div>
               </g:if>
-              <H3>Proceso de integración activado</H3>
+              <H3>Envio de solictud exitoso</H3>
               <br/>
-              Su empresa está en proceso de ser integrada, por favor espere a completar la validación de sus datos.
+              Se revisara la solicitud de su empresa y se crearan las cuentas necesarias para su operacion.
               <br/><br/>
               <g:link action="logout" controller="integradora" class="btn btn-success">Aceptar</g:link>
             </div>

@@ -8,7 +8,7 @@
     <div class="page-title">
       <h1>
       <i class="fa fa-warning fa-3x"></i>
-      Integrados IECCE | Solicitudes
+      Modulus UNO | Solicitudes
       <small><g:message code="admin.list" /></small>
       </h1>
       <ol class="breadcrumb">

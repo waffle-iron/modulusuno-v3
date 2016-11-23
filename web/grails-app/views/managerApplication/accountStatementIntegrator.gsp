@@ -7,13 +7,13 @@
  </head>
  <body>
    <div class="page-title">
-     <h1> 
+     <h1>
      <i class="fa fa-balance-scale fa-3x"></i>
-     <g:message code="Estado de Cuenta de la Integradora"/> 
+     <g:message code="Estado de Cuenta de Modulus UNO"/>
      <small>Cuenta de <g:message code="manager.accountStatement.type.${accountType}" default="${accountType}"/></small>
      </h1>
      <ol class="breadcrumb">
-       <li><i class="fa fa-caret-square-o-up"></i>IECCE</li>
+       <li><i class="fa fa-caret-square-o-up"></i>Modulus UNO</li>
        <li class="active">Estado de Cuenta de <g:message code="manager.accountStatement.type.${accountType}" default="${accountType}"/></li>
      </ol>
    </div>
@@ -101,5 +101,3 @@
    </table>
 </body>
 </html>
-
-

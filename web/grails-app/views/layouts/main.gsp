@@ -92,6 +92,11 @@
                   <g:link controller="company" action="show" id="${session.company}">Mi Empresa</g:link>
                 </li>
                 <li>
+                  <g:if test="${companyInfo.isAvailableForOperationInThisCompany() == 'true'}">
+                    <g:link controller="company" action="accountStatement">Estado de Cuenta</g:link>
+                  </g:if>
+                </li>
+                <li>
                   <g:link controller="user" action="authorizer">Alta Usuario</g:link>
                 </li>
                 <li>
@@ -184,20 +189,7 @@
                     </li>
                   </ul>
                 </li>
-                <li class="panel">
-                  <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#payroll">
-                    <g:message code="menu.operaciones.dispersion" /><i class="fa fa-caret-down"></i>
-                  </a>
-                  <ul class="collapse nav" id="payroll">
-                    <li>
-                      <g:link controller="payroll" action="create">Nueva</g:link>
-                    </li>
-                    <li>
-                      <g:link controller="payroll" action="index">Listado</g:link>
-                    </li>
 
-                  </ul>
-                </li>
 
                 <li class="panel">
                   <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesCompra">
@@ -265,9 +257,12 @@
 
           <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
           <li>
-            <a class="" href="${createLink(controller:'dashboard', action:'iecce')}">
+            <g:link controller="dashboard" action="iecce">
               <i class="fa fa-book"></i> Consultas
-            </a>
+            </g:link>
+          </li>
+          <li>
+            <g:link controller="managerApplication">Todas las Empresas</g:link>
           </li>
           </sec:ifAnyGranted>
 

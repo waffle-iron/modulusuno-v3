@@ -14,7 +14,7 @@
         <div class="col-lg-4 col-lg-offset-4">
           <div class="login-banner text-center">
             <h1>
-              <asset:image src="logo-iecce-blank.png"/>
+              <asset:image src="Logo-ModulusUno-vFINAL-big.png" width="40%"/>
             </h1>
           </div>
           <div class="portlet portlet-green">
