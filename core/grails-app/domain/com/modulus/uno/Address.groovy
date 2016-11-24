@@ -1,5 +1,7 @@
 package com.modulus.uno
 
+import grails.converters.JSON
+
 class Address {
   String street
   String streetNumber
@@ -33,4 +35,24 @@ class Address {
   String info(){
     "$street  $streetNumber Col. $colony  $country  $city  $town C.P $zipCode  $federalEntity Tipo:$addressType"
   }
+
+
+   static marshaller = {
+     JSON.registerObjectMarshaller(Address, 1) { m ->
+       return [
+       id: m.id,
+       street: m.street,
+       streetNumber: m.streetNumber,
+       suite: m.suite,
+       zipCode: m.zipCode,
+       colony: m.colony,
+       country: m.country,
+       city: m.city,
+       town: m.town,
+       federalEntity: m.federalEntity,
+       addressType: m.addressType
+       ]
+     }
+   }
+
 }
