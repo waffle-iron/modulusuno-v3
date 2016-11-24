@@ -1,5 +1,7 @@
 package com.modulus.uno
 
+import grails.converters.JSON
+
 class BusinessEntity implements ClientBusinessEntity, ProviderBusinessEntity, EmployeeBusinessEntity {
 
   String rfc
@@ -58,7 +60,20 @@ class BusinessEntity implements ClientBusinessEntity, ProviderBusinessEntity, Em
     fullName
   }
 
+  static marshaller = {
+    JSON.registerObjectMarshaller(BusinessEntity, 1) { m ->
+      return [
+      id: m.id,
+      rfc: m.rfc,
+      website: m.website,
+      uuid: m.uuid,
+      artemisaId: m.artemisaId,
+      type: m.type,
+      addresses: m.addresses,
+      names: m.names,
+      banksAccounts: m.banksAccounts
+      ]
+    }
+  }
+
 }
-
-
-

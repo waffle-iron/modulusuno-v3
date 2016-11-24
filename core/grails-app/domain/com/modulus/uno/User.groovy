@@ -1,5 +1,7 @@
 package com.modulus.uno
 
+import grails.converters.JSON
+
 class User implements Serializable {
 	private static final long serialVersionUID = 1
 
@@ -64,4 +66,16 @@ class User implements Serializable {
 	static mapping = {
 		password column: '`password`'
 	}
+
+	static marshaller = {
+		JSON.registerObjectMarshaller(User, 1) { m ->
+			return [
+			id: m.id,
+			uuid: m.uuid,
+			username: m.username,
+			profile: m.profile
+			]
+		}
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.modulus.uno
 
+import grails.converters.JSON
+
 class Company {
 
   String rfc
@@ -43,5 +45,37 @@ class Company {
   String toString(){
     bussinessName
   }
+
+  static marshaller = {
+    JSON.registerObjectMarshaller(Company, 1) { m ->
+      return [
+      id: m.id,
+      artemisaId: m.artemisaId,
+      rfc: m.rfc,
+      bussinessName: m.bussinessName,
+      webSite: m.webSite,
+      employeeNumbers: m.employeeNumbers,
+      grossAnnualBilling: m.grossAnnualBilling,
+      status: m.status,
+      uuid: m.uuid,
+      numberOfAuthorizations: m.numberOfAuthorizations,
+      taxRegime: m.taxRegime,
+      banksAccounts: m.banksAccounts,
+      //documents: m.documents,
+      //legalRepresentatives: m.legalRepresentatives,
+      addresses: m.addresses,
+      actors: m.actors,
+      businessEntities: m.businessEntities,
+      //products: m.products,
+      //accounts: m.accounts,
+      //salesOrders: m.salesOrders,
+      //loanOrders: m.loanOrders,
+      //commissions: m.commissions,
+      //telephones: m.telephones
+      ]
+    }
+  }
+
+
 
 }

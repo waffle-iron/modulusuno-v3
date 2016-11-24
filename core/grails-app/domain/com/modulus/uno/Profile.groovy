@@ -1,5 +1,7 @@
 package com.modulus.uno
 
+import grails.converters.JSON
+
 class Profile {
   String name
   String lastName
@@ -42,6 +44,25 @@ class Profile {
 
   String info() {
     "$rfc - $curp - $email"
+  }
+
+  static marshaller = {
+    JSON.registerObjectMarshaller(Profile, 1) { m ->
+      return [
+      id: m.id,
+      name: m.name,
+      lastName: m.lastName,
+      motherLastName: m.motherLastName,
+      email: m.email,
+      rfc: m.rfc,
+      curp: m.curp,
+      trademark: m.trademark,
+      fullName: m.fullName,
+      birthDate: m.birthDate,
+      gender: m.gender,
+      nationality: m.nationality
+      ]
+    }
   }
 
 }

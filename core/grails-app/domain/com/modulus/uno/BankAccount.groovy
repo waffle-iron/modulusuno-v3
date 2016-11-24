@@ -1,5 +1,7 @@
 package com.modulus.uno
 
+import grails.converters.JSON
+
 class BankAccount {
 
   String accountNumber
@@ -33,6 +35,18 @@ class BankAccount {
 
   String toString() {
     "${banco} - ${clabe}"
+  }
+
+  static marshaller = {
+    JSON.registerObjectMarshaller(BankAccount, 1) { m ->
+      return [
+      id: m.id,
+      accountNumber: m.accountNumber,
+      branchNumber: m.branchNumber,
+      clabe: m.clabe,
+      banco: m.banco
+      ]
+    }
   }
 
 }
