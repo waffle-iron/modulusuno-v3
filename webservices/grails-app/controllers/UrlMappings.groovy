@@ -7,7 +7,7 @@ class UrlMappings {
             }
         }
 
-        "/"(controller: 'index')
+        "/"(controller:"api")
         "500"(controller: 'InternalServerError')
         "404"(controller: 'NotFound')
     }
