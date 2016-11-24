@@ -29,35 +29,13 @@ class AddressController {
 
   @Transactional
   def save(Address address) {
-    if (address == null) {
-      transactionStatus.setRollbackOnly()
-      notFound()
-      return
-    }
-
     if (address.hasErrors()) {
-      transactionStatus.setRollbackOnly()
-      Company company = Company.get(session.company)
-      respond address.errors, view:'create', model:[company:company]
+      respond address.errors, view:'create', model:[company:session.company]
       return
     }
+    def domain = addressService.createAddressForAObject(address, params.long('businessEntityId'), session.company.toLong())
 
-    if(params.neighboorhood.length() > 0){
-      address.colony = params.neighboorhood
-    }
-
-    if(params.long('businessEntityId')){
-      def businessEntity = businessEntityService.createAddressForBusinessEntity(address, params.long('businessEntityId'))
-      redirect(controller:"businessEntity",action:"show",id:businessEntity.id)
-      return
-    }
-    if(session.company){
-      def company = companyService.createAddressForCompany(address, session.company.toLong())
-      redirect(controller:"company",action:"show",id:company.id)
-      return
-    }
-
-    notFound()
+    redirect(controller:"${domain.getClass().getName()}",action:"show",id:domain.id)
   }
 
   def edit(Address address) {
