@@ -20,6 +20,7 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware{
       def configBase = new File("${System.getProperty('user.home')}/.modulusuno/application-api-${environment.activeProfiles[0]}.groovy")
 
       if(configBase.exists()) {
+        println "iniciando aplicacion"
         println "Loading external configuration from Groovy: ${configBase.absolutePath}"
         def config = new ConfigSlurper().parse(configBase.toURL())
         environment.propertySources.addFirst(new MapPropertySource("externalGroovyConfig", config))
