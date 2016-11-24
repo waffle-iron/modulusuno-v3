@@ -5,42 +5,73 @@ import grails.transaction.Transactional
 @Transactional
 class BankAccountService {
 
+  def addBankAccountToRelationShip(BankAccount bankAccount, Long companyId = 0, Long businessEntityId = 0, def params) {
+    if (businessEntityId != 0) {
+      def businessEntity = BusinessEntity.get(businessEntityId)
+        if (params.relation == "CLIENTE"){
+          bankAccount.branchNumber = "*".padLeft(5,"0")
+          bankAccount.accountNumber = bankAccount.accountNumber.padLeft(11,"*")
+        }
+        addBankAccountToBusinessEntity(bankAccount, businessEntity)
+        return ["businessEntity", businessEntityId]
+    }
+    if (companyId != 0) {
+        addBankAccountToCompany(bankAccount, companyId)
+        return ["company",companyId]
+    }
+
+  }
+
   def repeatedBankAccountCompany(BankAccount bankAccount, Company company){
     def repeatedAccount = company.banksAccounts.find{ cuenta ->
       cuenta.banco.id == bankAccount.banco.id && cuenta.accountNumber == bankAccount.accountNumber && cuenta.id != bankAccount.id
     }
+
   }
 
-  def addBankAccountToCompany(BankAccount bankAccount, company){
-    company = Company.get(company)
-    if(repeatedBankAccountCompany(bankAccount, company))
-      throw new BusinessException("La cuenta indicada ya existe")
-
-    bankAccount.save()
-
-    company.addToBanksAccounts(bankAccount)
-    company.save flush:true
-
+  def createABankAccount(BankAccountCommand command){
+    def bankAccount = command.createBankAccount()
+    bankAccount.banco = Bank.findByBankingCode(command.bank)
     bankAccount
+  }
+
+
+  def createABankAccountCommandByParams(Map properties){
+    def command = new BankAccountCommand()
+    command.accountNumber = properties.clabe.substring(6,17)
+    command.branchNumber = properties.clabe.substring(3,6)
+    command.bank = Bank.findByBankingCodeLike("%${properties.clabe.substring(0,3)}").bankingCode
+    command.clabe = properties.clabe
+    command
+  }
+
+  def addBankAccountToCompany(BankAccount bankAccount, def companyId){
+    def company = Company.get(companyId)
+    if(repeatedBankAccountCompany(bankAccount, company))
+      throw new Exception("La cuenta indicada ya existe")
+    bankAccount.save flush:true
+    company.addToBanksAccounts(bankAccount)
+    company.save()
+
   }
 
   def updateBankAccountCompany(BankAccount bankAccount, company){
     company = Company.get(company)
     if(repeatedBankAccountCompany(bankAccount, company))
-      throw new BusinessException("La cuenta indicada ya existe")
+      throw new Exception("La cuenta indicada ya existe")
     bankAccount.save()
     bankAccount
   }
 
   def repeatedBankAccountBusinessEntity(BankAccount bankAccount, BusinessEntity businessEntity){
-    def repeatedAccount = businessEntity.banksAccounts.find{ cuenta ->
+    def repeatedAccount = businessEntity?.banksAccounts?.find{ cuenta ->
       cuenta.banco.id == bankAccount.banco.id && cuenta.accountNumber == bankAccount.accountNumber && cuenta.id != bankAccount.id
     }
   }
 
-  def addBankAccountToBusinessEntity(BankAccount bankAccount, businessEntity){
+  def addBankAccountToBusinessEntity(BankAccount bankAccount, def businessEntity){
     if(repeatedBankAccountBusinessEntity(bankAccount, businessEntity)){
-      throw new BusinessException("La cuenta indicada ya existe")
+      throw new Exception("La cuenta indicada ya existe")
     }
 
     bankAccount.save()
@@ -53,7 +84,7 @@ class BankAccountService {
 
   def updateBankAccountBusinessEntity(BankAccount bankAccount, BusinessEntity businessEntity){
     if(repeatedBankAccountBusinessEntity(bankAccount, businessEntity))
-      throw new BusinessException("La cuenta indicada ya existe")
+      throw new Exception("La cuenta indicada ya existe")
 
     bankAccount.save flush:true
 
