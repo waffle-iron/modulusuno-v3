@@ -19,33 +19,27 @@ class BankAccountController {
   }
 
   def create() {
+
     respond new BankAccount(params), model:[banks:Bank.list().sort{ it.name }, relation:params.relation]
   }
 
   @Transactional
   def save(BankAccountCommand command) {
+
     def bankAccount = command.createBankAccount()
     bankAccount.banco = Bank.findByBankingCode(command.bank)
-
     if(bankAccount.hasErrors()) {
       transactionStatus.setRollbackOnly()
       respond bankAccount.errors, view:'create', model:[banks:Bank.list().sort{ it.name }, params:params]
       return
     }
+    try {
+      List domainClassReturn = bankAccountService.addBankAccountToRelationShip(bankAccount,session.company.toLong(), params.long('businessEntity') ?: 0, params)
+      redirect(controller:domainClassReturn.get(0),action:"show",id:domainClassReturn.get(1))
 
-    def resultBankAccount = null
-    if (params.companyBankAccount){
-      resultBankAccount = bankAccountService.addBankAccountToCompany(bankAccount, session.company)
-      redirect(controller:"company",action:"show",id:session.company)
-    } else {
-      def businessEntity = BusinessEntity.get(params.businessEntity)
-      if (params.relation == "CLIENTE"){
-        bankAccount.branchNumber = "*".padLeft(5,"0")
-        bankAccount.accountNumber = bankAccount.accountNumber.padLeft(11,"*")
-      }
-
-      resultBankAccount = bankAccountService.addBankAccountToBusinessEntity(bankAccount, businessEntity)
-      redirect(controller:"businessEntity",action:"show",id:businessEntity.id)
+    } catch (Exception e) {
+      flash.message = e.message
+      render view:'create', model:[bankAccount:bankAccount, banks:Bank.list().sort{it.name}, params:params, relation:params.relation]
     }
   }
 
