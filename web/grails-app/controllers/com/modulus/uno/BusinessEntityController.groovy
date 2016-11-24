@@ -36,7 +36,7 @@ class BusinessEntityController {
   def show(BusinessEntity businessEntity) {
     params.sepomexUrl = grails.util.Holders.grailsApplication.config.sepomex.url
     LeadType relation = businessEntityService.getClientProviderType(businessEntity.rfc)
-    respond businessEntity, model:[relation:relation.toString(), clientLink: businessEntityService.getClientLinkOfBusinessEntityAndCompany(businessEntity, Company.get(session.company))]
+    respond businessEntity, model:[relation:relation.toString(),clientLink: businessEntityService.getClientLinkOfBusinessEntityAndCompany(businessEntity, Company.get(session.company))]
   }
 
   def create() {
@@ -51,54 +51,32 @@ class BusinessEntityController {
   }
 
   @Transactional
-  def save(BusinessEntityCommand command) {
-    command.clientProviderType = params.clientProviderType
-    if (command.clientProviderType == LeadType.EMPLEADO){
-      command.type = BusinessEntityType.FISICA
-      params.persona = 'fisica'
-    }
+ def save(BusinessEntityCommand command) {
 
-    if (command.hasErrors()) {
-      BusinessEntity businessEntity = new BusinessEntity(command.properties)
-      render(view:'create', model:[command:command, businessEntity:businessEntity, clientProviderType:params.clientProviderType], params:params)
-      return
-    }
+   command.clientProviderType = params.clientProviderType
+   if (params.clientProviderType.equals("EMPLEADO")){
+     command.website="http://www.employee.com"
+     command.type = BusinessEntityType.FISICA
+     params.persona = 'fisica'
+   }
 
-    BusinessEntity businessEntity = new BusinessEntity(command.properties)
+   BusinessEntity businessEntity = new BusinessEntity(command.properties)
+   if (command.hasErrors()) {
+     render(view:'create', model:[command:command, businessEntity:businessEntity, clientProviderType:params.clientProviderType], params:params,banks:Bank.list().sort{ it.name })
+     return
+   }
 
-    if (!businessEntity.validate()){
-      render(view:'create', model:[command:command, businessEntity:businessEntity, clientProviderType:params.clientProviderType], params:params)
-      return
-    }
+   Company company = Company.findById(session.company.toLong())
+   businessEntityService.generatedBussinessEntityProperties(businessEntity, params, company)
 
-    def company = Company.findById(session.company.toLong())
-    LeadType leadType = LeadType."${params.clientProviderType}"
-    if(params.persona == 'fisica'){
-      businessEntityService.appendNamesToBusinessEntity(businessEntity, (String[])[params.name, params.lastName, params.motherLastName])
-    } else {
-      businessEntityService.appendDataToBusinessEntity(businessEntity, params.businessName)
-    }
-
-    if(leadType == LeadType.CLIENTE || leadType == LeadType.CLIENTE_PROVEEDOR){
-      clientService.addClientToCompany(businessEntity, company)
-    }
-    if(leadType == LeadType.PROVEEDOR || leadType == LeadType.CLIENTE_PROVEEDOR){
-      providerService.addProviderToCompany(businessEntity, company)
-    }
-    if(leadType == LeadType.EMPLEADO){
-      businessEntity.website = null
-      employeeService.addEmployeeToCompany(businessEntity, company, command.curp)
-    }
-
-
-    request.withFormat {
-      form multipartForm {
-        flash.message = message(code: 'businessEntity.created', args: [message(code: 'businessEntity.label', default: 'BusinessEntity'), businessEntity.id])
-        redirect action: 'show', id:businessEntity.id
-      }
-      '*' { respond businessEntity, [status: CREATED] }
-    }
-  }
+   request.withFormat {
+     form multipartForm {
+       flash.message = message(code: 'businessEntity.created', args: [message(code: 'businessEntity.label', default: 'BusinessEntity'), businessEntity.id])
+       redirect action: 'show', id:businessEntity.id
+     }
+     '*' { respond businessEntity, [status: CREATED] }
+   }
+ }
 
   def edit(BusinessEntity businessEntity) {
     String clientProviderType = businessEntityService.getClientProviderType(businessEntity.rfc)
