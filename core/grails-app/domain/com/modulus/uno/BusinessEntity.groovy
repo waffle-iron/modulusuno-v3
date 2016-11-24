@@ -70,7 +70,7 @@ class BusinessEntity implements ClientBusinessEntity, ProviderBusinessEntity, Em
       artemisaId: m.artemisaId,
       type: m.type,
       addresses: m.addresses,
-      names: m.names,
+      //names: m.names,
       banksAccounts: m.banksAccounts
       ]
     }
