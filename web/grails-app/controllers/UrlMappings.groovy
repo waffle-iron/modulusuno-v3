@@ -12,7 +12,7 @@ class UrlMappings {
     }
 
     "/"(controller:"home")
-    "500"(controller: "error", action: "serverError", exception: RuntimeException)
+    "500"(controller: "error", action: "serverError", exception: Exception)
     "404"(view:'/notFound')
   }
 

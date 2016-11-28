@@ -23,7 +23,7 @@ class ErrorController {
           Domain: ${new URL(request.getRequestURL().toString()).getHost()}
         """
       }
-      render view:'/error', model:[exception:exception]
+      render view:'serverError', model:[exception:exception]
     } catch(e){
       render "No se puede manejar el error ${e}"
     }
