@@ -6,9 +6,9 @@
     <g:if env="development"><asset:stylesheet src="errors.css"/></g:if>
   </head>
   <body>
-    <div class="panel panel-danger">
+    <div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title">Ha ocurrido una excepción</h3>
+        <h3 class="panel-title">Ha ocurrido algo inesperado</h3>
       </div>
       <div class="panel-body">
         <g:if env="development">
@@ -28,7 +28,16 @@
           </g:else>
         </g:if>
         <g:else>
-          Mensaje: ${exception?.cause?.target?.message ?: exception?.cause?.target?.undeclaredThrowable ?: "Por favor intente más tarde o bien comuníquese con el equipo de soporte"}
+          <div class="text-right">
+            <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#errorMessage" aria-expanded="false" aria-controls="errorMessage">
+              Ver mensaje
+            </button>
+          </div>
+          <div class="collapse" id="errorMessage">
+            <div class="well">
+              Mensaje: ${exception?.cause?.target?.message ?: exception?.cause?.target?.undeclaredThrowable ?: "Por favor intente más tarde o bien comuníquese con el equipo de soporte"}
+            </div>
+          </div>
         </g:else>
       </div>
     </div>

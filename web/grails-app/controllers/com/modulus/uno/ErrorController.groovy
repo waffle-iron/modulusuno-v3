@@ -1,6 +1,7 @@
 package com.modulus.uno
 
 import com.ullink.slack.simpleslackapi.SlackSession
+import grails.util.Environment
 
 class ErrorController {
 
@@ -19,11 +20,15 @@ class ErrorController {
           exception ${exception?.className},
           line ${exception?.lineNumber}
           has throw ${exception?.cause}
-          Source: ${request.getRemoteHost()}
-          Domain: ${new URL(request.getRequestURL().toString()).getHost()}
+          Environment: ${Environment.current}
+          Source: ${request.getHeader('referer')}
+          Domain: ${request.getHeader('host')}
         """
       }
-      render view:'serverError', model:[exception:exception]
+
+      log.error "Exception: ${exception?.className}, Line: ${exception?.lineNumber}, Throw: ${exception?.cause}"
+
+      render view:"serverError", model:[exception:exception]
     } catch(e){
       render "No se puede manejar el error ${e}"
     }
