@@ -28,14 +28,23 @@
           </g:else>
         </g:if>
         <g:else>
-          <div class="text-right">
-            <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#errorMessage" aria-expanded="false" aria-controls="errorMessage">
-              Ver mensaje
-            </button>
+          <div class="row">
+            <div class="col-md-6">
+              <a href="${originUrl}" class="btn btn-primary">Regresar</a>
+            </div>
+            <div class="col-md-6 text-right">
+              <button class="btn btn-warning text-right" type="button" data-toggle="collapse" data-target="#errorMessage" aria-expanded="false" aria-controls="errorMessage">
+                Ver mensaje
+              </button>
+            </div>
           </div>
-          <div class="collapse" id="errorMessage">
-            <div class="well">
-              Mensaje: ${exception?.cause?.target?.message ?: exception?.cause?.target?.undeclaredThrowable ?: "Por favor intente más tarde o bien comuníquese con el equipo de soporte"}
+          <br/>
+          <div class="row">
+            <div class="collapse" id="errorMessage">
+              <div class="well">
+                <p>Mensaje: ${exception?.cause?.target?.message ?: exception?.cause?.target?.undeclaredThrowable ?: "Por favor intente más tarde o bien comuníquese con el equipo de soporte"}</p>
+                <p>URL: ${destinyUrl}</p>
+              </div>
             </div>
           </div>
         </g:else>
