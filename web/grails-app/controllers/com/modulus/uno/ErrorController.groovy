@@ -22,7 +22,6 @@ class ErrorController {
           has throw ${exception?.cause}
           Environment: ${Environment.current}
           Source: ${request.getHeader('referer')}
-          Domain: ${request.getHeader('host')}
         """
       }
 
