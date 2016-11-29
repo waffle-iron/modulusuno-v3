@@ -21,13 +21,15 @@ class ErrorController {
           line ${exception?.lineNumber}
           has throw ${exception?.cause}
           Environment: ${Environment.current}
-          Source: ${request.getHeader('referer')}
+          Origin: ${request.getHeader('referer')}
+          Destiny: ${request.request.request.request.strippedServletPath}
+          Parameters: ${request.parameterMap.toString()}
         """
       }
 
-      log.error "Exception: ${exception?.className}, Line: ${exception?.lineNumber}, Throw: ${exception?.cause}"
+      log.error "User: ${springSecurityService?.currentUser?.username ?: 'No user identified(Maybe an API call)'}, Exception: ${exception?.className}, Line: ${exception?.lineNumber}, Throw: ${exception?.cause}, Origin: ${request.getHeader('referer')}, Destiny: ${request.request.request.request.strippedServletPath}, Parameters: ${request.parameterMap.toString()}"
 
-      render view:"serverError", model:[exception:exception]
+      render view:"serverError", model:[exception:exception, originUrl:request.getHeader('referer'), destinyUrl:request.request.request.request.strippedServletPath]
     } catch(e){
       render "No se puede manejar el error ${e}"
     }
