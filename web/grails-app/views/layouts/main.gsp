@@ -77,11 +77,6 @@
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
           </sec:ifAnyGranted>
           <g:if test="${session.company && companyInfo.isAvailableForOperationInThisCompany()}">
-          <li>
-            <g:link controller="dashboard" action="iecce">
-            <i class="fa fa-dashboard"></i> Tablero principal
-            </g:link>
-          </li>
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
             <li class="panel">
               <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#administracion">
@@ -240,24 +235,14 @@
 
           <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
             <li class="panel">
-              <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#autorizaciones">
-                Autorizaciones <i class="fa fa-caret-down"></i>
-              </a>
-              <ul class="collapse nav" id="autorizaciones">
-                <li><g:link controller="purchaseOrder" action="list" params="[status:'POR_AUTORIZAR']" >Pagos con Factura</g:link></li>
-                <li><g:link controller="saleOrder" action="showSaleOrdersByAuthorize" >Cobranza</g:link></li>
-                <li><g:link controller="cashOutOrder" action="index" >Retiros</g:link></li>
-                <li><g:link controller="depositOrder" action="list" params="[status:'VALIDATE']" >Depósitos</g:link></li>
-                <li><g:link controller="purchaseOrder" action="listMoneyBackOrders" params="[status:'POR_AUTORIZAR']" >Reembolsos</g:link></li>
-                <li><g:link controller="feesReceipt" action="list" params="[status:'CREADA']" >Recibos de Honorarios</g:link></li>
-              </ul>
+              <a class="" href="${createLink(controller:'dashboard', action:'authorizations')}">Autorizaciones</a>
             </li>
           </sec:ifAnyGranted>
           </g:if>
 
           <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
           <li>
-            <g:link controller="dashboard" action="iecce">
+            <g:link controller="dashboard" action="jobs">
               <i class="fa fa-book"></i> Consultas
             </g:link>
           </li>
