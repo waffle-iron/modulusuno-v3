@@ -189,7 +189,8 @@ class RestService {
   def sendFilesForInvoiceM1(def bodyMap, def token) {
     try {
       log.info "Calling Service : Send Files for Create invoice"
-      def http = new HTTPBuilder("${grailsApplication.config.modulus.facturacionUrl}/${grailsApplication.config.modulus.invoice}")
+      log.info "Path: ${grailsApplication.config.modulus.facturacionUrl}${grailsApplication.config.modulus.invoice}"
+      def http = new HTTPBuilder("${grailsApplication.config.modulus.facturacionUrl}${grailsApplication.config.modulus.invoice}")
       http.request(POST) { req ->
         requestContentType: "multipart/form-data"
         MultipartEntity multiPartContent = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
@@ -205,7 +206,7 @@ class RestService {
       }
     } catch(Exception ex) {
       log.info "error completado"
-      log.info "Error ${ex.message}"
+      log.error "Error ${ex.message}"
       return "500"
     }
   }
@@ -213,11 +214,13 @@ class RestService {
   def existEmisorForGenerateInvoice(String rfc) {
     try {
       log.info "CALLING Service: Verify if exist emisor"
+      log.info "Path: ${grailsApplication.config.modulus.facturacionUrl}${grailsApplication.config.modulus.invoice}/${rfc}"
       def http = new HTTPBuilder("${grailsApplication.config.modulus.facturacionUrl}")
       http.get(path: "${grailsApplication.config.modulus.invoice}/${rfc}")
 
     } catch (Exception ex) {
       log.info "entro al error"
+      log.error "Exception: ${ex.message}"
       return [error:false]
     }
   }
