@@ -6,6 +6,7 @@
 *= require third-party/modulus-uno-theme/css/plugins.css
 *= require third-party/modulus-uno-theme/css/demo.css
 *= require third-party/modulus-uno-theme/css/carousel.css
+*= require third-party/jquery-ui/themes/base/jquery-ui.css
 *= require icons.css
 *= require custom_styles.css
 */
