@@ -49,6 +49,8 @@
                 <dd>${saleOrder.rfc}</dd>
                 <dt>A nombre de:</dt>
                 <dd>${saleOrder.clientName}</dd>
+                <dt>Fecha de Cobro:</dt>
+                <dd>${formatDate(date:saleOrder.fechaCobro?:saleOrder.dateCreated, format:'dd-MMMM-yyyy')}</dd>
                 <g:each in="${saleOrder.addresses}" var="address">
                 <dt>Dirección:</dt>
                 <dd>

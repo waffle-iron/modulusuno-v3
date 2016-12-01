@@ -46,6 +46,8 @@
                 <dd>${purchaseOrder.bankAccount}</dd>
                 <dt>Fecha de creación:</dt>
                 <dd>${formatDate(date:purchaseOrder.dateCreated, format:'dd-MMMM-yyyy HH:mm')}</dd>
+                <dt>Fecha de Pago:</dt>
+                <dd>${formatDate(date:purchaseOrder.fechaPago?:purchaseOrder.dateCreated, format:'dd-MMMM-yyyy')}</dd>
                 <g:if test="${purchaseOrder.isAnticipated}">
                   <p>
                   <div class="alert alert-info" style="text-align:center" >
@@ -365,5 +367,3 @@
     <asset:javascript src="purchaseOrder/show.js"/>
  </body>
 </html>
-
-
