@@ -16,6 +16,8 @@ class SaleOrder {
 
   SaleOrderStatus status = SaleOrderStatus.CREADA
 
+  Date fechaCobro
+
   static belongsTo = [company:Company]
 
   static hasMany = [addresses:Address, items:SaleOrderItem,authorizations:Authorization, documents:S3Asset]
@@ -27,6 +29,7 @@ class SaleOrder {
     rejectReason nullable:true
     comments nullable:true
     folio nullable:true
+    fechaCobro nullable:true
   }
 
   BigDecimal getTotalIVA(){
