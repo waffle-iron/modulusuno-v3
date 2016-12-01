@@ -2,6 +2,7 @@
 //= require third-party/bootstrap/dist/js/bootstrap.js
 //= require third-party/slimScroll/jquery.slimscroll.js
 //= require third-party/hisrc/hisrc.js
+//= require third-party/jquery-ui/jquery-ui.js
 //= require third-party/modulus-uno-theme/js/flex.js
 //= require home/home_controller.js
 
@@ -20,4 +21,3 @@ var App = (function(){
 jQuery(function($){
   App.start();
 });
-
