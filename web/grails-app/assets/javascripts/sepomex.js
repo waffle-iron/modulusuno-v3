@@ -47,20 +47,27 @@ function complete() {
 }
 
 function error() {
-  $('#street').val('')
-  $('#streetNumber').val('')
-  $('#suite').val('')
-  $('#zipCode').val('')
-  $('#colony').find('option').remove()
-  $('#town').val('')
-  $('#county').val('')
-  $('#federalEntity').val('')
+
+}
+
+function submitForm() {
+  console.log("hola");
+  $("#submitFormAddress").on('click', function(){
+    var colonyValue = $("#colony").val();
+    if (colonyValue == "") {
+      var neighboorhood = $("#neighboorhood").val();
+      $("#colony").value = neighboorhood;
+      $("#colony option").val(neighboorhood);
+    }
+    $("#formCreateAddress").submit();
+
+  });
 }
 
 $(document).ready(function(){
+  submitForm();
   $('#zipCode').on('change',complete)
   if ($('#zipCode').val()!='') {
     complete()
   }
 })
-
