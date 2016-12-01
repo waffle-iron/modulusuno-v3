@@ -13,17 +13,18 @@ class InvoiceService {
     def receptor = new Contribuyente(datosFiscales:new DatosFiscales())
     def command = new FacturaCommand(datosDeFacturacion:datosDeFacturacion, emisor:emisor, receptor:receptor)
     Company company = saleOrder.company
-    command.emisor.datosFiscales.razonSocial = grailsApplication.config.factura.razonSocial ?: company.bussinessName
-    command.emisor.datosFiscales.rfc = grailsApplication.config.factura.rfc ?: company.rfc
-    command.emisor.datosFiscales.codigoPostal = grailsApplication.config.factura.codigoPostal ?: address.zipCode
-    command.emisor.datosFiscales.pais = grailsApplication.config.factura.pais ?: address.country
-    command.emisor.datosFiscales.ciudad = grailsApplication.config.factura.ciudad ?: address.city
-    command.emisor.datosFiscales.delegacion = grailsApplication.config.factura.delegacion ?: address.town
-    command.emisor.datosFiscales.colonia = grailsApplication.config.factura.colonia ?: address.colony
-    command.emisor.datosFiscales.calle = grailsApplication.config.factura.calle ?: address.street
-    command.emisor.datosFiscales.noExterior = grailsApplication.config.factura.noExterior ?: address.streetNumber
-    command.emisor.datosFiscales.noInterior = grailsApplication.config.factura.noInterior ?: address.suite
-    command.emisor.datosFiscales.regimen = grailsApplication.config.factura.regimen ?: company.taxRegime.code
+    Address address = company.addresses.find { addr -> addr.addressType == AddressType.FISCAL }
+    command.emisor.datosFiscales.razonSocial = company.bussinessName
+    command.emisor.datosFiscales.rfc = company.rfc
+    command.emisor.datosFiscales.codigoPostal = address.zipCode
+    command.emisor.datosFiscales.pais = address.country
+    command.emisor.datosFiscales.ciudad = address.city
+    command.emisor.datosFiscales.delegacion = address.town
+    command.emisor.datosFiscales.colonia = address.colony
+    command.emisor.datosFiscales.calle = address.street
+    command.emisor.datosFiscales.noExterior = address.streetNumber
+    command.emisor.datosFiscales.noInterior = address.suite ?: "SN"
+    command.emisor.datosFiscales.regimen = company.taxRegime.code
     datosDeFacturacion.numeroDeCuentaDePago = company.accounts[0].stpClabe
     command.emitter = company.rfc
 
@@ -68,7 +69,7 @@ class InvoiceService {
   }
 
   void cancelBill(SaleOrder saleOrder) {
-    CancelBillCommand cancelCommand = new CancelBillCommand(uuid:"${saleOrder.uuid}", rfc:"${grailsApplication.config.factura.rfc}")
+    CancelBillCommand cancelCommand = new CancelBillCommand(uuid:"${saleOrder.uuid}", rfc:"${saleOrder.company.rfc}")
     restService.sendFacturaCommandWithAuth(cancelCommand, grailsApplication.config.modulus.cancelFactura)
   }
 
