@@ -110,6 +110,11 @@
               <input type="hidden" name="companyId" value="${company.id}" />
               <input type="hidden" name="clientId" value="${client.id}" />
               </p>
+              <div class="">
+                <label>Fecha de Cobro<font color="red"> *Requerida</font></label>
+                <input type="text" id="datepicker" name="fechaCobro" required="required">
+              </div>
+              <br />
               <p>
               <button type="submit" class="btn btn-green btn-block">
                 Confirmar cliente/cuenta y agregar productos/servicios
@@ -129,6 +134,6 @@
       </g:form>
       </g:if>
     </div>
-
+    <asset:javascript src="saleOrder/create.js"/>
   </body>
 </html>

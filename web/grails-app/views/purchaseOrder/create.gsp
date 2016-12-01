@@ -123,7 +123,11 @@
               <input type="hidden" name="providerId" value="${provider.id}" />
               <input type="hidden" name="isMoneyBackOrder" value="${purchaseOrder.isMoneyBackOrder}"/>
               <input type="hidden" name="company" value="${params.company.id}"/>
-
+              <div class="form-control">
+                <label>Fecha de Pago<font color="red"> *Requerida</font></label>
+                <input type="text" id="datepicker" name="fechaPago" required="required">
+              </div>
+              <p>
               <p><strong>${provider.rfc}</strong></p>
               <g:if test="${provider.banksAccounts}">
                <p>Elige la Cuenta:
@@ -151,5 +155,6 @@
       </g:if>
     </div>
 
+    <asset:javascript src="purchaseOrder/create.js"/>
   </body>
 </html>

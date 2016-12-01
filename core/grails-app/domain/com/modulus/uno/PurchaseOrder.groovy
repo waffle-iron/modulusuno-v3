@@ -17,11 +17,14 @@ class PurchaseOrder {
   static belongsTo = [company:Company]
   static hasMany = [documents:S3Asset, items:PurchaseOrderItem, authorizations:Authorization]
 
+  Date fechaPago
+
   static constraints = {
     providerName blank:false, size:1..300
     bankAccount nullable:true
     rejectReason nullable:true
     rejectComment nullable:true, blank:true
+    fechaPago nullable:false
   }
 
   def getSubtotal(){

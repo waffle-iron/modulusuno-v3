@@ -40,7 +40,7 @@ class PurchaseOrderService {
     Company company = Company.get(companyId)
     BusinessEntity businessEntity = BusinessEntity.get(params.providerId)
     BankAccount bankAccount = BankAccount.get(params.bankAccountId)
-    def purchaseOrder = new PurchaseOrder(rfc:businessEntity.rfc, providerName: businessEntity.toString(), company:company, isMoneyBackOrder:params.isMoneyBackOrder)
+    def purchaseOrder = new PurchaseOrder(rfc:businessEntity.rfc, providerName: businessEntity.toString(), company:company, isMoneyBackOrder:params.isMoneyBackOrder, fechaPago:new Date(params.fechaPago))
     if (params.orderType == "0")
       purchaseOrder.isAnticipated = true
 
