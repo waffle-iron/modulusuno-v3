@@ -24,14 +24,14 @@
                 </g:eachError>
               </ul>
               </g:hasErrors>
-              <g:form action="save">
-              <fieldset class="form">
-                <g:render template="form" bean="${address}" />
-              </fieldset>
-              <br />
-              <div class="text-right">
-                <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-              </div>
+              <g:form action="save" name="formCreateAddress" >
+                <fieldset class="form">
+                  <g:render template="form" bean="${address}" />
+                </fieldset>
+                <br />
+                <div class="text-right">
+                  <input type="button" id="submitFormAddress" name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                </div>
               </g:form>
             </div>
           </div>
