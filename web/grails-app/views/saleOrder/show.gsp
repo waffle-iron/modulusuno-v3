@@ -219,6 +219,11 @@
                 <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'xml')}" class="btn btn-success">Descarga factura XML</a>
                 <a href="${modulusuno.invoiceUrl(saleOrder:saleOrder, format:'pdf')}" class="btn btn-default">Descarga factura PDF</a>
               </g:if>
+
+              <g:if test="${saleOrder.status == SaleOrderStatus.CANCELACION_EJECUTADA}">
+                <a href="${modulusuno.invoiceAccuseUrl(saleOrder:saleOrder)}" class="btn btn-default">Descarga Acuse</a>
+              </g:if>
+
               </g:if>
               </p>
             </div>
