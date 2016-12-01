@@ -17,7 +17,6 @@
      </ol>
    </div>
    <div class="panel panel-info">
-     <div class="panel-heading">Período</div>
      <div class="panel-body">
        <div class="col-md-4">
         <p>Desde el:</p>
@@ -32,27 +31,64 @@
        </div>
      </div>
    </div>
-       <div class="col-md-6">
         <div class="panel panel-primary">
           <div class="panel-heading">Pagos</div>
           <div class="panel-body">
-            <p>Total:</p>
+            <p><b>Total:</b></p>
             <div class="text-right">
-              <g:link class="btn btn-primary" controller="PurchaseOrder" action="detailForPaymentInPeriod">Detalle</g:link>
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailPayments">Detalle</button>
             </div>
           </div>
+          <div class="collapse" id="detailPayments">
+            <div class="container-fluid">
+              <div class="well">
+                <div class="table-responsive">
+                  <table class="table table-condensed table-hover">
+                    <thead>
+                      <tr>
+                      <th class="text-center">Empresa</th>
+                      <th class="text-center">Proveedor</th>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Monto</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!--table responsive-->
+              </div>
+            </div><!--container-->
+          </div>
         </div>
-       </div>
-       <div class="col-md-6">
         <div class="panel panel-primary">
           <div class="panel-heading">Cobros</div>
           <div class="panel-body">
-            <p>Total:</p>
+            <p><b>Total:</b></p>
             <div class="text-right">
-              <g:link class="btn btn-primary" controller="SaleOrder" action="detailForChargeInPeriod">Detalle</g:link>
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailCharges">Detalle</button>
             </div>
           </div>
-        </div>
+          <div class="collapse" id="detailCharges">
+            <div class="container-fluid">
+              <div class="well">
+                <div class="table-responsive">
+                  <table class="table table-condensed table-hover">
+                    <thead>
+                      <tr>
+                      <th class="text-center">Empresa</th>
+                      <th class="text-center">Cliente</th>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Monto</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!--table responsive-->
+              </div>
+            </div><!--container-->
+          </div>
+         </div>
        </div>
 
 </body>
