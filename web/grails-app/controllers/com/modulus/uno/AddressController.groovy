@@ -39,7 +39,7 @@ class AddressController {
   }
 
   def edit(Address address) {
-    respond address,model:[addressTypes:addressService.getAllAddressTypes(), relation:params.relation, businessEntityId:params.businessEntityId]
+    respond address,model:[addressTypes:addressService.getAddresTypesForOrganization(session.company.toLong()), relation:params.relation, businessEntityId:params.businessEntityId]
   }
 
   @Transactional
