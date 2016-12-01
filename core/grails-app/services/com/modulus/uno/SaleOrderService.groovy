@@ -13,21 +13,22 @@ class SaleOrderService {
   def springSecurityService
 
   // TODO: Code Review
-  def createSaleOrderWithAddress(Long companyId, Long clientId, Long addressId){
+  def createSaleOrderWithAddress(Long companyId, Long clientId, Long addressId, def fechaCobro){
     if(!companyId && !clientId && !addressId){
       throw new BusinessException("No se puede crear la orden de venta...")
     }
     Company company = Company.get(companyId)
     BusinessEntity businessEntity = BusinessEntity.get(clientId)
-    SaleOrder saleOrder = createSaleOrder(businessEntity, company)
+    SaleOrder saleOrder = createSaleOrder(businessEntity, company, fechaCobro)
     Address address = Address.get(addressId)
     addTheAddressToSaleOrder(saleOrder, address)
     saleOrder
   }
 
-  def createSaleOrder(BusinessEntity businessEntity, Company company) {
+  def createSaleOrder(BusinessEntity businessEntity, Company company, def fechaCobro) {
     def saleOrder = new SaleOrder(rfc:businessEntity.rfc, clientName: businessEntity.toString(), company:company)
     saleOrder.status = SaleOrderStatus.CREADA
+    saleOrder.fechaCobro = new Date(fechaCobro)
     saleOrder.save()
     saleOrder
   }
