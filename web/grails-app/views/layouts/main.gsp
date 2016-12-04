@@ -47,6 +47,7 @@
             </sec:ifAnyGranted>
           </li>
         </ul>
+        <font color="white">Usuario Logeado: ${modulusuno.userLoggin()}</font>
         <ul class="nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -2,6 +2,8 @@ package com.modulus.uno
 
 class CompanyTagLib {
 
+  def springSecurityService
+
   static namespace = "modulusuno"
   static defaultEncodeAs = [taglib:'text']
   //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
@@ -18,4 +20,9 @@ class CompanyTagLib {
       </span>
     """
   }
+
+  def userLoggin = { attrs, body ->
+    out << "${springSecurityService.currentUser.username}"
+  }
+
 }
