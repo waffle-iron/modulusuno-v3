@@ -24,6 +24,10 @@
   </div>
 
   <div class="row">
+  <div class="alert alert-info" role="alert">
+    <b><g:message code="company.status.message.${company.status}" /></b>
+  </div>
+
     <div class="col-md-6">
       <div class="portlet portlet-default">
         <div class="portlet-heading">
@@ -83,9 +87,6 @@
     <g:link controller="requestCompany" action="create" class="btn btn-success btn-block" params="[companyId:company.id]">Enviar mi Solicitud</g:link>
   </g:if>
   <g:else>
-  <div class="alert alert-info" role="alert">
-    <b><g:message code="company.status.message.${company.status}" /></b>
-  </div>
 </g:else>
 <g:if test="${company.status == CompanyStatus.REJECTED}">
 <g:link action="rejected" class="btn btn-default" id="${company.id}">Revisar Razones de Rechazo</g:link>
