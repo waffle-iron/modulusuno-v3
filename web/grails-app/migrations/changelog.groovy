@@ -15,8 +15,7 @@ databaseChangeLog = {
     include file: 'adding-column-stpclabe-to-clientlink.groovy'
     include file: 'adding-column-uuid-to-business-entity.groovy'
     include file: 'drop-modulusunoaccounts_and_update_status-for-all-companies.groovy'
- //   include file: 'change-elements-db-new-version.groovy'
     include file: 'adding-ids-of-artimisa.groovy'
-  //  include file: 'initializing-uuid-for-existing-business-entity.groovy'
     include file: 'adding-date-operation-in-sale-and-puchase-order.groovy'
+    include file: 'creating-role-ejecutor.groovy'
 }
