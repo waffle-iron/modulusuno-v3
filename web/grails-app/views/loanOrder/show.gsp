@@ -96,7 +96,7 @@
               <g:link action="acceptLoanOrder" class="btn btn-success" id="${loanOrder.id}">Aceptar el préstamo</g:link>
             </g:if>
             </g:if>
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR,ROLE_EJECUTOR">
             <g:if test="${loanOrder.status == LoanOrderStatus.CANCELED || loanOrder.status == LoanOrderStatus.REJECTED}">
             <div class="alert alert-danger" role="alert">
               <label class="control-label">Motivo ${message(code:'loanOrder.rejectReason.'+loanOrder.status)}:</label>
@@ -136,7 +136,7 @@
 
             </sec:ifAnyGranted>
 
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
             <g:if test="${loanOrder.status == LoanOrderStatus.AUTHORIZED}">
             <g:link action="approveLoanOrder" id="${loanOrder.id}" class="btn btn-primary">Aprobar Préstamo</g:link>
             <a data-toggle="collapse" role="button" href="#inputReasonRejected" class="btn btn-danger" aria-expanded="false" aria-controls="inputReasonRejected">Rechazar Préstamo</a>
@@ -168,7 +168,7 @@
             </sec:ifAnyGranted>
 
             <br /><br />
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
             <g:link action="index" class="list btn btn-default"><i class="fa fa-reply"></i><g:message code="default.back" /></g:link>
             </sec:ifAnyGranted>
             <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
