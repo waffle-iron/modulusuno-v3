@@ -46,6 +46,15 @@
             </g:if>
             </sec:ifAnyGranted>
           </li>
+          <li>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          </li>
+          <li align="center">
+            <font color="white"> Usuario Logeado: ${modulusuno.userLoggin()}</font>
+          </li>
         </ul>
         <ul class="nav navbar-right">
           <li class="dropdown">
@@ -136,6 +145,7 @@
           </sec:ifAnyGranted>
 
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
+          <g:if test="${companyInfo.isAvailableForOperationInThisCompany() == true}">
             <li class="panel">
               <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones">
                 Operaciones <i class="fa fa-caret-down"></i>
@@ -231,6 +241,7 @@
                 </li>
               </ul>
             <li>
+          </g:if>
           </sec:ifAnyGranted>
 
           <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">

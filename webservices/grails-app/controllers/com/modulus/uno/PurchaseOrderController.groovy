@@ -18,6 +18,7 @@ class PurchaseOrderController {
       @ApiImplicitParam(name = 'companyId', value = '', dataType = 'number',paramType = 'form'),
       @ApiImplicitParam(name = 'providerId', value = '', dataType = 'string',paramType = 'form'),
       @ApiImplicitParam(name = 'bankAccountId', value = '', dataType = 'integer',paramType = 'form'),
+      @ApiImplicitParam(name = 'fechaPago', value = 'dd/MM/yyyy', dataType = 'date',paramType = 'form'),
       ])
   def save() {
     def purchaseOrder = purchaseOrderService.createPurchaseOrder(params.long("companyId"), params)

@@ -32,7 +32,8 @@ class SaleOrderController {
   @SwaggySave(extraParams = [
       @ApiImplicitParam(name = 'companyId', value = '', dataType = 'number',paramType = 'form'),
       @ApiImplicitParam(name = 'clientId', value = '', dataType = 'number',paramType = 'form'),
-      @ApiImplicitParam(name = 'addressId', value = '', dataType = 'number',paramType = 'form')
+      @ApiImplicitParam(name = 'addressId', value = '', dataType = 'number',paramType = 'form'),
+      @ApiImplicitParam(name = 'fechaCobro', value = 'dd/MM/yyyy', dataType = 'date',paramType = 'form')
       ])
   def save() {
     def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"))
