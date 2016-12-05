@@ -93,6 +93,6 @@ class ManagerApplicationController {
     }
 
     def cashFlow() {
-
+      [cashFlow: managerApplicationService.obtainCashFlowOfPeriod(params.startDate, params.endDate)]
     }
 }
