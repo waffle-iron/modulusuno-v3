@@ -18,23 +18,25 @@
    </div>
    <div class="panel panel-info">
      <div class="panel-body">
+     <g:form action="cashFlow">
        <div class="col-md-4">
         <p>Desde el:</p>
-        <g:datePicker id="startDate" name="startDate" value="" precision="day" years="${2016..new Date()[Calendar.YEAR]}" required=""/>
+        <g:datePicker id="startDate" name="startDate" value="${cashFlow.startDate}" precision="day" years="${2016..new Date()[Calendar.YEAR]}" required=""/>
        </div>
        <div class="col-md-4">
         <p>Hasta el:</p>
-        <g:datePicker id="endDate" name="endDate" value="" precision="day" years="${2016..new Date()[Calendar.YEAR]}" required=""/>
+        <g:datePicker id="endDate" name="endDate" value="${cashFlow.endDate}" precision="day" years="${2016..new Date()[Calendar.YEAR]}" required=""/>
        </div>
        <div class="col-md-4 text-righ text-right">
-        <g:actionSubmit class="btn btn-default" value="Consultar" action="accountStatement"/>
+        <g:actionSubmit class="btn btn-default" value="Consultar" action="cashFlow"/>
        </div>
+        </g:form>
      </div>
    </div>
         <div class="panel panel-primary">
           <div class="panel-heading">Pagos</div>
           <div class="panel-body">
-            <p><b>Total:</b></p>
+            <p><b>Total: ${modulusuno.formatPrice(number:cashFlow.totalPayments)}</b></p>
             <div class="text-right">
               <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailPayments">Detalle</button>
             </div>
@@ -48,11 +50,18 @@
                       <tr>
                       <th class="text-center">Empresa</th>
                       <th class="text-center">Proveedor</th>
-                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Fecha Pago</th>
                       <th class="text-center">Monto</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <g:each var="pay" in="${cashFlow.listPayments.sort{it.fechaPago}}">
+                        <tr>
+                          <td>${pay.company.bussinessName}</td>
+                          <td>${pay.providerName}</td>
+                          <td><g:formatDate format="dd-MM-yyyy" date="${pay.fechaPago}"/></td>
+                          <td>${modulusuno.formatPrice(number:pay.total)}</td>
+                      </g:each>
                     </tbody>
                   </table>
                 </div><!--table responsive-->
@@ -63,7 +72,7 @@
         <div class="panel panel-primary">
           <div class="panel-heading">Cobros</div>
           <div class="panel-body">
-            <p><b>Total:</b></p>
+            <p><b>Total: ${modulusuno.formatPrice(number:cashFlow.totalCharges)}</b></p>
             <div class="text-right">
               <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailCharges">Detalle</button>
             </div>
@@ -77,11 +86,18 @@
                       <tr>
                       <th class="text-center">Empresa</th>
                       <th class="text-center">Cliente</th>
-                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Fecha Cobro</th>
                       <th class="text-center">Monto</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <g:each var="charge" in="${cashFlow.listCharges.sort{it.fechaCobro}}">
+                        <tr>
+                          <td>${charge.company.bussinessName}</td>
+                          <td>${charge.clientName}</td>
+                          <td><g:formatDate format="dd-MM-yyyy" date="${charge.fechaCobro}"/></td>
+                          <td>${modulusuno.formatPrice(number:charge.total)}</td>
+                      </g:each>
                     </tbody>
                   </table>
                 </div><!--table responsive-->
