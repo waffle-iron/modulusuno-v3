@@ -62,6 +62,7 @@ class UserService {
       companyService.addingLegalRepresentativeToCompany(company, user)
     } else if (params.authorize) {
       userRole = Role.get(params.roleId)
+      println userRole.dump()
       companyService.addingActorToCompany(company, user)
     }
     save(user, userRole)
@@ -85,10 +86,12 @@ class UserService {
   def updateAuthoritiesUsers(Company company, params){
     Role roleop = Role.findByAuthority("ROLE_INTEGRADO_OPERADOR")
     Role roleau = Role.findByAuthority("ROLE_INTEGRADO_AUTORIZADOR")
+    Role roleej = Role.findByAuthority("ROLE_EJECUTOR")
     company.actors.each(){
       User us = it
       String oper = "operator"+us.id
       String auth = "authorizer"+us.id
+      String ejec = "ejecutor"+us.id
       if (params.get(oper) && !us.authorities.find{it.authority.equals("ROLE_INTEGRADO_OPERADOR")})
         UserRole.create us, roleop, true
       else if (!params.get(oper) && us.authorities.find{it.authority.equals("ROLE_INTEGRADO_OPERADOR")})
@@ -98,6 +101,11 @@ class UserService {
         UserRole.create us, roleau, true
       else if (!params.get(auth) && us.authorities.find{it.authority.equals("ROLE_INTEGRADO_AUTORIZADOR")})
         UserRole.remove us, roleau, true
+
+      if (params.get(ejec) && !us.authorities.find{it.authority.equals("ROLE_EJECUTOR")})
+        UserRole.create us, roleej, true
+      else if (!params.get(ejec) && us.authorities.find{it.authority.equals("ROLE_EJECUTOR")})
+        UserRole.remove us, roleej, true
     }
   }
 
