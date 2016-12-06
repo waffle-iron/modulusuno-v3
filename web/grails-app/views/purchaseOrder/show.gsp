@@ -166,7 +166,7 @@
           </g:else>
         </sec:ifAnyGranted>
 
-        <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE">
+        <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
           <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
             <div class="row">
               <div class="col-md-4 col-md-offset-4">

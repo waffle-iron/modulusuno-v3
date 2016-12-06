@@ -31,7 +31,7 @@
             <g:render template="show"/>
             <br /><br />
 
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR,ROLE_EJECUTOR">
               <g:if test="${loanPaymentOrder.status == LoanPaymentOrderStatus.CANCELED || loanPaymentOrder.status == LoanPaymentOrderStatus.REJECTED}">
                 <div class="alert alert-danger" role="alert">
                   <label class="control-label">Motivo ${message(code:'loanPaymentOrder.rejectReason.'+loanPaymentOrder.status)}:</label>
@@ -85,7 +85,7 @@
 
             </sec:ifAnyGranted>
 
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
               <g:if test="${loanPaymentOrder.status == LoanPaymentOrderStatus.AUTHORIZED}">
                 <div class="container-fluid">
                   <div class="row">
@@ -121,7 +121,7 @@
             <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
               <g:link action="listToAuthorize" class="list btn btn-default"><i class="fa fa-reply"></i> Regresar</g:link>
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
               <g:link action="listAll" class="list btn btn-default"><i class="fa fa-reply"></i> Regresar</g:link>
             </sec:ifAnyGranted>
 

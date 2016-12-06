@@ -121,7 +121,7 @@
             </sec:ifAnyGranted>
 
            <g:if test="${cashOutOrder.status == CashOutOrderStatus.AUTHORIZED}">
-             <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE">
+             <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
              <div class="container-fluid">
                <div class="row">
                  <div class="col-md-6">
