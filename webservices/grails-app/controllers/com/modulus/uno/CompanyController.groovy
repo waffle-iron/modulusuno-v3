@@ -35,7 +35,7 @@ class CompanyController {
       @ApiImplicitParam(name = 'artemisaId', value = '', dataType = 'number',paramType = 'form')
       ])
   def save(CompanyCommand command) {
-    def user = User.findById(15)
+    def user = User.findById(3)
     def company = command.createCompany()
     company.addToActors(user)
     company.save()
