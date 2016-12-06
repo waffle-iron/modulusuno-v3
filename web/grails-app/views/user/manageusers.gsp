@@ -37,6 +37,7 @@
                  <th style="text-align:center; width:600px">Usuario</th>
                  <th style="text-align:center">Operador</th>
                  <th style="text-align:center">Autorizador</th>
+                 <th style="text-align:center">Ejecutor</th>
                </tr>
                <g:each in="${users}" var="user">
                 <tr>
@@ -59,11 +60,22 @@
                      <g:checkBox name="authorizer${user.id}" checked="${isautorizador}"/>
                     </span>
                   </td>
+                  <td style="text-align:center">
+                    <g:set var="isejecutor" value="false"/>
+                    <g:if test="${user.authorities.find{it.authority.equals('ROLE_EJECUTOR')}}">
+                      <g:set var="isejecutor" value="true"/>
+                    </g:if>
+                   <span class="well well-sm">
+                     <g:checkBox name="ejecutor${user.id}" checked="${isejecutor}"/>
+                    </span>
+                  </td>
                 </tr>
                </g:each>
                  <tr>
                   <td></td>
                   <td></td>
+                  <td></td>
+
                   <td style="text-align:right"><button class="btn btn-default">Actualizar</button></td>
                 </tr>
               </table>
