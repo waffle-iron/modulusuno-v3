@@ -143,9 +143,8 @@
               </ul>
             </li>
           </sec:ifAnyGranted>
-
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
-          <g:if test="${companyInfo.isAvailableForOperationInThisCompany() == true}">
+          <g:if test="${companyInfo.isAvailableForOperationInThisCompany() == 'true'}">
             <li class="panel">
               <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones">
                 Operaciones <i class="fa fa-caret-down"></i>
