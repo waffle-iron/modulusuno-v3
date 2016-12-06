@@ -36,7 +36,8 @@ class SaleOrderController {
       @ApiImplicitParam(name = 'fechaCobro', value = 'dd/MM/yyyy', dataType = 'date',paramType = 'form')
       ])
   def save() {
-    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"))
+    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro)
+    saleOrder.status = SaleOrderStatus.POR_AUTORIZAR
     saleOrder.save()
     respond saleOrder, status:201, formats: ['json']
   }
@@ -49,7 +50,7 @@ class SaleOrderController {
     @ApiImplicitParam(name = 'price', value = '', dataType = 'number',paramType = 'form'),
     @ApiImplicitParam(name = 'ieps', value = '', dataType = 'number',paramType = 'form'),
     @ApiImplicitParam(name = 'iva', value = '', dataType = 'number',paramType = 'form'),
-    @ApiImplicitParam(name = 'unitType', value = 'UNIDADES,KILOGRAMOS,KILOMETROS,METROS,LITROS,HORAS,SERVICIO', dataType = 'string',paramType = 'form'),
+    @ApiImplicitParam(name = 'unitType', value = 'UNIDADES,KILOGRAMOS,METROS,LITROS,HORAS,SERVICIO,PAQUETES,CAJA, PIEZA,TONELADAS,TAMBOS', dataType = 'string',paramType = 'form'),
     @ApiImplicitParam(name = 'saleOrderId', value = '', dataType = 'number',paramType = 'form')
       ])
   def saveSaleOrderItem(SaleOrderItemCommand command) {
