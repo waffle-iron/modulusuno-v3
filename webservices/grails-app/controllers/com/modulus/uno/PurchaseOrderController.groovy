@@ -21,7 +21,10 @@ class PurchaseOrderController {
       @ApiImplicitParam(name = 'fechaPago', value = 'dd/MM/yyyy', dataType = 'date',paramType = 'form'),
       ])
   def save() {
+    params.isMoneyBackOrder = false
     def purchaseOrder = purchaseOrderService.createPurchaseOrder(params.long("companyId"), params)
+    purchaseOrder.status = PurchaseOrderStatus.POR_AUTORIZAR
+    purchaseOrder.save()
     if (purchaseOrder.id)
       respond purchaseOrder, status: 201, formats: ['json']
     else
@@ -35,7 +38,7 @@ class PurchaseOrderController {
     @ApiImplicitParam(name = 'price', value = '', dataType = 'number',paramType = 'form'),
     @ApiImplicitParam(name = 'ieps', value = '', dataType = 'number',paramType = 'form'),
     @ApiImplicitParam(name = 'iva', value = '', dataType = 'number',paramType = 'form'),
-    @ApiImplicitParam(name = 'unitType', value = 'UNIDADES,KILOGRAMOS,KILOMETROS,METROS,LITROS,HORAS,SERVICIO', dataType = 'string',paramType = 'form'),
+    @ApiImplicitParam(name = 'unitType', value = 'UNIDADES,KILOGRAMOS,METROS,LITROS,HORAS,SERVICIO,PAQUETES,CAJA, PIEZA,TONELADAS,TAMBOS', dataType = 'string',paramType = 'form'),
     @ApiImplicitParam(name = 'purchaseOrderId', value = '', dataType = 'number',paramType = 'form'),
       ])
   def savePurchaseOrderItem(PurchaseOrderItem command) {
