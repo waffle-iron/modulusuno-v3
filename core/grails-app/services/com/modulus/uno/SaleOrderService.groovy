@@ -28,7 +28,7 @@ class SaleOrderService {
   def createSaleOrder(BusinessEntity businessEntity, Company company, def fechaCobro) {
     def saleOrder = new SaleOrder(rfc:businessEntity.rfc, clientName: businessEntity.toString(), company:company)
     saleOrder.status = SaleOrderStatus.CREADA
-    saleOrder.fechaCobro = new Date(fechaCobro)
+    saleOrder.fechaCobro = Date.parse("dd/MM/yyyy", fechaCobro)
     saleOrder.save()
     saleOrder
   }
@@ -91,10 +91,7 @@ class SaleOrderService {
   }
 
   def addTheAddressToSaleOrder(SaleOrder saleOrder, Address address){
-    Address addressCopy = new Address()
-    addressCopy.properties = address.properties
-    addressCopy.id = null
-    saleOrder.addToAddresses(addressCopy)
+    saleOrder.addToAddresses(address)
     saleOrder.save()
     saleOrder
   }
