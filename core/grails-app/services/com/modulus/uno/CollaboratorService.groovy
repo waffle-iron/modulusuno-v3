@@ -43,4 +43,18 @@ class CollaboratorService {
     begin.before(end) || begin.equals(end)
   }
 
+  Date getBeginDateOfCurrentWeek() {
+    Calendar cal = Calendar.instance
+    cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    String sdf = new SimpleDateFormat("dd-MM-yyyy").format(cal.time)
+    new SimpleDateFormat("dd-MM-yyyy").parse(sdf)
+  }
+
+  Date getEndDateOfCurrentWeek() {
+    Calendar cal = Calendar.instance
+    cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+    String sdf = new SimpleDateFormat("dd-MM-yyyy").format(cal.time)
+    new SimpleDateFormat("dd-MM-yyyy").parse(sdf)
+  }
+
 }

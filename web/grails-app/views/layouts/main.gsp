@@ -267,11 +267,7 @@
               Reportes <i class="fa fa-caret-down"></i>
             </a>
             <ul class="collapse nav" id="reportes">
-              <li><a href="#">Movimientos</a></li>
-              <li><a href="#">Facturación y Cobranzas</a></li>
-              <li><a href="#">Compras</a></li>
-              <li><a href="#">Órdenes por conciliar</a></li>
-              <li><a href="#">Órdenes por autorizar</a></li>
+              <li><g:link controller="managerApplication" action="cashFlow">Flujo de efectivo</g:link></li>
             </ul>
           </li>
           </sec:ifAnyGranted>

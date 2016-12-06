@@ -77,6 +77,18 @@ class ManagerApplicationService {
     company
   }
 
+  CashFlow obtainCashFlowOfPeriod(Date startDate, Date endDate) {
+    Date begin = startDate ?: collaboratorService.getBeginDateOfCurrentWeek()
+    Date end = endDate ?: collaboratorService.getEndDateOfCurrentWeek()
+
+    CashFlow cashFlow = new CashFlow(startDate:begin, endDate:end)
+    cashFlow.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatus(begin, end, PurchaseOrderStatus.AUTORIZADA)
+    cashFlow.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatus(begin, end, SaleOrderStatus.EJECUTADA)
+    cashFlow.totalPayments = cashFlow.listPayments ? cashFlow.listPayments.sum { it.total } : new BigDecimal(0)
+    cashFlow.totalCharges = cashFlow.listCharges ? cashFlow.listCharges.sum { it.total } : new BigDecimal(0)
+    cashFlow
+  }
+
   //TODO:ajustar falta de ortografia
   private def changeStatusInCompanyRejectrLogRows(listOfRows) {
     listOfRows.each { companyRejected ->
