@@ -43,7 +43,7 @@ class UserController {
     command.legal = params.legal
     if (command.hasErrors()) {
       if (params.authorize) {
-        render(view:'authorizer', model:[user:command, authorize:true, roleId:params.roleId, company:session.company, authorities:Role.findAllByAuthorityInList(['ROLE_INTEGRADO_OPERADOR', 'ROLE_INTEGRADO_AUTORIZADOR'])])
+        render(view:'authorizer', model:[user:command, authorize:true, roleId:params.roleId, company:session.company, authorities:Role.findAllByAuthorityInList(['ROLE_INTEGRADO_OPERADOR', 'ROLE_INTEGRADO_AUTORIZADOR','ROLE_EJECUTOR'])])
       } else {
         render(view:params.legal?'legalRepresentative':'create', model:[user:command, legal:params.legal])
       }
