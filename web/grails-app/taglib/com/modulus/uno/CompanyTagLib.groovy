@@ -25,4 +25,13 @@ class CompanyTagLib {
     out << "${springSecurityService.currentUser.username}"
   }
 
+  def amountAccountToday = { attrs,body ->
+    def bankAccount = BankAccount.findById(attrs.id)
+    def movimientosBancarios = MovimientosBancarios.findAllByCuenta(bankAccount)
+    def debito = movimientosBancarios.find { mov -> mov.type == MovimientoBancarioType.DEBITO }
+    def credito = movimientosBancarios.find { mov -> mov.type == MovimientoBancarioType.CREDITO }
+    def amount = credito*.amount?.sum()?:0 - debito*.amount?.sum()?:0
+    out << amount
+  }
+
 }
