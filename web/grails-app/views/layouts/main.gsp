@@ -109,6 +109,9 @@
                 <li>
                   <g:link controller="user" action="manageusers">Lista de Usuarios</g:link>
                 </li>
+                <li>
+                  <g:link controller="movimientosBancarios" >Movimiento</g:link>
+                </li>
               </ul>
             </li>
             <li class="panel">
