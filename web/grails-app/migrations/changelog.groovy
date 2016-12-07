@@ -20,4 +20,6 @@ databaseChangeLog = {
     include file: 'creating-role-ejecutor.groovy'
     include file: 'adding-column-externalid-to-sale-order.groovy'
     include file: 'adding-column-external-id-to-purchase-order.groovy'
+    include file: 'adding-new-entity-banking-transactions.groovy'
+    include file: 'delete-constraint-reference-in-movimientos-bancarios.groovy'
 }
