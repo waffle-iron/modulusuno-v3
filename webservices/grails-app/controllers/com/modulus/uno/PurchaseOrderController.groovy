@@ -33,7 +33,6 @@ class PurchaseOrderController {
   }
 
   @SwaggySave(extraParams = [
-    @ApiImplicitParam(name = 'sku', value = '', dataType = 'number',paramType = 'form'),
     @ApiImplicitParam(name = 'name', value = '', dataType = 'string',paramType = 'form'),
     @ApiImplicitParam(name = 'quantity', value = '', dataType = 'number',paramType = 'form'),
     @ApiImplicitParam(name = 'price', value = '', dataType = 'number',paramType = 'form'),
@@ -42,8 +41,8 @@ class PurchaseOrderController {
     @ApiImplicitParam(name = 'unitType', value = 'UNIDADES,KILOGRAMOS,METROS,LITROS,HORAS,SERVICIO,PAQUETES,CAJA, PIEZA,TONELADAS,TAMBOS', dataType = 'string',paramType = 'form'),
     @ApiImplicitParam(name = 'purchaseOrderId', value = '', dataType = 'number',paramType = 'form'),
       ])
-  def savePurchaseOrderItem(PurchaseOrderItem command) {
-    def puchaseOrder = PurchaseOrder.findById(params.purchaseOrderId)
+  def savePurchaseOrderItem(PurchaseOrderItemCommand command) {
+    def purchaseOrder = PurchaseOrder.findById(params.purchaseOrderId)
     def purchaseOrderItem = command.createPurchaseOrderItem()
     purchaseOrderItem.purchaseOrder = purchaseOrder
 
