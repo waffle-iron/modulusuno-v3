@@ -18,4 +18,5 @@ databaseChangeLog = {
     include file: 'adding-ids-of-artimisa.groovy'
     include file: 'adding-date-operation-in-sale-and-puchase-order.groovy'
     include file: 'creating-role-ejecutor.groovy'
+    include file: 'adding-column-externalid-to-sale-order.groovy'
 }
