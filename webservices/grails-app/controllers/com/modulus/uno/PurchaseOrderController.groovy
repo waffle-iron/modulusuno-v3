@@ -15,10 +15,11 @@ class PurchaseOrderController {
   def index() { }
 
   @SwaggySave(extraParams = [
-      @ApiImplicitParam(name = 'companyId', value = '', dataType = 'number',paramType = 'form'),
-      @ApiImplicitParam(name = 'providerId', value = '', dataType = 'string',paramType = 'form'),
-      @ApiImplicitParam(name = 'bankAccountId', value = '', dataType = 'integer',paramType = 'form'),
-      @ApiImplicitParam(name = 'fechaPago', value = 'dd/MM/yyyy', dataType = 'date',paramType = 'form'),
+      @ApiImplicitParam(name = 'companyId', value = '', required = true, dataType = 'number',paramType = 'form'),
+      @ApiImplicitParam(name = 'providerId', value = '', required = true, dataType = 'string',paramType = 'form'),
+      @ApiImplicitParam(name = 'bankAccountId', value = '', required = true, dataType = 'integer',paramType = 'form'),
+      @ApiImplicitParam(name = 'fechaPago', value = 'dd/MM/yyyy', required = true, dataType = 'date',paramType = 'form'),
+      @ApiImplicitParam(name = 'externalId', value = '', required = true, dataType = 'string',paramType = 'form')
       ])
   def save() {
     params.isMoneyBackOrder = false

@@ -30,13 +30,14 @@ class SaleOrderController {
   }
 
   @SwaggySave(extraParams = [
-      @ApiImplicitParam(name = 'companyId', value = '', dataType = 'number',paramType = 'form'),
-      @ApiImplicitParam(name = 'clientId', value = '', dataType = 'number',paramType = 'form'),
-      @ApiImplicitParam(name = 'addressId', value = '', dataType = 'number',paramType = 'form'),
-      @ApiImplicitParam(name = 'fechaCobro', value = 'dd/MM/yyyy', dataType = 'date',paramType = 'form')
+      @ApiImplicitParam(name = 'companyId', value = '', required = true, dataType = 'number',paramType = 'form'),
+      @ApiImplicitParam(name = 'clientId', value = '', required = true, dataType = 'number',paramType = 'form'),
+      @ApiImplicitParam(name = 'addressId', value = '', required = true, dataType = 'number',paramType = 'form'),
+      @ApiImplicitParam(name = 'fechaCobro', value = 'dd/MM/yyyy', required = true, dataType = 'date',paramType = 'form'),
+      @ApiImplicitParam(name = 'externalId', value = '', required = true, dataType = 'string',paramType = 'form')
       ])
   def save() {
-    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro)
+    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro, params.externalId)
     saleOrder.status = SaleOrderStatus.POR_AUTORIZAR
     saleOrder.save()
     respond saleOrder, status:201, formats: ['json']

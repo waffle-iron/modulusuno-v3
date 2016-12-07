@@ -17,6 +17,7 @@ class SaleOrder {
   SaleOrderStatus status = SaleOrderStatus.CREADA
 
   Date fechaCobro
+  String externalId
 
   static belongsTo = [company:Company]
 
@@ -30,6 +31,7 @@ class SaleOrder {
     comments nullable:true
     folio nullable:true
     fechaCobro nullable:true
+    externalId nullable:true
   }
 
   BigDecimal getTotalIVA(){

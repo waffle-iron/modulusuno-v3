@@ -18,6 +18,7 @@ class PurchaseOrder {
   static hasMany = [documents:S3Asset, items:PurchaseOrderItem, authorizations:Authorization]
 
   Date fechaPago
+  String externalId
 
   static constraints = {
     providerName blank:false, size:1..300
@@ -25,6 +26,7 @@ class PurchaseOrder {
     rejectReason nullable:true
     rejectComment nullable:true, blank:true
     fechaPago nullable:false
+    externalId nullable:true
   }
 
   def getSubtotal(){
