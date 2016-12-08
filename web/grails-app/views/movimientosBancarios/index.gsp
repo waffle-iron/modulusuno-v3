@@ -11,8 +11,13 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
+            <p>
+              <center>
+               <b>La Fecha del día de hoy es: ${new Date().format("dd/MMMM/yyy")}</b>
+              </center>
+            </p>
             <g:each in="${bankAccountsOfCompany}" var="account">
-            ${account}&nbsp;<g:link action="show" id="${account.id}" class="btn btn-green" ><i class="fa fa-search" aria-hidden="true"></i></g:link>&nbsp;<g:link controller="movimientosBancarios" action="create" class="btn btn-green" id="${account.id}"><i class="fa fa-plus" aria-hidden="true"></i></g:link>
+              ${account}&nbsp;<g:link action="show" id="${account.id}" class="btn btn-green" ><i class="fa fa-search" aria-hidden="true"></i></g:link>&nbsp;<g:link controller="movimientosBancarios" action="create" class="btn btn-green" id="${account.id}"><i class="fa fa-plus" aria-hidden="true"></i></g:link> &nbsp; Saldo Total: <modulusuno:amountAccountToday id="${account.id}"
             </g:each>
 
             <div class="pagination">
