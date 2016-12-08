@@ -123,7 +123,16 @@ class CompanyController {
       redirect(action:"show",id:"${company}")
       return
     }
-    redirect(action:"accountStatement")
+    redirectToViewAccordingToRole()
+  }
+
+  def redirectToViewAccordingToRole() {
+    def user = springSecurityService.currentUser
+    def autoriti = user.getAuthorities()
+    if (autoriti.contains(Role.findByAuthority('ROLE_INTEGRADO_AUTORIZADOR')))
+      redirect(action:'authorizations', controller:'dashboard')
+    else
+      redirect(action:"accountStatement")
   }
 
   def rejected(Company company) {
