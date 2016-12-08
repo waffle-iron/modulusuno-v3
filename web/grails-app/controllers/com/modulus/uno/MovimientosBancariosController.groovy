@@ -35,14 +35,7 @@ class MovimientosBancariosController {
         }
 
         movimientosBancarios.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'movimientosBancarios.label', default: 'MovimientosBancarios'), movimientosBancarios.id])
-                redirect movimientosBancarios
-            }
-            '*' { respond movimientosBancarios, [status: CREATED] }
-        }
+      redirect action:"show", id:"${movimientosBancarios.cuenta.id}"
     }
 
     def edit(MovimientosBancarios movimientosBancarios) {
