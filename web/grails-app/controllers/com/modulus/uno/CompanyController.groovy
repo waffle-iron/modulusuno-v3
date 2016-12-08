@@ -32,24 +32,19 @@ class CompanyController {
     } else {
       company.refresh()
       def balance, usd, documents
-      if (company.status != CompanyStatus.VALIDATE) {
-        params.sepomexUrl = grails.util.Holders.grailsApplication.config.sepomex.url
-        if (company.status == CompanyStatus.ACCEPTED) {
-          documents = companyService.isAvailableForGenerateInvoces(company.rfc)
-          if (company.accounts){
-            (balance, usd) = modulusUnoService.consultBalanceOfAccount(company?.accounts?.first()?.timoneUuid)
-          }
+      params.sepomexUrl = grails.util.Holders.grailsApplication.config.sepomex.url
+      if (company.status == CompanyStatus.ACCEPTED) {
+        documents = companyService.isAvailableForGenerateInvoces(company.rfc)
+        if (company.accounts){
+          (balance, usd) = modulusUnoService.consultBalanceOfAccount(company?.accounts?.first()?.timoneUuid)
         }
-        def isAvailable = companyService.isEnableToSendNotificationIntegrated(company)
-          /*def legalRepresentativesWithDocuments = true
-          if (company.taxRegime == CompanyTaxRegime.MORAL)
-            legalRepresentativesWithDocuments = userService.containsUsersWithDocumentsByCompany(company.legalRepresentatives,company)*/
-
-        respond company, model:[ clients:clientService.getClientsFromCompany(company),providers:providerService.getProvidersFromCompany(company),available:isAvailable,balance:balance,usd:usd,documents:documents]
-      } else {
-        flash.message = message(code: 'company.blocket.validate')
-        redirect(action:"index")
       }
+      def isAvailable = companyService.isEnableToSendNotificationIntegrated(company)
+        /*def legalRepresentativesWithDocuments = true
+        if (company.taxRegime == CompanyTaxRegime.MORAL)
+          legalRepresentativesWithDocuments = userService.containsUsersWithDocumentsByCompany(company.legalRepresentatives,company)*/
+
+      respond company, model:[ clients:clientService.getClientsFromCompany(company),providers:providerService.getProvidersFromCompany(company),available:isAvailable,balance:balance,usd:usd,documents:documents]
     }
   }
 
