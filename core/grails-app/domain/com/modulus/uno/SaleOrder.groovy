@@ -1,6 +1,7 @@
 package com.modulus.uno
 
 import java.math.RoundingMode
+import grails.converters.JSON
 
 class SaleOrder {
 
@@ -53,4 +54,24 @@ class SaleOrder {
   String toString(){
     "${clientName} / \$ ${total.setScale(2, RoundingMode.HALF_UP)}"
   }
+
+  static marshaller = {
+    JSON.registerObjectMarshaller(SaleOrder,1) { m ->
+      return [
+        id:m.id,
+        rfc:m.rfc,
+        clientName:m.clientName,
+        uuid:m.uuid,
+        folio:m.folio,
+        rejectReason:m.rejectReason,
+        status:m.status,
+        company:m.company,
+        addresses:m.addresses,
+        items:m.items,
+        authorizations: m.authorizations,
+        documents:m.documents
+      ]
+    }
+  }
+
 }
