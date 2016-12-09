@@ -10,7 +10,7 @@ class SaleOrderItemCommand implements Validateable{
   String price
   String ieps
   String iva
-  UnitType unitType
+  String unitType
 
   SaleOrderItem createSaleOrderItem() {
     new SaleOrderItem(
@@ -20,7 +20,7 @@ class SaleOrderItemCommand implements Validateable{
       price:getValueInBigDecimal(this.price),
       ieps:getValueInBigDecimal(this.ieps?:"0"),
       iva:getValueInBigDecimal(this.iva?:"0"),
-      unitType:this.unitType
+      unitType:UnitType.values().find {  it.toString() == this.unitType } ?: unitType
     )
   }
 
