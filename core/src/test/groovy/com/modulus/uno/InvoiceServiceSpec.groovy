@@ -60,12 +60,10 @@ class InvoiceServiceSpec extends Specification {
       result.emisor.datosFiscales.pais == 'México'
       result.emisor.datosFiscales.ciudad == 'Ciudad de México'
       result.emisor.datosFiscales.delegacion == 'Miguel Hidalgo'
-      result.emisor.datosFiscales.colonia == 'San Miguel Chapultepec'
+      result.emisor.datosFiscales.colonia == 'Reforma'
       result.emisor.datosFiscales.calle == 'Tiburcio Montiel'
-      result.emisor.datosFiscales.noExterior == '80'
+      result.emisor.datosFiscales.noExterior == '266'
       result.emisor.datosFiscales.noInterior == 'B3'
-      result.emisor.datosFiscales.regimen == 'Régimen General de Ley Personal Morales'
-
       result.receptor.datosFiscales.noExterior == '266'
       result.receptor.datosFiscales.colonia == 'Reforma'
 
@@ -83,8 +81,10 @@ class InvoiceServiceSpec extends Specification {
   }
 
   def "Should cancel billing"() {
-    given:"A Sale order to cancel"
-      SaleOrder saleOrder = new SaleOrder(uuid:'uuid').save(validate:false)
+    given:
+      Company company = new Company(rfc:"RODS861224HNE").save(validate:false)
+    and:"A Sale order to cancel"
+      SaleOrder saleOrder = new SaleOrder(uuid:'uuid',company:company).save(validate:false)
     when:
       service.cancelBill(saleOrder)
     then:
