@@ -16,7 +16,7 @@ class SaleOrderItemCommand implements Validateable{
     new SaleOrderItem(
       sku:this.sku,
       name:this.name,
-      quantity:this.quantity,
+      quantity:getValueInBigDecimal(this.quantity),
       price:getValueInBigDecimal(this.price),
       ieps:getValueInBigDecimal(this.ieps?:"0"),
       iva:getValueInBigDecimal(this.iva?:"0"),

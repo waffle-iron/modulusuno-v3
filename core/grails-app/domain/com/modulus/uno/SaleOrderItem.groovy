@@ -1,10 +1,12 @@
 package com.modulus.uno
 
+import grails.converters.JSON
+
 class SaleOrderItem {
 
   String sku
   String name
-  Integer quantity = 1
+  BigDecimal quantity = new BigDecimal(0)
   BigDecimal price = new BigDecimal(0)
   BigDecimal ieps = new BigDecimal(0)
   BigDecimal iva = new BigDecimal(0)
@@ -20,7 +22,7 @@ class SaleOrderItem {
     price min:0.0,max:250000000.00
     ieps min:0.0,max:100.00
     iva min:0.0,max:100.00
-    quantity min:0
+    quantity min:0.0
   }
 
   BigDecimal getAmountIVA(){
@@ -49,6 +51,20 @@ class SaleOrderItem {
 
   BigDecimal getNetAmount(){
     this.quantity * this.getNetPrice()
+  }
+
+  static marshaller = {
+    JSON.registerObjectMarshaller(SaleOrderItem, 1) { m ->
+      return [
+        id:m.id,
+        sku:m.sku,
+        quantity:m.quantity,
+        price:m.price,
+        ieps:m.ieps,
+        iva:m.iva,
+        unitType:m.unitType
+      ]
+    }
   }
 
 }
