@@ -31,7 +31,7 @@ class SaleOrderServiceSpec extends Specification {
     and:"A business entity"
       def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
     when:"We create a sale order"
-      def result = service.createSaleOrder(businessEntity, company)
+      def result = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString(),"qwerty1234567")
     then:"We expect a new sale order"
       result instanceof SaleOrder
       result.status == SaleOrderStatus.CREADA
@@ -55,8 +55,8 @@ class SaleOrderServiceSpec extends Specification {
 
   void "should add two items to a sale order"() {
     given:"A sale order item"
-      def item1 = new SaleOrderItem(sku:'A001',name:'Gazelle A25',price:new BigDecimal(15000.00), ieps:new BigDecimal(0.0), iva:new BigDecimal(0.0), unitType:UnitType.UNIDADES, currencyType:CurrencyType.PESOS)
-      def item2 = new SaleOrderItem(sku:'A002',name:'Lemur 14',price:new BigDecimal(0.0), ieps:new BigDecimal(0.0), iva:new BigDecimal(0.0), unitType:UnitType.UNIDADES, currencyType:CurrencyType.PESOS)
+      def item1 = new SaleOrderItem(sku:'A001',name:'Gazelle A25',price:new BigDecimal(15000.00), ieps:new BigDecimal(0.0), iva:new BigDecimal(0.0), unitType:UnitType.UNIDADES, currencyType:CurrencyType.PESOS,quantity:0.23)
+      def item2 = new SaleOrderItem(sku:'A002',name:'Lemur 14',price:new BigDecimal(0.0), ieps:new BigDecimal(0.0), iva:new BigDecimal(0.0), unitType:UnitType.UNIDADES, currencyType:CurrencyType.PESOS,quantity:1.23)
     and:"A sale order"
       def saleOrder = Mock(SaleOrder)
       saleOrder.metaClass.addToItems {
@@ -78,7 +78,7 @@ class SaleOrderServiceSpec extends Specification {
                                 employeeNumbers:40,
                                 grossAnnualBilling:4000).save(validate:false)
     def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
-    def saleOrder = service.createSaleOrder(businessEntity, company)
+    def saleOrder = service.createSaleOrder(businessEntity, company,new Date().format("dd/MM/yyyy").toString(), "qwerty12345")
   when:"We authoriza a sale order"
     companyService.getAuthorizersByCompany(company) >> approvers
     def result = service.sendOrderToConfirmation(saleOrder)
@@ -98,7 +98,7 @@ class SaleOrderServiceSpec extends Specification {
                                 grossAnnualBilling:4000,
                                 legalRepresentatives:legalRepresentatives).save(validate:false)
     def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
-    def saleOrder = service.createSaleOrder(businessEntity, company)
+    def saleOrder = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString(), "qwerty123456")
   when:"We authoriza a sale order"
     def result = service.authorizeSaleOrder(saleOrder)
   then:"We expect new status"
@@ -117,7 +117,7 @@ class SaleOrderServiceSpec extends Specification {
       def saleOrderPrepared = service.addTheAddressToSaleOrder(saleOrder, address)
     then: "the sale order must have an address"
       saleOrderPrepared.addresses.size() == 1
-      saleOrderPrepared.addresses.first().id != address.id
+      saleOrderPrepared.addresses.first().id == address.id
   }
 
   void "should execute a sale order"(){
