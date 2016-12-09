@@ -30,7 +30,7 @@ class PurchaseOrderServiceSpec extends Specification {
     and:"A business entity"
       def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
       BankAccount bankAccount = new BankAccount().save(validate:false)
-      Map params = [providerId:businessEntity.id, bankAccountId:bankAccount.id]
+      Map params = [providerId:businessEntity.id, bankAccountId:bankAccount.id, fechaPago:new Date().format("dd/MM/yyyy").toString(), externalId:"12345"]
     when:"We create a purchase order"
       def result = service.createPurchaseOrder(company.id, params)
     then:"We expect a new purchase order"
@@ -47,7 +47,7 @@ class PurchaseOrderServiceSpec extends Specification {
                                 grossAnnualBilling:4000).save(validate:false)
     def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
     BankAccount bankAccount = new BankAccount().save(validate:false)
-    Map params = [providerId:businessEntity.id, bankAccountId:bankAccount.id]
+    Map params = [providerId:businessEntity.id, bankAccountId:bankAccount.id, fechaPago:new Date().format("dd/MM/yyyy").toString(), externalId:"12345"]
     def purchaseOrder = service.createPurchaseOrder(company.id, params)
   when:"We authorize a purchase order"
     def result = service.requestAuthorizationForTheOrder(purchaseOrder)
