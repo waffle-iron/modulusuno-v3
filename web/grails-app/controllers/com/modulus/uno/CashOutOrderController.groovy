@@ -14,20 +14,14 @@ class CashOutOrderController {
 
     @Transactional
     def authorizeCashOutOrder(CashOutOrder cashOutOrder) {
-      if (companyService.enoughBalanceCompany(cashOutOrder.company, cashOutOrder.amount)){
-        def user = springSecurityService.currentUser
-        cashOutOrderService.addAutorizationToCashoutOrder(cashOutOrder,user)
-        def isAvailableThisCashoutOrderForAuthorize = cashOutOrderService.isAvailableForAuthorize(cashOutOrder)
-        if (isAvailableThisCashoutOrderForAuthorize) {
-          cashOutOrder.status = CashOutOrderStatus.AUTHORIZED
-          cashOutOrder.save()
-        } else {
-          flash.message = message(code: 'cashOutOrder.unauthorize')
-        }
+      def user = springSecurityService.currentUser
+      cashOutOrderService.addAutorizationToCashoutOrder(cashOutOrder,user)
+      def isAvailableThisCashoutOrderForAuthorize = cashOutOrderService.isAvailableForAuthorize(cashOutOrder)
+      if (isAvailableThisCashoutOrderForAuthorize) {
+        cashOutOrder.status = CashOutOrderStatus.AUTHORIZED
+        cashOutOrder.save()
       } else {
-        flash.message = message(code: 'company.insufficient.balance')
-        redirect action:'show', id: cashOutOrder.id
-        return
+        flash.message = message(code: 'cashOutOrder.unauthorize')
       }
       redirect action:'list', params:[status:'TO_AUTHORIZED']
     }
@@ -49,12 +43,19 @@ class CashOutOrderController {
     @Transactional
     def executeCashOutOrder(CashOutOrder cashOutOrder) {
       String messageSuccess = message(code:"cashOutOrder.already.executed")
-      if (cashOutOrder.status == CashOutOrderStatus.AUTHORIZED) {
-        cashOutOrderService.authorizeAndDoCashOutOrder(cashOutOrder)
-        cashOutOrder.status = CashOutOrderStatus.EXECUTED
-        cashOutOrder.save()
-        messageSuccess = message(code:"cashOutOrder.executed.message")
+      if (companyService.enoughBalanceCompany(cashOutOrder.company, cashOutOrder.amount)){
+        if (cashOutOrder.status == CashOutOrderStatus.AUTHORIZED) {
+          cashOutOrderService.authorizeAndDoCashOutOrder(cashOutOrder)
+          cashOutOrder.status = CashOutOrderStatus.EXECUTED
+          cashOutOrder.save()
+          messageSuccess = message(code:"cashOutOrder.executed.message")
+        }
+      } else {
+        flash.message = message(code: 'company.insufficient.balance')
+        redirect action:'show', id: cashOutOrder.id, params: [company:cashOutOrder.company.id]
+        return
       }
+
       redirect action:'list', params:[status:'AUTHORIZED', messageSuccess:messageSuccess]
     }
 
