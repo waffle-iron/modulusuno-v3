@@ -83,7 +83,7 @@ class ManagerApplicationService {
 
     CashFlow cashFlow = new CashFlow(startDate:begin, endDate:end)
     cashFlow.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatus(begin, end, PurchaseOrderStatus.AUTORIZADA)
-    cashFlow.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatus(begin, end, SaleOrderStatus.EJECUTADA)
+    cashFlow.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatusInList(begin, end, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA])
     cashFlow.totalPayments = cashFlow.listPayments ? cashFlow.listPayments.sum { it.total } : new BigDecimal(0)
     cashFlow.totalCharges = cashFlow.listCharges ? cashFlow.listCharges.sum { it.total } : new BigDecimal(0)
     cashFlow
