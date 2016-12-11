@@ -47,22 +47,16 @@ class PurchaseOrderController {
   }
 
   def confirmThePurchaseOrder(PurchaseOrder order){
-    if (companyService.enoughBalanceCompany(order.company, order.total)){
-      def user = springSecurityService.currentUser
-      purchaseOrderService.addAuthorizationToPurchaseOrder(order, user)
-      if (purchaseOrderService.isFullAuthorized(order)){
-        purchaseOrderService.authorizePurchaseOrder(order)
-        emailSenderService.sendPurchaseOrderAuthorized(order)
-      }
-      if (order.isMoneyBackOrder) {
-        redirect action:'listMoneyBackOrders', params:[status:'POR_AUTORIZAR']
-      } else {
-        redirect action:'list', params:[status:'POR_AUTORIZAR']
-      }
-      return
+    def user = springSecurityService.currentUser
+    purchaseOrderService.addAuthorizationToPurchaseOrder(order, user)
+    if (purchaseOrderService.isFullAuthorized(order)){
+      purchaseOrderService.authorizePurchaseOrder(order)
+      emailSenderService.sendPurchaseOrderAuthorized(order)
+    }
+    if (order.isMoneyBackOrder) {
+      redirect action:'listMoneyBackOrders', params:[status:'POR_AUTORIZAR']
     } else {
-      String insufficientBalance = message(code:'company.insufficient.balance')
-      render view:'show', model:[purchaseOrder:order, insufficientBalance:insufficientBalance]
+      redirect action:'list', params:[status:'POR_AUTORIZAR']
     }
   }
 
@@ -108,16 +102,22 @@ class PurchaseOrderController {
 
   def executePurchaseOrder(PurchaseOrder order){
     String messageSuccess = message(code:"purchaseOrder.already.executed")
-    if (purchaseOrderIsInStatus(order, PurchaseOrderStatus.AUTORIZADA)) {
-      purchaseOrderService.payPurchaseOrder(order)
-      messageSuccess = message(code:"purchaseOrder.executed.message")
+    if (companyService.enoughBalanceCompany(order.company, order.total)){
+      if (purchaseOrderIsInStatus(order, PurchaseOrderStatus.AUTORIZADA)) {
+        purchaseOrderService.payPurchaseOrder(order)
+        messageSuccess = message(code:"purchaseOrder.executed.message")
+      }
+
+      if (order.isMoneyBackOrder) {
+        redirect action:'listMoneyBackOrders', params:[status:PurchaseOrderStatus.AUTORIZADA, messageSuccess:messageSuccess]
+      } else {
+        redirect action:'list', params:[status:PurchaseOrderStatus.AUTORIZADA, messageSuccess:messageSuccess]
+      }
+    } else {
+      String insufficientBalance = message(code:'company.insufficient.balance')
+      render view:'show', model:[purchaseOrder:order, insufficientBalance:insufficientBalance]
     }
 
-    if (order.isMoneyBackOrder) {
-      redirect action:'listMoneyBackOrders', params:[status:PurchaseOrderStatus.AUTORIZADA, messageSuccess:messageSuccess]
-    } else {
-      redirect action:'list', params:[status:PurchaseOrderStatus.AUTORIZADA, messageSuccess:messageSuccess]
-    }
   }
 
   private Boolean purchaseOrderIsInStatus(PurchaseOrder order, def statusExpected) {
