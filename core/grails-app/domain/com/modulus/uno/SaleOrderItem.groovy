@@ -11,7 +11,7 @@ class SaleOrderItem {
   BigDecimal ieps = new BigDecimal(0)
   BigDecimal iva = new BigDecimal(0)
 
-  UnitType unitType
+  String unitType
   CurrencyType currencyType = CurrencyType.PESOS
 
   static belongsTo = [saleOrder:SaleOrder]
