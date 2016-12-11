@@ -9,7 +9,7 @@ class PurchaseOrderItemCommand implements Validateable{
     String price
     String ieps
     String iva
-    UnitType unitType
+    String unitType
 
     PurchaseOrderItem createPurchaseOrderItem() {
       new PurchaseOrderItem(
@@ -18,7 +18,7 @@ class PurchaseOrderItemCommand implements Validateable{
           price:getValueInBigDecimal(this.price),
           ieps:getValueInBigDecimal(this.ieps?:"16"),
           iva:getValueInBigDecimal(this.iva?:"16"),
-          unitType:this.unitType
+          unitType:UnitType.values().find {  it.toString() == this.unitType } ?: unitType
         )
     }
 
