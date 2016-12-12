@@ -26,27 +26,26 @@ class FeesReceiptController {
 
   def authorizeFeesReceipt(FeesReceipt feesReceipt){
     Company company = Company.get(session.company)
-    if (companyService.enoughBalanceCompany(company, feesReceipt.netAmount)){
-      User user = springSecurityService.currentUser
-      feesReceiptService.addAuthorizationToFeesReceipt(feesReceipt, user)
-      if (feesReceiptService.isFullAuthorize(feesReceipt)){
-        feesReceiptService.authorizeFeesReceipt(feesReceipt)
-      }
-      render view:"list", model:[feesReceiptList:FeesReceipt.findAllByStatusAndCompany(FeesReceiptStatus.POR_AUTORIZAR, company)]
-      return
-    } else {
-      flash.message = message(code:'company.insufficient.balance')
-      redirect action:'show', id:feesReceipt.id
+    User user = springSecurityService.currentUser
+    feesReceiptService.addAuthorizationToFeesReceipt(feesReceipt, user)
+    if (feesReceiptService.isFullAuthorize(feesReceipt)){
+      feesReceiptService.authorizeFeesReceipt(feesReceipt)
     }
+    render view:"list", model:[feesReceiptList:FeesReceipt.findAllByStatusAndCompany(FeesReceiptStatus.POR_AUTORIZAR, company)]
   }
 
   def executeFeesReceipt(FeesReceipt feesReceipt){
     String messageSuccess = message(code:"feesReceipt.already.executed")
-    if (feesReceipt.status == FeesReceiptStatus.AUTORIZADA) {
-      feesReceiptService.executeFeesReceipt(feesReceipt)
-      messageSuccess = message(code:"feesReceipt.executed.message")
+    if (companyService.enoughBalanceCompany(feesReceipt.company, feesReceipt.netAmount)){
+      if (feesReceipt.status == FeesReceiptStatus.AUTORIZADA) {
+        feesReceiptService.executeFeesReceipt(feesReceipt)
+        messageSuccess = message(code:"feesReceipt.executed.message")
+      }
+      render view:"list", model:[feesReceiptList:FeesReceipt.findAllByStatus(FeesReceiptStatus.AUTORIZADA), messageSuccess:messageSuccess]
+    } else {
+      flash.message = message(code:'company.insufficient.balance')
+      redirect action:'show', id:feesReceipt.id
     }
-    render view:"list", model:[feesReceiptList:FeesReceipt.findAllByStatus(FeesReceiptStatus.AUTORIZADA), messageSuccess:messageSuccess]
   }
 
   def cancelFeesReceipt(FeesReceipt feesReceipt){
