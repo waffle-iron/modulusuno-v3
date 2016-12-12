@@ -48,7 +48,7 @@ class UserService {
     user
   }
 
-  User createUser(UserCommand command, def params, Company company){
+  User createUser(UserCommand command){
     User user = new User(username: command.username, password:command.password)
     def profile = command.getProfile()
     def telephone = command.getTelephone()
@@ -56,6 +56,10 @@ class UserService {
       profile.addToTelephones(telephone)
     }
     user.profile = profile
+    user
+  }
+
+  User setRoleToUser(User user, def params,Company company) {
     def userRole = Role.findWhere(authority: 'ROLE_INTEGRADO')
     if(params.legal) {
       userRole = Role.findWhere(authority: 'ROLE_LEGAL_REPRESENTATIVE')
