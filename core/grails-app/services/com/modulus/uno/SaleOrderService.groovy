@@ -111,7 +111,6 @@ class SaleOrderService {
     saleOrderStatuses
   }
 
-
   def getSaleOrdersToList(Long company, params){
     def statusOrders = getSaleOrderStatus(params.status)
     def saleOrders = [:]
@@ -128,4 +127,16 @@ class SaleOrderService {
   def deleteItemFromSaleOrder(SaleOrder saleOrder, SaleOrderItem item) {
     SaleOrderItem.executeUpdate("delete SaleOrderItem item where item.id = :id", [id: item.id])
   }
+
+  def createOrUpdateSaleOrder(def params) {
+    SaleOrder saleOrder = SaleOrder.findByExternalId(params.externalId)
+    if (saleOrder) {
+      saleOrder.fechaCobro = Date.parse("dd/MM/yyyy", params.fechaCobro)
+      saleOrder.save()
+    } else {
+      saleOrder = createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro, params.externalId)
+    }
+    saleOrder
+  }
+
 }

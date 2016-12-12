@@ -4,6 +4,8 @@ import grails.test.mixin.TestFor
 import grails.test.mixin.Mock
 import spock.lang.Specification
 import spock.lang.Ignore
+import org.springframework.mock.web.MockHttpServletRequest
+import grails.web.servlet.mvc.GrailsParameterMap
 
 @TestFor(SaleOrderService)
 @Mock([BusinessEntity, SaleOrder, Company, User, Address,Authorization, Commission])
@@ -152,4 +154,50 @@ class SaleOrderServiceSpec extends Specification {
       items.size() == 0
       1 * saleOrder.save()
   }
+
+  void "Should update a sale order"() {
+    given:"A map with params"
+      Map params = [companyId:"1", clientId:"1", addressId:"1", fechaCobro:"15/12/2016", externalId:"abcde"]
+    and:"A Sale Order"
+      SaleOrder saleOrder = new SaleOrder(externalId:"abcde").save(validate:false)
+      SaleOrder.metaClass.static.findByExternalId = { saleOrder }
+    when:
+      def result = service.createOrUpdateSaleOrder(params)
+    then:
+      result.id == saleOrder.id
+      result.externalId == "abcde"
+  }
+
+  void "Should create a sale order"() {
+    given:"The params"
+      MockHttpServletRequest mockRequest = new MockHttpServletRequest()
+      mockRequest.addParameter("companyId", "1")
+      mockRequest.addParameter("clientId", "1")
+      mockRequest.addParameter("addressId", "1")
+      mockRequest.addParameter("fechaCobro", "15/12/2016")
+      mockRequest.addParameter("externalId", "abcde")
+      GrailsParameterMap params = new GrailsParameterMap(mockRequest)
+    and:"A Sale Order"
+      SaleOrder.metaClass.static.findByExternalId = { null }
+      def company = new Company(rfc:"JIGE930831NZ1",
+                                bussinessName:"Apple Computers",
+                                webSite:"http://www.apple.com",
+                                employeeNumbers:40,
+                                grossAnnualBilling:4000).save(validate:false)
+      def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
+      def address = new Address(street:"street", zipCode:"00000").save(validate:false)
+      Company.get(_) >> company
+      BusinessEntity.get(_) >> businessEntity
+      Address.get(_) >> address
+      SaleOrder.metaClass.addToAddresses {
+        addresses = []
+        addresses.add(address)
+      }
+    when:
+      def result = service.createOrUpdateSaleOrder(params)
+    then:
+      result.id == 1
+      result.externalId == "abcde"
+  }
+
 }
