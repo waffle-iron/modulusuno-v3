@@ -37,7 +37,7 @@ class SaleOrderController {
       @ApiImplicitParam(name = 'externalId', value = '', required = true, dataType = 'string',paramType = 'form')
       ])
   def save() {
-    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro, params.externalId)
+    def saleOrder = saleOrderService.createOrUpdateSaleOrder(params)
     saleOrder.status = SaleOrderStatus.POR_AUTORIZAR
     saleOrder.save()
     respond saleOrder, status:201, formats: ['json']
