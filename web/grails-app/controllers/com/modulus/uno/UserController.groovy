@@ -52,7 +52,8 @@ class UserController {
 
     Company company = Company.get(session.company)
 
-    User user = userService.createUser(command, params, company)
+    User user = userService.createUser(command)
+    user = userService.setRoleToUser(user,params,company)
 
     flash.message = g.message(code: 'login.create')
     if(params.legal || params.authorize) {
