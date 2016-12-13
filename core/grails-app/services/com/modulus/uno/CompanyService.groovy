@@ -208,6 +208,19 @@ class CompanyService {
     isAvailableForInvoices(response)
   }
 
+  CashFlow obtainCashFlowOfPeriod(Date startDate, Date endDate) {
+    Date begin = startDate ?: new Date()
+    Date end = endDate ?: new Date()
+    Company company = Company.get(session.company)
+
+    CashFlow cashFlow = new CashFlow(startDate:begin, endDate:end)
+    cashFlow.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatusAndCompany(begin, end, PurchaseOrderStatus.AUTORIZADA, company)
+    cashFlow.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatusInListAndCompany(begin, end, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
+    cashFlow.totalPayments = cashFlow.listPayments ? cashFlow.listPayments.sum { it.total } : new BigDecimal(0)
+    cashFlow.totalCharges = cashFlow.listCharges ? cashFlow.listCharges.sum { it.total } : new BigDecimal(0)
+    cashFlow
+  }
+
   private def isAvailableForInvoices(def response) {
     response.find { it.value == false}
   }
