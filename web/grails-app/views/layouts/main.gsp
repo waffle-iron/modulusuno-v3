@@ -37,7 +37,7 @@
         </ul>
         <ul class="nav navbar-brand">
           <li class="tooltip-sidebar-toggle" align="right">
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR">
+            <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR, ROLE_FINANCIAL">
             <g:if test="${session.company}">
             <g:form class="form-group" id="company-selection" url="[action:'setCompanyInSession',controller:'company']" >
             <font color="white">Selecciona tu Compañía </font>${companyInfo.selectedCompany()}
@@ -254,7 +254,7 @@
           </sec:ifAnyGranted>
 
           <sec:ifAnyGranted roles="ROLE_FINANCIAL">
-            <li><g:link controller="company" action="cashFlow">CashFlow</g:link></li>
+            <li><g:link controller="company" action="pendingAccounts">Cuentas por Cobrar/Pagar</g:link></li>
           </sec:ifAnyGranted>
 
          </g:if>
