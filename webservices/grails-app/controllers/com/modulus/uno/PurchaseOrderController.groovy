@@ -19,13 +19,18 @@ class PurchaseOrderController {
       @ApiImplicitParam(name = 'providerId', value = '', required = true, dataType = 'string',paramType = 'form'),
       @ApiImplicitParam(name = 'bankAccountId', value = '', required = true, dataType = 'integer',paramType = 'form'),
       @ApiImplicitParam(name = 'fechaPago', value = 'dd/MM/yyyy', required = true, dataType = 'date',paramType = 'form'),
+      @ApiImplicitParam(name = 'isAnticipated', value = '', required = false, dataType = 'string',paramType = 'form'),
       @ApiImplicitParam(name = 'externalId', value = '', required = true, dataType = 'string',paramType = 'form')
       ])
   def save() {
     params.isMoneyBackOrder = false
+    if (params.isAnticipated == "true")
+      params.orderType = "0"
     def purchaseOrder = purchaseOrderService.createPurchaseOrder(params.long("companyId"), params)
-    purchaseOrder.status = PurchaseOrderStatus.POR_AUTORIZAR
-    purchaseOrder.save()
+
+    if (params.isAnticipated == "true")
+      purchaseOrderService.requestAuthorizationForTheOrder(purchaseOrder)
+
     if (purchaseOrder.id)
       respond purchaseOrder, status: 201, formats: ['json']
     else
