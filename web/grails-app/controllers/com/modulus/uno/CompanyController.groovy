@@ -226,9 +226,9 @@ class CompanyController {
     redirect(action:"show",id:"${session.company.toLong()}")
   }
 
-  def cashFlow() {
+  def pendingAccounts() {
     Company company = Company.get(session.company)
-    [cashFlow: companyService.obtainCashFlowOfPeriod(params.startDate, params.endDate, company)]
+    [pendingAccounts: companyService.obtainPendingAccountsOfPeriod(params.startDate, params.endDate, company)]
   }
 
 }
