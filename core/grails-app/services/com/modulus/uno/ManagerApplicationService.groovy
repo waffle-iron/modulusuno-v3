@@ -78,8 +78,8 @@ class ManagerApplicationService {
   }
 
   CashFlow obtainCashFlowOfPeriod(Date startDate, Date endDate) {
-    Date begin = startDate ?: collaboratorService.getBeginDateOfCurrentWeek()
-    Date end = endDate ?: collaboratorService.getEndDateOfCurrentWeek()
+    Date begin = startDate ?: new Date()
+    Date end = endDate ?: new Date()
 
     CashFlow cashFlow = new CashFlow(startDate:begin, endDate:end)
     cashFlow.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatus(begin, end, PurchaseOrderStatus.AUTORIZADA)
