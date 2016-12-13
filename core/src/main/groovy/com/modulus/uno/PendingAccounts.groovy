@@ -1,6 +1,6 @@
 package com.modulus.uno
 
-class CashFlow {
+class PendingAccounts {
   BigDecimal totalCharges
   BigDecimal totalPayments
   List<SaleOrder> listCharges

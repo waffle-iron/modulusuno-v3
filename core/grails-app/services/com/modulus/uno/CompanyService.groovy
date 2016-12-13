@@ -208,6 +208,18 @@ class CompanyService {
     isAvailableForInvoices(response)
   }
 
+  PendingAccounts obtainPendingAccountsOfPeriod(Date startDate, Date endDate, Company company) {
+    Date begin = startDate ?: new Date()
+    Date end = endDate ?: new Date()
+
+    PendingAccounts pendingAccounts = new PendingAccounts(startDate:begin, endDate:end)
+    pendingAccounts.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatusAndCompany(begin, end, PurchaseOrderStatus.AUTORIZADA, company)
+    pendingAccounts.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatusInListAndCompany(begin, end, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
+    pendingAccounts.totalPayments = pendingAccounts.listPayments ? pendingAccounts.listPayments.sum { it.total } : new BigDecimal(0)
+    pendingAccounts.totalCharges = pendingAccounts.listCharges ? pendingAccounts.listCharges.sum { it.total } : new BigDecimal(0)
+    pendingAccounts
+  }
+
   private def isAvailableForInvoices(def response) {
     response.find { it.value == false}
   }
