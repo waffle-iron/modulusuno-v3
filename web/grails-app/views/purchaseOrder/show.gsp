@@ -51,7 +51,7 @@
                 <g:if test="${purchaseOrder.isAnticipated}">
                   <p>
                   <div class="alert alert-info" style="text-align:center" >
-                    Orden de Pago a Proveedor Anticipada
+                    Orden de Pago a Proveedor sin Factura
                   </div>
                 </g:if>
               </dl>
