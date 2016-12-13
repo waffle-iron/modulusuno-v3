@@ -114,7 +114,7 @@
           <div id="defaultPortlet" class="panel-collapse collapse in">
             <div class="portlet-body">
               <g:if test="${!purchaseOrder.isMoneyBackOrder}">
-              <g:radio name="orderType" value="0" />&nbsp;&nbsp;Compra Anticipada
+              <g:radio name="orderType" value="0" />&nbsp;&nbsp;Compra sin Factura
               <br/>
               <g:radio name="orderType" value="1" />&nbsp;&nbsp;Recibo de Honorarios
               <br/><br/>
