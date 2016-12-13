@@ -1,4 +1,5 @@
 package com.modulus.uno
+import grails.converters.JSON
 
 class PurchaseOrder {
 
@@ -49,4 +50,18 @@ class PurchaseOrder {
     getSubtotal() + getTotalIVA() + getTotalIEPS()
   }
 
+  static marshaller = {
+    JSON.registerObjectMarshaller(PurchaseOrder, 1) { m ->
+      return [
+      id: m.id,
+      providerName: m.providerName,
+      isAnticipated: m.isAnticipated,
+      bankAccount: m.bankAccount,
+      fechaPago: m.fechaPago,
+      externalId: m.externalId,
+      items:m.items,
+      company: m.company
+      ]
+    }
+  }
 }
