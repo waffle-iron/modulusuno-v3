@@ -1,4 +1,5 @@
 package com.modulus.uno
+import grails.converters.JSON
 
 class PurchaseOrderItem {
 
@@ -48,5 +49,20 @@ class PurchaseOrderItem {
   BigDecimal getNetAmount(){
     this.quantity * this.getNetPrice()
   }
+
+  static marshaller = {
+    JSON.registerObjectMarshaller(PurchaseOrderItem, 1) { m ->
+      return [
+      id: m.id,
+      name: m.name,
+      price: m.price,
+      quantity:m.quantity,
+      ieps: m.ieps,
+      iva: m.iva,
+      unitType: m.unitType,
+      ]
+    }
+  }
+
 
 }
