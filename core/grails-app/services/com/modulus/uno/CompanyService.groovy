@@ -208,10 +208,9 @@ class CompanyService {
     isAvailableForInvoices(response)
   }
 
-  CashFlow obtainCashFlowOfPeriod(Date startDate, Date endDate) {
+  CashFlow obtainCashFlowOfPeriod(Date startDate, Date endDate, Company company) {
     Date begin = startDate ?: new Date()
     Date end = endDate ?: new Date()
-    Company company = Company.get(session.company)
 
     CashFlow cashFlow = new CashFlow(startDate:begin, endDate:end)
     cashFlow.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatusAndCompany(begin, end, PurchaseOrderStatus.AUTORIZADA, company)
