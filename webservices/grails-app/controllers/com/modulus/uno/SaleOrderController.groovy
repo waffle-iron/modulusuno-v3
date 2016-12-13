@@ -38,8 +38,7 @@ class SaleOrderController {
       ])
   def save() {
     def saleOrder = saleOrderService.createOrUpdateSaleOrder(params)
-    saleOrder.status = SaleOrderStatus.POR_AUTORIZAR
-    saleOrder.save()
+    saleOrderService.sendOrderToConfirmation(saleOrder)
     respond saleOrder, status:201, formats: ['json']
   }
 
