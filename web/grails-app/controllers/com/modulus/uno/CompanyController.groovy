@@ -218,11 +218,16 @@ class CompanyController {
     }
 
   }
+
   def sendFilesToCreateInvoice() {
     def company = Company.findById(session.company.toLong())
     def responseStatus = companyService.sendDocumentsPerInvoice(params, company.rfc)
     flash.responseStatus = responseStatus
     redirect(action:"show",id:"${session.company.toLong()}")
+  }
+
+  def cashFlow() {
+    [cashFlow: companyService.obtainCashFlowOfPeriod(params.startDate, params.endDate)]
   }
 
 }
