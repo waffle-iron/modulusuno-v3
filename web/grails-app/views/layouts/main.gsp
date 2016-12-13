@@ -271,7 +271,7 @@
               Reportes <i class="fa fa-caret-down"></i>
             </a>
             <ul class="collapse nav" id="reportes">
-              <li><g:link controller="managerApplication" action="cashFlow">Flujo de efectivo</g:link></li>
+              <li><g:link controller="managerApplication" action="cashFlow">CashFlow</g:link></li>
             </ul>
           </li>
           </sec:ifAnyGranted>
