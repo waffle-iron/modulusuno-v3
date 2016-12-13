@@ -227,7 +227,8 @@ class CompanyController {
   }
 
   def cashFlow() {
-    [cashFlow: companyService.obtainCashFlowOfPeriod(params.startDate, params.endDate)]
+    Company company = Company.get(session.company)
+    [cashFlow: companyService.obtainCashFlowOfPeriod(params.startDate, params.endDate, company)]
   }
 
 }
