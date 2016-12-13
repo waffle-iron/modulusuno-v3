@@ -252,7 +252,12 @@
               <a class="" href="${createLink(controller:'dashboard', action:'authorizations')}">Autorizaciones</a>
             </li>
           </sec:ifAnyGranted>
-          </g:if>
+
+          <sec:ifAnyGranted roles="ROLE_FINANCIAL">
+            <li><g:link controller="company" action="cashFlow">CashFlow</g:link></li>
+          </sec:ifAnyGranted>
+
+         </g:if>
 
           <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
           <li>
@@ -271,10 +276,6 @@
                 <i class="fa fa-book"></i> Ejecuciones
               </g:link>
             </li>
-          </sec:ifAnyGranted>
-
-          <sec:ifAnyGranted roles="ROLE_FINANCIAL">
-            <li><g:link controller="company" action="cashFlow">CashFlow</g:link></li>
           </sec:ifAnyGranted>
 
           <li><g:link controller="logout" action="index"><i class="fa fa-sign-out"></i> Cerrar sesión</g:link></li>
