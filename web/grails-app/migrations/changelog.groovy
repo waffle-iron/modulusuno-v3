@@ -23,4 +23,5 @@ databaseChangeLog = {
     include file: 'adding-new-entity-banking-transactions.groovy'
     include file: 'delete-constraint-reference-in-movimientos-bancarios.groovy'
     include file: 'change-type-colum-quatity-in-sale-order-item.groovy'
+    include file: 'creating-role-financial.groovy'
 }

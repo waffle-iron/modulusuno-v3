@@ -37,7 +37,7 @@
         </ul>
         <ul class="nav navbar-brand">
           <li class="tooltip-sidebar-toggle" align="right">
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR">
+            <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR, ROLE_FINANCIAL">
             <g:if test="${session.company}">
             <g:form class="form-group" id="company-selection" url="[action:'setCompanyInSession',controller:'company']" >
             <font color="white">Selecciona tu Compañía </font>${companyInfo.selectedCompany()}
@@ -252,7 +252,12 @@
               <a class="" href="${createLink(controller:'dashboard', action:'authorizations')}">Autorizaciones</a>
             </li>
           </sec:ifAnyGranted>
-          </g:if>
+
+          <sec:ifAnyGranted roles="ROLE_FINANCIAL">
+            <li><g:link controller="company" action="pendingAccounts">Cuentas por Cobrar/Pagar</g:link></li>
+          </sec:ifAnyGranted>
+
+         </g:if>
 
           <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
           <li>
@@ -265,17 +270,6 @@
           </li>
           </sec:ifAnyGranted>
 
-          <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
-          <li class="panel">
-            <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#reportes">
-              Reportes <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="collapse nav" id="reportes">
-              <li><g:link controller="managerApplication" action="cashFlow">Flujo de efectivo</g:link></li>
-            </ul>
-          </li>
-          </sec:ifAnyGranted>
-
           <sec:ifAnyGranted roles="ROLE_EJECUTOR">
             <li>
               <g:link controller="dashboard" action="jobs">
@@ -283,7 +277,6 @@
               </g:link>
             </li>
           </sec:ifAnyGranted>
-
 
           <li><g:link controller="logout" action="index"><i class="fa fa-sign-out"></i> Cerrar sesión</g:link></li>
         </ul>
