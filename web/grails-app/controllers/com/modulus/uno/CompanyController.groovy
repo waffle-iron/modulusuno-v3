@@ -231,4 +231,31 @@ class CompanyController {
     [pendingAccounts: companyService.obtainPendingAccountsOfPeriod(params.startDate, params.endDate, company)]
   }
 
+  def generateXlsForPendingAccounts() {
+    Company company = Company.get(session.company)
+    Date startDate = new Date(params.startDate)
+    Date endDate = new Date(params.endDate)
+    PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(startDate, endDate, company)
+
+    def headersCharges = ['Cliente', 'Fecha Cobro', 'Monto']
+    def propertiesCharges = ['clientName', 'fechaCobro', 'total']
+    def headersPayments = ['Proveedor', 'Fecha Cobro', 'Monto']
+    def propertiesPayments = ['providerName', 'fechaPago', 'total']
+
+    new WebXlsxExporter().with {
+      setResponseHeaders(response)
+      fillRow(["${company.bussinessName} - Cuentas por Cobrar/Pagar"], 0)
+      fillRow(["Desde el: ${new SimpleDateFormat("dd-MM-yyyy").format(startDate)}, Hasta el: ${new SimpleDateFormat("dd-MM-yyyy").format(endDate)}"], 2)
+      fillRow(["Cuentas por Cobrar"], 4)
+      fillRow(["Total:", pendingAccounts.totalCharges,"","","Total vencido:", pendingAccounts.totalExpiredCharges], 5)
+      fillRow(headersCharges, 7)
+      add(pendingAccounts.listCharges.sort{it.fechaCobro}, propertiesCharges, 8)
+      fillRow(["Cuentas por Pagar"], 10)
+      fillRow(["Total:", pendingAccounts.totalPayments,"","","Total vencido:", pendingAccounts.totalExpiredPayments], 11)
+      fillRow(headersPayments, 12)
+      add(pendingAccounts.listPayments.sort{it.fechaPago}, propertiesPayments, 13)
+      save(response.outputStream)
+    }
+  }
+
 }
