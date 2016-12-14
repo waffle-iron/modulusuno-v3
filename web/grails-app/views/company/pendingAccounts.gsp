@@ -13,7 +13,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-caret-square-o-up"></i>Modulus UNO</li>
-        <li class="active">Flujo de Efectivo</li>
+        <li class="active"><g:message code="manager.pendingAccounts.label"/></li>
       </ol>
     </div>
     <div class="panel panel-info">
@@ -27,10 +27,15 @@
             <p>Hasta el:</p>
             <g:datePicker id="endDate" name="endDate" value="${pendingAccounts.endDate}" precision="day" years="${2016..new Date()[Calendar.YEAR]}" required=""/>
           </div>
-          <div class="col-md-4 text-righ text-right">
+          <div class="col-md-2 text-righ text-right">
             <g:actionSubmit class="btn btn-default" value="Consultar" action="pendingAccounts"/>
           </div>
         </g:form>
+        <div class="col-md-2 text-righ text-right">
+          <g:link class="btn btn-default" action="generateXlsForPendingAccounts" params="[startDate:pendingAccounts.startDate, endDate:pendingAccounts.endDate]">
+            <i class="fa fa-file-excel-o"></i> XLS
+          </g:link>
+        </div>
       </div>
     </div>
     <div class="panel panel-primary">
