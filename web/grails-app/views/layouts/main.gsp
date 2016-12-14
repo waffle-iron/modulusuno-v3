@@ -198,7 +198,7 @@
 
                 <li class="panel">
                   <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesCompra">
-                    Pagos <i class="fa fa-caret-down"></i>
+                    Órdenes de Compra <i class="fa fa-caret-down"></i>
                   </a>
                   <ul class="collapse nav" id="ordenesCompra">
                     <li>
