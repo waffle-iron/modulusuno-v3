@@ -37,6 +37,7 @@
       <div class="panel-heading">Cuentas por Cobrar</div>
       <div class="panel-body">
         <p><b>Total: ${modulusuno.formatPrice(number:pendingAccounts.totalCharges)}</b></p>
+        <p><b>Total vencido: ${modulusuno.formatPrice(number:pendingAccounts.totalExpiredCharges)}</b></p>
         <div class="text-right">
           <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailCharges">Detalle</button>
         </div>
@@ -71,6 +72,7 @@
       <div class="panel-heading">Cuentas por Pagar</div>
       <div class="panel-body">
         <p><b>Total: ${modulusuno.formatPrice(number:pendingAccounts.totalPayments)}</b></p>
+        <p><b>Total vencido: ${modulusuno.formatPrice(number:pendingAccounts.totalExpiredPayments)}</b></p>
         <div class="text-right">
           <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailPayments">Detalle</button>
         </div>
