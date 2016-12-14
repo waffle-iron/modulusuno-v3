@@ -14,7 +14,7 @@
      <small><g:message code="depositOrder.list" args="[entityName]" /></small>
    </h1>
 </sec:ifAnyGranted>
-<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
    <h1>
      <i class="icon-deposito fa-3x"></i>
       Depósitos
