@@ -14,7 +14,7 @@ class PurchaseOrderItemCommand implements Validateable{
     PurchaseOrderItem createPurchaseOrderItem() {
       new PurchaseOrderItem(
           name:this.name,
-          quantity:this.quantity,
+          quantity:getValueInBigDecimal(this.quantity),
           price:getValueInBigDecimal(this.price),
           ieps:getValueInBigDecimal(this.ieps?:"16"),
           iva:getValueInBigDecimal(this.iva?:"16"),
