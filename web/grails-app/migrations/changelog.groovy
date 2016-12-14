@@ -24,4 +24,6 @@ databaseChangeLog = {
     include file: 'delete-constraint-reference-in-movimientos-bancarios.groovy'
     include file: 'change-type-colum-quatity-in-sale-order-item.groovy'
     include file: 'creating-role-financial.groovy'
+    include file: 'change-type-column-quatity-in-purchase-order-item.groovy'
+    include file: 'adding-notnull-constraint-to-column-quantity-in-sale-order-item.groovy'
 }

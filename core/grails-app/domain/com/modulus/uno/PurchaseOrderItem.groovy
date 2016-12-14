@@ -4,7 +4,7 @@ import grails.converters.JSON
 class PurchaseOrderItem {
 
   String name
-  Integer quantity = 1
+  BigDecimal quantity = new BigDecimal(1)
   BigDecimal price = new BigDecimal(0)
   BigDecimal ieps = new BigDecimal(0)
   BigDecimal iva = new BigDecimal(16)
@@ -19,7 +19,7 @@ class PurchaseOrderItem {
     price min:0.0,max:250000000.00
     ieps min:0.0,max:100.01
     iva min:0.0,max:100.00
-    quantity min:0
+    quantity min:0.0
   }
 
   BigDecimal getAmountIVA(){
