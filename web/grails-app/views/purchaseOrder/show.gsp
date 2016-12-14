@@ -234,7 +234,7 @@
             <tr>
               <td>
                 <div class="input-group">
-                  <input id="quantity" name="quantity" class="form-control" type="number"min="1" required="" />
+                  <input id="quantity" name="quantity" class="form-control" type="text" min="1" required="" pattern="[0-9]+(\.[0-9]{2})?" title="Ingrese una cantidad en formato correcto"/>
                 </div>
               </td>
               <td>
