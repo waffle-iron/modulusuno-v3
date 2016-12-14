@@ -11,14 +11,14 @@
       <g:set var="messageOrder" value="Orden de Reembolso"/>
       <g:set var="messageBusinessEntityOrder" value="Empleado"/>
     </g:if><g:else>
-      <g:set var="messageOrder" value="Orden de Pago a Proveedor"/>
+      <g:set var="messageOrder" value="Orden de Compra"/>
       <g:set var="messageBusinessEntityOrder" value="Proveedor"/>
     </g:else>
 
     <div class="page-title">
       <h1>
         <i class="icon-proveedor fa-3x"></i>
-        Operaciones / Pago a proveedor
+        Operaciones / Orden de Compra
         <small>Creación de una ${messageOrder}</small>
       </h1>
       <ol class="breadcrumb">

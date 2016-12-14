@@ -13,11 +13,11 @@
        <i class="icon-proveedor fa-3x"></i>
         Operaciones | Pago a proveedor
         <small><g:message code="saleOrder.generate.pay" args="[entityName]" /></small>
-      
+
       </h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-caret-square-o-up"></i> Compañia</li>
-        <li class="active">Orden de Pago a Proveedor</li>
+        <li class="active">Orden de Compra</li>
       </ol>
     </div>
 

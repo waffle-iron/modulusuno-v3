@@ -14,7 +14,7 @@
       <g:set var="messageBusinessEntityOrder" value="Empleado"/>
       <g:set var="messageDocuments" value="PDF, XML, IMAGEN(PNG,JPG)"/>
     </g:if><g:else>
-      <g:set var="messageOrder" value="Orden de Pago a Proveedor"/>
+      <g:set var="messageOrder" value="Orden de Compra"/>
       <g:set var="messageBusinessEntityOrder" value="Proveedor"/>
       <g:set var="messageDocuments" value="PDF y XML"/>
     </g:else>
@@ -51,7 +51,7 @@
                 <g:if test="${purchaseOrder.isAnticipated}">
                   <p>
                   <div class="alert alert-info" style="text-align:center" >
-                    Orden de Pago a Proveedor sin Factura
+                    Orden de Compra sin Factura
                   </div>
                 </g:if>
               </dl>

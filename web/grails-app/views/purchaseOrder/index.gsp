@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="page-title">
-      <h1>Órdenes de Pago a Proveedores para ${company}</h1>
+      <h1>Órdenes de Compra para ${company}</h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-caret-square-o-up"></i> ${company}</li>
         <li class="active">Listado de órdenes</li>
