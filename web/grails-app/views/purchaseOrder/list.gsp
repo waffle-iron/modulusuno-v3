@@ -10,15 +10,18 @@
     <g:set var="messageOrder" value="Reembolso"/>
     <g:set var="messageBusinessEntityOrder" value="Empleado"/>
   </g:if><g:else>
-    <g:set var="messageOrder" value="Pago a Proveedor"/>
+    <g:set var="messageOrder" value="Compra"/>
+    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
+      <g:set var="messageOrder" value="Pago"/>
+    </sec:ifAnyGranted>
     <g:set var="messageBusinessEntityOrder" value="Proveedor"/>
   </g:else>
 
   <div class="page-title">
-  <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+  <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
    <h1>
            <i class="icon-proveedor fa-3x"></i>
-        Pago a proveedores
+        Orden de Pago
     <small>Listado de Órdenes de ${messageOrder}</small>
     </h1>
 </sec:ifAnyGranted>
@@ -26,7 +29,7 @@
 <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
  <h1>
            <i class="icon-proveedor fa-3x"></i>
-        Operaciones / Pago a proveedor
+        Operaciones / Orden de Compra
     <small>Listado de Órdenes de ${messageOrder}</small>
     </h1>
 </sec:ifAnyGranted>

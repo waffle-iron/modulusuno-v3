@@ -8,7 +8,7 @@
   <body>
 
     <div class="page-title">
-    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
      <h1>
             <i class="icon-prestamo fa-3x"></i>
             Préstamos

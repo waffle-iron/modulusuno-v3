@@ -170,7 +170,8 @@
 
           <div class="circle-tile-content green">
             <div class="circle-tile-description">
-              Pagos
+              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">Pagos</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">Compras</sec:ifAnyGranted>
               <span>
                 <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">por ejecutar</sec:ifAnyGranted>
                 <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">por autorizar</sec:ifAnyGranted>
