@@ -258,4 +258,10 @@ class CompanyController {
     }
   }
 
+  def updateDateCharge() {
+    println "Params: ${params}"
+    companyService.updateDateChargeForSaleOrder(params.chargeId, params.fechaCobro)
+    redirect action:'pendingAccounts', params:[chargeId:params.chargeId, fechaCobro:params.fechaCobro, startDate:new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), endDate:new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate)]
+  }
+
 }
