@@ -15,6 +15,13 @@ $('#changeDateChargeModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget)
     var recipient = button.data('whatever')
     var modal = $(this)
-    modal.find('#orderId').val(recipient)
+    modal.find('#chargeId').val(recipient)
+});
+
+$('#changeDatePaymentModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+    var recipient = button.data('whatever')
+    var modal = $(this)
+    modal.find('#paymentId').val(recipient)
 });
 
