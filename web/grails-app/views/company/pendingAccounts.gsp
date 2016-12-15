@@ -63,12 +63,44 @@
                   <g:each var="charge" in="${pendingAccounts.listCharges.sort{it.fechaCobro}}">
                     <tr>
                       <td>${charge.clientName}</td>
-                      <td class="text-center"><g:formatDate format="dd-MM-yyyy" date="${charge.fechaCobro}"/></td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#changeDateChargeModal" data-whatever="${charge.id}">
+                          <g:formatDate format="dd-MM-yyyy" date="${charge.fechaCobro}"/>
+                        </button>
+                      </td>
                       <td class="text-right">${modulusuno.formatPrice(number:charge.total)}</td>
                   </g:each>
                 </tbody>
               </table>
             </div><!--table responsive-->
+            <!-- modal change date -->
+            <div class="modal fade" id="changeDateChargeModal" tabindex="-1" role="dialog" aria-labelledby="changeDateChargeModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="changeDateChargeModalLabel">Cambiar fecha</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="recipient-name" class="control-label">No. de Orden:</label>
+                        <input type="text" class="form-control" id="orderId">
+                      </div>
+                      <div class="form-group">
+                        <label for="message-text" class="control-label">Nueva Fecha:</label>
+                        <input type="text" id="datepickerCharge" name="fechaCobro" required="required">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Cambiar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- modal change date end -->
           </div>
         </div><!--container-->
       </div>
@@ -108,5 +140,6 @@
         </div><!--container-->
       </div>
     </div>
+    <asset:javascript src="pendingAccounts/pendingAccounts.js"/>
 </body>
 </html>
