@@ -258,10 +258,13 @@ class CompanyController {
     }
   }
 
+  @Transactional
   def updateDateCharge() {
-    println "Params: ${params}"
     companyService.updateDateChargeForSaleOrder(params.chargeId, params.fechaCobro)
-    redirect action:'pendingAccounts', params:[chargeId:params.chargeId, fechaCobro:params.fechaCobro, startDate:new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), endDate:new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate)]
+    Company company = Company.get(session.company)
+    PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
+
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts]
   }
 
 }
