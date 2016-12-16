@@ -235,4 +235,9 @@ class CompanyService {
     saleOrderService.updateDateChargeForOrder(orderId.toLong(), newChargeDate)
   }
 
+  def updateDatePaymentForPurchaseOrder(String orderId, String paymentDate) {
+    Date newPaymentDate = new SimpleDateFormat("dd/MM/yyyy").parse(paymentDate)
+    purchaseOrderService.updateDatePaymentForOrder(orderId.toLong(), newPaymentDate)
+  }
+
 }
