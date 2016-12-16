@@ -87,7 +87,7 @@
                   <input type="hidden" id="endDate" name="endDate" value="${new SimpleDateFormat('dd/MM/yyyy').format(pendingAccounts.endDate)}"/>
                   <div class="modal-body">
                       <div class="form-group">
-                        <label for="recipient-name" class="control-label">No. de Orden:</label>
+                        <label for="chargeId" class="control-label">No. de Orden:</label>
                         <input type="text" class="form-control" id="chargeId" name="chargeId">
                       </div>
                       <div class="form-group">
@@ -151,8 +151,10 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="changeDatePaymentModalLabel">Cambiar fecha de Pago</h4>
                   </div>
+                  <g:form action="updateDatePayment">
+                  <input type="hidden" id="startDate" name="startDate" value="${new SimpleDateFormat('dd/MM/yyyy').format(pendingAccounts.startDate)}"/>
+                  <input type="hidden" id="endDate" name="endDate" value="${new SimpleDateFormat('dd/MM/yyyy').format(pendingAccounts.endDate)}"/>
                   <div class="modal-body">
-                    <form>
                       <div class="form-group">
                         <label for="paymentId" class="control-label">No. de Orden:</label>
                         <input type="text" class="form-control" id="paymentId" name="paymentId">
@@ -161,12 +163,12 @@
                         <label for="message-text" class="control-label">Nueva Fecha:</label>
                         <input type="text" id="datepickerPayment" name="fechaPago" required="required">
                       </div>
-                    </form>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Cambiar</button>
+                    <button type="submit" class="btn btn-primary">Cambiar</button>
                   </div>
+                  </g:form>
                 </div>
               </div>
             </div>
