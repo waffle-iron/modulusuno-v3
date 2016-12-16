@@ -2,11 +2,16 @@ package com.modulus.uno
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import jxl.Sheet
+import jxl.Workbook
+
 
 @Transactional(readOnly = true)
 class MovimientosBancariosController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+  def movimientosBancariosService
+
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", multiMovimientosBancarios: "POST"]
 
     def index() {
       def bankAccountsOfCompany = Company.findById(session.company.toLong()).banksAccounts
@@ -25,17 +30,44 @@ class MovimientosBancariosController {
 
     @Transactional
     def save(MovimientosBancariosCommand command) {
-
       def movimientosBancarios = command.createObject()
-        movimientosBancarios.cuenta = BankAccount.findById(params.cuenta)
-        if (movimientosBancarios.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond movimientosBancarios.errors, view:'create'
-            return
-        }
+      movimientosBancarios.cuenta = BankAccount.findById(params.cuenta)
+      if (movimientosBancarios.hasErrors()) {
+        transactionStatus.setRollbackOnly()
+        respond movimientosBancarios.errors, view:'create'
+        return
+      }
 
-        movimientosBancarios.save flush:true
+      movimientosBancarios.save()
       redirect action:"show", id:"${movimientosBancarios.cuenta.id}"
+    }
+
+    def multiMovimientos() {
+      def bankAccountsOfCompany = Company.findById(session.company.toLong()).banksAccounts
+      [bankAccountsOfCompany:bankAccountsOfCompany]
+    }
+
+    @Transactional
+    def multiMovimientosBancarios() {
+      BankAccount account = BankAccount.findById(params.cuenta)
+      def file = request.getFile('multiMovimientos')
+      Workbook workbook = Workbook.getWorkbook(file.getInputStream());
+      int numRows
+      (0..workbook.numberOfSheets-1).each{ sheetNo ->
+        Sheet page = workbook.getSheet(sheetNo)
+        int numColumns = page.columns
+        numRows = page.rows
+        String data
+        (1..numRows-1).each { row ->
+          def listElementInRow = []
+          (0..4).each { column ->
+            data = page.getCell(column, row).contents
+            listElementInRow.add(data)
+          }
+          movimientosBancariosService.createMovimeintosBancariosFromList(listElementInRow,account)
+        }
+      }
+      redirect action:"multiMovimientos"
     }
 
     def edit(MovimientosBancarios movimientosBancarios) {
