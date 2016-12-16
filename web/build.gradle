@@ -95,6 +95,7 @@ dependencies {
   compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
   compile "com.github.Ullink:simple-slack-api:0.5.1"
   compile 'net.bull.javamelody:javamelody-core:1.59.0'
+  compile "net.sourceforge.jexcelapi:jxl:2.6.12"
   compile 'org.grails.plugins:excel-export:2.0.1'
   runtime "org.grails.plugins:asset-pipeline"
   runtime 'org.grails.plugins:database-migration:2.0.0.RC1'
