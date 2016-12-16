@@ -192,4 +192,12 @@ class PurchaseOrderService {
     }
     valid
   }
+
+  def updateDatePaymentForOrder(Long id, Date paymentDate) {
+    PurchaseOrder purchaseOrder = PurchaseOrder.get(id)
+    purchaseOrder.fechaPago = paymentDate
+    purchaseOrder.save()
+  }
+
+
 }

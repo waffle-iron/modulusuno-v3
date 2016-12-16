@@ -230,4 +230,14 @@ class CompanyService {
     response.find { it.value == false}
   }
 
+  def updateDateChargeForSaleOrder(String orderId, String chargeDate) {
+    Date newChargeDate = new SimpleDateFormat("dd/MM/yyyy").parse(chargeDate)
+    saleOrderService.updateDateChargeForOrder(orderId.toLong(), newChargeDate)
+  }
+
+  def updateDatePaymentForPurchaseOrder(String orderId, String paymentDate) {
+    Date newPaymentDate = new SimpleDateFormat("dd/MM/yyyy").parse(paymentDate)
+    purchaseOrderService.updateDatePaymentForOrder(orderId.toLong(), newPaymentDate)
+  }
+
 }

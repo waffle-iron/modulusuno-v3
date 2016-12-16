@@ -258,4 +258,22 @@ class CompanyController {
     }
   }
 
+  @Transactional
+  def updateDateCharge() {
+    companyService.updateDateChargeForSaleOrder(params.chargeId, params.fechaCobro)
+    Company company = Company.get(session.company)
+    PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
+
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts]
+  }
+
+  @Transactional
+  def updateDatePayment() {
+    companyService.updateDatePaymentForPurchaseOrder(params.paymentId, params.fechaPago)
+    Company company = Company.get(session.company)
+    PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
+
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts]
+  }
+
 }

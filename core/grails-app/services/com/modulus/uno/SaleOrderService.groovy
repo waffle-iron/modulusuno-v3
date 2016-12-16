@@ -139,4 +139,10 @@ class SaleOrderService {
     saleOrder
   }
 
+  def updateDateChargeForOrder(Long id, Date chargeDate) {
+    SaleOrder saleOrder = SaleOrder.get(id)
+    saleOrder.fechaCobro = chargeDate
+    saleOrder.save()
+  }
+
 }
