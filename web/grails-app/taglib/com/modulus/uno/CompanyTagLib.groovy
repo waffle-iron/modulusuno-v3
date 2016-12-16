@@ -30,10 +30,11 @@ class CompanyTagLib {
     def movimientosBancarios = MovimientosBancarios.findAllByCuenta(bankAccount)
     def movDebito = movimientosBancarios.findAll { mov -> mov.type == MovimientoBancarioType.DEBITO }
     def movCredito = movimientosBancarios.findAll { mov -> mov.type == MovimientoBancarioType.CREDITO }
-    def debito = movDebito.sum { it.amount }
-    def credito = movCredito.sum { it.amount }
+    def debito = movDebito.sum { it.amount } ?: 0
+    def credito = movCredito.sum { it.amount } ?: 0
     def amount = credito - debito
-    out << amount
+    out <<  g.formatNumber(number:amount, type:"currency", maxFractionDigits:"2", locale:"es_MX")
+
   }
 
 }
