@@ -20,6 +20,7 @@ class PurchaseOrder {
 
   Date fechaPago
   String externalId
+  Date originalDate
 
   static constraints = {
     providerName blank:false, size:1..300
@@ -28,6 +29,7 @@ class PurchaseOrder {
     rejectComment nullable:true, blank:true
     fechaPago nullable:false
     externalId nullable:true
+    originalDate nullable:true
   }
 
   def getSubtotal(){

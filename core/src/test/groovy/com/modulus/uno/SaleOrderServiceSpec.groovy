@@ -200,4 +200,22 @@ class SaleOrderServiceSpec extends Specification {
       result.externalId == "abcde"
   }
 
+  void "verify if original date exist or not and set new value"() {
+    given:
+      def saleOrder = new SaleOrder()
+      saleOrder.fechaCobro = fechaCobro
+      saleOrder.originalDate = originalDate
+      saleOrder.save(validate:false)
+    when:
+      def saleOrderResult = service.updateDateChargeForOrder(1, sendDate)
+    then:
+      saleOrderResult.originalDate != null
+      saleOrderResult.fechaCobro == sendDate
+    where:
+      fechaCobro    | originalDate  | sendDate      | fechaCobroOriginal
+      new Date()    | null          | new Date()+4  | new Date()
+      new Date()+12 | new Date()+40 | new Date()+40 | new Date()+40
+
+  }
+
 }

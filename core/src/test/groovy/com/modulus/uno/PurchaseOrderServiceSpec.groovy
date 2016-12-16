@@ -57,4 +57,23 @@ class PurchaseOrderServiceSpec extends Specification {
     result instanceof PurchaseOrder
   }
 
+  void "verify if exist  or not original date in purchaseOrder"() {
+    given:
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.fechaPago = fechaPago
+      purchaseOrder.originalDate = originalDate
+      purchaseOrder.save(validate:false)
+    when:
+      def purchaseORderResult = service.updateDatePaymentForOrder(1, sendDate)
+    then:
+      purchaseORderResult.originalDate != null
+      purchaseORderResult.fechaPago == sendDate
+   where:
+      fechaPago     | originalDate  | sendDate      | fechaPagoOriginal
+      new Date()    | null          | new Date()+5  | new Date()
+      new Date()+1  | new Date()+17 | new Date()+17 | new Date()+17
+
+  }
+
 }

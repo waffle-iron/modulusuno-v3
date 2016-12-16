@@ -26,4 +26,5 @@ databaseChangeLog = {
     include file: 'creating-role-financial.groovy'
     include file: 'change-type-column-quatity-in-purchase-order-item.groovy'
     include file: 'adding-notnull-constraint-to-column-quantity-in-sale-order-item.groovy'
+    include file: 'adding-new-variables-to-sale-order-and-purchase-order.groovy'
 }

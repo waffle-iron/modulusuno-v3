@@ -195,8 +195,11 @@ class PurchaseOrderService {
 
   def updateDatePaymentForOrder(Long id, Date paymentDate) {
     PurchaseOrder purchaseOrder = PurchaseOrder.get(id)
+    if (!purchaseOrder.originalDate)
+      purchaseOrder.originalDate = purchaseOrder.fechaPago
     purchaseOrder.fechaPago = paymentDate
     purchaseOrder.save()
+    purchaseOrder
   }
 
 

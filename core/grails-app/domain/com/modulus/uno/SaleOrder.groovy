@@ -19,6 +19,7 @@ class SaleOrder {
 
   Date fechaCobro
   String externalId
+  Date originalDate
 
   static belongsTo = [company:Company]
 
@@ -33,6 +34,7 @@ class SaleOrder {
     folio nullable:true
     fechaCobro nullable:true
     externalId nullable:true
+    originalDate nullable:true
   }
 
   BigDecimal getTotalIVA(){
