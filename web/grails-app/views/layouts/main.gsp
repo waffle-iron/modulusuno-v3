@@ -242,6 +242,9 @@
                 <li>
                   <g:link controller="movimientosBancarios" >Movimiento</g:link>
                 </li>
+                <li>
+                  <g:link controller="movimientosBancarios" action="multiMovimientos" >Subir Movimientos Bancarios</g:link>
+                </li>
               </ul>
             <li>
           </g:if>

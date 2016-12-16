@@ -1,6 +1,6 @@
 <div class="form-group">
   <label>Concepto del Movimiento</label>
-  <input type"text" name="concept" class="form-control" />
+  <input type"text" name="concept" class="form-control" required="required"/>
 </div>
 <div class="form-group">
   <label>Referencia</label>
@@ -8,7 +8,7 @@
 </div>
 <div class="form-group">
   <label>Monto del Movimiento</label>
-  <input type="text" name="amount" class="form-control" />
+  <input type="text" name="amount" class="form-control"  required="required"/>
 </div>
 <div class="form-group">
   <label>Fecha del movimiento</label>
