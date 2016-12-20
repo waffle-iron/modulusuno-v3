@@ -228,7 +228,7 @@ class CompanyController {
 
   def pendingAccounts() {
     Company company = Company.get(session.company)
-    [pendingAccounts: companyService.obtainPendingAccountsOfPeriod(params.startDate, params.endDate, company)]
+    [pendingAccounts: companyService.obtainPendingAccountsOfPeriod(params.startDate, params.endDate, company), mainAccount:company.banksAccounts.first()]
   }
 
   def generateXlsForPendingAccounts() {
