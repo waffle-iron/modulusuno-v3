@@ -25,3 +25,17 @@ $('#changeDatePaymentModal').on('show.bs.modal', function (event) {
     modal.find('#paymentId').val(recipient)
 });
 
+$( function() {
+  $( "#startDate" ).datepicker({
+    dateFormat: 'dd/mm/yy',
+    minDate: 0
+  });
+} );
+
+$( function() {
+  $( "#endDate" ).datepicker({
+    dateFormat: 'dd/mm/yy',
+    minDate: 0
+  });
+} );
+
