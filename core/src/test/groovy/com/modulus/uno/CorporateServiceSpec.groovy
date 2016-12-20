@@ -59,7 +59,7 @@ class CorporateServiceSpec extends Specification {
     and:"the user is added to the corporate"
       service.addUserToCorporate(corporate,user)
     when:
-      ArrayList<Corporate> userCorporates = service.findUserCorporations(corporate)
+      ArrayList<Corporate> userCorporates = service.findUserCorporates(user)
     then:
       userCorporates.size() == 1
   }

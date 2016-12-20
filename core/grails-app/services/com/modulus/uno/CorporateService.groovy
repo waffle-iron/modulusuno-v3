@@ -35,7 +35,7 @@ class CorporateService {
     true
   }
 
-  ArrayList<Corporate> findUserCorporations(User user){
+  ArrayList<Corporate> findUserCorporates(User user){
     Corporate.createCriteria().list {
       users {
         eq 'username', user.username
