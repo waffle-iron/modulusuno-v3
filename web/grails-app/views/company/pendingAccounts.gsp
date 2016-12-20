@@ -40,11 +40,11 @@
         <g:form action="pendingAccounts">
           <div class="col-md-4">
             <p>Desde el:</p>
-            <g:datePicker id="startDate" name="startDate" value="${pendingAccounts.startDate}" precision="day" years="${2016..new Date()[Calendar.YEAR]}" required=""/>
+            <input type="text" id="startDate" name="startDate" required="required" value="${new SimpleDateFormat('dd/MM/yyyy').format(pendingAccounts.startDate)}">
           </div>
           <div class="col-md-4">
             <p>Hasta el:</p>
-            <g:datePicker id="endDate" name="endDate" value="${pendingAccounts.endDate}" precision="day" years="${2016..new Date()[Calendar.YEAR]}" required=""/>
+            <input type="text" id="endDate" name="endDate" required="required" value="${new SimpleDateFormat('dd/MM/yyyy').format(pendingAccounts.endDate)}">
           </div>
           <div class="col-md-2 text-righ text-right">
             <g:actionSubmit class="btn btn-default" value="Consultar" action="pendingAccounts"/>
@@ -60,8 +60,10 @@
     <div class="panel panel-primary">
       <div class="panel-heading">Cuentas por Cobrar</div>
       <div class="panel-body">
+        <div class="text-right">
         <p><b>Total: ${modulusuno.formatPrice(number:pendingAccounts.totalCharges)}</b></p>
-        <p><b>Total vencido: ${modulusuno.formatPrice(number:pendingAccounts.totalExpiredCharges)}</b></p>
+        <p><b>Vencido: ${modulusuno.formatPrice(number:pendingAccounts.totalExpiredCharges)}</b></p>
+        </div>
         <div class="text-right">
           <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailCharges">Detalle</button>
         </div>
@@ -129,8 +131,10 @@
     <div class="panel panel-primary">
       <div class="panel-heading">Cuentas por Pagar</div>
       <div class="panel-body">
+        <div class="text-right">
         <p><b>Total: ${modulusuno.formatPrice(number:pendingAccounts.totalPayments)}</b></p>
-        <p><b>Total vencido: ${modulusuno.formatPrice(number:pendingAccounts.totalExpiredPayments)}</b></p>
+        <p><b>Vencido: ${modulusuno.formatPrice(number:pendingAccounts.totalExpiredPayments)}</b></p>
+        </div>
         <div class="text-right">
           <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#detailPayments">Detalle</button>
         </div>
