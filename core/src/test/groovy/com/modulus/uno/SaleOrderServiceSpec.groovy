@@ -4,6 +4,7 @@ import grails.test.mixin.TestFor
 import grails.test.mixin.Mock
 import spock.lang.Specification
 import spock.lang.Ignore
+import spock.lang.Unroll
 import org.springframework.mock.web.MockHttpServletRequest
 import grails.web.servlet.mvc.GrailsParameterMap
 
@@ -200,7 +201,8 @@ class SaleOrderServiceSpec extends Specification {
       result.externalId == "abcde"
   }
 
-  void "verify if original date exist or not and set new value"() {
+  @Unroll
+  void "verify if original date exist or not and set new valuei for Fecha Cobro: #fechaCobro and original Date: #originalDate"() {
     given:
       def saleOrder = new SaleOrder()
       saleOrder.fechaCobro = fechaCobro
