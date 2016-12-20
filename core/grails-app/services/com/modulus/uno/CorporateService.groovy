@@ -35,6 +35,14 @@ class CorporateService {
     true
   }
 
+  ArrayList<Corporate> findUserCorporations(User user){
+    Corporate.createCriteria().list {
+      users {
+        eq 'username', user.username
+      }
+    }
+  }
+
   private def setAuthorityToUser(User user) {
     def userRole = Role.findWhere(authority: 'ROLE_CORPORATIVE')
     UserRole.create user, userRole, true
