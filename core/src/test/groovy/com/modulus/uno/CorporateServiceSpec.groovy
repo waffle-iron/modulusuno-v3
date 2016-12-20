@@ -10,8 +10,8 @@ import spock.lang.Unroll
 @Mock([Corporate,Company,User, Role,UserRole])
 class CorporateServiceSpec extends Specification {
 
-    def setup() {
-    }
+  def setup() {
+  }
 
   Should "create a corporate"() {
     given: "set variables to name and url "
@@ -49,6 +49,19 @@ class CorporateServiceSpec extends Specification {
       corporateWithUser.users.size() == 1
       corporateWithUser.users.first() == user
       user.getAuthorities().contains(Role.findByAuthority('ROLE_CORPORATIVE')) == true
+  }
+
+  Should "get the list of coorporates for user"(){
+    given:"the user"
+      User user = new User(username:"egjimenezg",password:"1234567890").save(validate:false)
+    and:"the coorporation"
+      Corporate corporate = new Corporate(nameCorporate:"Corporate1",corporateUrl:"someUrl").save(validate:false)
+    and:"the user is added to the corporate"
+      service.addUserToCorporate(corporate,user)
+    when:
+      ArrayList<Corporate> userCorporates = service.findUserCorporations(corporate)
+    then:
+      userCorporates.size() == 1
   }
 
 }
