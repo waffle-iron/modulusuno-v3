@@ -17,6 +17,24 @@
         <li class="active"><g:message code="manager.pendingAccounts.label"/></li>
       </ol>
     </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">Saldo Bancario</div>
+      <div class="panel-body">
+        <div class="container-fluid">
+          <div class="col-md-4">
+            <b>${mainAccount.banco}</b>
+          </div>
+          <div class="col-md-4 text-center">
+            <p><b>Cuenta: ${mainAccount.accountNumber}</b></p>
+            <p><b>Clabe: ${mainAccount.clabe}</b></p>
+          </div>
+          <div class="col-md-4 text-right">
+            <b><modulusuno:amountAccountToday id="${mainAccount.id}"/></b>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="panel panel-info">
       <div class="panel-body">
         <g:form action="pendingAccounts">
