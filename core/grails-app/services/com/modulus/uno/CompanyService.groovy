@@ -209,16 +209,14 @@ class CompanyService {
   }
 
   PendingAccounts obtainPendingAccountsOfPeriod(Date startDate, Date endDate, Company company) {
-    Date begin = startDate ?: new Date()
-    Date end = endDate ?: new Date()
-
-    PendingAccounts pendingAccounts = new PendingAccounts(startDate:begin, endDate:end)
-    pendingAccounts.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatusAndCompany(begin, end, PurchaseOrderStatus.AUTORIZADA, company)
-    def listExpiredPayments = PurchaseOrder.findAllByFechaPagoLessThanAndStatusAndCompany(begin, PurchaseOrderStatus.AUTORIZADA, company)
+    log.info "Pending Accounts between ${startDate} and ${endDate} for ${company}"
+    PendingAccounts pendingAccounts = new PendingAccounts(startDate:startDate, endDate:endDate)
+    pendingAccounts.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatusAndCompany(startDate, endDate, PurchaseOrderStatus.AUTORIZADA, company)
+    def listExpiredPayments = PurchaseOrder.findAllByFechaPagoLessThanAndStatusAndCompany(startDate, PurchaseOrderStatus.AUTORIZADA, company)
     pendingAccounts.totalExpiredPayments = listExpiredPayments ? listExpiredPayments.sum {it.total} : new BigDecimal(0)
 
-    pendingAccounts.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatusInListAndCompany(begin, end, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
-    def listExpiredCharges = SaleOrder.findAllByFechaCobroLessThanAndStatusInListAndCompany(begin, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
+    pendingAccounts.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatusInListAndCompany(startDate, endDate, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
+    def listExpiredCharges = SaleOrder.findAllByFechaCobroLessThanAndStatusInListAndCompany(startDate, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
     pendingAccounts.totalExpiredCharges = listExpiredCharges ? listExpiredCharges.sum {it.total} : new BigDecimal(0)
 
     pendingAccounts.totalPayments = pendingAccounts.listPayments ? pendingAccounts.listPayments.sum { it.total } : new BigDecimal(0)
