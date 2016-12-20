@@ -18,11 +18,10 @@ class CorporateService {
     corporate
   }
 
-  def createNewCorporate(String name, String url) {
-    Corporate corporate = new Corporate(nameCorporate:name, corporateUrl:url).save()
-    corporate
+  def saveNewCorporate(Corporate corporate,User user) {
+    corporate.addToUsers(user)
+    corporate.save()
   }
-
 
   def createRoute53(Corporate corporate) {
     //checar esta ligas http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
