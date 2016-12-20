@@ -142,7 +142,7 @@ class SaleOrderService {
   def updateDateChargeForOrder(Long id, Date chargeDate) {
     SaleOrder saleOrder = SaleOrder.get(id)
     if (!saleOrder.originalDate)
-      saleOrder.originalDate == saleOrder.fechaCobro
+      saleOrder.originalDate = saleOrder.fechaCobro
     saleOrder.fechaCobro = chargeDate
     saleOrder.save()
     saleOrder
