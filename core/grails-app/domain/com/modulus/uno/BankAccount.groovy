@@ -7,6 +7,7 @@ class BankAccount {
   String accountNumber
   String branchNumber
   String clabe
+  boolean concentradora = false
 
   static belongsTo = [banco:Bank]
 
