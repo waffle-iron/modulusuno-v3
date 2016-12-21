@@ -232,7 +232,7 @@ class CompanyController {
     Date startDate = params.startDate ? sdf.parse(params.startDate) : sdf.parse(sdf.format(new Date()))
     Date endDate = params.endDate ? new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate) : sdf.parse(sdf.format(new Date()))
 
-    [pendingAccounts: companyService.obtainPendingAccountsOfPeriod(startDate, endDate, company), mainAccount:company.banksAccounts.first()]
+    [pendingAccounts: companyService.obtainPendingAccountsOfPeriod(startDate, endDate, company), mainAccount:company.banksAccounts.find {it.concentradora}]
   }
 
   def generateXlsForPendingAccounts() {
@@ -271,7 +271,7 @@ class CompanyController {
     Company company = Company.get(session.company)
     PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
 
-    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.first()]
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.find {it.concentradora}]
   }
 
   @Transactional
@@ -280,7 +280,7 @@ class CompanyController {
     Company company = Company.get(session.company)
     PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
 
-    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.first()]
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.find {it.concentradora}]
   }
 
 }
