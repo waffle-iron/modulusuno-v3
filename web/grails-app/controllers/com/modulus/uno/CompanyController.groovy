@@ -268,7 +268,7 @@ class CompanyController {
     Company company = Company.get(session.company)
     PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
 
-    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts]
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.first()]
   }
 
   @Transactional
@@ -277,7 +277,7 @@ class CompanyController {
     Company company = Company.get(session.company)
     PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
 
-    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts]
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.first()]
   }
 
 }
