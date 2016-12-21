@@ -107,7 +107,7 @@
                   <g:link controller="user" action="edit" id="${sec.loggedInUserInfo(field: "id")}">Editar Usuario</g:link>
                 </li>
                 <li>
-                  <g:link controller="user" action="manageusers">Lista de Usuarios</g:link>
+                  <g:link controller="user" action="manageUsers">Lista de Usuarios</g:link>
                 </li>
 
               </ul>
