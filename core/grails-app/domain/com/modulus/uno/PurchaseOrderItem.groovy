@@ -15,7 +15,7 @@ class PurchaseOrderItem {
   static belongsTo = [purchaseOrder:PurchaseOrder]
 
   static constraints = {
-    name blank:false,size:1..100
+    name blank:false,size:1..300
     price min:0.0,max:250000000.00
     ieps min:0.0,max:100.01
     iva min:0.0,max:100.00

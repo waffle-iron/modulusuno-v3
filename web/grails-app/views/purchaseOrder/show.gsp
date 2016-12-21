@@ -239,7 +239,7 @@
               </td>
               <td>
                 <div class="input-group">
-                    <g:textField id="product-name" name="name" class="form-control" required="" placeholder="Nombre del producto" style="width:300px" maxLength="100"/>
+                    <g:textField id="product-name" name="name" class="form-control" required="" placeholder="Nombre del producto" style="width:300px" maxLength="300"/>
                 </div>
              </td>
               <td>
