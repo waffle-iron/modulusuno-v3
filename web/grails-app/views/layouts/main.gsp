@@ -73,7 +73,7 @@
     <nav class="navbar-side" role="navigation">
       <div class="navbar-collapse sidebar-collapse collapse">
         <ul id="side" class="nav navbar-nav side-nav">
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
+          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_CORPORATIVE">
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
           </sec:ifAnyGranted>
           <g:if test="${session.company && companyInfo.isAvailableForOperationInThisCompany()}">
