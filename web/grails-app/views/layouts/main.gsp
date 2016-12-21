@@ -53,7 +53,7 @@
           &nbsp;
           </li>
           <li align="center">
-            <font color="white"> Usuario Logeado: ${modulusuno.userLoggin()}</font>
+            <font color="white"> Usuario Logueado: ${modulusuno.userLoggin()}</font>
           </li>
         </ul>
         <ul class="nav navbar-right">
