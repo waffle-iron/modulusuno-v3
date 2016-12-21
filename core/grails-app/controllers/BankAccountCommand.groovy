@@ -7,12 +7,14 @@ class BankAccountCommand implements Validateable {
   String branchNumber
   String clabe
   String bank
+  boolean concentradora
 
   BankAccount createBankAccount(){
     new BankAccount(
       accountNumber:this.accountNumber,
       branchNumber:this.branchNumber,
-      clabe:this.clabe
+      clabe:this.clabe,
+      concentradora: this.concentradora
     )
   }
 }
