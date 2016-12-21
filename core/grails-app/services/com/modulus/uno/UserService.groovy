@@ -87,11 +87,13 @@ class UserService {
     Role roleop = Role.findByAuthority("ROLE_INTEGRADO_OPERADOR")
     Role roleau = Role.findByAuthority("ROLE_INTEGRADO_AUTORIZADOR")
     Role roleej = Role.findByAuthority("ROLE_EJECUTOR")
+    Role rolefin = Role.findByAuthority("ROLE_FINANCIAL")
     company.actors.each(){
       User us = it
       String oper = "operator"+us.id
       String auth = "authorizer"+us.id
       String ejec = "ejecutor"+us.id
+      String fin = "financial"+us.id
       if (params.get(oper) && !us.authorities.find{it.authority.equals("ROLE_INTEGRADO_OPERADOR")})
         UserRole.create us, roleop, true
       else if (!params.get(oper) && us.authorities.find{it.authority.equals("ROLE_INTEGRADO_OPERADOR")})
@@ -106,6 +108,11 @@ class UserService {
         UserRole.create us, roleej, true
       else if (!params.get(ejec) && us.authorities.find{it.authority.equals("ROLE_EJECUTOR")})
         UserRole.remove us, roleej, true
+
+      if (params.get(fin) && !us.authorities.find{it.authority.equals("ROLE_FINANCIAL")})
+        UserRole.create us, rolefin, true
+      else if (!params.get(fin) && us.authorities.find{it.authority.equals("ROLE_FINANCIAL")})
+        UserRole.remove us, rolefin, true
     }
   }
 

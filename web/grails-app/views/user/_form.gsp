@@ -2,7 +2,7 @@
 <g:if test="${authorize}">
   <label>Rol:</label>
   <g:radioGroup name="roleId" values="${authorities*.id}" labels="${authorities*.authority}" value="${params.roleId ?: authorities*.id.first()}">
-  <p>${it.radio}  <g:message code="${it.label}"/></p>
+  ${it.radio}  <g:message code="${it.label}"/>&nbsp;&nbsp;&nbsp;
   </g:radioGroup>
 </g:if>
 
