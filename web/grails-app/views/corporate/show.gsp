@@ -11,10 +11,10 @@
         <h1>
           <i class="fa fa-info-circle fa-3x"></i>
           <g:message code="corporate.show" />
-          <small>Información de la Corporación</small>
+          <small>Información del Corporativo</small>
         </h1>
         <ol class="breadcrumb">
-          <li><i class="fa fa-caret-square-o-up"></i> Corporación</li>
+          <li><i class="fa fa-caret-square-o-up"></i> Corporativo</li>
           <li class="active">
             <g:message code="corporate.show" />
           </li>
@@ -31,7 +31,7 @@
         <div class="portlet portlet-default">
           <div class="portlet-heading">
             <div class="portlet-title">
-              <h4>Datos de la Corporación</h4>
+              <h4>Datos del Corporativo</h4>
             </div>
             <div class="clearfix"></div>
           </div>
@@ -80,16 +80,25 @@
 
           <!-- BEGIN PANEL-->
           <div class="panel-collapse collapse in">
-            <g:if test="${corporate.users}">
-              <ul>
-                <g:each var="user" in="${corporate.users}">
-                  <li>${user.username}</li>
-                </g:each>
-              </ul>
-            </g:if>
-            <g:else>
-
-            </g:else>
+            <div class="portlet-body">
+              <g:if test="${corporate.users}">
+                <ul>
+                  <g:each var="user" in="${corporate.users}">
+                    <li>${user.username}</li>
+                  </g:each>
+                </ul>
+              </g:if>
+              <g:else>
+                <div class="alert alert-info">
+                  <p>No hay usuarios registrados.</p>
+                </div>
+                <p>
+                  <g:link class="btn btn-default btn-lg" controller="corporateUser" action="create">
+                    Registrar un usuario
+                  </g:link>
+                </p>
+              </g:else>
+            </div>
           </div>
           <!-- END OF PANEL -->
 
