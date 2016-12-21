@@ -17,12 +17,8 @@ class CorporateServiceSpec extends Specification {
     given: "set variables to name and url "
       Corporate corporate = new Corporate(nameCorporate:"MakingDevs",
                                           corporateUrl:"MakingDevs-Fico")
-    and:"the user"
-      User user = new User(username:"egjimenezg@gmail.com",
-                           password:"1234567890")
-      user.save(validate:false)
     when:
-      service.saveNewCorporate(corporate,user)
+      service.saveNewCorporate(corporate)
     then:
       corporate.nameCorporate == "MakingDevs"
       corporate.companies == null

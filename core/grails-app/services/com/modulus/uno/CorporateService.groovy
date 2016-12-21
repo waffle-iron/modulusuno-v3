@@ -18,8 +18,7 @@ class CorporateService {
     corporate
   }
 
-  def saveNewCorporate(Corporate corporate,User user) {
-    corporate.addToUsers(user)
+  def saveNewCorporate(Corporate corporate) {
     corporate.save()
   }
 
