@@ -80,7 +80,16 @@
 
           <!-- BEGIN PANEL-->
           <div class="panel-collapse collapse in">
+            <g:if test="${corporate.users}">
+              <ul>
+                <g:each var="user" in="${corporate.users}">
+                  <li>${user.username}</li>
+                </g:each>
+              </ul>
+            </g:if>
+            <g:else>
 
+            </g:else>
           </div>
           <!-- END OF PANEL -->
 
