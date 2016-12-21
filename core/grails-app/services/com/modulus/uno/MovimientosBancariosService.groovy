@@ -5,24 +5,11 @@ import grails.transaction.Transactional
 @Transactional
 class MovimientosBancariosService {
 
-  def createMovimeintosBancariosFromList(def listRowElements, BankAccount bankAccount) {
-    if (!isValidList(listRowElements))
-      return ""
-    MovimientosBancariosCommand command = new MovimientosBancariosCommand()
-    command.concept = listRowElements.get(1)
-    command.reference = listRowElements.get(2)
-    command.dateEvent = listRowElements.get(0)
-    command.amount = listRowElements.get(3) ?: listRowElements.get(4)
-    command.debito = listRowElements.get(3)?:0
-    command.credito = listRowElements.get(4)?:0
-    if (command.validate()) {
+  def createMovimeintosBancariosFromList(MovimientosBancariosCommand command, BankAccount bankAccount) {
       MovimientosBancarios movimiento = command.createObjectByRow()
       movimiento.cuenta = bankAccount
       movimiento.save()
-      return movimiento
-    }
-    else
-      return command.errors
+      movimiento
   }
 
   private def isValidList(def elementos) {

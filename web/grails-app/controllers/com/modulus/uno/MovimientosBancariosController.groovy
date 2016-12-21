@@ -49,6 +49,7 @@ class MovimientosBancariosController {
 
     @Transactional
     def multiMovimientosBancarios() {
+      def bankAccountsOfCompany = Company.findById(session.company.toLong()).banksAccounts
       BankAccount account = BankAccount.findById(params.cuenta)
       def file = request.getFile('multiMovimientos')
       Workbook workbook = Workbook.getWorkbook(file.getInputStream());
@@ -64,10 +65,18 @@ class MovimientosBancariosController {
             data = page.getCell(column, row).contents
             listElementInRow.add(data)
           }
-          movimientosBancariosService.createMovimeintosBancariosFromList(listElementInRow,account)
+          MovimientosBancariosCommand command = createCommandMovimientos(listElementInRow)
+          log.info command.validate()
+          if (!command.validate()) {
+            transactionStatus.setRollbackOnly()
+            flash.command = command.errors
+            render view: 'multiMovimientos' ,model:["bankAccountsOfCompany":bankAccountsOfCompany]
+            return
+          }
+          movimientosBancariosService.createMovimeintosBancariosFromList(command,account)
         }
       }
-      redirect action:"multiMovimientos"
+      render view: 'multiMovimientos' ,model:["bankAccountsOfCompany":bankAccountsOfCompany]
     }
 
     def edit(MovimientosBancarios movimientosBancarios) {
@@ -127,5 +136,16 @@ class MovimientosBancariosController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+
+    private MovimientosBancariosCommand createCommandMovimientos(List listRowElements) {
+      MovimientosBancariosCommand command = new MovimientosBancariosCommand()
+      command.concept = listRowElements.get(1)
+      command.reference = listRowElements.get(2)
+      command.dateEvent = listRowElements.get(0)
+      command.amount = listRowElements.get(3) ?: listRowElements.get(4)
+      command.debito = listRowElements.get(3)?:0
+      command.credito = listRowElements.get(4)?:0
+      command
     }
 }
