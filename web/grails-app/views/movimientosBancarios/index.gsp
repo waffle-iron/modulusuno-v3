@@ -16,10 +16,13 @@
                <b>La Fecha del día de hoy es: ${new Date().format("dd/MMMM/yyy")}</b>
               </center>
             </p>
+            <p>
+            <font color="red">* Cuenta Concentradora</font>
+            </p>
             <g:each in="${bankAccountsOfCompany}" var="account">
-              ${account}&nbsp;<g:link action="show" id="${account.id}" class="btn btn-green" ><i class="fa fa-search" aria-hidden="true"></i></g:link>&nbsp;
+              <g:if test="${account.concentradora}"><font color="red">*</font></g:if>${account}&nbsp;<g:link action="show" id="${account.id}" class="btn btn-green" ><i class="fa fa-search" aria-hidden="true"></i></g:link>&nbsp;
               <g:link controller="movimientosBancarios" action="create" class="btn btn-green" id="${account.id}"><i class="fa fa-plus" aria-hidden="true"></i></g:link> &nbsp;
-               Saldo Total: <modulusuno:amountAccountToday id="${account.id}" />
+              Saldo Total: <modulusuno:amountAccountToday id="${account.id}" /><br><br>
             </g:each>
 
             <div class="pagination">
