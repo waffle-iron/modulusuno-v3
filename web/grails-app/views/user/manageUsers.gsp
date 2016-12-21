@@ -31,7 +31,7 @@
               <div class="alert alert-success" role="alert">${flash.message}</div>
               </g:if>
               <g:link class="btn btn-primary" action="authorizer">Nuevo</g:link><br/><br/>
-              <g:form action="updateauthorities">
+              <g:form action="updateAuthorities">
               <table class="table">
                <tr>
                  <th style="text-align:center; width:600px">Usuario</th>
@@ -85,7 +85,7 @@
                   <td></td>
                   <td></td>
                   <td></td>
-
+                  <td></td>
                   <td style="text-align:right"><button class="btn btn-default">Actualizar</button></td>
                 </tr>
               </table>
