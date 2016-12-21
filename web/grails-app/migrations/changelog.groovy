@@ -28,4 +28,5 @@ databaseChangeLog = {
     include file: 'adding-notnull-constraint-to-column-quantity-in-sale-order-item.groovy'
     include file: 'adding-new-variables-to-sale-order-and-purchase-order.groovy'
     include file: 'modify-column-name-growing-to-300-from-product.groovy'
+    include file: 'modify-column-name-growing-to-300-from-sale-order-item.groovy'
 }
