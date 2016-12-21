@@ -35,7 +35,7 @@ class UserController {
   }
 
   def authorizer() {
-    [user:new UserCommand(),authorize:true,company:session.company, authorities:Role.findAllByAuthorityInList(['ROLE_INTEGRADO_OPERADOR', 'ROLE_INTEGRADO_AUTORIZADOR','ROLE_EJECUTOR'])]
+    [user:new UserCommand(),authorize:true,company:session.company, authorities:Role.findAllByAuthorityInList(['ROLE_INTEGRADO_OPERADOR', 'ROLE_INTEGRADO_AUTORIZADOR','ROLE_EJECUTOR', 'ROLE_FINANCIAL'])]
   }
 
   @Transactional
@@ -95,17 +95,17 @@ class UserController {
     }
   }
 
-  def manageusers() {
+  def manageUsers() {
     Company company = Company.get(session.company)
     [users: company.actors]
   }
 
   @Transactional
-  def updateauthorities(){
+  def updateAuthorities(){
     Company company = Company.get(session.company)
     userService.updateAuthoritiesUsers(company, params)
     flash.message = "Usuarios actualizados"
-    redirect (action:'manageusers')
+    redirect (action:'manageUsers')
   }
 
   protected void notFound() {

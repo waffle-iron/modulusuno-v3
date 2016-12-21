@@ -31,13 +31,14 @@
               <div class="alert alert-success" role="alert">${flash.message}</div>
               </g:if>
               <g:link class="btn btn-primary" action="authorizer">Nuevo</g:link><br/><br/>
-              <g:form action="updateauthorities">
+              <g:form action="updateAuthorities">
               <table class="table">
                <tr>
                  <th style="text-align:center; width:600px">Usuario</th>
                  <th style="text-align:center">Operador</th>
                  <th style="text-align:center">Autorizador</th>
                  <th style="text-align:center">Ejecutor</th>
+                 <th style="text-align:center">Tesorero</th>
                </tr>
                <g:each in="${users}" var="user">
                 <tr>
@@ -56,7 +57,7 @@
                     <g:if test="${user.authorities.find{it.authority.equals('ROLE_INTEGRADO_AUTORIZADOR')}}">
                       <g:set var="isautorizador" value="true"/>
                     </g:if>
-                   <span class="well well-sm">
+                    <span class="well well-sm">
                      <g:checkBox name="authorizer${user.id}" checked="${isautorizador}"/>
                     </span>
                   </td>
@@ -65,8 +66,17 @@
                     <g:if test="${user.authorities.find{it.authority.equals('ROLE_EJECUTOR')}}">
                       <g:set var="isejecutor" value="true"/>
                     </g:if>
-                   <span class="well well-sm">
+                    <span class="well well-sm">
                      <g:checkBox name="ejecutor${user.id}" checked="${isejecutor}"/>
+                    </span>
+                  </td>
+                  <td style="text-align:center">
+                    <g:set var="isFinancial" value="false"/>
+                    <g:if test="${user.authorities.find{it.authority.equals('ROLE_FINANCIAL')}}">
+                      <g:set var="isFinancial" value="true"/>
+                    </g:if>
+                    <span class="well well-sm">
+                     <g:checkBox name="financial${user.id}" checked="${isFinancial}"/>
                     </span>
                   </td>
                 </tr>
@@ -75,7 +85,7 @@
                   <td></td>
                   <td></td>
                   <td></td>
-
+                  <td></td>
                   <td style="text-align:right"><button class="btn btn-default">Actualizar</button></td>
                 </tr>
               </table>
