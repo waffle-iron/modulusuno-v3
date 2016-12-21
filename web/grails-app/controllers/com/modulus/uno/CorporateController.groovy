@@ -9,7 +9,7 @@ class CorporateController {
   def springSecurityService
 
   def create(){
-    respond new Corporate(params)
+    respond new Corporate()
   }
 
   @Transactional
@@ -20,8 +20,7 @@ class CorporateController {
       return
     }
 
-    def user = springSecurityService.currentUser
-    corporateService.saveNewCorporate(corporate,user)
+    corporateService.saveNewCorporate(corporate)
 
     request.withFormat {
       form multipartForm {
