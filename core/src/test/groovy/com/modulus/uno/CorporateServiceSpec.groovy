@@ -15,12 +15,16 @@ class CorporateServiceSpec extends Specification {
 
   Should "create a corporate"() {
     given: "set variables to name and url "
-      String name = "makingdevs"
-      String url = "makingdevs-fico"
+      Corporate corporate = new Corporate(nameCorporate:"MakingDevs",
+                                          corporateUrl:"MakingDevs-Fico")
+    and:"the user"
+      User user = new User(username:"egjimenezg@gmail.com",
+                           password:"1234567890")
+      user.save(validate:false)
     when:
-      Corporate corporate = service.createNewCorporate(name,url)
+      service.saveNewCorporate(corporate,user)
     then:
-      corporate.nameCorporate == name
+      corporate.nameCorporate == "MakingDevs"
       corporate.companies == null
       corporate.id == 1
   }
