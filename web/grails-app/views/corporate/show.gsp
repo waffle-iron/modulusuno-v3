@@ -24,8 +24,10 @@
     </div>
     <!-- END OF ROW -->
 
+    <!-- BEGIN ROW -->
     <div class="row">
       <div class="col-md-6">
+        <!-- BEGIN PORTLET-DEFAULT -->
         <div class="portlet portlet-default">
           <div class="portlet-heading">
             <div class="portlet-title">
@@ -33,8 +35,24 @@
             </div>
             <div class="clearfix"></div>
           </div>
+
+          <!-- BEGIN DEFAULT PORTLET -->
+          <div id="defaultPortlet" class="panel-collapse collapse in">
+            <div class="portlet-body">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label id="" class="">
+                  </label>
+                  <div class="col-sm-12"></div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- END OF DEFAULT PORTLET -->
         </div>
+        <!-- END OF PORTLET DEFAULT -->
       </div>
     </div>
+    <!-- END OF ROW -->
   </body>
 </html>
