@@ -48,9 +48,9 @@ class MovimientosBancariosCommand implements Validateable {
   }
 
   static constraints = {
-    concept blank:false
-    reference blank:true
-    dateEvent blank:false
+    concept blank:false, nullable:false
+    reference blank:true, nullable:true
+    dateEvent blank:false, nullable:false
     debito blank:true, nullable:true, validator: { val, obj ->
       if ( (val == "0" && obj.credito != "0") || (val != "0" && obj.credito == "0") )
         true
