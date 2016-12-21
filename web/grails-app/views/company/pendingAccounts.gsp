@@ -81,6 +81,17 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <g:each var="chargeExpired" in="${pendingAccounts.listExpiredCharges.sort{it.fechaCobro}}">
+                    <tr class="warning">
+                      <td>${chargeExpired.clientName}</td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#changeDateChargeModal" data-whatever="${chargeExpired.id}">
+                          <g:formatDate format="dd-MM-yyyy" date="${chargeExpired.fechaCobro}"/>
+                        </button>
+                      </td>
+                      <td class="text-right">${modulusuno.formatPrice(number:chargeExpired.total)}</td>
+                    </tr>
+                  </g:each>
                   <g:each var="charge" in="${pendingAccounts.listCharges.sort{it.fechaCobro}}">
                     <tr>
                       <td>${charge.clientName}</td>
@@ -90,6 +101,7 @@
                         </button>
                       </td>
                       <td class="text-right">${modulusuno.formatPrice(number:charge.total)}</td>
+                    </tr>
                   </g:each>
                 </tbody>
               </table>
@@ -152,16 +164,28 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <g:each var="payExpired" in="${pendingAccounts.listExpiredPayments.sort{it.fechaPago}}">
+                    <tr class="warning">
+                      <td>${payExpired.providerName}</td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#changeDatePaymentModal" data-whatever="${payExpired.id}">
+                          <g:formatDate format="dd-MM-yyyy" date="${payExpired.fechaPago}"/>
+                        </button>
+                      </td>
+                      <td class="text-right">${modulusuno.formatPrice(number:payExpired.total)}</td>
+                    </tr>
+                  </g:each>
                   <g:each var="pay" in="${pendingAccounts.listPayments.sort{it.fechaPago}}">
-                  <tr>
-                    <td>${pay.providerName}</td>
-                    <td class="text-center">
-                      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#changeDatePaymentModal" data-whatever="${pay.id}">
-                        <g:formatDate format="dd-MM-yyyy" date="${pay.fechaPago}"/>
-                      </button>
-                    </td>
-                    <td class="text-right">${modulusuno.formatPrice(number:pay.total)}</td>
-                      </g:each>
+                    <tr>
+                      <td>${pay.providerName}</td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#changeDatePaymentModal" data-whatever="${pay.id}">
+                          <g:formatDate format="dd-MM-yyyy" date="${pay.fechaPago}"/>
+                        </button>
+                      </td>
+                      <td class="text-right">${modulusuno.formatPrice(number:pay.total)}</td>
+                    </tr>
+                  </g:each>
                 </tbody>
               </table>
             </div><!--table responsive-->
