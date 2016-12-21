@@ -243,7 +243,7 @@ class CompanyController {
 
     def headersCharges = ['Cliente', 'Fecha Cobro', 'Monto']
     def propertiesCharges = ['clientName', 'fechaCobro', 'total']
-    def headersPayments = ['Proveedor', 'Fecha Cobro', 'Monto']
+    def headersPayments = ['Proveedor', 'Fecha Pago', 'Monto']
     def propertiesPayments = ['providerName', 'fechaPago', 'total']
 
     new WebXlsxExporter().with {
@@ -253,11 +253,14 @@ class CompanyController {
       fillRow(["Cuentas por Cobrar"], 4)
       fillRow(["Total:", pendingAccounts.totalCharges,"","","Total vencido:", pendingAccounts.totalExpiredCharges], 5)
       fillRow(headersCharges, 7)
-      add(pendingAccounts.listCharges.sort{it.fechaCobro}, propertiesCharges, 8)
-      fillRow(["Cuentas por Pagar"], 10)
-      fillRow(["Total:", pendingAccounts.totalPayments,"","","Total vencido:", pendingAccounts.totalExpiredPayments], 11)
-      fillRow(headersPayments, 12)
-      add(pendingAccounts.listPayments.sort{it.fechaPago}, propertiesPayments, 13)
+      def listChargesFull = pendingAccounts.listExpiredCharges + pendingAccounts.listCharges
+      add(listChargesFull.sort{it.fechaCobro}, propertiesCharges, 8)
+      int iniRowPays = 10+listChargesFull.size()
+      fillRow(["Cuentas por Pagar"], iniRowPays)
+      fillRow(["Total:", pendingAccounts.totalPayments,"","","Total vencido:", pendingAccounts.totalExpiredPayments], iniRowPays+1)
+      fillRow(headersPayments, iniRowPays+3)
+      def listPaymentsFull = pendingAccounts.listExpiredPayments + pendingAccounts.listPayments
+      add(listPaymentsFull.sort{it.fechaPago}, propertiesPayments, iniRowPays+4)
       save(response.outputStream)
     }
   }
@@ -268,7 +271,7 @@ class CompanyController {
     Company company = Company.get(session.company)
     PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
 
-    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts]
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.first()]
   }
 
   @Transactional
@@ -277,7 +280,7 @@ class CompanyController {
     Company company = Company.get(session.company)
     PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
 
-    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts]
+    render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.first()]
   }
 
 }

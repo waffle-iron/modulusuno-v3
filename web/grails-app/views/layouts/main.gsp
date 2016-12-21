@@ -257,7 +257,14 @@
           </sec:ifAnyGranted>
 
           <sec:ifAnyGranted roles="ROLE_FINANCIAL">
-            <li><g:link controller="company" action="pendingAccounts">Cuentas por Cobrar/Pagar</g:link></li>
+            <li class="panel">
+              <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#reportes">
+                Reportes<i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="collapse nav" id="reportes">
+                <li><g:link controller="company" action="pendingAccounts">Cuentas por Cobrar/Pagar</g:link></li>
+              </ul>
+            </li>
           </sec:ifAnyGranted>
 
          </g:if>

@@ -213,10 +213,12 @@ class CompanyService {
     PendingAccounts pendingAccounts = new PendingAccounts(startDate:startDate, endDate:endDate)
     pendingAccounts.listPayments = PurchaseOrder.findAllByFechaPagoBetweenAndStatusAndCompany(startDate, endDate, PurchaseOrderStatus.AUTORIZADA, company)
     def listExpiredPayments = PurchaseOrder.findAllByFechaPagoLessThanAndStatusAndCompany(startDate, PurchaseOrderStatus.AUTORIZADA, company)
+    pendingAccounts.listExpiredPayments = listExpiredPayments
     pendingAccounts.totalExpiredPayments = listExpiredPayments ? listExpiredPayments.sum {it.total} : new BigDecimal(0)
 
     pendingAccounts.listCharges = SaleOrder.findAllByFechaCobroBetweenAndStatusInListAndCompany(startDate, endDate, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
     def listExpiredCharges = SaleOrder.findAllByFechaCobroLessThanAndStatusInListAndCompany(startDate, [SaleOrderStatus.EJECUTADA, SaleOrderStatus.AUTORIZADA], company)
+    pendingAccounts.listExpiredCharges = listExpiredCharges
     pendingAccounts.totalExpiredCharges = listExpiredCharges ? listExpiredCharges.sum {it.total} : new BigDecimal(0)
 
     pendingAccounts.totalPayments = pendingAccounts.listPayments ? pendingAccounts.listPayments.sum { it.total } : new BigDecimal(0)
