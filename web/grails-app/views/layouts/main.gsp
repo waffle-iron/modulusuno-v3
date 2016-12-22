@@ -77,9 +77,11 @@
               <g:link controller="corporate" action="create" >Crear Nuevo Corporativo</g:link>
             </li>
           </sec:ifAnyGranted>
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
+
+          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_CORPORATIVE">
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
           </sec:ifAnyGranted>
+
           <g:if test="${session.company && companyInfo.isAvailableForOperationInThisCompany()}">
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
             <li class="panel">

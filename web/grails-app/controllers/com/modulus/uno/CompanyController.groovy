@@ -5,7 +5,6 @@ import grails.transaction.Transactional
 import java.text.SimpleDateFormat
 import pl.touk.excel.export.WebXlsxExporter
 
-@Transactional(readOnly = true)
 class CompanyController {
 
   def springSecurityService
@@ -62,7 +61,6 @@ class CompanyController {
     render view:"/uploadDocuments/uploadDocumentsUser",model:[company:company]
   }
 
-  @Transactional
   def save(Company company) {
     if (company == null) {
       transactionStatus.setRollbackOnly()
@@ -75,12 +73,10 @@ class CompanyController {
       respond company.errors, view:'create'
       return
     }
+
     def user = springSecurityService.currentUser
-    company.addToActors(user)
-
-    company.save(flush:true)
-
-    session['company'] = company.id
+    
+    company = companyService.saveInsideAndAssingCorporate(company, user)
 
     request.withFormat {
       form multipartForm {

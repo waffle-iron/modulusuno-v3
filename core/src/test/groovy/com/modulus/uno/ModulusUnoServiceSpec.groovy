@@ -39,7 +39,9 @@ class ModulusUnoServiceSpec extends Specification {
       company.save()
     and:
       company.addToLegalRepresentatives(user)
+      company.addToActors(user)
       company.save()
+      println company.dump()
     when:"We create an account"
       service.createAccount(company)
     then:"We expect service was called"

@@ -3,13 +3,13 @@ package com.modulus.uno
 class DashboardController {
 
   def companyService
-  CorporateService corporateService
   def springSecurityService
 
   def index() {
     def user = springSecurityService.currentUser
     def companyList = companyService.allCompaniesByUser(user)
     def corporates= Corporate.list()
+
     [companies:companyList,
      corporates:corporates,
      companiesCount: companyList.size()]

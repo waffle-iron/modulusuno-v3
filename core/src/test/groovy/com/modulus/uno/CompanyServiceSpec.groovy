@@ -10,7 +10,7 @@ import static java.util.Calendar.*
 import spock.lang.Unroll
 
 @TestFor(CompanyService)
-@Mock([Company,Address,S3Asset,User,UserRole,Role,Profile])
+@Mock([Company,Corporate,Address,S3Asset,User,UserRole,Role,Profile])
 class CompanyServiceSpec extends Specification {
 
   ModulusUnoService modulusUnoService = Mock(ModulusUnoService)
@@ -348,7 +348,7 @@ class CompanyServiceSpec extends Specification {
       Company company = createCompany()
     and:"An account"
       ModulusUnoAccount account = Mock(ModulusUnoAccount)
-      account.timoneUuid = "1234567890"
+      account.timoneUuid   = "1234567890"
       account.save(validate:false)
       company.accounts = [account]
       company.status = CompanyStatus.ACCEPTED
@@ -367,6 +367,33 @@ class CompanyServiceSpec extends Specification {
       1001    | 500           | false
       1001    | 1000          | false
       1001    | 1001          | true
+  }
+
+  void "create simple company and add it to one corporate"(){
+    given:
+      Company company = new Company(
+        rfc:"ROD861224KJD",
+        bussinessName:"apple1",
+        webSite:"http://url.com", 
+        employeeNumbers:2,
+        grossAnnualBilling:1_000_000)
+      Corporate corporate = new Corporate(nameCorporate:"nombre",corporateUrl:"url")
+      corporate.save(validate:false)
+      User corporateUser = new User().save(validate:false)
+    and:
+      def corporateServiceMock = Mock(CorporateService) {
+        1 * findCorporateOfUser(corporateUser) >> corporate
+        1 * addCompanyToCorporate(corporate,company) >> {
+          corporate.addToCompanies(company)
+          corporate.save()
+          company
+        }
+      }
+      service.corporateService = corporateServiceMock
+    when:
+      Company expectedCompany = service.saveInsideAndAssingCorporate(company, corporateUser)
+    then:
+      expectedCompany.id
   }
 
   private def createUserWithRole(String username, String password, String email, def userRole) {
