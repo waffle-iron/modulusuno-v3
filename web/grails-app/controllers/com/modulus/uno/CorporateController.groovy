@@ -39,4 +39,8 @@ class CorporateController {
     respond corporate,model:[]
   }
 
+  def addUser(Corporate corporate){
+    render view:"newUser",model:[user:new UserCommand()]
+  }
+
 }
