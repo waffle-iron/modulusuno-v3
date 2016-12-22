@@ -3,6 +3,7 @@ package com.modulus.uno
 import grails.transaction.Transactional
 import java.text.SimpleDateFormat
 import org.springframework.context.i18n.LocaleContextHolder as LCH
+import org.springframework.transaction.TransactionDefinition
 
 @Transactional
 class CompanyService {
@@ -209,11 +210,13 @@ class CompanyService {
     isAvailableForInvoices(response)
   }
 
+  @Transactional(propagation = TransactionDefinition.PROPAGATION_REQUIRES_NEW)
   Company saveInsideAndAssingCorporate(Company company, User corporateUser){
     // TODO: Se podría revalidar que el usuario sea corporativo
     if(company.validate()){
       Corporate corporate = corporateService.findCorporateOfUser(corporateUser)
-      return corporateService.addCompanyToCorporate(corporate, company)
+      corporateService.addCompanyToCorporate(corporate, company)
+      company
     } else {
       throw new RuntimeException(company.errors*.toString().join(","))
     }
