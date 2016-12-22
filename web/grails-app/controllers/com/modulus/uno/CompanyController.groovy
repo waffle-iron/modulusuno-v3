@@ -75,12 +75,10 @@ class CompanyController {
       respond company.errors, view:'create'
       return
     }
+
     def user = springSecurityService.currentUser
-    company.addToActors(user)
-
-    company.save(flush:true)
-
-    session['company'] = company.id
+    
+    Company company = companyService.saveInsideAndAssingCorporate(company, user)
 
     request.withFormat {
       form multipartForm {
