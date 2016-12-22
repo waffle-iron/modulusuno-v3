@@ -40,4 +40,9 @@ class CorporateController {
     respond corporate,model:[]
   }
 
+  def assignRolesInCompaniesForUser(User user){
+    Corporate corporate = corporateService.findCorporateOfUser(user)
+    [companies:corporate.companies,roles:Role.list()]
+  }
+
 }
