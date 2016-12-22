@@ -78,7 +78,13 @@
             </li>
           </sec:ifAnyGranted>
 
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_CORPORATIVE">
+          <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
+            <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
+            <li><g:link controller="user" action="authorizer">Alta Usuario</g:link></li>
+            <li><g:link controller="managerApplication">Todas las Empresas</g:link></li>
+          </sec:ifAnyGranted>
+
+          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
           </sec:ifAnyGranted>
 
