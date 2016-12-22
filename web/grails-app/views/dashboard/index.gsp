@@ -32,8 +32,16 @@
               </g:link>
             </p>
           </g:if>
+          <g:else>
+            <div class="content scaffold-list">
+              <h1><g:message code="corporate.list.label" /></h1>
+              <f:table collection="${corporates}" properties="['nameCorporate','corporateUrl']" />
+            </div>
+          </g:else>
         </div>
       </div>
+
+
     </sec:ifAnyGranted>
 
     <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR">

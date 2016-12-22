@@ -1,6 +1,6 @@
 <%! import com.modulus.uno.CompanyStatus %>
 <%! import com.modulus.uno.CompanyTaxRegime %>
-<!doctype html>
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
   <head>
@@ -9,11 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Modulus UNO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <asset:stylesheet src="application.css"/>
     <asset:javascript src="application.js"/>
     <asset:javascript src="main-nav.js"/>
-
     <g:layoutHead/>
   </head>
   <body>
@@ -73,15 +71,24 @@
     <nav class="navbar-side" role="navigation">
       <div class="navbar-collapse sidebar-collapse collapse">
         <ul id="side" class="nav navbar-nav side-nav">
+
           <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
             <li><g:link controller="user" action="authorizer">Alta Usuario</g:link></li>
             <li><g:link controller="managerApplication">Todas las Empresas</g:link></li>
           </sec:ifAnyGranted>
 
+          <sec:ifAnyGranted roles="ROLE_M1">
+            <li>
+              <g:link controller="dashboard" action="index" >Ver Corporativos</g:link>
+              <g:link controller="corporate" action="create" >Crear Nuevo Corporativo</g:link>
+            </li>
+          </sec:ifAnyGranted>
+
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
           </sec:ifAnyGranted>
+
           <g:if test="${session.company && companyInfo.isAvailableForOperationInThisCompany()}">
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
             <li class="panel">
@@ -282,7 +289,6 @@
         <div class="row">
           <div class="col-lg-12">
             <g:layoutBody/>
-
           </div>
         </div>
       </div>

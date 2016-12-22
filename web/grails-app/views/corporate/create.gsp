@@ -9,9 +9,9 @@
     <div class="page-title">
       <h1>
         <i class="fa fa-plus-circle fa-3x"></i>
-        Corporaciones
+        Corporativo
         <small>
-          <g:message code="corporation.new" />
+          <g:message code="corporate.new" />
         </small>
       </h1>
       <ol class="breadcrumb">
@@ -23,11 +23,6 @@
     <!-- BEGIN PORLET -->
     <div class="portlet portlet-blue">
       <div class="portlet-heading">
-        <div class="portlet-title">
-          <br/>
-          <br/>
-        </div>
-
         <!-- BEGIN PORTLET-WIDGETS -->
         <div class="portlet-widgets">
         </div>
@@ -36,11 +31,11 @@
       </div>
 
       <!-- BEGIN BLUE-PORTLET -->
-      <div id="bluePortlet" class="panel-collapse collapse in">
+      <div class="panel-collapse collapse in">
         <!-- BEGIN PORTLET-BODY -->
         <div class="portlet-body">
           <!-- BEGIN CREATE-ADDRESS -->
-          <div id="create-address" class="content scaffold-create" role="main">
+          <div class="content scaffold-create" role="main">
             <g:if test="${flash.message}">
               <div class="messasge" role="status">${flash.message}</div>
             </g:if>
