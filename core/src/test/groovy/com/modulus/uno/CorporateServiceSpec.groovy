@@ -44,7 +44,7 @@ class CorporateServiceSpec extends Specification {
     and: "create Role corporative"
       new Role("ROLE_CORPORATIVE").save()
     when:
-      def corporateWithUser = service.addUserToCorporate(corporate,User.get(1))
+      def corporateWithUser = service.addUserToCorporate(corporate.id,User.get(1))
     then:
       corporateWithUser.users.size() == 1
       corporateWithUser.users.first() == user
