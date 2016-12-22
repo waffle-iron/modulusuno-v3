@@ -88,7 +88,7 @@
               <g:if test="${corporate.users}">
                 <ul class="list-group">
                   <g:each var="user" in="${corporate.users}">
-                    <li  class="list-group-item">${user.username}</li>
+                    <li class="text-primary list-group-item">${user.username}</li>
                   </g:each>
                 </ul>
                 <div class="text-right">

@@ -2,14 +2,13 @@
 <html>
   <head>
     <meta name="layout" content="main" />
-    <title></title>
   </head>
   <body>
     <!-- BEGIN PAGE TITLE -->
     <div class="page-title">
       <h1>
         <i class="fa fa-plus-circle fa-3x"></i>
-        Agregar Usuario Corporativo
+        Agregar Usuario
         <small>
           <g:message code="corporate.user.new" />
         </small>
