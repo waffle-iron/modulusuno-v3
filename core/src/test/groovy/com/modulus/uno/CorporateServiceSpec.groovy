@@ -7,7 +7,7 @@ import grails.test.mixin.Mock
 import spock.lang.Unroll
 
 @TestFor(CorporateService)
-@Mock([Corporate,Company,User, Role,UserRole])
+@Mock([Corporate,Company,User, Role,UserRole,Profile])
 class CorporateServiceSpec extends Specification {
 
   def setup() {
@@ -51,17 +51,18 @@ class CorporateServiceSpec extends Specification {
       user.getAuthorities().contains(Role.findByAuthority('ROLE_CORPORATIVE')) == true
   }
 
-  Should "get the list of coorporates for user"(){
+  Should "get the coorporate of one user with ROLE_CORPORATIVE"(){
     given:"the user"
-      User user = new User(username:"egjimenezg",password:"1234567890").save(validate:false)
+      User user = new User(username:"nuevo", password:"123456789Abc").save(validate:false)
     and:"the coorporation"
       Corporate corporate = new Corporate(nameCorporate:"Corporate1",corporateUrl:"someUrl").save(validate:false)
     and:"the user is added to the corporate"
       service.addUserToCorporate(corporate,user)
     when:
-      ArrayList<Corporate> userCorporates = service.findUserCorporates(user)
+      Corporate userCorporate = service.findCorporateOfUser(user)
     then:
-      userCorporates.size() == 1
+      userCorporate.id == corporate.id
+      userCorporate.nameCorporate == "Corporate1"
   }
 
 }
