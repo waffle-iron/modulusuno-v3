@@ -93,7 +93,7 @@
                   <p>No hay usuarios registrados.</p>
                 </div>
                 <p>
-                  <g:link class="btn btn-default btn-lg" controller="corporateUser" action="create">
+                  <g:link class="btn btn-default btn-lg" controller="corporate" action="addUser" id="${corporate.id}">
                     Registrar un usuario
                   </g:link>
                 </p>

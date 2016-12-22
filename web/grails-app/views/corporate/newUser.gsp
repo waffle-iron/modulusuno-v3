@@ -40,16 +40,17 @@
                 <div class="message" role="status">${flash.message}</div>
               </g:if>
               <g:hasErrors bean="${user}">
-                <ul class="errors">
-                  <g:eachError bean="${user}" var="error">
-                    <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-                  </g:eachError>
-                </ul>
+                <g:eachError bean="${user}" var="error">
+                  <div class="alert alert-danger">
+                    <g:message error="${error}"/>
+                  </div>
+                </g:eachError>
               </g:hasErrors>
-              <g:form action="save">
+              <g:form action="saveUser">
                 <fieldset>
                   <g:render template="/user/form" bean="${user}" />
                 </fieldset>
+                <g:submitButton name="create" class="btn btn-lg btn-green btn-block" value="${message(code: 'corporate.user.button.create.label', default: 'Create')}"/>
               </g:form>
             </div>
             <!-- END OF PORTLET-BODY -->
