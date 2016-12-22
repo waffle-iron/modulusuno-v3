@@ -73,6 +73,7 @@
         <ul id="side" class="nav navbar-nav side-nav">
           <sec:ifAnyGranted roles="ROLE_M1">
             <li>
+              <g:link controller="dashboard" action="index" >Ver Corporativos</g:link>
               <g:link controller="corporate" action="create" >Crear Nuevo Corporativo</g:link>
             </li>
           </sec:ifAnyGranted>
