@@ -11,7 +11,8 @@ class CorporateService {
     corporate
   }
 
-  def addUserToCorporate(Corporate corporate, User user) {
+  def addUserToCorporate(Long corporateId, User user) {
+    Corporate corporate = Corporate.get(corporateId)
     corporate.addToUsers(user)
     corporate.save()
     setAuthorityToUser(user)

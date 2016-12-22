@@ -48,6 +48,7 @@
               </g:hasErrors>
               <g:form action="saveUser">
                 <fieldset>
+                  <input type="hidden" name="corporate" value="${corporateId}" />
                   <g:render template="/user/form" bean="${user}" />
                 </fieldset>
                 <g:submitButton name="create" class="btn btn-lg btn-green btn-block" value="${message(code: 'corporate.user.button.create.label', default: 'Create')}"/>
