@@ -17,6 +17,7 @@ class CompanyService {
   def collaboratorService
   def messageSource
   def restService
+  def corporateService
 
   def addingActorToCompany(Company company, User user) {
     company.addToActors(user)
@@ -206,6 +207,16 @@ class CompanyService {
   def isAvailableForGenerateInvoces(String rfc) {
     def response = restService.existEmisorForGenerateInvoice(rfc)
     isAvailableForInvoices(response)
+  }
+
+  Company saveInsideAndAssingCorporate(Company company, User corporateUser){
+    // TODO: Se podría revalidar que el usuario sea corporativo
+    if(company.validate()){
+      Corporate corporate = corporateService.findCorporateOfUser(corporateUser)
+      return corporateService.addCompanyToCorporate(corporate, company)
+    } else {
+      throw new RuntimeException(company.errors*.toString().join(","))
+    }
   }
 
   private def isAvailableForInvoices(def response) {
