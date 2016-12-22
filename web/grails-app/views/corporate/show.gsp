@@ -56,6 +56,8 @@
           </div>
           <!-- END OF DEFAULT PORTLET -->
           <!-- BEGIN PORTLET-FOOTER -->
+
+          <!-- TODO: Edit the corporate -
           <div class="portlet-footer">
             <div class="text-right">
               <g:link class="btn btn-default" >
@@ -63,6 +65,8 @@
               </g:link>
             </div>
           </div>
+          -->
+
           <!-- END OF PORTLET FOOTER -->
         </div>
         <!-- END OF PORTLET DEFAULT -->
@@ -82,11 +86,14 @@
           <div class="panel-collapse collapse in">
             <div class="portlet-body">
               <g:if test="${corporate.users}">
-                <ul>
+                <ul class="list-group">
                   <g:each var="user" in="${corporate.users}">
-                    <li>${user.username}</li>
+                    <li  class="list-group-item">${user.username}</li>
                   </g:each>
                 </ul>
+                <div class="text-right">
+                  <g:link action="addUser" controller="corporate" class="btn btn-default" id="${corporate.id}"><i class="fa fa-plus"></i></g:link>
+                </div>
               </g:if>
               <g:else>
                 <div class="alert alert-info">
@@ -101,7 +108,6 @@
             </div>
           </div>
           <!-- END OF PANEL -->
-
         </div>
         <!-- END OF PORTLET-DEFAULT -->
       </div>
