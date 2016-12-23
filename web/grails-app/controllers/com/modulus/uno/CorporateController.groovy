@@ -1,8 +1,5 @@
 package com.modulus.uno
-import grails.transaction.Transactional
 
-
-@Transactional(readOnly = true)
 class CorporateController {
 
   CorporateService corporateService
@@ -12,7 +9,6 @@ class CorporateController {
     respond new Corporate()
   }
 
-  @Transactional
   def save(Corporate corporate){
     if(!corporate){
       transactionStatus.setRollbackOnly()
@@ -47,7 +43,6 @@ class CorporateController {
                                  corporateId:corporate.id]
   }
 
-  @Transactional
   def saveUser(UserCommand userCommand){
     Long corporateId = params.long("corporate")
     if(userCommand.hasErrors()){
