@@ -41,7 +41,16 @@ class CorporateController {
 
   def assignRolesInCompaniesForUser(User user){
     Corporate corporate = corporateService.findCorporateOfUser(user)
-    [companies:corporate.companies,roles:Role.list()]
+    List<Role> roles = Role.list()
+    roles = roles.findAll{ it.toString() in ["ROLE_LEGAL_REPRESENTATIVE_VISOR",
+                          "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR",
+                          "ROLE_FICO_VISOR",
+                          "ROLE_FICO_EJECUTOR",
+                          "ROLE_AUTHORIZER_VISOR",
+                          "ROLE_AUTHORIZER_EJECUTOR",
+                          "ROLE_OPERATOR_VISOR",
+                          "ROLE_OPERATOR_EJECUTOR"]}
+    [companies:corporate.companies,roles:roles]
   }
 
   def addUser(Corporate corporate){
