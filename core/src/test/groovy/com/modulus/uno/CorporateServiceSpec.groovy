@@ -38,26 +38,38 @@ class CorporateServiceSpec extends Specification {
 
   Should "add users to corparate"() {
     given: "create a user"
-      User user = new User(username:"nuevo", password:"123456789Abc").save(validate:false)
+      User user = new User(username:"nuevo", password:"123456789Abc")
     and: "create a corpotate"
       Corporate corporate = new Corporate(nameCorporate:"test", corporateUrl:"url").save(validate:false)
     and: "create Role corporative"
       new Role("ROLE_CORPORATIVE").save()
+    and: "the user servie Mock"
+      def userServiceMock = Mock(UserService) {
+        1 * createUserWithoutRole(_,_) >> user.save(validate:false)
+        1 * setAuthorityToUser(_,_) >> user
+      }
+      service.userService = userServiceMock
     when:
-      def corporateWithUser = service.addUserToCorporate(corporate.id,User.get(1))
+      def corporateWithUser = service.addUserToCorporate(corporate.id,user)
     then:
       corporateWithUser.users.size() == 1
       corporateWithUser.users.first() == user
-      user.getAuthorities().contains(Role.findByAuthority('ROLE_CORPORATIVE')) == true
   }
 
-  Should "get the coorporate of one user with ROLE_CORPORATIVE"(){
+  Should "get the corporate of one user with ROLE_CORPORATIVE"(){
     given:"the user"
       User user = new User(username:"nuevo", password:"123456789Abc").save(validate:false)
     and:"the coorporation"
       Corporate corporate = new Corporate(nameCorporate:"Corporate1",corporateUrl:"someUrl").save(validate:false)
+    and: "the user servie Mock"
+      def userServiceMock = Mock(UserService) {
+        1 * createUserWithoutRole(_,_) >> user.save(validate:false)
+        1 * setAuthorityToUser(_,_) >> user
+      }
+      service.userService = userServiceMock
     and:"the user is added to the corporate"
-      service.addUserToCorporate(corporate,user)
+      service.addUserToCorporate(corporate.id,user)
+
     when:
       Corporate userCorporate = service.findCorporateOfUser(user)
     then:
