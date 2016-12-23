@@ -80,7 +80,7 @@
 
           <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
-            <li><g:link controller="user" action="authorizer">Alta Usuario</g:link></li>
+            <li><g:link controller="corporate" action="createUser">Alta Usuario</g:link></li>
             <li><g:link controller="managerApplication">Todas las Empresas</g:link></li>
           </sec:ifAnyGranted>
 

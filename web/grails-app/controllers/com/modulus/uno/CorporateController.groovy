@@ -33,7 +33,19 @@ class CorporateController {
     if(!corporate)
       return response.sendError(404)
 
+    ArrayList<Role> roles = springSecurityService.getPrincipal().getAuthorities()
+    ArrayList<User> users = []
+
     respond corporate,model:[]
+  }
+
+  def createUser(){
+    User user = springSecurityService.currentUser
+    Corporate corporate = corporateService.findCorporateOfUser(user)
+    if(!corporate)
+      return response.sendError(404)
+
+    redirect(action:"addUser",id:corporate.id)
   }
 
   def addUser(Corporate corporate){
@@ -65,6 +77,8 @@ class CorporateController {
 
     if(roles[0].authority == "ROLE_M1")
       corporateService.addNewUserToCorporate(corporateId,user,"ROLE_CORPORATIVE")
+    else
+      corporateService.addNewUserToCorporate(corporateId,user)
 
     redirect(action:"show",id:corporateId)
   }
