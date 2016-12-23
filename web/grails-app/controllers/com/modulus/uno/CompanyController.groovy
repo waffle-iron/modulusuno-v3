@@ -63,19 +63,17 @@ class CompanyController {
 
   def save(Company company) {
     if (company == null) {
-      transactionStatus.setRollbackOnly()
       notFound()
       return
     }
 
     if(company.hasErrors()) {
-      transactionStatus.setRollbackOnly()
       respond company.errors, view:'create'
       return
     }
 
     def user = springSecurityService.currentUser
-    
+    company.status = CompanyStatus.VALIDATE
     company = companyService.saveInsideAndAssingCorporate(company, user)
 
     request.withFormat {
