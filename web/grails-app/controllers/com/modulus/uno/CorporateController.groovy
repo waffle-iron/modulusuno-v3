@@ -3,6 +3,7 @@ package com.modulus.uno
 class CorporateController {
 
   CorporateService corporateService
+  UserService userService
   def springSecurityService
 
   def create(){
@@ -51,16 +52,19 @@ class CorporateController {
       return
     }
 
-    User user = new User(username:userCommand.username,password:userCommand.password)
     Profile profile = userCommand.getProfile()
     Telephone telephone = userCommand.getTelephone()
 
     if(telephone)
       profile.addToTelephones(telephone)
 
-    user.profile = profile
+    User user =  userService.createUserWithoutRole(new User(username:userCommand.username,
+                                                            password:userCommand.password),profile)
 
-    corporateService.addUserToCorporate(corporateId,user)
+    ArrayList<Role> roles = springSecurityService.getPrincipal().getAuthorities()
+
+    if(roles[0].authority == "ROLE_M1")
+      corporateService.addNewUserToCorporate(corporateId,user,"ROLE_CORPORATIVE")
 
     redirect(action:"show",id:corporateId)
   }
