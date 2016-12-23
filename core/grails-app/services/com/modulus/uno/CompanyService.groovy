@@ -45,6 +45,12 @@ class CompanyService {
     }
   }
 
+  def findCompaniesByCorporateAndStatus(CompanyStatus status,Long corporateId){
+    Corporate corporate = Corporate.get(corporateId)
+    ArrayList<Company> companies = corporate.companies.findAll{ it.status == status }
+    companies
+  }
+
   def createAddressForCompany(Address address, Long companyId){
     def company = Company.get(companyId)
     company.addToAddresses(address)
