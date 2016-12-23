@@ -14,14 +14,9 @@ class CorporateService {
     corporate
   }
 
-  def addUserToCorporate(Long corporateId, User user) {
-    User createdUser = userService.createUserWithoutRole(user,user.profile)
-    Role role = Role.findWhere(authority: 'ROLE_CORPORATIVE')
-    createdUser = userService.setAuthorityToUser(createdUser,role)
-    Corporate corporate = Corporate.get(corporateId)
-    corporate.addToUsers(createdUser)
-    corporate.save()
-    corporate
+  def addNewUserToCorporate(Long corporateId, User user,String authority = ""){
+    Role role = Role.findWhere(authority: authority)
+    addUserToCorporate(corporateId,user,role)
   }
 
   def saveNewCorporate(Corporate corporate) {
@@ -47,11 +42,13 @@ class CorporateService {
     }
   }
 
-  private User setAuthorityToUser(def user) {
-    def userRole = Role.findWhere(authority: 'ROLE_CORPORATIVE')
-    UserRole.create user, userRole, true
-    user.save()
+  Corporate addUserToCorporate(Long corporateId,User user,Role role = null){
+    if(role)
+      user = userService.setAuthorityToUser(user,role)
+    Corporate corporate = Corporate.get(corporateId)
+    corporate.addToUsers(user)
+    corporate.save()
+    corporate
   }
-
 
 }
