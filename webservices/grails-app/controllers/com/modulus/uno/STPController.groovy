@@ -8,7 +8,7 @@ import grails.converters.JSON
 @Api
 class STPController {
 
-  static allowedMethods = [save: "POST", update: "POST"]
+  static allowedMethods = [depositSTP: "POST"]
 
   @SwaggySave(extraParams = [
     @ApiImplicitParam(name = "clave", value = "Folio de la operación en Enlace Financiero", required = true, dataType = "long", paramType = "query"),
@@ -27,7 +27,7 @@ class STPController {
     @ApiImplicitParam(name = "empresa", value = "Nombre de la empresa beneficiaria que está configurada en STP", required = true, dataType = "string", paramType = "query")
       ])
   def depositSTP(StpDepositCommand command) {
-    respond "Ok", status: 201, formats: ['json']
+    respond new StpDeposit(), status: 201, formats:['json']
   }
 
 
