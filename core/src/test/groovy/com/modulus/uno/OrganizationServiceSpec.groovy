@@ -26,8 +26,8 @@ class OrganizationServiceSpec extends Specification {
           ROLE_FICO_VISOR:"on"], 
         makingdevs:[
           ROLE_LEGAL_REPRESENTATIVE_EJECUTOR:"on", 
-          ROLE_FICO_VISOR:"on"
-        ]
+          ROLE_FICO_VISOR:"on"],
+        other:[]
       ]
     and:
       def roleServiceMock = Mock(RoleService){
