@@ -13,4 +13,8 @@ class RoleService {
       userRoleByCompany.save()
       userRoleByCompany
     }
+
+    UserRoleCompany findRolesForUserAtThisCompany(User user, Company company){
+      UserRoleCompany.findByCompanyAndUser(company, user)
+    }
 }
