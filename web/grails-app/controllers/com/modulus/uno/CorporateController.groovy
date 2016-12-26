@@ -54,6 +54,7 @@ class CorporateController {
     [companies:corporate.companies,roles:roles,user:user]
   }
 
+  @Transactional
   def saveRolesForUser(RolesCompanyCommand command){
     organizationService.createRolesForUserInCompanies(command.username,command.rolesByCompany())
     redirect(action:"assignRolesInCompaniesForUser",id:5)
@@ -94,6 +95,7 @@ class CorporateController {
 
 @groovy.transform.TypeChecked
 class RolesCompanyCommand {
+  String username
   Map<String, Map<String, Boolean>> companies
 
   Map filterDataInCommand(){
