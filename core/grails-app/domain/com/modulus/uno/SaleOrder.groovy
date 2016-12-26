@@ -21,6 +21,8 @@ class SaleOrder {
   String externalId
   Date originalDate
 
+  String note
+
   static belongsTo = [company:Company]
 
   static hasMany = [addresses:Address, items:SaleOrderItem,authorizations:Authorization, documents:S3Asset]
@@ -35,6 +37,7 @@ class SaleOrder {
     fechaCobro nullable:true
     externalId nullable:true
     originalDate nullable:true
+    note nullable:true, size:1..300
   }
 
   BigDecimal getTotalIVA(){
