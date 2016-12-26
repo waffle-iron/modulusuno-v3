@@ -6,6 +6,7 @@ import grails.transaction.Transactional
 class CorporateController {
 
   CorporateService corporateService
+  OrganizationService organizationService
   def springSecurityService
 
   def create(){
@@ -50,14 +51,11 @@ class CorporateController {
                           "ROLE_AUTHORIZER_EJECUTOR",
                           "ROLE_OPERATOR_VISOR",
                           "ROLE_OPERATOR_EJECUTOR"]}
-    [companies:corporate.companies,roles:roles]
+    [companies:corporate.companies,roles:roles,user:user]
   }
 
   def saveRolesForUser(RolesCompanyCommand command){
-    log.debug command.rolesByCompany()
-    log.debug springSecurityService.currentUser.authorities
-    def user = springSecurityService.currentUser
-    springSecurityService.reauthenticate user.username
+    organizationService.createRolesForUserInCompanies(command.username,command.rolesByCompany())
     redirect(action:"assignRolesInCompaniesForUser",id:5)
   }
 
