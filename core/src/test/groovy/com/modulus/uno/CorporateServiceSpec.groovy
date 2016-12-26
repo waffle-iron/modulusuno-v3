@@ -76,4 +76,38 @@ class CorporateServiceSpec extends Specification {
       userCorporate.nameCorporate == "Corporate1"
   }
 
+  Should "get the corporate users by role"(){
+    given:"the corporate"
+      Corporate corporate = new Corporate(nameCorporate:"Corporate I",
+                                          corporateUrl:"http://www.someurl.com")
+      corporate.save(validate:false)
+
+    and:"the current user"
+      Role role = new Role(authority:_authority)
+      User user = new User(username:"egjimenezg@gmail.com",
+                           password:"1234567890")
+
+      user.save(validate:false)
+      role.save(validate:false)
+      UserRole.create(user,role)
+    and:"the spring security service mock"
+      service.springSecurityService = [currentUser:user]
+    and:"the users without roles"
+      ArrayList<User> users = [new User(username:"user1"),
+                               new User(username:"user2")]
+
+      users.each{ _user -> _user.save(validate:false) }
+      users.each{ _user ->
+        corporate.addToUsers(_user)
+      }
+    when:
+      ArrayList<User> corporateUsers = service.findCorporativeUsers(corporate.id)
+    then:
+      corporateUsers.size() == _size
+    where:
+      _authority         | _size
+      "ROLE_M1"          | 0
+      "ROLE_CORPORATIVE" | 2
+  }
+
 }
