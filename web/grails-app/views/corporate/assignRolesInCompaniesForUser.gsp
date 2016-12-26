@@ -20,8 +20,18 @@
       </ol>
     </div>
 
+    <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
+    <h1>ROLE Corporativo</h1>
+    </sec:ifAnyGranted>
+
+    <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
+    <h1>ROLE ROLE_FICO_EJECUTOR</h1>
+    </sec:ifAnyGranted>
+
     <div class="row">
       <div class="col-md-12 col-lg-12">
+        <g:form action="saveRolesForUser" method="POST" class="form-horizontal" role="form">
+        <g:hiddenField name="username" value="${user.username}" />
         <table class="table table-striped">
           <thead>
             <tr>
@@ -37,13 +47,15 @@
                 <td>${company}</td>
                 <g:each status="a" in="${roles}" var="someRole">
                   <td>
-                    <g:checkBox name="myCheckbox" value="${false}" />
+                    <g:checkBox name="companies.${company}.${someRole}" value="${false}" />
                   </td>
                 </g:each>
               </tr>
             </g:each>
           </tbody>
         </table>
+        <input class="save btn btn-default" type="submit" value="${message(code: 'default.button.save.label', default: 'Save')}" />
+        </g:form>
       </div>
     </div>
   </body>
