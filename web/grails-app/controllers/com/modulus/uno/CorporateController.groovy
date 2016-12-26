@@ -60,10 +60,10 @@ class CorporateController {
                           "ROLE_AUTHORIZER_EJECUTOR",
                           "ROLE_OPERATOR_VISOR",
                           "ROLE_OPERATOR_EJECUTOR"]}
-    [companies:corporate.companies,roles:roles,user:user]
+    List<UserRoleCompany> rolesOfUser = organizationService.findRolesForUserInCompanies(user.username,corporate)
+    [companies:corporate.companies,roles:roles,user:user,rolesOfUser:rolesOfUser]
   }
 
-  @Transactional
   def saveRolesForUser(RolesCompanyCommand command){
     organizationService.createRolesForUserInCompanies(command.username,command.rolesByCompany())
     redirect(action:"assignRolesInCompaniesForUser",id:5)
@@ -106,11 +106,6 @@ class CorporateController {
       redirect(action:"show",id:corporateId)
       return
     }
-  }
-
-  def assignRolesInCompaniesForUser(User user){
-    Corporate corporate = corporateService.findCorporateOfUser(user)
-    [companies:corporate.companies,roles:Role.list()]
   }
 
 }
