@@ -101,7 +101,7 @@ class CorporateServiceSpec extends Specification {
         corporate.addToUsers(_user)
       }
     when:
-      ArrayList<User> corporateUsers = service.findCorporativeUsers(corporate.id)
+      ArrayList<User> corporateUsers = service.findCorporateUsers(corporate.id)
     then:
       corporateUsers.size() == _size
     where:

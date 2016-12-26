@@ -52,7 +52,7 @@ class CorporateService {
     corporate
   }
 
-  ArrayList<User> findCorporativeUsers(Long corporateId){
+  ArrayList<User> findCorporateUsers(Long corporateId){
     Corporate corporate = Corporate.get(corporateId)
     ArrayList<User> corporateUsers = corporate.users
 
