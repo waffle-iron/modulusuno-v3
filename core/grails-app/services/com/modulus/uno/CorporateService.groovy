@@ -7,6 +7,7 @@ class CorporateService {
 
   RecoveryService recoveryService
   UserService userService
+  def springSecurityService
 
   def addCompanyToCorporate(Corporate corporate, Company company) {
     corporate.addToCompanies(company)
@@ -49,6 +50,21 @@ class CorporateService {
     corporate.addToUsers(user)
     corporate.save()
     corporate
+  }
+
+  ArrayList<User> findCorporativeUsers(Long corporateId){
+    Corporate corporate = Corporate.get(corporateId)
+    ArrayList<User> corporateUsers = corporate.users
+
+    User user = springSecurityService.currentUser
+    ArrayList<String> currentUserAuthorities = user.getAuthorities()*.authority
+
+    if(currentUserAuthorities.contains("ROLE_M1"))
+      corporateUsers = corporateUsers.findAll{ _user -> _user.getAuthorities()*.authority.contains("ROLE_CORPORATIVE") }
+    else
+      corporateUsers = corporateUsers.findAll{ _user -> ["ROLE_M1","ROLE_CORPORATIVE"].every{ !(it in _user.getAuthorities()*.authority) } }
+
+    corporateUsers
   }
 
 }
