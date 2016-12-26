@@ -23,7 +23,14 @@ class StpDepositService {
       referenciaNumerica:notification.ReferenciaNumerica,
       empresa:notification.Empresa
     )
+    if (!command.validate()) {
+      throw new BusinessException("Invalid parameters")
+    }
 
+    StpDeposit stpDeposit = command.createStpDeposit()
+    stpDeposit.save()
+    //actualizar saldo de cuenta bancaria stp
+    //registrar cashin en M1
   }
 
 }
