@@ -63,7 +63,6 @@ class CorporateController {
     [companies:corporate.companies,roles:roles,user:user]
   }
 
-  @Transactional
   def saveRolesForUser(RolesCompanyCommand command){
     organizationService.createRolesForUserInCompanies(command.username,command.rolesByCompany())
     redirect(action:"assignRolesInCompaniesForUser",id:5)
@@ -103,14 +102,16 @@ class CorporateController {
     }
     else{
       corporateService.addNewUserToCorporate(corporateId,user)
-      redirect(action:"show",id:corporateId)
+      redirect(action:"users",id:corporateId)
       return
     }
   }
 
-  def assignRolesInCompaniesForUser(User user){
-    Corporate corporate = corporateService.findCorporateOfUser(user)
-    [companies:corporate.companies,roles:Role.list()]
+  def users(Corporate corporate){
+    if(!corporate)
+      return response.sendError(404)
+
+    [users:corporateService.findCorporateUsers(corporate.id)]
   }
 
 }
