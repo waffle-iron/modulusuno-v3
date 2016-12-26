@@ -43,7 +43,7 @@ class STPController {
     @ApiImplicitParam(name = 'notification', value = '', dataType = 'string',paramType = 'query')
   ])
   def stpDepositNotification() {
-    println "String Xml: ${params.notification}"
+
     respond new StpDeposit(), status: 201, formats: ['json']
   }
 
