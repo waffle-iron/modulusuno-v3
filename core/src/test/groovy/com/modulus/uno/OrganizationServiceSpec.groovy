@@ -6,11 +6,14 @@ import java.lang.Void as Should
 import grails.test.mixin.Mock
 
 @TestFor(OrganizationService)
-@Mock([User, Company])
+@Mock([User, Company, Role])
 class OrganizationServiceSpec extends Specification {
 
   Should "Should create roles for user in a companies"(){
     given:
+      ["ROLE_LEGAL_REPRESENTATIVE_EJECUTOR","ROLE_FICO_VISOR"].each { r ->
+        new Role(r).save(validate:false)
+      }
       Company c1 = new Company(bussinessName:"makingdevs")
       Company c2 = new Company(bussinessName:"talachero")
       Company c3 = new Company(bussinessName:"farloperos")
@@ -28,7 +31,7 @@ class OrganizationServiceSpec extends Specification {
       ]
     and:
       def roleServiceMock = Mock(RoleService){
-        4 * createRoleForUserAtThisCompany(_,user, _)
+        2 * createRolesForUserAtThisCompany(_,user, _)
       }
       service.roleService = roleServiceMock
     when:
