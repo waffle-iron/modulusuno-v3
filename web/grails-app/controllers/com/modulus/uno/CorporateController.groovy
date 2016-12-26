@@ -53,6 +53,14 @@ class CorporateController {
     [companies:corporate.companies,roles:roles]
   }
 
+  def saveRolesForUser(RolesCompanyCommand command){
+    log.debug command.rolesByCompany()
+    log.debug springSecurityService.currentUser.authorities
+    def user = springSecurityService.currentUser
+    springSecurityService.reauthenticate user.username
+    redirect(action:"assignRolesInCompaniesForUser",id:5)
+  }
+
   def addUser(Corporate corporate){
     if(!corporate)
       return response.sendError(404)
@@ -84,4 +92,22 @@ class CorporateController {
     redirect(action:"show",id:corporateId)
   }
 
+}
+
+@groovy.transform.TypeChecked
+class RolesCompanyCommand {
+  Map<String, Map<String, Boolean>> companies
+
+  Map filterDataInCommand(){
+    companies.findAll { k,v -> !k.contains(".") }
+  }
+
+  Map rolesByCompany(){
+    def rolesByCompany = [:]
+    def fullData = filterDataInCommand()
+    fullData.each { company, roles ->
+      rolesByCompany["$company"] = roles.findAll { String k,v -> !k.startsWith("_") }
+    }
+    rolesByCompany
+  }
 }
