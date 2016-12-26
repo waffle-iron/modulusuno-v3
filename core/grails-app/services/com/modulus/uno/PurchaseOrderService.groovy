@@ -16,8 +16,8 @@ class PurchaseOrderService {
     order.save()
   }
 
-  def addInvoiceToPurchaseOrder(def invoice, Long saleOrderId, String type){
-    PurchaseOrder order = PurchaseOrder.get(saleOrderId)
+  def addInvoiceToPurchaseOrder(def invoice, Long purchaseOrderId, String type){
+    PurchaseOrder order = PurchaseOrder.get(purchaseOrderId)
     documentService.uploadDocumentForOrder(invoice,type,order)
   }
 
