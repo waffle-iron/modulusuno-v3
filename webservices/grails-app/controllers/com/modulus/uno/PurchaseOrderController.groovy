@@ -20,6 +20,7 @@ class PurchaseOrderController {
       @ApiImplicitParam(name = 'bankAccountId', value = '', required = true, dataType = 'integer',paramType = 'form'),
       @ApiImplicitParam(name = 'fechaPago', value = 'dd/MM/yyyy', required = true, dataType = 'date',paramType = 'form'),
       @ApiImplicitParam(name = 'isAnticipated', value = '', required = false, dataType = 'string',paramType = 'form'),
+      @ApiImplicitParam(name = 'note', value = '', required = false, dataType = 'string',paramType = 'form'),
       @ApiImplicitParam(name = 'pdf', value = '', required = false, dataType = 'file',paramType = 'form'),
       @ApiImplicitParam(name = 'xml', value = '', required = false, dataType = 'file',paramType = 'form'),
       @ApiImplicitParam(name = 'externalId', value = '', required = true, dataType = 'string',paramType = 'form')
@@ -32,13 +33,11 @@ class PurchaseOrderController {
       if (!params.xml || !params.pdf)
         response.sendError(400,"The purchase order are not created, need two files xml and pdf")
     def purchaseOrder = purchaseOrderService.createPurchaseOrder(params.long("companyId"), params)
-    println "antes de los archivos"
     if (params.xml && params.pdf && purchaseOrder.id) {
       purchaseOrderService.addInvoiceToPurchaseOrder(params.xml, purchaseOrder.id, "invoiceForPO")
       purchaseOrderService.addInvoiceToPurchaseOrder(params.pdf, purchaseOrder.id, "invoiceForPO")
       purchaseOrderService.requestAuthorizationForTheOrder(purchaseOrder)
     }
-    println "despues de los archivo"
 
     if (purchaseOrder.id)
       respond purchaseOrder, status: 201, formats: ['json']
