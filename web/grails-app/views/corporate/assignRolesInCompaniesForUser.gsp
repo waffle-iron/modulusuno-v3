@@ -19,36 +19,44 @@
         <li class="active">Creación de Compañia</li>
       </ol>
     </div>
-    <!-- END OF PAGE TITLE -->
-    <!-- BEGIN PORLET -->
-    <div class="portlet portlet-blue">
-      <div class="portlet-heading">
-        <div class="portlet-title">
-          <br/>
-          <br/>
-        </div>
 
-        <!-- BEGIN PORTLET-WIDGETS -->
-        <div class="portlet-widgets">
-        </div>
-        <!-- END OF PORTLET-WIDGETS -->
-        <div class="clearfix"></div>
-      </div>
+    <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
+    <h1>ROLE Corporativo</h1>
+    </sec:ifAnyGranted>
 
-      <!-- BEGIN BLUE-PORTLET -->
-      <div id="bluePortlet" class="panel-collapse collapse in">
-        <!-- BEGIN PORTLET-BODY -->
-        <div class="portlet-body">
-          <!-- BEGIN CREATE-ADDRESS -->
-          <div id="create-address" class="content scaffold-create" role="main">
-          Hola a
-          </div>
-          <!-- END OF CREATE ADDRESS -->
-        </div>
-        <!-- END OF PORTLET-BODY -->
+    <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
+    <h1>ROLE ROLE_FICO_EJECUTOR</h1>
+    </sec:ifAnyGranted>
+
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <g:form action="saveRolesForUser" method="POST" class="form-horizontal" role="form">
+        <g:hiddenField name="username" value="${user.username}" />
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <g:each status="i" in="${roles}" var="role">
+                <th>${role}</th>
+              </g:each>
+            </tr>
+          </thead>
+          <tbody>
+            <g:each status="b" in="${companies}" var="company">
+              <tr>
+                <td>${company}</td>
+                <g:each status="a" in="${roles}" var="someRole">
+                  <td>
+                    <g:checkBox name="companies.${company}.${someRole}" value="${false}" />
+                  </td>
+                </g:each>
+              </tr>
+            </g:each>
+          </tbody>
+        </table>
+        <input class="save btn btn-default" type="submit" value="${message(code: 'default.button.save.label', default: 'Save')}" />
+        </g:form>
       </div>
-      <!-- END OF BLUE-PORTLET -->
     </div>
-    <!-- END OF PORTLET  -->
   </body>
 </html>

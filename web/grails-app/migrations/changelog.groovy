@@ -18,5 +18,6 @@ databaseChangeLog = {
   include file: 'adding-ids-of-artimisa.groovy'
   include file: 'adding-date-operation-in-sale-and-puchase-order.groovy'
   include file: 'create-m1-roles.groovy'
-    include file: 'adding-new-domain-corporate.groovy'
+  include file: 'adding-new-domain-corporate.groovy'
+  include file: 'creating-user-role-by-company.groovy'
 }

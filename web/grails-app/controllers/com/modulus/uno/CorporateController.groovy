@@ -4,6 +4,7 @@ class CorporateController {
 
   CorporateService corporateService
   UserService userService
+  OrganizationService organizationService
   def springSecurityService
 
   def create(){
@@ -48,6 +49,26 @@ class CorporateController {
     redirect(action:"addUser",id:corporate.id)
   }
 
+  def assignRolesInCompaniesForUser(User user){
+    Corporate corporate = corporateService.findCorporateOfUser(user)
+    List<Role> roles = Role.list()
+    roles = roles.findAll{ it.toString() in ["ROLE_LEGAL_REPRESENTATIVE_VISOR",
+                          "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR",
+                          "ROLE_FICO_VISOR",
+                          "ROLE_FICO_EJECUTOR",
+                          "ROLE_AUTHORIZER_VISOR",
+                          "ROLE_AUTHORIZER_EJECUTOR",
+                          "ROLE_OPERATOR_VISOR",
+                          "ROLE_OPERATOR_EJECUTOR"]}
+    [companies:corporate.companies,roles:roles,user:user]
+  }
+
+  @Transactional
+  def saveRolesForUser(RolesCompanyCommand command){
+    organizationService.createRolesForUserInCompanies(command.username,command.rolesByCompany())
+    redirect(action:"assignRolesInCompaniesForUser",id:5)
+  }
+
   def addUser(Corporate corporate){
     if(!corporate)
       return response.sendError(404)
@@ -87,10 +108,28 @@ class CorporateController {
     }
   }
 
-
   def assignRolesInCompaniesForUser(User user){
     Corporate corporate = corporateService.findCorporateOfUser(user)
     [companies:corporate.companies,roles:Role.list()]
   }
 
+}
+
+@groovy.transform.TypeChecked
+class RolesCompanyCommand {
+  String username
+  Map<String, Map<String, Boolean>> companies
+
+  Map filterDataInCommand(){
+    companies.findAll { k,v -> !k.contains(".") }
+  }
+
+  Map rolesByCompany(){
+    def rolesByCompany = [:]
+    def fullData = filterDataInCommand()
+    fullData.each { company, roles ->
+      rolesByCompany["$company"] = roles.findAll { String k,v -> !k.startsWith("_") }
+    }
+    rolesByCompany
+  }
 }
