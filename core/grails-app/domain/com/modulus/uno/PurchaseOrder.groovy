@@ -66,6 +66,7 @@ class PurchaseOrder {
       externalId: m.externalId,
       note:m.note,
       items:m.items,
+      documents:m.documents,
       company: m.company
       ]
     }

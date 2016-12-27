@@ -7,12 +7,11 @@ import static org.springframework.http.HttpStatus.*
 @Api
 class PurchaseOrderController {
 
-  static allowedMethods = [save: "POST", purchaseOrderByInvoice: "POST", delete: "DELETE",savePurchaseOrderItem :"POsT"]
+  static allowedMethods = [save: "POST", purchaseOrderByInvoice: "POST", delete: "DELETE",savePurchaseOrderItem :"POsT", setDocumentsInPurchaseOrder: "POST"]
 
   BusinessEntityService businessEntityService
   PurchaseOrderService purchaseOrderService
 
-  def index() { }
 
   @SwaggySave(extraParams = [
       @ApiImplicitParam(name = 'companyId', value = '', required = true, dataType = 'number',paramType = 'form'),
@@ -91,6 +90,39 @@ class PurchaseOrderController {
     def purchaseOrder = purchaseOrderService.createPurchaseOrderItemsByInvoice(responsePOST, purchaseOrderInvoice)
     purchaseOrderService.addInvoiceToPurchaseOrder(invoice, purchaseOrder.id, "invoiceForPO")
     respond purchaseOrder, status: 201, formats: ['json']
+  }
+
+  @SwaggyShow
+  def show() {
+    def purchaseOrder = PurchaseOrder.findById(params.id)
+    if (purchaseOrder)
+      respond purchaseOrder, status: 200, formats: ['json']
+    else
+      response.sendError(404,"PurchaseOrder not Exist or need send a id" )
+  }
+
+  @SwaggySave(extraParams = [
+    @ApiImplicitParam(name = 'purchaseOrderId', value = '', dataType = 'number', paramType = 'form'),
+    @ApiImplicitParam(name = 'pdf', value = '', dataType = 'file', paramType = 'form'),
+    @ApiImplicitParam(name = 'xml', value = '', dataType = 'file', paramType = 'form')
+  ])
+  def setDocumentsInPurchaseOrder() {
+    def purchaseOrder = PurchaseOrder.findById(params.purchaseOrderId)
+    if (!purchaseOrder.isAnticipated) {
+      response.sendError(400, "The purchase order aren't not invoice")
+      return
+    }
+
+    if (params.xml && params.pdf && purchaseOrder.id) {
+      purchaseOrderService.addInvoiceToPurchaseOrder(params.xml, purchaseOrder.id, "invoiceForPO")
+      purchaseOrderService.addInvoiceToPurchaseOrder(params.pdf, purchaseOrder.id, "invoiceForPO")
+    }
+
+    if (purchaseOrder.documents.size() > 1)
+      respond purchaseOrder, status: 201, formats: ['json']
+    else
+      response.sendError(400, "exist problems with upload documents to order")
+
   }
 
   private def validateBankAccountsAndAddressOfProvider(String rfc) {

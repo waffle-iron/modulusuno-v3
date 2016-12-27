@@ -1,4 +1,5 @@
 package com.modulus.uno
+import grails.converters.JSON
 
 class S3Asset {
 
@@ -23,4 +24,17 @@ class S3Asset {
   String toString() {
     originalName
   }
+
+  static marshaller = {
+    JSON.registerObjectMarshaller(S3Asset, 1) { m ->
+      return [
+      id: m.id,
+      url:m.localUrl,
+      orinalName:m.originalName
+      ]
+    }
+  }
+
+
+
 }
