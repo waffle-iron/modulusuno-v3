@@ -6,18 +6,12 @@ import grails.transaction.Transactional
 class CorporateService {
 
   RecoveryService recoveryService
-  UserService userService
   def springSecurityService
 
   def addCompanyToCorporate(Corporate corporate, Company company) {
     corporate.addToCompanies(company)
     corporate.save()
     corporate
-  }
-
-  def addNewUserToCorporate(Long corporateId, User user,String authority = ""){
-    Role role = Role.findWhere(authority: authority)
-    addUserToCorporate(corporateId,user,role)
   }
 
   def saveNewCorporate(Corporate corporate) {
@@ -43,9 +37,7 @@ class CorporateService {
     }
   }
 
-  Corporate addUserToCorporate(Long corporateId,User user,Role role = null){
-    if(role)
-      user = userService.setAuthorityToUser(user,role)
+  Corporate addUserToCorporate(Long corporateId,User user){
     Corporate corporate = Corporate.get(corporateId)
     corporate.addToUsers(user)
     corporate.save()
