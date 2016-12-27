@@ -140,7 +140,7 @@ class SaleOrderController {
   }
 
   def save() {
-    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro, "")
+    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro,"",params.note)
 
     request.withFormat {
       form multipartForm {
