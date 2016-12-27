@@ -19,11 +19,11 @@
     </div>
     <!-- END OF PAGE-TITLE-->
     <ul class="nav nav-tabs nav-pills" role="tablist">
-      <li role="presentation"><a href="#acepted" aria-controls="acepted" role="tab" data-toggle="tab">Aceptadas</a></li>
+      <li role="presentation" class="active"><a href="#acepted" aria-controls="acepted" role="tab" data-toggle="tab">Aceptadas</a></li>
     </ul>
     <!-- BEGIN TAB-CONTENT -->
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane" id="acepted">
+      <div role="tabpanel" class="tab-pane active" id="acepted">
         <div id="list-company" class="col-lg-12" role="main">
           <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>

@@ -115,6 +115,11 @@ class CorporateController {
       return
     }
 
+    company.status = CompanyStatus.ACCEPTED
+    Corporate corporate = session.corporate
+
+    company = companyService.saveInsideAndAssingCorporate(company,corporate.id)
+    redirect(action:"companies",id:corporate.id)
   }
 
   def users(Corporate corporate){
@@ -128,6 +133,7 @@ class CorporateController {
     def companiesForValidation = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.VALIDATE,corporate.id)
     def companiesRejected = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.REJECTED,corporate.id)
     def companiesAccepted = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.ACCEPTED,corporate.id)
+
     [companiesForValidation:companiesForValidation,
      companiesRejected:companiesRejected,
      companiesAccepted:companiesAccepted]
