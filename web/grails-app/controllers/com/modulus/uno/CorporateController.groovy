@@ -40,15 +40,6 @@ class CorporateController {
     respond corporate,model:[]
   }
 
-  def createUser(){
-    User user = springSecurityService.currentUser
-    Corporate corporate = corporateService.findCorporateOfUser(user)
-    if(!corporate)
-      return response.sendError(404)
-
-    redirect(action:"addUser",id:corporate.id)
-  }
-
   def assignRolesInCompaniesForUser(User user){
     Corporate corporate = corporateService.findCorporateOfUser(user)
     List<Role> roles = Role.list()
