@@ -7,6 +7,8 @@ class CorporateInterceptor {
 
   CorporateInterceptor(){
     match(controller:"corporate")
+    match(controller:"company",action:"show")
+    match(controller:"dashboard",action:"index")
   }
 
   boolean before() {
