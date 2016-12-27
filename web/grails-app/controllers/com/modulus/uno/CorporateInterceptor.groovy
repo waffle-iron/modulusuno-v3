@@ -11,14 +11,18 @@ class CorporateInterceptor {
 
   boolean before() {
     if(!session.corporate){
-      session.corporate = corporateService.findCorporateOfUser springSecurityService.currentUser
+      User user = springSecurityService.currentUser
+      if(!user)
+        return
+
+      session.corporate = corporateService.findCorporateOfUser user
     }
-    println session
     true
   }
 
   boolean after() {
-    model.corporate = corporateService.findCorporateOfUser springSecurityService.currentUser
+    if(session.corporate && model)
+      model.corporate = session.corporate
     true
   }
 
