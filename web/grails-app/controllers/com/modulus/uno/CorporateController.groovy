@@ -35,10 +35,9 @@ class CorporateController {
     if(!corporate)
       return response.sendError(404)
 
-    ArrayList<Role> roles = springSecurityService.getPrincipal().getAuthorities()
-    ArrayList<User> users = []
+    ArrayList<User> users = corporateService.findCorporateUsers(corporate.id)
 
-    respond corporate,model:[]
+    respond corporate,model:[users:users]
   }
 
   def assignRolesInCompaniesForUser(User user){
