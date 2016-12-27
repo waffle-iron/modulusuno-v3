@@ -31,5 +31,5 @@ databaseChangeLog = {
     include file: 'modify-column-name-growing-to-300-from-sale-order-item.groovy'
     include file: 'modify-column-name-growing-to-300-from-purchase-order-item.groovy'
     include file: 'adding-indicator-for-account-stp.groovy'
-    include file: 'create-table-stp-deposit-notification.groovy'
+    include file: 'create-table-stp-deposit.groovy'
 }

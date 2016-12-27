@@ -1,6 +1,6 @@
 databaseChangeLog = {
 
-    changeSet(author: "tim (generated)", id: "1482786968427-1") {
+    changeSet(author: "tim (generated)", id: "1482816826760-1") {
         createTable(tableName: "stp_deposit") {
             column(autoIncrement: "true", name: "id", type: "BIGINT") {
                 constraints(primaryKey: "true", primaryKeyName: "stp_depositPK")
@@ -46,9 +46,7 @@ databaseChangeLog = {
                 constraints(nullable: "false")
             }
 
-            column(name: "payer_name", type: "VARCHAR(255)") {
-                constraints(nullable: "false")
-            }
+            column(name: "payer_name", type: "VARCHAR(255)")
 
             column(name: "payment_concept", type: "VARCHAR(255)") {
                 constraints(nullable: "false")
