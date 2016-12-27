@@ -5,6 +5,9 @@ import grails.transaction.Transactional
 @Transactional
 class RoleService {
 
+  UserRoleService userRoleService
+  def springSecurityService
+
   UserRoleCompany createRolesForUserAtThisCompany(List<Role> roles, User user, Company company) {
     UserRoleCompany userRoleByCompany = new UserRoleCompany(user:user,company:company)
     roles.collect{ Role role ->
@@ -24,5 +27,13 @@ class RoleService {
       userRoleCompany.delete() 
     }
   }
+
+  def updateTheUserRolesOfUserAtThisCompany(User user, Company company){
+    UserRoleCompany userRoleCompany = findRolesForUserAtThisCompany(user,company)
+    userRoleService.deleteUserRolesForUser(user)
+    userRoleService.createUserRolesForUser(user, userRoleCompany.roles)
+    springSecurityService.reauthenticate(user.username)
+  }
+
 
 }
