@@ -40,4 +40,23 @@ class OrganizationServiceSpec extends Specification {
       assert user
   }
 
+
+  Should "Delete the roles for user in companies"(){
+    given:
+      Company c1 = new Company(bussinessName:"makingdevs")
+      Company c2 = new Company(bussinessName:"talachero")
+      List<Company> companies = [c1,c2]*.save(validate:false)
+      User user = new User("user","user")
+      user.save(validate:false)
+    and:
+      def roleServiceMock = Mock(RoleService){
+        2 * deleteRolesForUserAtThisCompany(user,_)
+      }
+      service.roleService = roleServiceMock
+    when:
+      user = service.deleteRolesForUserInCompanies(user,companies)
+    then:
+      assert user
+  }
+
 }
