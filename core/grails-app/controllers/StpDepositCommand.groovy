@@ -39,7 +39,7 @@ class StpDepositCommand implements Validateable {
   StpDeposit createStpDeposit() {
     new StpDeposit(
       operationNumber:this.clave.toLong(),
-      operationDate: new Date(this.fechaOperacion.toLong()*1000),
+      operationDate: new SimpleDateFormat("yyyyMMdd").parse(this.fechaOperacion),
       payerKey: this.institucionOrdenante,
       beneficiaryKey: this.institucionBeneficiaria,
       tracingKey: this.claveRastreo,
