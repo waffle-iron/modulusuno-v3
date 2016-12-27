@@ -54,6 +54,8 @@
                     Orden de Compra sin Factura
                   </div>
                 </g:if>
+                <dt>Notas </dt>
+                <dd>${purchaseOrder?.note}</dd>
               </dl>
             </div>
           </div>

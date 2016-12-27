@@ -13,20 +13,20 @@ class SaleOrderService {
   def springSecurityService
 
   // TODO: Code Review
-  def createSaleOrderWithAddress(Long companyId, Long clientId, Long addressId, def fechaCobro, String externalId){
+  def createSaleOrderWithAddress(Long companyId, Long clientId, Long addressId, def fechaCobro, String externalId, def note) {
     if(!companyId && !clientId && !addressId){
       throw new BusinessException("No se puede crear la orden de venta...")
     }
     Company company = Company.get(companyId)
     BusinessEntity businessEntity = BusinessEntity.get(clientId)
-    SaleOrder saleOrder = createSaleOrder(businessEntity, company, fechaCobro, externalId)
+    SaleOrder saleOrder = createSaleOrder(businessEntity, company, fechaCobro, externalId, note)
     Address address = Address.get(addressId)
     addTheAddressToSaleOrder(saleOrder, address)
     saleOrder
   }
 
-  def createSaleOrder(BusinessEntity businessEntity, Company company, def fechaCobro, String externalId) {
-    def saleOrder = new SaleOrder(rfc:businessEntity.rfc, clientName: businessEntity.toString(), company:company, externalId:externalId)
+  def createSaleOrder(BusinessEntity businessEntity, Company company, def fechaCobro, String externalId, String note) {
+    def saleOrder = new SaleOrder(rfc:businessEntity.rfc, clientName: businessEntity.toString(), company:company, externalId:externalId, note:note)
     saleOrder.status = SaleOrderStatus.CREADA
     saleOrder.fechaCobro = Date.parse("dd/MM/yyyy", fechaCobro)
     saleOrder.save()
@@ -134,7 +134,7 @@ class SaleOrderService {
       saleOrder.fechaCobro = Date.parse("dd/MM/yyyy", params.fechaCobro)
       saleOrder.save()
     } else {
-      saleOrder = createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro, params.externalId)
+      saleOrder = createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro, params.externalId, params.note)
     }
     saleOrder
   }

@@ -115,7 +115,13 @@
                 <input type="text" id="datepicker" name="fechaCobro" required="required">
               </div>
               <br />
+              <div class="">
+                <label>Notas</label>
+                <textarea rows="4" cols="50" name="note" id="note" ></textarea>
+              </div>
+              <br/>
               <p>
+             <p>
               <button type="submit" class="btn btn-green btn-block">
                 Confirmar cliente/cuenta y agregar productos/servicios
               </button>

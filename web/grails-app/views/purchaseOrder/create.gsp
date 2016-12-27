@@ -127,6 +127,12 @@
                 <label>Fecha de Pago<font color="red"> *Requerida</font></label>
                 <input type="text" id="datepicker" name="fechaPago" required="required">
               </div>
+              <br/>
+              <div class="">
+                <label>Notas</label>
+                <textarea rows="4" cols="50" name="note" id="note" ></textarea>
+              </div>
+              <br/>
               <p>
               <p><strong>${provider.rfc}</strong></p>
               <g:if test="${provider.banksAccounts}">
