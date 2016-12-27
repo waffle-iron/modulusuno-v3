@@ -388,18 +388,16 @@ class CompanyServiceSpec extends Specification {
 
   void "create simple company and add it to one corporate"(){
     given:
-      Company company = new Company(
-        rfc:"ROD861224KJD",
-        bussinessName:"apple1",
-        webSite:"http://url.com",
-        employeeNumbers:2,
-        grossAnnualBilling:1_000_000)
+      Company company = new Company(rfc:"ROD861224KJD",
+                                    bussinessName:"apple1",
+                                    webSite:"http://url.com",
+                                    employeeNumbers:2,
+                                    grossAnnualBilling:1_000_000)
       Corporate corporate = new Corporate(nameCorporate:"nombre",corporateUrl:"url")
       corporate.save(validate:false)
       User corporateUser = new User().save(validate:false)
     and:
       def corporateServiceMock = Mock(CorporateService) {
-        1 * findCorporateOfUser(corporateUser) >> corporate
         1 * addCompanyToCorporate(corporate,company) >> {
           corporate.addToCompanies(company)
           corporate.save()
@@ -408,7 +406,7 @@ class CompanyServiceSpec extends Specification {
       }
       service.corporateService = corporateServiceMock
     when:
-      Company expectedCompany = service.saveInsideAndAssingCorporate(company, corporateUser)
+      Company expectedCompany = service.saveInsideAndAssingCorporate(company,corporate.id)
     then:
       expectedCompany.id
   }
