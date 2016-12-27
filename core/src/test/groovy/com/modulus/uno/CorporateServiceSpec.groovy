@@ -49,7 +49,7 @@ class CorporateServiceSpec extends Specification {
       }
       service.userService = userServiceMock
     when:
-      def corporateWithUser = service.addNewUserToCorporate(corporate.id,user,'ROLE_CORPORATIVE')
+      def corporateWithUser = service.addUserToCorporate(corporate.id,user)
     then:
       corporateWithUser.users.size() == 1
       corporateWithUser.users.first() == user
@@ -68,7 +68,7 @@ class CorporateServiceSpec extends Specification {
       }
       service.userService = userServiceMock
     and:"the user is added to the corporate"
-      service.addNewUserToCorporate(corporate.id,user,'ROLE_CORPORATIVE')
+      service.addUserToCorporate(corporate.id,user)
     when:
       Corporate userCorporate = service.findCorporateOfUser(user)
     then:
