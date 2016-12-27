@@ -32,7 +32,7 @@ class RoleService {
     UserRoleCompany userRoleCompany = findRolesForUserAtThisCompany(user,company)
     userRoleService.deleteUserRolesForUser(user)
     userRoleService.createUserRolesForUser(user, userRoleCompany.roles)
-    springSecurityService.reauthenticate(user.username)
+    //springSecurityService.reauthenticate(user.username)
   }
 
 
