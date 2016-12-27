@@ -98,6 +98,8 @@
                 <dd>${modulusuno.formatPrice(number:saleOrder.total)}</dd>
                 <dt>Estado</dt>
                 <dd><g:message code="saleOrder.status.${saleOrder.status}" default="${saleOrder.status}"/></dd>
+                <dt>Notas</dt>
+                <dd>${saleOrder?.note}</dd>
               </dl>
               <p>
               <g:if test="${saleOrder.status == SaleOrderStatus.CANCELADA || saleOrder.status == SaleOrderStatus.RECHAZADA}">
