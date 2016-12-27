@@ -7,10 +7,23 @@ import java.math.RoundingMode
 class StpDepositService {
 
   def notificationDepositFromStp(String xmlNotif) {
-    def notification = new XmlSlurper().parseText(xmlNotif)
-    log.info "Notification: ${notification}"
+    StpDeposit stpDeposit = saveNotification(xmlNotif)
+    //actualizar saldo de cuenta bancaria stp
+    //registrar cashin en M1
+    //crear la notificación de pago para concialiar factura
+    stpDeposit
+  }
 
-    StpDepositCommand command = new StpDepositCommand(
+  private StpDeposit saveNotification(String xml) {
+    def notification = new XmlSlurper().parseText(xml)
+    StpDepositCommand command = createStpDepositCommand(notification)
+    StpDeposit stpDeposit = command.createStpDeposit()
+    stpDeposit.save()
+    stpDeposit
+  }
+
+  private StpDepositCommand createStpDepositCommand(def notification) {
+     StpDepositCommand command = new StpDepositCommand(
       clave:notification.Clave,
       fechaOperacion:notification.FechaOperacion,
       institucionOrdenante:notification.InstitucionOrdenante.@clave,
@@ -26,19 +39,6 @@ class StpDepositService {
       referenciaNumerica:notification.ReferenciaNumerica,
       empresa:notification.Empresa
     )
-
-    println "Command: ${command.dump()}"
-    log.info "Command: ${command.dump()}"
-
-    StpDeposit stpDeposit = command.createStpDeposit()
-    println "StpDeposit: ${stpDeposit.dump()}"
-    log.info "StpDeposit: ${stpDeposit.dump()}"
-
-    stpDeposit.save()
-    //actualizar saldo de cuenta bancaria stp
-    //registrar cashin en M1
-    stpDeposit
   }
-
 }
 
