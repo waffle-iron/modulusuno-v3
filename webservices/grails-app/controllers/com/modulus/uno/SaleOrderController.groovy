@@ -34,6 +34,7 @@ class SaleOrderController {
       @ApiImplicitParam(name = 'clientId', value = '', required = true, dataType = 'number',paramType = 'form'),
       @ApiImplicitParam(name = 'addressId', value = '', required = true, dataType = 'number',paramType = 'form'),
       @ApiImplicitParam(name = 'fechaCobro', value = 'dd/MM/yyyy', required = true, dataType = 'date',paramType = 'form'),
+      @ApiImplicitParam(name = 'note', value = '', required = false, dataType = 'string',paramType = 'form'),
       @ApiImplicitParam(name = 'externalId', value = '', required = true, dataType = 'string',paramType = 'form')
       ])
   def save() {
