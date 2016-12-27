@@ -6,7 +6,7 @@ import java.text.*
 class StpDepositCommand implements Validateable {
   String clave
   String fechaOperacion
-  String institucionOperante
+  String institucionOrdenante
   String institucionBeneficiaria
   String claveRastreo
   String monto
@@ -14,16 +14,33 @@ class StpDepositCommand implements Validateable {
   String nombreBeneficiario
   String tipoCuentaBeneficiario
   String cuentaBeneficiario
-  String rfcCurpCuentaBeneficiario
+  String rfcCurpBeneficiario
   String conceptoPago
   String referenciaNumerica
   String empresa
+
+  static constraints = {
+    clave blank:false
+    fechaOperacion blank:false
+    institucionOperante blank:false
+    institucionBeneficiaria blank:false
+    claveRastreo blank:false
+    monto blank:false
+    nombreOrdenante blank:true, nullable:true
+    nombreBeneficiario blank:false
+    tipoCuentaBeneficiario blank:false
+    cuentaBeneficiario blank:false
+    rfcCurpBeneficiario blank:false
+    conceptoPago blank:false
+    referenciaNumerica blank:false
+    empresa blank:false
+  }
 
   StpDeposit createStpDeposit() {
     new StpDeposit(
       operationNumber:this.clave.toLong(),
       operationDate: new Date(this.fechaOperacion.toLong()*1000),
-      payerKey: this.institucionOperante,
+      payerKey: this.institucionOrdenante,
       beneficiaryKey: this.institucionBeneficiaria,
       tracingKey: this.claveRastreo,
       amount: getValueInBigDecimal(this.monto),
@@ -31,7 +48,7 @@ class StpDepositCommand implements Validateable {
       beneficiaryName: this.nombreBeneficiario,
       typeAccountBeneficiary: this.tipoCuentaBeneficiario.toLong(),
       accountBeneficiary: this.cuentaBeneficiario,
-      rfcCurpBeneficiary: this.rfcCurpCuentaBeneficiario,
+      rfcCurpBeneficiary: this.rfcCurpBeneficiario,
       paymentConcept: this.conceptoPago,
       numericalReference: this.referenciaNumerica.toLong(),
       companyNameStp: this.empresa
