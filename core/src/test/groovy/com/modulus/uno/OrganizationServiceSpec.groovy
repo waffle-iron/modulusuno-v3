@@ -35,11 +35,10 @@ class OrganizationServiceSpec extends Specification {
       }
       service.roleService = roleServiceMock
     when:
-      user = service.createRolesForUserInCompanies("user",rolesForCompanies)
+      user = service.createRolesForUserInCompanies(user,rolesForCompanies)
     then:
       assert user
   }
-
 
   Should "Delete the roles for user in companies"(){
     given:
