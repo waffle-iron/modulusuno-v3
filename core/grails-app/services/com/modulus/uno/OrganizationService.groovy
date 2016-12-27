@@ -7,8 +7,7 @@ class OrganizationService {
 
   def roleService
   
-  def createRolesForUserInCompanies(String username, Map rolesForCompanies){
-    User user = User.findByUsername(username)
+  User createRolesForUserInCompanies(User user, Map rolesForCompanies){
     rolesForCompanies.each { companyName, rolesForThisCompany ->
       Company company = Company.findByBussinessName(companyName)
 
@@ -34,6 +33,15 @@ class OrganizationService {
       roleService.deleteRolesForUserAtThisCompany(user, company)
     }
     user
+  }
+
+  User updateRolesForUserInCompanies(String username, Map rolesForCompanies){
+    User user = User.findByUsername(username)
+    def companies = rolesForCompanies.collect { companyName, rolesForThisCompany ->
+      Company company = Company.findByBussinessName(companyName)
+    }
+    deleteRolesForUserInCompanies(user,companies)
+    createRolesForUserInCompanies(user,rolesForCompanies)
   }
 
 }
