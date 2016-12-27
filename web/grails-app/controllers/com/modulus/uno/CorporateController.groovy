@@ -65,8 +65,8 @@ class CorporateController {
   }
 
   def saveRolesForUser(RolesCompanyCommand command){
-    organizationService.createRolesForUserInCompanies(command.username,command.rolesByCompany())
-    redirect(action:"assignRolesInCompaniesForUser",id:5)
+    User user = organizationService.updateRolesForUserInCompanies(command.username,command.rolesByCompany())
+    redirect(action:"assignRolesInCompaniesForUser",id:user.id)
   }
 
   def addUser(Corporate corporate){
