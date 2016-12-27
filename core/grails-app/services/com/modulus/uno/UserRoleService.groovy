@@ -12,4 +12,11 @@ class UserRoleService {
     }
   }
 
+  User createUserRolesForUser(User user, List<Role> roles){
+    roles.each{Role role ->
+      new UserRole(user:user,role:role).save()
+    }
+    user
+  }
+
 }
