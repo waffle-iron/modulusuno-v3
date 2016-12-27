@@ -10,6 +10,8 @@ class STPController {
 
   static allowedMethods = [depositSTP: "POST", stpDepositNotification:"POST"]
 
+  def stpDepositService
+
   @SwaggySave(extraParams = [
     @ApiImplicitParam(name = "clave", value = "Folio de la operación en Enlace Financiero", required = true, dataType = "long", paramType = "query"),
     @ApiImplicitParam(name = "fechaOperacion", value = "Fecha de Operación", required = true, dataType = "long", paramType = "query"),
@@ -43,8 +45,12 @@ class STPController {
     @ApiImplicitParam(name = 'notification', value = '', dataType = 'string',paramType = 'query')
   ])
   def stpDepositNotification() {
-
-    respond new StpDeposit(), status: 201, formats: ['json']
+    try {
+      def stpDeposit = stpDepositService.notificationDepositFromStp(params.notification)
+      respond stpDeposit, status: 201, formats: ['json']
+    } catch (ex) {
+      response.sendError(422, "Missing parameters from notification")
+    }
   }
 
 }
