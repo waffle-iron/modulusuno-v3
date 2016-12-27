@@ -87,13 +87,6 @@
             </g:if>
           </sec:ifAnyGranted>
 
-          <sec:ifAnyGranted roles="ROLE_M1">
-            <li>
-              <g:link controller="dashboard" action="index" >Ver Corporativos</g:link>
-              <g:link controller="corporate" action="create" >Crear Nuevo Corporativo</g:link>
-            </li>
-          </sec:ifAnyGranted>
-
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
             <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
           </sec:ifAnyGranted>
