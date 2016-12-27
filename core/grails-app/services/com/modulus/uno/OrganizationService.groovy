@@ -29,7 +29,7 @@ class OrganizationService {
     }.findAll{ it }
   }
 
-  User deleteRolesForUserInCompanies(User user, List<Company> companies){
+  User deleteRolesForUserInCompanies(User user, def companies){
     companies.each{ Company company ->
       roleService.deleteRolesForUserAtThisCompany(user, company)
     }
