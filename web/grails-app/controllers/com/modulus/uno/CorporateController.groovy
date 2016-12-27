@@ -3,6 +3,7 @@ package com.modulus.uno
 class CorporateController {
 
   CorporateService corporateService
+  CompanyService companyService
   UserService userService
   OrganizationService organizationService
   def springSecurityService
@@ -59,6 +60,13 @@ class CorporateController {
     redirect(action:"assignRolesInCompaniesForUser",id:5)
   }
 
+  def addCompany(Corporate corporate){
+    if(!corporate)
+      return response.sendError(404)
+
+    render view:"newCompany",model:[company:new Company()]
+  }
+
   def addUser(Corporate corporate){
     if(!corporate)
       return response.sendError(404)
@@ -98,11 +106,31 @@ class CorporateController {
     }
   }
 
+  def saveCompany(Company company){
+    if(!company)
+      return response.sendError(404)
+
+    if(company.hasErrors()){
+      respond company.errors, view:"/corporate/newCompany"
+      return
+    }
+
+  }
+
   def users(Corporate corporate){
     if(!corporate)
       return response.sendError(404)
 
     [users:corporateService.findCorporateUsers(corporate.id)]
+  }
+
+  def companies(Corporate corporate){
+    def companiesForValidation = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.VALIDATE,corporate.id)
+    def companiesRejected = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.REJECTED,corporate.id)
+    def companiesAccepted = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.ACCEPTED,corporate.id)
+    [companiesForValidation:companiesForValidation,
+     companiesRejected:companiesRejected,
+     companiesAccepted:companiesAccepted]
   }
 
 }
