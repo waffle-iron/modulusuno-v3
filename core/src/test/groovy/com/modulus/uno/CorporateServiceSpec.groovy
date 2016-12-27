@@ -43,11 +43,6 @@ class CorporateServiceSpec extends Specification {
       Corporate corporate = new Corporate(nameCorporate:"test", corporateUrl:"url").save(validate:false)
     and: "create Role corporative"
       new Role("ROLE_CORPORATIVE").save()
-    and: "the user servie Mock"
-      def userServiceMock = Mock(UserService) {
-        1 * setAuthorityToUser(_,_) >> user
-      }
-      service.userService = userServiceMock
     when:
       def corporateWithUser = service.addUserToCorporate(corporate.id,user)
     then:

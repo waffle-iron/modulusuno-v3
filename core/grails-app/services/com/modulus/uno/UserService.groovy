@@ -76,7 +76,8 @@ class UserService {
     user
   }
 
-  User setAuthorityToUser(User user,Role role){
+  User setAuthorityToUser(User user,String authority){
+    Role role = Role.findByAuthority(authority)
     UserRole.create user,role, true
     user.save()
     user
