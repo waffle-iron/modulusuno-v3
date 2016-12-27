@@ -68,4 +68,13 @@ class SaleOrderController {
 
   }
 
+  @SwaggyShow
+  def getDocumentInvoiceById() {
+    SaleOrder saleOrder = SaleOrder.findById(params.id)
+    if (saleOrder.documents)
+      respond saleOrder.documents*.localUrl, status:200, formats: ['json']
+    else
+      response.sendError(400, "SaleOrder not contain documents, is possible it was not executeded")
+  }
+
 }
