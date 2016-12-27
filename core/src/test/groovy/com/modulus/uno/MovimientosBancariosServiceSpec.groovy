@@ -29,6 +29,7 @@ class MovimientosBancariosServiceSpec extends Specification {
 
     }
 
+    @Ignore
     void "verify if list contains elements"() {
       given: "create list of elements"
         def list = [fecha, concepto, referencia, debito, credito]
