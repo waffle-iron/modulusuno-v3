@@ -87,6 +87,7 @@ class CompanyService {
     availableBalance >= amount
   }
 
+  //TODO este metodo desaparecera por organizationService.findAllCompaniesOfUser(user)
   def findCompaniesForThisUser(User user) {
     def companiesLegalRepresentatives =  Company.withCriteria {
       legalRepresentatives {
