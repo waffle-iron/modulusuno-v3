@@ -9,7 +9,7 @@ import grails.test.mixin.Mock
 @Mock([User, Role, UserRole])
 class UserRoleServiceSpec extends Specification {
 
-  Should "Delete the userRoles of user"(){
+  Should "Delete the userRoles of user in session"(){
     given:
       Role role1 = new Role("ROLE_LEGAL_REPRESENTATIVE_EJECUTOR").save(validate:false)
       Role role2 = new Role("ROLE_FICO_VISOR").save(validate:false)
@@ -21,6 +21,18 @@ class UserRoleServiceSpec extends Specification {
       service.deleteUserRolesForUser(user)
     then:
       UserRole.findAllByUser(user).size() == 0
+  }
+
+  Should "Create the current userRoles of user in session"(){
+    given:
+      Role role1 = new Role("ROLE_LEGAL_REPRESENTATIVE_EJECUTOR").save(validate:false)
+      Role role2 = new Role("ROLE_FICO_VISOR").save(validate:false)
+      User user = new User("user","user")
+      user.save(validate:false)
+    when:
+      service.createUserRolesForUser(user, [role1, role2])
+    then:
+      UserRole.findAllByUser(user).size() == 2
   }
 
 }
