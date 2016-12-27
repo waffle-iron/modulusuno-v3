@@ -94,14 +94,14 @@ class CorporateController {
                                                             password:userCommand.password),profile)
 
     ArrayList<Role> roles = springSecurityService.getPrincipal().getAuthorities()
+    corporateService.addNewUserToCorporate(corporateId,user)
 
     if(roles[0].authority == "ROLE_M1"){
-      corporateService.addNewUserToCorporate(corporateId,user,"ROLE_CORPORATIVE")
+      userService.setAuthorityToUser(user,'ROLE_CORPORATIVE')
       redirect(action:"show",id:corporateId)
       return
     }
     else{
-      corporateService.addNewUserToCorporate(corporateId,user)
       redirect(action:"users",id:corporateId)
       return
     }
