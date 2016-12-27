@@ -18,8 +18,11 @@ class RoleService {
     UserRoleCompany.findByCompanyAndUser(company, user)
   }
 
-  def deleteRolesForUserAtThisCompany(User user, Company company){
-
+  void deleteRolesForUserAtThisCompany(User user, Company company){
+    UserRoleCompany userRoleCompany = findRolesForUserAtThisCompany(user, company)
+    if (userRoleCompany) {
+      userRoleCompany.delete() 
+    }
   }
 
 }
