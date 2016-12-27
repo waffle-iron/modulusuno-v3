@@ -79,10 +79,12 @@
           </sec:ifAnyGranted>
 
           <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
-            <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
-            <li><g:link controller="corporate" action="createUser">Alta Usuario</g:link></li>
-            <li><g:link controller="corporate" action="users">Lista de Usuarios</g:link></li>
-            <li><g:link controller="managerApplication">Todas las Empresas</g:link></li>
+            <g:if test="${session.corporate}">
+              <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
+              <li><g:link controller="corporate" action="addUser" id="${session.corporate.id}">Alta Usuario</g:link></li>
+              <li><g:link controller="corporate" action="users" id="${session.corporate.id}">Lista de Usuarios</g:link></li>
+              <li><g:link controller="managerApplication">Todas las Empresas</g:link></li>
+            </g:if>
           </sec:ifAnyGranted>
 
           <sec:ifAnyGranted roles="ROLE_M1">
