@@ -13,7 +13,6 @@ class ManagerApplicationService {
   def collaboratorService
   def emailSenderService
 
-
   def acceptingCompanyToIntegrate(Long companyId) {
     Company company = Company.findById(companyId)
     ModulusUnoAccount account = modulusUnoService.generedModulusUnoAccountByCompany(company)

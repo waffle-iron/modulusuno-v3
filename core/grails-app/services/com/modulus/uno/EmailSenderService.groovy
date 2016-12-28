@@ -9,6 +9,7 @@ class EmailSenderService {
   def grailsApplication
   def companyService
   def userService
+  CorporateService corporateService
 
   static final messages = [
     SaleOrder : [:],
@@ -152,7 +153,8 @@ class EmailSenderService {
   void notifyRejectedCompany(Company company) {
     String url = "${grailsApplication.config.rejected.integrated}${company.id}"
     String message = "La Empresa ${company}, ha sido rechazada por diversos motivos"
-    def email = company.actors.first().profile.email
+    User user = corporateService.findCorporateUserOfCompany(company.id)
+    def email = user.profile.email
     def command = emailIntegratedCommand(message, url, company.toString(), email)
     restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
   }
