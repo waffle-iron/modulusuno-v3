@@ -35,6 +35,16 @@
         </ul>
         <ul class="nav navbar-brand">
           <li class="tooltip-sidebar-toggle" align="right">
+            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR,ROLE_AUTHORIZER_VISOR,ROLE_AUTHORIZER_EJECUTOR,ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
+              <g:if test="${session.company}">
+                <g:form class="form-group" id="company-selection" url="[action:'setCompanyInSession',controller:'company']" >
+                  <font color="white">Selecciona tu Compañía </font>${companyInfo.selectedCompany()}
+                  <input type="submit" class="btn btn-primary btn-xs" />
+                </g:form>
+              </g:if>
+            </sec:ifAnyGranted>
+            
+            <!-- TODO esto se quitara cuando desaparescan estos roles -->
             <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR">
             <g:if test="${session.company}">
             <g:form class="form-group" id="company-selection" url="[action:'setCompanyInSession',controller:'company']" >
@@ -43,6 +53,7 @@
             </g:form>
             </g:if>
             </sec:ifAnyGranted>
+
           </li>
         </ul>
         <ul class="nav navbar-right">
