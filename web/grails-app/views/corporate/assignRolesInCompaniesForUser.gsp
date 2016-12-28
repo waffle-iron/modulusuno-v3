@@ -8,10 +8,10 @@
     <!-- BEGIN PAGE TITLE -->
     <div class="page-title">
       <h1>
-        <i class="fa fa-plus-circle fa-3x"></i>
-        Corporaciones
+        <i class="fa fa-user fa-3x"></i>
+          ${user.profile.getFullName()}
         <small>
-          <g:message code="corporation.new" />
+          ${user.profile.email}
         </small>
       </h1>
       <ol class="breadcrumb">
@@ -19,14 +19,6 @@
         <li class="active">Creación de Compañia</li>
       </ol>
     </div>
-
-    <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
-    <h1>ROLE Corporativo</h1>
-    </sec:ifAnyGranted>
-
-    <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
-    <h1>ROLE ROLE_FICO_EJECUTOR</h1>
-    </sec:ifAnyGranted>
 
     <div class="row">
       <div class="col-md-12 col-lg-12">
@@ -47,7 +39,7 @@
                 <td>${company}</td>
                 <g:each status="a" in="${roles}" var="someRole">
                   <td>
-                    <g:checkBox name="companies.${company}.${someRole}" value="${false}" />
+                    <modulusuno:checkboxForRoleAtCompany company="${company}" role="${someRole}" rolesOfUser="${rolesOfUser}" />
                   </td>
                 </g:each>
               </tr>
