@@ -218,13 +218,14 @@ class CompanyService {
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  Company saveInsideAndAssingCorporate(Company company, User corporateUser){
+  Company saveInsideAndAssingCorporate(Company company, Long corporateId){
     // TODO: Se podría revalidar que el usuario sea corporativo
     if(company.validate()){
-      Corporate corporate = corporateService.findCorporateOfUser(corporateUser)
+      Corporate corporate = Corporate.get(corporateId)
       corporateService.addCompanyToCorporate(corporate, company)
       company
-    } else {
+    }
+    else {
       throw new RuntimeException(company.errors*.toString().join(","))
     }
   }

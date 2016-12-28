@@ -434,6 +434,10 @@ a:focus {
 	white-space: normal;
 }
 
+ul.error-list{
+  list-style-type: none;
+}
+
 @media (max-width:480px) and (min-width:0) {
 	.page-title{
 		font-size: 80%;

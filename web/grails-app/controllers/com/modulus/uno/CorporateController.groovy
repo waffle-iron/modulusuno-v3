@@ -3,6 +3,7 @@ package com.modulus.uno
 class CorporateController {
 
   CorporateService corporateService
+  CompanyService companyService
   UserService userService
   OrganizationService organizationService
   def springSecurityService
@@ -34,19 +35,9 @@ class CorporateController {
     if(!corporate)
       return response.sendError(404)
 
-    ArrayList<Role> roles = springSecurityService.getPrincipal().getAuthorities()
-    ArrayList<User> users = []
+    ArrayList<User> users = corporateService.findCorporateUsers(corporate.id)
 
-    respond corporate,model:[]
-  }
-
-  def createUser(){
-    User user = springSecurityService.currentUser
-    Corporate corporate = corporateService.findCorporateOfUser(user)
-    if(!corporate)
-      return response.sendError(404)
-
-    redirect(action:"addUser",id:corporate.id)
+    respond corporate,model:[users:users]
   }
 
   def assignRolesInCompaniesForUser(User user){
@@ -67,6 +58,13 @@ class CorporateController {
   def saveRolesForUser(RolesCompanyCommand command){
     User user = organizationService.updateRolesForUserInCompanies(command.username,command.rolesByCompany())
     redirect(action:"assignRolesInCompaniesForUser",id:user.id)
+  }
+
+  def addCompany(Corporate corporate){
+    if(!corporate)
+      return response.sendError(404)
+
+    render view:"newCompany",model:[company:new Company()]
   }
 
   def addUser(Corporate corporate){
@@ -95,17 +93,50 @@ class CorporateController {
                                                             password:userCommand.password),profile)
 
     ArrayList<Role> roles = springSecurityService.getPrincipal().getAuthorities()
+    corporateService.addNewUserToCorporate(corporateId,user)
 
     if(roles[0].authority == "ROLE_M1"){
-      corporateService.addNewUserToCorporate(corporateId,user,"ROLE_CORPORATIVE")
+      userService.setAuthorityToUser(user,'ROLE_CORPORATIVE')
       redirect(action:"show",id:corporateId)
       return
     }
     else{
-      corporateService.addNewUserToCorporate(corporateId,user)
-      redirect(action:"show",id:corporateId)
+      redirect(action:"users",id:corporateId)
       return
     }
+  }
+
+  def saveCompany(Company company){
+    if(!company)
+      return response.sendError(404)
+
+    if(company.hasErrors()){
+      respond company.errors, view:"/corporate/newCompany"
+      return
+    }
+
+    company.status = CompanyStatus.ACCEPTED
+    Corporate corporate = session.corporate
+
+    company = companyService.saveInsideAndAssingCorporate(company,corporate.id)
+    redirect(action:"companies",id:corporate.id)
+  }
+
+  def users(Corporate corporate){
+    if(!corporate)
+      return response.sendError(404)
+
+    [users:corporateService.findCorporateUsers(corporate.id)]
+  }
+
+  def companies(Corporate corporate){
+    def companiesForValidation = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.VALIDATE,corporate.id)
+    def companiesRejected = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.REJECTED,corporate.id)
+    def companiesAccepted = companyService.findCompaniesByCorporateAndStatus(CompanyStatus.ACCEPTED,corporate.id)
+
+    [companiesForValidation:companiesForValidation,
+     companiesRejected:companiesRejected,
+     companiesAccepted:companiesAccepted]
   }
 
 }

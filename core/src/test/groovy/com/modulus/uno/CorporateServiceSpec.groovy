@@ -43,13 +43,8 @@ class CorporateServiceSpec extends Specification {
       Corporate corporate = new Corporate(nameCorporate:"test", corporateUrl:"url").save(validate:false)
     and: "create Role corporative"
       new Role("ROLE_CORPORATIVE").save()
-    and: "the user servie Mock"
-      def userServiceMock = Mock(UserService) {
-        1 * setAuthorityToUser(_,_) >> user
-      }
-      service.userService = userServiceMock
     when:
-      def corporateWithUser = service.addNewUserToCorporate(corporate.id,user,'ROLE_CORPORATIVE')
+      def corporateWithUser = service.addUserToCorporate(corporate.id,user)
     then:
       corporateWithUser.users.size() == 1
       corporateWithUser.users.first() == user
@@ -62,13 +57,8 @@ class CorporateServiceSpec extends Specification {
       Corporate corporate = new Corporate(nameCorporate:"Corporate1",corporateUrl:"someUrl").save(validate:false)
     and: "create Role corporative"
       new Role("ROLE_CORPORATIVE").save()
-    and: "the user servie Mock"
-      def userServiceMock = Mock(UserService) {
-        1 * setAuthorityToUser(_,_) >> user
-      }
-      service.userService = userServiceMock
     and:"the user is added to the corporate"
-      service.addNewUserToCorporate(corporate.id,user,'ROLE_CORPORATIVE')
+      service.addUserToCorporate(corporate.id,user)
     when:
       Corporate userCorporate = service.findCorporateOfUser(user)
     then:
@@ -101,7 +91,7 @@ class CorporateServiceSpec extends Specification {
         corporate.addToUsers(_user)
       }
     when:
-      ArrayList<User> corporateUsers = service.findCorporativeUsers(corporate.id)
+      ArrayList<User> corporateUsers = service.findCorporateUsers(corporate.id)
     then:
       corporateUsers.size() == _size
     where:

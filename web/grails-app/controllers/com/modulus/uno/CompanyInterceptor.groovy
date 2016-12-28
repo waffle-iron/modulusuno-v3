@@ -4,7 +4,7 @@ import grails.gsp.PageRenderer
 
 class CompanyInterceptor {
 
-    int order = HIGHEST_PRECEDENCE;
+    int order = LOWEST_PRECEDENCE;
 
     def springSecurityService
     OrganizationService organizationService
