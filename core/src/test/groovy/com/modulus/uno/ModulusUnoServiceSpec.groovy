@@ -6,7 +6,6 @@ import grails.test.mixin.Mock
 import spock.lang.Unroll
 import java.math.RoundingMode
 import java.lang.Void as Should
-import spock.lang.Ignore
 
 @TestFor(ModulusUnoService)
 @Mock([User,Profile,Company,DepositOrder,ModulusUnoAccount,Commission,SaleOrder,SaleOrderItem, CashOutOrder])
@@ -20,7 +19,6 @@ class ModulusUnoServiceSpec extends Specification {
     service.grailsApplication = grailsApplication
   }
 
-  @Ignore
   Should "create an user with main stp account"() {
     given:
       def profile = new Profile()
