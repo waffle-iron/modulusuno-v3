@@ -85,7 +85,7 @@ class CorporateServiceSpec extends Specification {
       corporate.addToUsers(user)
       corporate.save(validate:false)
     when:
-      User corporateUser = service.findCorporateUserOfCompany(company)
+      User corporateUser = service.findCorporateUserOfCompany(company.id)
     then:
       user
       user.username == "egjimenezg"

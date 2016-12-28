@@ -37,12 +37,12 @@ class CorporateService {
     }
   }
 
-  User findCorporateUserOfCompany(Company corporateCompany){
+  User findCorporateUserOfCompany(Long companyId){
     ArrayList<User> users
 
     Corporate corporate = Corporate.createCriteria().get{
       companies{
-        eq("id",corporateCompany.id)
+        eq("id",companyId)
       }
     }
 
