@@ -5,7 +5,8 @@ import grails.transaction.Transactional
 @Transactional
 class OrganizationService {
 
-  def roleService
+  RoleService roleService
+  UserRoleService userRoleService
   
   User createRolesForUserInCompanies(User user, Map rolesForCompanies){
     rolesForCompanies.each { companyName, rolesForThisCompany ->
@@ -42,6 +43,7 @@ class OrganizationService {
     }
     deleteRolesForUserInCompanies(user,companies)
     createRolesForUserInCompanies(user,rolesForCompanies)
+    userRoleService.deleteUserRolesForUser(user)
   }
 
   List<Company> findAllCompaniesOfUser(User user){
