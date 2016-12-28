@@ -44,7 +44,6 @@ class CompanyInterceptor {
           return true
           break
         default:
-          log.info "mas de una"
           render view: '/company/companiesSelect', model: [companies:companies]
           break
       }
