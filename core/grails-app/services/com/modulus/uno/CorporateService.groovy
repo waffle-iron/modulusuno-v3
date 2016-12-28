@@ -37,6 +37,20 @@ class CorporateService {
     }
   }
 
+  User findCorporateUserOfCompany(Company corporateCompany){
+    ArrayList<User> users
+
+    Corporate corporate = Corporate.createCriteria().get{
+      companies{
+        eq("id",corporateCompany.id)
+      }
+    }
+
+    users = corporate.users ?: []
+    users = users.findAll{ user -> user.getAuthorities()*.authority.contains('ROLE_CORPORATIVE') }
+    users[0]
+  }
+
   Corporate addUserToCorporate(Long corporateId,User user){
     Corporate corporate = Corporate.get(corporateId)
     corporate.addToUsers(user)
