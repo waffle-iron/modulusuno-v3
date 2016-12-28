@@ -24,11 +24,11 @@
       <div class="col-md-12 col-lg-12">
         <g:form action="saveRolesForUser" method="POST" class="form-horizontal" role="form">
         <g:hiddenField name="username" value="${user.username}" />
-        <table class="table table-striped">
+        <table class="table">
           <thead>
             <tr>
               <th></th>
-              <g:each status="i" in="${roles}" var="role">
+              <g:each status="i" in="${rolesHeader}" var="role">
                 <th>${role}</th>
               </g:each>
             </tr>
