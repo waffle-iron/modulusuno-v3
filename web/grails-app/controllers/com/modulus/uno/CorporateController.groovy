@@ -57,7 +57,9 @@ class CorporateController {
 
   def saveRolesForUser(RolesCompanyCommand command){
     User user = organizationService.updateRolesForUserInCompanies(command.username,command.rolesByCompany())
-    redirect(action:"assignRolesInCompaniesForUser",id:user.id)
+    Corporate corporate = session.corporate
+    flash.message = message(code:'users.roles.updated',default: 'Usuario actualizado')
+    redirect(action:"users",id:corporate.id)
   }
 
   def addCompany(Corporate corporate){
