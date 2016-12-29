@@ -12,6 +12,7 @@ class ManagerApplicationService {
   def modulusUnoService
   def collaboratorService
   def emailSenderService
+  DirectorService directorService
 
   def acceptingCompanyToIntegrate(Long companyId) {
     Company company = Company.findById(companyId)
@@ -130,7 +131,8 @@ class ManagerApplicationService {
   }
 
   private def createNewPasswordForLegalRepresentatives(Company company) {
-    def legalRepresentatives = company.legalRepresentatives
+    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(company.id,'ROLE_LEGAL_REPRESENTATIVE')
+
     def bussinesName = company.bussinessName
     legalRepresentatives.each{ user ->
       def rfcUser =  user.profile.rfc
