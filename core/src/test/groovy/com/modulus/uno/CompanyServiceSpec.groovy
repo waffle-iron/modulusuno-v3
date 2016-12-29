@@ -113,57 +113,6 @@ class CompanyServiceSpec extends Specification {
       [status:CompanyStatus.ACCEPTED,rfc:"ROW861224LDD"]   | 1
   }
 
-  @Ignore
-  void "find company in base to actor"() {
-    given:
-      def user = new User(username:"says33",password:"123456789QWE").save(validate:false)
-    and:
-      createSevenCompanies()
-      def company = Company.get(1)
-      company.addToActors(user)
-      company.save(validate:false)
-    when:
-      def companyResult = service.findCompaniesForThisUser(user)
-    then:
-      companyResult.first().id == 1
-  }
-
-  @Ignore
-  void "find company in base to legal representatives"() {
-    given:
-      def user = new User(username:"says33",password:"123456789QWE").save(validate:false)
-    and:
-      createSevenCompanies()
-      def company = Company.get(1)
-      company.addToLegalRepresentatives(user)
-      company.save(validate:false)
-    when:
-      def companyResult = service.findCompaniesForThisUser(user)
-    then:
-      companyResult.first().id == 1
-  }
-
-  @Ignore
-  void "find company in base to legal representatives and actor "() {
-    given:
-      def user = new User(username:"says33",password:"123456789QWE").save(validate:false)
-    and:
-      createSevenCompanies()
-      def company = Company.get(1)
-      company.addToLegalRepresentatives(user)
-      company.save(validate:false)
-      def company2 = Company.get(3)
-      company2.addToActors(user)
-      company2.addToLegalRepresentatives(user)
-      company2.save(validate:false)
-    when:
-      def companyResult = service.findCompaniesForThisUser(user)
-    then:
-      companyResult.size() == 2
-      companyResult.first().id == 1
-  }
-
-  @Ignore
   def "verify that not missing autorizers for this company"() {
     given:
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
@@ -184,7 +133,6 @@ class CompanyServiceSpec extends Specification {
       result.size() == 2
   }
 
-  @Ignore
   def "verify that lack an autorizer for this company"() {
     given:
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
@@ -204,7 +152,6 @@ class CompanyServiceSpec extends Specification {
       result.size() == 1
   }
 
-  @Ignore
   def "verify that lack autorizers for this company,when exist 2 authorizers and one legal Representavice"() {
     given:
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
@@ -226,7 +173,6 @@ class CompanyServiceSpec extends Specification {
       result.size() == 2
   }
 
-  @Ignore
   def "verify that lack an autorizer for this company,when only exist legal a representative"() {
     given:
       def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
@@ -243,7 +189,6 @@ class CompanyServiceSpec extends Specification {
       result.size() == 0
   }
 
-  @Ignore
   def "get all actors with role INTEGRADO_AUTORIZADOR for this company"() {
     given:
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
@@ -265,7 +210,6 @@ class CompanyServiceSpec extends Specification {
 
   }
 
-  @Ignore
   def "get the number of authorizers missing from is Company"() {
     given:
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
