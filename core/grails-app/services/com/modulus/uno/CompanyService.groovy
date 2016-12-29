@@ -19,6 +19,7 @@ class CompanyService {
   def messageSource
   def restService
   def corporateService
+  DirectorService directorService
 
   def addingActorToCompany(Company company, User user) {
     company.addToActors(user)
@@ -108,11 +109,8 @@ class CompanyService {
     accountStatement
   }
 
-  def getAuthorizersByCompany(Company company) {
-  	company.actors.findAll { user ->
-      if (user.authorities.any { it.authority == "ROLE_INTEGRADO_AUTORIZADOR" })
-        return user
-    }
+  ArrayList<User> getAuthorizersByCompany(Company company) {
+    directorService.findUsersOfCompanyByRole(company.id,['ROLE_INTEGRADO_AUTORIZADOR'])
   }
 
   Balance getBalanceOfCompany(Company company) {
