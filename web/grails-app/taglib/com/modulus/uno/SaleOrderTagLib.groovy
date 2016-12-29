@@ -2,6 +2,8 @@ package com.modulus.uno
 
 class SaleOrderTagLib {
 
+  def restService
+
   static namespace = "modulusuno"
   static defaultEncodeAs = [taglib:'html']
   //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
@@ -16,6 +18,12 @@ class SaleOrderTagLib {
 
   def invoiceAccuseUrl = { attrs, body ->
     out << "${grailsApplication.config.modulus.facturacionUrl}${createUrlToShowAccuse(attrs)}"
+  }
+
+  def listTemplatesPdfForCompany = { attrs, body ->
+    def emisor = restService.existEmisorForGenerateInvoice(attrs.rfc)
+    if (emisor.templatesPdf.size()>1) {
+    out << g.select(from:emisor.templatesPdf, name:"pdfTemplate", required:"required", noSelection="${['null':'Seleccione el formato PDF...']}")
   }
 
   private def createUrlToShowFile(def attrs) {
