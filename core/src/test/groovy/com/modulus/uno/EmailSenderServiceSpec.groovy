@@ -136,17 +136,20 @@ class EmailSenderServiceSpec extends Specification {
 
   private def prepareMoneyBackOrder(){
     def company = new Company(bussinessName:"C1")
+    company.save(validate:false)
     def user = new User(username:"authorizer")
     def profile = new Profile(email:"mailauthorize@mail.com")
     user.profile = profile
     user.save(validate:false)
     def role = new Role(authority:"ROLE_INTEGRADO_AUTORIZADOR")
     role.save(validate:false)
-    def userRole = new UserRole(user:user, role:role)
+    UserRole userRole = new UserRole(user:user, role:role)
     userRole.save(validate:false)
-    company.addToActors(user)
-    company.save()
-    def moneyBackOrder = new PurchaseOrder(company:company,providerName:"Empleado",isMoneyBackOrder:true)
+    UserRoleCompany userRoleCompany = new UserRoleCompany(user:user,
+                                                          company:company)
+    userRoleCompany.addToRoles(role)
+    userRoleCompany.save(validate:false)
+    PurchaseOrder moneyBackOrder = new PurchaseOrder(company:company,providerName:"Empleado",isMoneyBackOrder:true)
     moneyBackOrder.save(validate:false)
     moneyBackOrder
   }
