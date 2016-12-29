@@ -5,7 +5,7 @@ import grails.test.mixin.Mock
 import spock.lang.Specification
 
 @TestFor(EmailSenderService)
-@Mock([Company, User, LoanOrder, PurchaseOrder, Role, UserRole])
+@Mock([Company,User,Role,UserRoleCompany,LoanOrder, PurchaseOrder, Role, UserRole])
 class EmailSenderServiceSpec extends Specification {
 
   def restService = Mock(RestService)
@@ -52,28 +52,42 @@ class EmailSenderServiceSpec extends Specification {
 
   void "send notification for Loan Order action"(){
     given: "A Loan Order"
-    def loanOrder = prepareLoanOrder()
+      LoanOrder loanOrder = prepareLoanOrder()
+    and:"the directorService Mock"
+      def directorServiceMock = Mock(DirectorService)
+      2 * directorServiceMock.findUsersOfCompanyByRole(_,_) >> [User.get(1)]
+      service.directorService = directorServiceMock
     when: "Notify the approvement"
-    def notifications = service.notifyTheApprovementOfLoanOrder(loanOrder)
+      def notifications = service.notifyTheApprovementOfLoanOrder(loanOrder)
     then: "should send notifications"
     notifications[0].message.trim() == "Una Orden de Préstamo ha sido aprobada, haz click en el link de este mail para más información"
     notifications[0].url == grailsApplication.config.grails.server.url + "/loanOrder/show/1"
     notifications[0].nameCompany == loanOrder.company.bussinessName
-    notifications[0].emailResponse == loanOrder.creditor.legalRepresentatives[0].profile.email
   }
 
   private def prepareLoanOrder(){
-    def company = new Company(bussinessName:"C1")
-    def creditor = new Company(bussinessName:"C2")
-    def legalRepresentative = new User(username:"user1")
-    def profile = new Profile(email:"some@makingdevs.com")
-    legalRepresentative.profile = profile
-    creditor.addToLegalRepresentatives(legalRepresentative)
+    Company company = new Company(bussinessName:"C1")
     company.save(validate:false)
+    Company creditor = new Company(bussinessName:"C2")
     creditor.save(validate:false)
-    def loanOrder = new LoanOrder(amount:10000, company:company, creditor:creditor)
+    User legalRepresentative = new User(username:"user1")
+    Profile profile = new Profile(email:"some@makingdevs.com")
+    legalRepresentative.profile = profile
+    legalRepresentative.save(validate:false)
+
+    ArrayList<Role> roles = [new Role(authority:"ROLE_LEGAL_REPRESENTATIVE_VISOR"),
+                             new Role(authority:"ROLE_LEGAL_REPRESENTATIVE_EJECUTOR")]
+
+    UserRoleCompany userRoleCompany = new UserRoleCompany(user:legalRepresentative,
+                                                          company:creditor)
+    roles.each{ role ->
+      userRoleCompany.addToRoles(role)
+    }
+
+    userRoleCompany.save(validate:false)
+    LoanOrder loanOrder = new LoanOrder(amount:10000, company:company, creditor:creditor)
     loanOrder.save(validate:false)
-    // Aun puede no estar guardadoi
+    // Aun puede no estar guardado
     loanOrder
   }
 
