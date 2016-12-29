@@ -10,6 +10,7 @@ class EmailSenderService {
   def companyService
   def userService
   CorporateService corporateService
+  DirectorService directorService
 
   static final messages = [
     SaleOrder : [:],
@@ -93,8 +94,6 @@ class EmailSenderService {
 
   private def prepareCommandsAndSendRequestToEmailer(usersToNotify, order, actionToExecute){
     String classMessage = order.class.simpleName == "PurchaseOrder" && order.isMoneyBackOrder ? "MoneyBackOrder" : order.class.simpleName
-    log.debug classMessage
-
     usersToNotify.collect { user ->
       def command = emailIntegratedCommand(messages."${classMessage}"."${actionToExecute}",urls."${order.class.simpleName}" + order.id, order.company.bussinessName, user.profile.email)
       restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
@@ -122,7 +121,9 @@ class EmailSenderService {
   }
 
   def notifyTheApprovementOfLoanOrder(LoanOrder order){
-    def usersToNotify = order.creditor.legalRepresentatives.collect()
+    ArrayList<User> usersToNotify = directorService.findUsersOfCompanyByRole(order.creditor.id,'ROLE_LEGAL_REPRESENTATIVE_VISOR') ?: []
+    usersToNotify += (directorService.findUsersOfCompanyByRole(order.creditor.id,'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR') ?: [])
+    usersToNotify = usersToNotify.unique()
     prepareCommandsAndSendRequestToEmailer(usersToNotify, order, "approvementAuthorize")
   }
 
