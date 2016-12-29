@@ -16,7 +16,7 @@ class DirectorService {
     userRoleCompanies*.user
   }
 
-  ArrayList<User> findUsersOfCompanyByRole(Long companyId,String authority){
+  ArrayList<User> findUsersOfCompanyByRole(Long companyId,ArrayList<String> authorities){
     def criteria = UserRoleCompany.createCriteria()
     ArrayList<UserRoleCompany> userRoleCompanies = criteria.list{
       company{
@@ -24,7 +24,7 @@ class DirectorService {
       }
 
       roles{
-        eq("authority",authority)
+        'in'("authority",authorities)
       }
     }
 
