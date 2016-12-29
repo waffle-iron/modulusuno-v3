@@ -1,5 +1,8 @@
+import grails.util.Environment
+
 databaseChangeLog = {
 
+  if(Environment.current == Environment.PRODUCTION){
   changeSet(author: "says33 (manual)",id: "create-user-admin-production") {
 
     sql(""" INSERT INTO profile(version, email, last_name, mother_last_name, name) values (0,'contacto@microquasar.net', 'Garcia', 'Microquasar', 'Guadalupe') """)
@@ -7,5 +10,5 @@ databaseChangeLog = {
     sql(""" INSERT INTO user_role(user_id, role_id) values (1,1) """)
 
   }
-
+  }
 }
