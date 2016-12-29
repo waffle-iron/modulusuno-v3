@@ -172,11 +172,13 @@ class ModulusUnoServiceSpec extends Specification {
 
   void "should create an user with stp subaccount"() {
     given:"A create account command"
-      CreateAccountCommand command = new CreateAccountCommand(payerAccount:"thePayerAccount", uuid:"theUuid", name:"theClientName", email:"theEmailToNotification")
+      CreateAccountCommand command = new CreateAccountCommand(payerAccount:"thePayerAccount",
+                                                              uuid:"theUuid",
+                                                              name:"theClientName")
     when:"We create an account"
       def result = service.generateSubAccountStpForClient(command)
     then:"We expect service was called"
-    1 * restService.sendCommandWithAuth(_ as CreateAccountCommand, _)
+      1 * restService.sendCommandWithAuth(_ as CreateAccountCommand, _)
   }
 
 }
