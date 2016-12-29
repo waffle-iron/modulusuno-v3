@@ -87,24 +87,6 @@ class CompanyService {
     availableBalance >= amount
   }
 
-  //TODO este metodo desaparecera por organizationService.findAllCompaniesOfUser(user)
-  def findCompaniesForThisUser(User user) {
-    def companiesLegalRepresentatives =  Company.withCriteria {
-      legalRepresentatives {
-        eq 'username', user.username
-      }
-    }
-    def companiesActors = Company.withCriteria {
-      actors {
-        eq 'username',user.username
-      }
-    }
-    def companies = []
-    companies << companiesLegalRepresentatives ?: ""
-    companies << companiesActors ?: ""
-    companies.flatten().unique()
-  }
-
   AccountStatement getAccountStatementOfCompany(Company company, String beginDate, String endDate){
     if (!beginDate && !endDate) {
       beginDate = collaboratorService.getBeginDateCurrentMonth()
