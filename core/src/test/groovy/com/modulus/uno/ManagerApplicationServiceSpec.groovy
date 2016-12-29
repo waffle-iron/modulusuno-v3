@@ -17,12 +17,14 @@ class ManagerApplicationServiceSpec extends Specification {
   def modulusUnoService = Mock(ModulusUnoService)
   def collaboratorService = Mock(CollaboratorService)
   def emailSenderService = Mock(EmailSenderService)
+  def directorService = Mock(DirectorService)
 
   def setup() {
     service.restService = restService
     service.modulusUnoService = modulusUnoService
     service.collaboratorService = collaboratorService
     service.emailSenderService = emailSenderService
+    service.directorService = directorService
   }
 
   Should "accept a company to integrate"(){
@@ -165,8 +167,14 @@ class ManagerApplicationServiceSpec extends Specification {
       user.save(validate:false)
       def userBefore = user.password
     and:
-      company.addToLegalRepresentatives(user)
-      company.save()
+      Role role = new Role(authority:"ROLE_LEGAL_REPRESENTATIVE")
+      role.save(validate:false)
+      UserRoleCompany userRole = new UserRoleCompany(user:user,
+                                                     company:company)
+      userRole.addToRoles(role)
+      userRole.save(validate:false)
+    and:
+      directorService.findUsersOfCompanyByRole(_,_) >> [user]
     when:
       service.createNewPasswordForLegalRepresentatives(company)
     then:
