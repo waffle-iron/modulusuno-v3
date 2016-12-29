@@ -26,6 +26,10 @@ class EmailSenderServiceSpec extends Specification {
       def legalRepresentative = new User(profile:profile)
     and:"A company"
       def company = new Company(rfc:'ROS861224NHA', bussinessName:'businessName', employeeNumbers:10, grossAnnualBilling:100000, legalRepresentatives:[legalRepresentative]).save(validate:false)
+    and:"director service mock"
+      def directorServiceMock = Mock(DirectorService)
+      1 * directorServiceMock.findUsersOfCompanyByRole(_,_) >> [legalRepresentative]
+      service.directorService = directorServiceMock
     when:"We send notification"
       service.sendNewClientProviderNotificaton(company, 'josdem', EmailerMessageType.CLIENTE)
     then:"We expect notification sent"
@@ -106,6 +110,7 @@ class EmailSenderServiceSpec extends Specification {
 
   private def preparePurchaseOrder(){
     def company = new Company(bussinessName:"C1")
+    company.save(validate:false)
     def user = new User(username:"authorizer")
     def profile = new Profile(email:"mailauthorize@mail.com")
     user.profile = profile
@@ -114,8 +119,12 @@ class EmailSenderServiceSpec extends Specification {
     role.save(validate:false)
     def userRole = new UserRole(user:user, role:role)
     userRole.save(validate:false)
-    company.addToActors(user)
-    company.save()
+
+    UserRoleCompany userRoleCompany = new UserRoleCompany(user:user,
+                                                          company:company)
+    userRoleCompany.addToRoles(role)
+    userRoleCompany.save()
+
     def purchaseOrder = new PurchaseOrder(company:company,providerName:"Proveedor")
     purchaseOrder.save(validate:false)
     purchaseOrder
