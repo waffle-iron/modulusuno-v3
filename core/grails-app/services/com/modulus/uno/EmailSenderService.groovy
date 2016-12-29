@@ -121,9 +121,8 @@ class EmailSenderService {
   }
 
   def notifyTheApprovementOfLoanOrder(LoanOrder order){
-    ArrayList<User> usersToNotify = directorService.findUsersOfCompanyByRole(order.creditor.id,'ROLE_LEGAL_REPRESENTATIVE_VISOR') ?: []
-    usersToNotify += (directorService.findUsersOfCompanyByRole(order.creditor.id,'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR') ?: [])
-    usersToNotify = usersToNotify.unique()
+    ArrayList<User> usersToNotify = directorService.findUsersOfCompanyByRole(order.creditor.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
+                                                                                                'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
     prepareCommandsAndSendRequestToEmailer(usersToNotify, order, "approvementAuthorize")
   }
 

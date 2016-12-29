@@ -131,7 +131,7 @@ class ManagerApplicationService {
   }
 
   private def createNewPasswordForLegalRepresentatives(Company company) {
-    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(company.id,'ROLE_LEGAL_REPRESENTATIVE')
+    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(company.id,['ROLE_LEGAL_REPRESENTATIVE'])
 
     def bussinesName = company.bussinessName
     legalRepresentatives.each{ user ->
