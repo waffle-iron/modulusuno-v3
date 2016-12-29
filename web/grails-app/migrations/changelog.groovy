@@ -20,4 +20,5 @@ databaseChangeLog = {
   include file: 'create-m1-roles.groovy'
   include file: 'adding-new-domain-corporate.groovy'
   include file: 'creating-user-role-by-company.groovy'
+  include file: 'removing-actors-relationship-in-company.groovy'
 }

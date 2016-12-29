@@ -4,5 +4,5 @@ class CreateAccountCommand implements MessageCommand {
   String payerAccount
   String uuid
   String name
-  String email
+  ArrayList<String> email
 }

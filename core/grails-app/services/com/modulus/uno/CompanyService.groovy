@@ -19,6 +19,7 @@ class CompanyService {
   def messageSource
   def restService
   def corporateService
+  DirectorService directorService
 
   def addingActorToCompany(Company company, User user) {
     company.addToActors(user)
@@ -87,24 +88,6 @@ class CompanyService {
     availableBalance >= amount
   }
 
-  //TODO este metodo desaparecera por organizationService.findAllCompaniesOfUser(user)
-  def findCompaniesForThisUser(User user) {
-    def companiesLegalRepresentatives =  Company.withCriteria {
-      legalRepresentatives {
-        eq 'username', user.username
-      }
-    }
-    def companiesActors = Company.withCriteria {
-      actors {
-        eq 'username',user.username
-      }
-    }
-    def companies = []
-    companies << companiesLegalRepresentatives ?: ""
-    companies << companiesActors ?: ""
-    companies.flatten().unique()
-  }
-
   AccountStatement getAccountStatementOfCompany(Company company, String beginDate, String endDate){
     if (!beginDate && !endDate) {
       beginDate = collaboratorService.getBeginDateCurrentMonth()
@@ -126,11 +109,8 @@ class CompanyService {
     accountStatement
   }
 
-  def getAuthorizersByCompany(Company company) {
-  	company.actors.findAll { user ->
-      if (user.authorities.any { it.authority == "ROLE_INTEGRADO_AUTORIZADOR" })
-        return user
-    }
+  ArrayList<User> getAuthorizersByCompany(Company company) {
+    directorService.findUsersOfCompanyByRole(company.id,['ROLE_INTEGRADO_AUTORIZADOR'])
   }
 
   Balance getBalanceOfCompany(Company company) {
