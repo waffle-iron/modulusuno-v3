@@ -28,8 +28,8 @@
           <thead>
             <tr>
               <th></th>
-              <g:each status="i" in="${rolesHeader}" var="role">
-                <th>${role}</th>
+              <g:each status="i" in="${roles}" var="role">
+                <th><g:message code="${role.authority.toLowerCase()}" /></th>
               </g:each>
             </tr>
           </thead>
