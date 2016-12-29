@@ -52,10 +52,7 @@ class CorporateController {
                           "ROLE_OPERATOR_VISOR",
                           "ROLE_OPERATOR_EJECUTOR"]}
     List<UserRoleCompany> rolesOfUser = organizationService.findRolesForUserInCompanies(user.username,corporate)
-    def rolesHeader = roles*.authority*.replace("_"," ")
-    [companies:corporate.companies,
-    roles:roles,user:user,
-    rolesOfUser:rolesOfUser,rolesHeader:rolesHeader]
+    [companies:corporate.companies,roles:roles,user:user,rolesOfUser:rolesOfUser]
   }
 
   def saveRolesForUser(RolesCompanyCommand command){
