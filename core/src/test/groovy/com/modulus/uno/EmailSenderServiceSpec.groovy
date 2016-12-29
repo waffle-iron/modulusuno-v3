@@ -55,7 +55,7 @@ class EmailSenderServiceSpec extends Specification {
       LoanOrder loanOrder = prepareLoanOrder()
     and:"the directorService Mock"
       def directorServiceMock = Mock(DirectorService)
-      2 * directorServiceMock.findUsersOfCompanyByRole(_,_) >> [User.get(1)]
+      1 * directorServiceMock.findUsersOfCompanyByRole(_,_) >> [User.get(1)]
       service.directorService = directorServiceMock
     when: "Notify the approvement"
       def notifications = service.notifyTheApprovementOfLoanOrder(loanOrder)

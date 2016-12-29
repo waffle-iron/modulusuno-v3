@@ -24,7 +24,7 @@ class DirectorServiceSpec extends Specification {
     and:"the role to looking for"
       String role = "ROLE_M1"
     when:
-      ArrayList<User> companyUsersByRole = service.findUsersOfCompanyByRole(company.id,role)
+      ArrayList<User> companyUsersByRole = service.findUsersOfCompanyByRole(company.id,[role])
     then:
       companyUsersByRole.size() == 1
   }
