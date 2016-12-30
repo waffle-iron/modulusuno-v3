@@ -111,7 +111,7 @@ class PurchaseOrderServiceSpec extends Specification {
   }
 
   @Unroll
-  void """verify if payments #paymentAmount it covers all amount (#amountItem1 #amountItem2) of purchase Order"""() {
+  void """verify if payment #paymentAmount it covers all amount (#amountItem1 #amountItem2) of purchase Order"""() {
     given: "create a purchase order"
       def purchaseOrder = new PurchaseOrder()
       purchaseOrder.providerName = "prueba"
@@ -138,12 +138,44 @@ class PurchaseOrderServiceSpec extends Specification {
         "600"     | "800"       | "860"         || false
   }
 
+  @Unroll
+  void """verify if the payments (#paymentAmount1 #paymentAmount2) it covers all amount (#amountItem1 #amountItem2) of purchase Order"""() {
+    given: "create a purchase order"
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.save(validate:false)
+    and: "create 2 items and add this to purchase order"
+      def item1 = new PurchaseOrderItem(name:'item1',quantity:1,price:new BigDecimal(amountItem1), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      def item2 = new PurchaseOrderItem(name:'item2',quantity:1,price:new BigDecimal(amountItem2), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      purchaseOrder.addToItems(item1)
+      purchaseOrder.addToItems(item2)
+      purchaseOrder.save(validate:false)
+    and: "create differents paymentToPurchase and add to purchase order"
+        purchaseOrder.addToPayments(createPayment(paymentAmount1))
+        purchaseOrder.addToPayments(createPayment(paymentAmount2))
+        purchaseOrder.save()
+    when:
+      def response = service.amountPaymentIsTotalForPurchaseOrder(purchaseOrder)
+    then:
+      response == comparate
+    where:
+      amountItem1 | amountItem2 |  paymentAmount1 | paymentAmount2 || comparate
+        "50"      | "100"       | "75"            | "85"           || false
+        "40"      | "60"        | "100"           | "16"           || true
+        "50"      | "75"        | "1"             | "30"           || false
+        "300"     | "200"       | "500"           | "80"           || true
+        "600"     | "800"       | "0"             | "860"          || false
+  }
   private def createMultiPayments(def numberPayments) {
     def payments = []
    (1..numberPayments).each {
      payments.add(new PaymentToPurchase().save(validate:false))
    }
    payments
+  }
+
+  private PaymentToPurchase createPayment(String amount) {
+    new PaymentToPurchase(amount: new BigDecimal(amount)).save()
   }
 
 }
