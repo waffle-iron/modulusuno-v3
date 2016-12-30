@@ -20,6 +20,7 @@ class SaleOrder {
   Date fechaCobro
   String externalId
   Date originalDate
+  String pdfTemplate
 
   String note
 
@@ -38,6 +39,7 @@ class SaleOrder {
     externalId nullable:true
     originalDate nullable:true
     note nullable:true, size:1..300
+    pdfTemplate nullable:true
   }
 
   BigDecimal getTotalIVA(){
