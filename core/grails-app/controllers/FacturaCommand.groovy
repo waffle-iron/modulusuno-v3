@@ -5,6 +5,7 @@ class FacturaCommand implements MessageCommand {
   Contribuyente emisor
   Contribuyente receptor
   String emitter
+  String pdfTemplate
 
   List<Concepto> conceptos
   List<Impuesto> impuestos
