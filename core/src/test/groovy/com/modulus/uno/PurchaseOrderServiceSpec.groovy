@@ -166,6 +166,43 @@ class PurchaseOrderServiceSpec extends Specification {
         "300"     | "200"       | "500"           | "80"           || true
         "600"     | "800"       | "0"             | "860"          || false
   }
+
+  void "pay order and verify is amount of payment it cover all amount order"() {
+    given: "create a purchase order"
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.status = PurchaseOrderStatus.AUTORIZADA
+      purchaseOrder.save(validate:false)
+    and: "create 2 items and add this to purchase order"
+      def item1 = new PurchaseOrderItem(name:'item1',quantity:1,price:new BigDecimal(amountItem1), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      def item2 = new PurchaseOrderItem(name:'item2',quantity:1,price:new BigDecimal(amountItem2), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      purchaseOrder.addToItems(item1)
+      purchaseOrder.addToItems(item2)
+      purchaseOrder.save(validate:false)
+    and: "create differents paymentToPurchase and add to purchase order"
+        purchaseOrder.addToPayments(createPayment(paymentAmount1))
+        purchaseOrder.addToPayments(createPayment(paymentAmount2))
+        purchaseOrder.save()
+    when:
+      def response = service.payPurchaseOrder(purchaseOrder, PaymentToPurchase.get(2))
+    then:
+      response.status == status
+      1 * emailSenderService.sendPaidPurchaseOrder(purchaseOrder, PaymentToPurchase.get(2))
+      1 * modulusUnoService.payPurchaseOrder(purchaseOrder, PaymentToPurchase.findById(2))
+    where:
+      amountItem1 | amountItem2 |  paymentAmount1 | paymentAmount2 || status
+        "50"      | "100"       | "75"            | "85"           || PurchaseOrderStatus.AUTORIZADA
+        "40"      | "60"        | "100"           | "16"           || PurchaseOrderStatus.PAGADA
+        "50"      | "75"        | "1"             | "30"           || PurchaseOrderStatus.AUTORIZADA
+        "300"     | "200"       | "500"           | "80"           || PurchaseOrderStatus.PAGADA
+        "600"     | "800"       | "0"             | "860"          || PurchaseOrderStatus.AUTORIZADA
+        "355"     | "445"       | "390"           | "538"          || PurchaseOrderStatus.PAGADA
+        "600"     | "800"       | "0"             | "860"          || PurchaseOrderStatus.AUTORIZADA
+        "123.12"  | "560.20"    | "600.32"        | "192.34"       || PurchaseOrderStatus.PAGADA
+
+
+  }
+
   private def createMultiPayments(def numberPayments) {
     def payments = []
    (1..numberPayments).each {
