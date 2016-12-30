@@ -27,6 +27,7 @@ class InvoiceService {
     command.emisor.datosFiscales.regimen = company.taxRegime.code
     datosDeFacturacion.numeroDeCuentaDePago = company.accounts[0].stpClabe
     command.emitter = company.rfc
+    command.pdfTemplate = saleOrder.pdfTemplate
 
     command.receptor.datosFiscales.rfc = saleOrder.rfc
     command.receptor.datosFiscales.razonSocial = saleOrder.clientName

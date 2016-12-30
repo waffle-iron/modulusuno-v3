@@ -2,6 +2,8 @@ package com.modulus.uno
 
 class SaleOrderTagLib {
 
+  def restService
+
   static namespace = "modulusuno"
   static defaultEncodeAs = [taglib:'html']
   //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]

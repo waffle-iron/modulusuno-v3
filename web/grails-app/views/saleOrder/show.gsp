@@ -180,10 +180,12 @@
               <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
                 <g:if test="${saleOrder.status == SaleOrderStatus.AUTORIZADA}">
                   <div class="container-fluid">
+                    <g:form name="executeSale" action="executeSaleOrder" id="${saleOrder.id}">
+                    <companyInfo:listTemplatesPdfForCompany rfc="${saleOrder.company.rfc}"/>
                     <div class="row">
                       <div class="col-md-6">
-                        <g:link action="executeSaleOrder" class="btn btn-success btn-block" id="${saleOrder.id}">Ejecutar orden de venta</g:link>
-                      </div>
+                        <button class="btn btn-success btn-block">Ejecutar orden de venta</button>
+                      </div></g:form>
                       <div class="col-md-6">
                         <a data-toggle="collapse" role="button" href="#inputReasonCancellation" class="btn btn-danger btn-block" aria-expanded="false" aria-controls="inputReasonCancellation">Rechazar la orden de venta</a>
                       </div>
