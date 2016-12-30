@@ -5,7 +5,7 @@ import grails.test.mixin.Mock
 import spock.lang.Specification
 
 @TestFor(PurchaseOrderService)
-@Mock([BankAccount, BusinessEntity, PurchaseOrder, Company, User, Address, Authorization])
+@Mock([BankAccount, BusinessEntity, PurchaseOrder, Company, User, Address, Authorization,PaymentToPurchase])
 class PurchaseOrderServiceSpec extends Specification {
 
   def emailSenderService = Mock(EmailSenderService)
@@ -75,5 +75,48 @@ class PurchaseOrderServiceSpec extends Specification {
       new Date()+1  | new Date()+17 | new Date()+17 | new Date()+17
 
   }
+
+  void "verify purchase order had one payment"() {
+    given:
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.save(validate:false)
+    and:
+      def payment = new PaymentToPurchase().save(validate:false)
+    when:
+      def purchaseOrderResult = service.addingPaymentToPurchaseOrder(payment, purchaseOrder)
+    then:
+      purchaseOrderResult.payments.size() == 1
+  }
+
+  void "verify if purchase order had multi payments"() {
+    given:
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.save(validate:false)
+    and:
+      def paymentList = createMultiPayments(numberPayments)
+    when:
+      paymentList.each { payment ->
+        service.addingPaymentToPurchaseOrder(payment,purchaseOrder)
+      }
+    then:
+      purchaseOrder.payments.size() == numberPayments
+    where:
+      numberPayments || havePayments
+        1            || true
+        2            || true
+        3            || true
+  }
+
+  private def createMultiPayments(def numberPayments) {
+    def payments = []
+   (1..numberPayments).each {
+     payments.add(new PaymentToPurchase().save(validate:false))
+   }
+   payments
+  }
+
+
 
 }
