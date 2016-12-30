@@ -17,11 +17,8 @@ class ManagerApplicationService {
   def acceptingCompanyToIntegrate(Long companyId) {
     Company company = Company.findById(companyId)
     ModulusUnoAccount account = modulusUnoService.generedModulusUnoAccountByCompany(company)
-    log.info "*" * 50
-    log.info account
     company.status = CompanyStatus.ACCEPTED
     company.save()
-    log.info company.dump()
     //createNewPasswordForLegalRepresentatives(company)
     emailSenderService.notifyAcceptedCompany(company)
     company
