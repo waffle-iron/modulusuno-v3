@@ -32,4 +32,5 @@ databaseChangeLog = {
     include file: 'modify-column-name-growing-to-300-from-purchase-order-item.groovy'
     include file: 'adding-indicator-for-account-stp.groovy'
     include file: 'adding-user-admin-production.groovy'
+    include file: 'adding-column-pdf-template-to-sale-order.groovy'
 }
