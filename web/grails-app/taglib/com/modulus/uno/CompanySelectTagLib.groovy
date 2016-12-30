@@ -30,7 +30,19 @@ class CompanySelectTagLib {
   def listTemplatesPdfForCompany = { attrs, body ->
     def emisor = restService.existEmisorForGenerateInvoice(attrs.rfc)
     if (emisor.templatesPdf.size()>1) {
-      out << g.select(from:emisor.templatesPdf, name:"pdfTemplate", required:"required")
+      out << """
+        <div class="row">
+          <label>Formato PDF:*</label>
+          <select name="pdfTemplate" class="form-control" required="">
+            <option value="">- Seleccione un formato...</option>
+        """
+        emisor.templatesPdf.each { it ->
+          out << "<option value=\"${it}\">${it}</option>"
+        }
+      out << """
+          </select>
+        </div><br/><br/>
+      """
     }
   }
 
