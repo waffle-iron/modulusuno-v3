@@ -16,7 +16,7 @@ class PurchaseOrder {
   String rejectComment
 
   static belongsTo = [company:Company]
-  static hasMany = [documents:S3Asset, items:PurchaseOrderItem, authorizations:Authorization]
+  static hasMany = [documents:S3Asset, items:PurchaseOrderItem, authorizations:Authorization, payments:PaymentToPurchase]
 
   Date fechaPago
   String externalId
