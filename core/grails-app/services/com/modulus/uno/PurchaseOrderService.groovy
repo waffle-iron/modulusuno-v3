@@ -210,9 +210,7 @@ class PurchaseOrderService {
 
   boolean amountPaymentIsTotalForPurchaseOrder(PurchaseOrder purchaseOrder) {
     def amountPurchase = purchaseOrder.total
-    println amountPurchase
     def amountPayments = purchaseOrder.payments.sum { it.amount } ?: 0
-    println amountPayments
     amountPurchase <= amountPayments
   }
 
