@@ -159,8 +159,8 @@ class PurchaseOrderService {
     (order.authorizations?.size() ?: 0) >= order.company.numberOfAuthorizations
   }
 
-  def payPurchaseOrder(PurchaseOrder order){
-    modulusUnoService.payPurchaseOrder(order)
+  def payPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment){
+    modulusUnoService.payPurchaseOrder(order, payment)
     emailSenderService.sendPaidPurchaseOrder(order)
     order.status = PurchaseOrderStatus.PAGADA
     order.save()
@@ -206,6 +206,14 @@ class PurchaseOrderService {
     purchaseOrder.addToPayments(payment)
     purchaseOrder.save()
     purchaseOrder
+  }
+
+  boolean amountPaymentIsTotalForPurchaseOrder(PurchaseOrder purchaseOrder) {
+    def amountPurchase = purchaseOrder.total
+    println amountPurchase
+    def amountPayments = purchaseOrder.payments.sum { it.amount } ?: 0
+    println amountPayments
+    amountPurchase <= amountPayments
   }
 
 }
