@@ -182,9 +182,9 @@ class EmailSenderService {
     }
   }
 
-  def sendPaidPurchaseOrder(PurchaseOrder order){
+  def sendPaidPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment){
     order.company.legalRepresentatives.each(){
-      def command = emailIntegratedCommand("Una Orden de Pago a Proveedor ha sido PAGADA, haz click en el link de este mail para más información","/purchaseOrder/show/${order.id}", order.company.toString(), it.profile.email)
+      def command = emailIntegratedCommand("Una Orden de Pago a Proveedor ha sido PAGADA por el monto  ${payment.amount}, haz click en el link de este mail para más información","/purchaseOrder/show/${order.id}", order.company.toString(), it.profile.email)
       restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
     }
   }
