@@ -179,7 +179,7 @@
                 <g:if test="${saleOrder.status == SaleOrderStatus.AUTORIZADA}">
                   <div class="container-fluid">
                     <div class="row">
-                      <modulusuno:listTemplatesPdfForCompany company="${saleOrder.company.rfc}"/>
+                      <companyInfo:listTemplatesPdfForCompany rfc="${saleOrder.company.rfc}"/>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
