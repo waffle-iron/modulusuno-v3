@@ -121,8 +121,8 @@ class CorporateController {
     company.status = CompanyStatus.ACCEPTED
     Corporate corporate = session.corporate
 
-    company = companyService.saveInsideAndAssingCorporate(company,corporate.id)
-    managerApplicationService.acceptingCompanyToIntegrate(corporate.id)
+    companyService.saveInsideAndAssingCorporate(company,corporate.id)
+    managerApplicationService.acceptingCompanyToIntegrate(company.id)
     redirect(action:"companies",id:corporate.id)
   }
 
