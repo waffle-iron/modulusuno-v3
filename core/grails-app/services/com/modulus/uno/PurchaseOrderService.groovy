@@ -216,4 +216,13 @@ class PurchaseOrderService {
     amountPurchase <= amountPayments
   }
 
+  Boolean amountExceedsTotal(def amount, PurchaseOrder order) {
+    def originalAmount = order.total
+    def totalAmountPayments = order.totalPayments
+    if (amount <= originalAmount)
+      if (amount <= (originalAmount - totalAmountPayments))
+        return false
+    return true
+  }
+
 }
