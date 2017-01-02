@@ -29,7 +29,7 @@
 
 
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="portlet portlet-default">
           <div class="portlet-heading">
             <div class="portlet-title">
@@ -61,59 +61,128 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+    <div class="col-lg-4">
+      <div class="portlet portlet-default">
+        <div class="portlet-heading">
+          <div class="portlet-title">
+            <h4>Datos de la orden</h4>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div id="defaultPortlet" class="panel-collapse collapse in">
+         <div class="portlet-body">
+            <dl class="dl-horizontal">
+              <dt>No. de Orden</dt>
+              <dd>
+              ${purchaseOrder.id}
+              </dd>
+              <dt>Compañía</dt>
+              <dd>
+              ${purchaseOrder.company}
+              </dd>
+              <dt>Cantidad de detalles</dt>
+              <dd>
+              ${purchaseOrder.items.size()}
+              </dd>
+              <dt>Subtotal</dt>
+              <dd>
+              ${modulusuno.formatPrice(number:purchaseOrder.subtotal)}
+              </dd>
+              <dt>IVA</dt>
+              <dd>${modulusuno.formatPrice(number:purchaseOrder.totalIVA)}</dd>
+              <dt>IEPS</dt>
+              <dd>${modulusuno.formatPrice(number:purchaseOrder.totalIEPS)}</dd>
+              <dt>Total</dt>
+              <dd>${modulusuno.formatPrice(number:purchaseOrder.total)}</dd>
+              <dt>Estado </dt>
+              <dd><g:message code="purchaseOrder.status.${purchaseOrder.status}" default="${purchaseOrder.status}"/></dd>
+              <g:if test="${purchaseOrder.payments.size()}" >
+              <font color="#00BFFF">
+                <dt>Monto Pagado </dt>
+                <dd>${modulusuno.formatPrice(number: purchaseOrder.totalPayments)}</dd>
+                <dt>Monto por Pagar</dt>
+                <dd>${modulusuno.formatPrice(number: purchaseOrder.total - purchaseOrder.totalPayments)}</dd>
+              </font>
+              </g:if>
+            </dl>
+           <p>
+            <g:if test="${purchaseOrder.status == PurchaseOrderStatus.CANCELADA || purchaseOrder.status == PurchaseOrderStatus.RECHAZADA}">
+              <div class="alert alert-danger" role="alert">
+              <label class="control-label">Motivo ${message(code:'purchaseOrder.rejectReason.'+purchaseOrder.status)}:</label>
+              <g:message code="rejectReason.${purchaseOrder.rejectReason}" default="${purchaseOrder.rejectReason}"/>
+              <textarea class="form-control" rows="3" cols="60" readonly>${purchaseOrder.rejectComment}</textarea>
+              </div>
+            </g:if>
+          </p>
+          </div>
+          <div class="portlet-footer">
+            <div class="btn-group" role="group" aria-label="...">
+              <button type="button" class="btn btn-primary">Autorizar orden</button>
+              <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+                <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
+                  <g:if test="${purchaseOrder.bankAccount}">
+                    <g:form controller="purchaseOrder" action="executePurchaseOrder" id="${purchaseOrder.id}">
+                      <button type="button" class="btn btn-info">Ejecutar orden</button>
+                    </g:form>
+                  </g:if>
+                </g:if>
+              </sec:ifAnyGranted>
+              <button type="button" class="btn btn-warning">Solicitar autorización</button>
+
+              <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+                <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
+                  <a data-toggle="collapse" role="button" href="#inputReasonRejected" class="btn btn-danger" aria-expanded="false" aria-controls="inputReasonRejected">Rechazar la orden</a>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="collapse" id="inputReasonRejected">
+                        <div class="well">
+                          <g:form action="rejectPurchaseOrder" id="${purchaseOrder.id}">
+                            <div class="form-group">
+                              <g:select name="rejectReason" from="${RejectReason.values()}" noSelection="['':'- Elija el motivo de rechazo...']" required="" class="form-control" valueMessagePrefix="rejectReason" />
+                              <g:textArea name="rejectComment" placeholder="Ingrese un comentario del rechazo" rows="3" cols="60" maxLength="255" class="form-control"/>
+                              <button type="submit" class="btn btn-danger">Ejecutar Rechazo</button>
+                            </div>
+                          </g:form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </g:if>
+              </sec:ifAnyGranted>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="col-lg-4">
         <div class="portlet portlet-default">
           <div class="portlet-heading">
             <div class="portlet-title">
-              <h4>Datos de la orden</h4>
+              <h4>Pagos parciales de la orden</h4>
             </div>
             <div class="clearfix"></div>
           </div>
           <div id="defaultPortlet" class="panel-collapse collapse in">
-           <div class="portlet-body">
-              <dl class="dl-horizontal">
-                <dt>No. de Orden</dt>
-                <dd>
-                ${purchaseOrder.id}
-                </dd>
-                <dt>Compañía</dt>
-                <dd>
-                ${purchaseOrder.company}
-                </dd>
-                <dt>Cantidad de detalles</dt>
-                <dd>
-                ${purchaseOrder.items.size()}
-                </dd>
-                <dt>Subtotal</dt>
-                <dd>
-                ${modulusuno.formatPrice(number:purchaseOrder.subtotal)}
-                </dd>
-                <dt>IVA</dt>
-                <dd>${modulusuno.formatPrice(number:purchaseOrder.totalIVA)}</dd>
-                <dt>IEPS</dt>
-                <dd>${modulusuno.formatPrice(number:purchaseOrder.totalIEPS)}</dd>
-                <dt>Total</dt>
-                <dd>${modulusuno.formatPrice(number:purchaseOrder.total)}</dd>
-                <dt>Estado </dt>
-                <dd><g:message code="purchaseOrder.status.${purchaseOrder.status}" default="${purchaseOrder.status}"/></dd>
-                <g:if test="${purchaseOrder.payments.size()}" >
-                <font color="#00BFFF">
-                  <dt>Monto Pagado </dt>
-                  <dd>${modulusuno.formatPrice(number: purchaseOrder.totalPayments)}</dd>
-                  <dt>Monto por Pagar</dt>
-                  <dd>${modulusuno.formatPrice(number: purchaseOrder.total - purchaseOrder.totalPayments)}</dd>
-                </font>
-                </g:if>
-              </dl>
-             <p>
-              <g:if test="${purchaseOrder.status == PurchaseOrderStatus.CANCELADA || purchaseOrder.status == PurchaseOrderStatus.RECHAZADA}">
-                <div class="alert alert-danger" role="alert">
-                <label class="control-label">Motivo ${message(code:'purchaseOrder.rejectReason.'+purchaseOrder.status)}:</label>
-                <g:message code="rejectReason.${purchaseOrder.rejectReason}" default="${purchaseOrder.rejectReason}"/>
-                <textarea class="form-control" rows="3" cols="60" readonly>${purchaseOrder.rejectComment}</textarea>
+            <div class="portlet-body">
+              <table class="table table-condensed">
+                <g:each in="${purchaseOrder.payments}" var="payment" >
+                  <tr>
+                    <th>${payment.dateCreated.format("dd/MMM/yyyy")}</th><th> ${g.formatNumber(number:payment.amount, type:"currency", maxFractionDigits:"2", locale:"es_MX")}</th>
+                  </tr>
+                </g:each>
+              </table>
+            </div>
+            <div class="portlet-footer">
+              <g:form class="form-inline" controller="purchaseOrder" action="executePurchaseOrder" id="${purchaseOrder.id}">
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputAmount">Monto</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <input type="text" class="form-control" id="amount" placeholder="Monto" name="amount" pattern="[0-9]+(\.[0-9]{2})?">
+                  </div>
                 </div>
-              </g:if>
-            </p>
+                <button type="submit" class="btn btn-primary">Agregar pago parcial</button>
+              </g:form>
             </div>
           </div>
         </div>
@@ -178,33 +247,7 @@
 
         <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
           <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
-          <div class="portlet portlet-default">
-            <div class="row">
-              <div class="col-md-6 ">
-              <g:if test="${purchaseOrder.bankAccount}">
-                <g:form controller="purchaseOrder" action="executePurchaseOrder" id="${purchaseOrder.id}">
-                  <div class="col-md-12">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label>Pago Parcial</label>
-                        <input type="text" name="amount" class="form-control" pattern="[0-9]+(\.[0-9]{2})?" />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <br />
-                      <button type="submit" class="btn btn-primary btn-block">
-                         Ejecutar el pago
-                      </button>
-                    </div>
-                  </div>
-                </g:form>
-              </g:if>
-              </div>
-              <br />
-              <div class="col-md-4">
                 <a data-toggle="collapse" role="button" href="#inputReasonRejected" class="btn btn-danger btn-block" aria-expanded="false" aria-controls="inputReasonRejected">Rechazar la orden</a>
-              </div>
-            </div>
             <div class="row">
               <div class="col-md-12">
                 <div class="collapse" id="inputReasonRejected">
@@ -220,8 +263,6 @@
                 </div>
               </div>
             </div>
-            <br />
-          </div>
           </g:if>
         </sec:ifAnyGranted>
       </g:if>
