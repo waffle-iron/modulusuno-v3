@@ -99,8 +99,8 @@ class ModulusUnoService {
     cashinResult
   }
 
-  def payPurchaseOrder(PurchaseOrder order) {
-    CashoutCommand command = new CashoutCommand(uuid:order.company.accounts?.first()?.timoneUuid, clabe:order.bankAccount.clabe, bankCode:order.bankAccount.banco.bankingCode, amount:order.total.setScale(2, RoundingMode.HALF_UP), speiFee:grailsApplication.config.speiFee, beneficiary:order.providerName, concept:cashOutConcept.PurchaseOrder)
+  def payPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment) {
+    CashoutCommand command = new CashoutCommand(uuid:order.company.accounts?.first()?.timoneUuid, clabe:order.bankAccount.clabe, bankCode:order.bankAccount.banco.bankingCode, amount:payment.amount.setScale(2, RoundingMode.HALF_UP), speiFee:grailsApplication.config.speiFee, beneficiary:order.providerName, concept:cashOutConcept.PurchaseOrder)
     restService.sendCommandWithAuth(command, grailsApplication.config.modulus.cashout)
     command
 

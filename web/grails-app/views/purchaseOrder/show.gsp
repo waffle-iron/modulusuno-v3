@@ -96,6 +96,14 @@
                 <dd>${modulusuno.formatPrice(number:purchaseOrder.total)}</dd>
                 <dt>Estado </dt>
                 <dd><g:message code="purchaseOrder.status.${purchaseOrder.status}" default="${purchaseOrder.status}"/></dd>
+                <g:if test="${purchaseOrder.payments.size()}" >
+                <font color="#00BFFF">
+                  <dt>Monto Pagado </dt>
+                  <dd>${modulusuno.formatPrice(number: purchaseOrder.totalPayments)}</dd>
+                  <dt>Monto por Pagar</dt>
+                  <dd>${modulusuno.formatPrice(number: purchaseOrder.total - purchaseOrder.totalPayments)}</dd>
+                </font>
+                </g:if>
               </dl>
              <p>
               <g:if test="${purchaseOrder.status == PurchaseOrderStatus.CANCELADA || purchaseOrder.status == PurchaseOrderStatus.RECHAZADA}">
@@ -170,16 +178,29 @@
 
         <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
           <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
+          <div class="portlet portlet-default">
             <div class="row">
-              <div class="col-md-4 col-md-offset-4">
+              <div class="col-md-6 ">
               <g:if test="${purchaseOrder.bankAccount}">
                 <g:form controller="purchaseOrder" action="executePurchaseOrder" id="${purchaseOrder.id}">
-                  <button type="submit" class="btn btn-primary btn-block">
-                    Ejecutar el pago
-                  </button>
+                  <div class="col-md-12">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Pago Parcial</label>
+                        <input type="text" name="amount" class="form-control" pattern="[0-9]+(\.[0-9]{2})?" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <br />
+                      <button type="submit" class="btn btn-primary btn-block">
+                         Ejecutar el pago
+                      </button>
+                    </div>
+                  </div>
                 </g:form>
               </g:if>
               </div>
+              <br />
               <div class="col-md-4">
                 <a data-toggle="collapse" role="button" href="#inputReasonRejected" class="btn btn-danger btn-block" aria-expanded="false" aria-controls="inputReasonRejected">Rechazar la orden</a>
               </div>
@@ -199,6 +220,8 @@
                 </div>
               </div>
             </div>
+            <br />
+          </div>
           </g:if>
         </sec:ifAnyGranted>
       </g:if>
@@ -216,6 +239,9 @@
       </g:if>
       <g:if test="${insufficientBalance}">
         <div class="alert alert-danger" role="alert">${insufficientBalance}</div>
+      </g:if>
+      <g:if test="${amountExcceds}">
+        <div class="alert alert-danger" role="alert">${amountExcceds}</div>
       </g:if>
       <div class="table-responsive">
         <g:form controller="purchaseOrderItem" action="save">

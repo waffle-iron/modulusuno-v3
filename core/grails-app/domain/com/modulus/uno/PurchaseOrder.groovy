@@ -55,6 +55,11 @@ class PurchaseOrder {
     getSubtotal() + getTotalIVA() + getTotalIEPS()
   }
 
+  BigDecimal getTotalPayments() {
+    payments*.amount.sum() ?: 0
+  }
+
+
   static marshaller = {
     JSON.registerObjectMarshaller(PurchaseOrder, 1) { m ->
       return [
