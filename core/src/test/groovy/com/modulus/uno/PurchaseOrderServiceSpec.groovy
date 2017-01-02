@@ -203,6 +203,36 @@ class PurchaseOrderServiceSpec extends Specification {
 
   }
 
+  void "verify if payment not exceeds amount of order"() {
+     given: "create a purchase order"
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.status = PurchaseOrderStatus.AUTORIZADA
+      purchaseOrder.save(validate:false)
+    and: "create one items and add this to purchase order"
+      def item1 = new PurchaseOrderItem(name:'item1',quantity:1,price:new BigDecimal(amountItem1), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      purchaseOrder.addToItems(item1)
+      purchaseOrder.save(validate:false)
+    and: "create one paymentToPurchase and add to purchase order"
+      purchaseOrder.addToPayments(createPayment(paymentAmount1))
+      purchaseOrder.save()
+    when:
+      boolean response = service.amountExceedsTotal(paymentAmount2,purchaseOrder)
+    then:
+      response == result
+    where:
+      amountItem1 | paymentAmount1 | paymentAmount2         || result
+        "590"     | "75"           | new BigDecimal("85")   || false
+        "116"     | "100"          | new BigDecimal("16")   || false
+        "50"      | "1"            | new BigDecimal("30")   || false
+        "300"     | "500"          | new BigDecimal("900")  || true
+        "900"     | "0"            | new BigDecimal("860")  || false
+        "355"     | "390"          | new BigDecimal("900")  || true
+        "1600"    | "100"          | new BigDecimal("860")  || false
+        "123.12"  | "600.32"       | new BigDecimal("1000") || true
+
+  }
+
   private def createMultiPayments(def numberPayments) {
     def payments = []
    (1..numberPayments).each {
