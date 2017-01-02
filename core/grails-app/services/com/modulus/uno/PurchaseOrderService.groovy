@@ -159,11 +159,13 @@ class PurchaseOrderService {
     (order.authorizations?.size() ?: 0) >= order.company.numberOfAuthorizations
   }
 
-  def payPurchaseOrder(PurchaseOrder order){
-    modulusUnoService.payPurchaseOrder(order)
-    emailSenderService.sendPaidPurchaseOrder(order)
-    order.status = PurchaseOrderStatus.PAGADA
+  def payPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment){
+    modulusUnoService.payPurchaseOrder(order, payment)
+    emailSenderService.sendPaidPurchaseOrder(order, payment)
+    if (amountPaymentIsTotalForPurchaseOrder(order))
+      order.status = PurchaseOrderStatus.PAGADA
     order.save()
+    order
   }
 
   def requestAuthorizationForTheOrder(PurchaseOrder purchaseOrder){
@@ -206,6 +208,21 @@ class PurchaseOrderService {
     purchaseOrder.addToPayments(payment)
     purchaseOrder.save()
     purchaseOrder
+  }
+
+  boolean amountPaymentIsTotalForPurchaseOrder(PurchaseOrder purchaseOrder) {
+    def amountPurchase = purchaseOrder.total
+    def amountPayments = purchaseOrder.totalPayments
+    amountPurchase <= amountPayments
+  }
+
+  Boolean amountExceedsTotal(def amount, PurchaseOrder order) {
+    def originalAmount = order.total
+    def totalAmountPayments = order.totalPayments
+    if (amount <= originalAmount)
+      if (amount <= (originalAmount - totalAmountPayments))
+        return false
+    return true
   }
 
 }

@@ -3,9 +3,10 @@ package com.modulus.uno
 import grails.test.mixin.TestFor
 import grails.test.mixin.Mock
 import spock.lang.Specification
+import spock.lang.Unroll
 
 @TestFor(PurchaseOrderService)
-@Mock([BankAccount, BusinessEntity, PurchaseOrder, Company, User, Address, Authorization,PaymentToPurchase])
+@Mock([BankAccount, BusinessEntity, PurchaseOrder, Company, User, Address, Authorization,PaymentToPurchase, PurchaseOrderItem])
 class PurchaseOrderServiceSpec extends Specification {
 
   def emailSenderService = Mock(EmailSenderService)
@@ -109,6 +110,129 @@ class PurchaseOrderServiceSpec extends Specification {
         3            || true
   }
 
+  @Unroll
+  void """verify if payment #paymentAmount it covers all amount (#amountItem1 #amountItem2) of purchase Order"""() {
+    given: "create a purchase order"
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.save(validate:false)
+    and: "create 2 items and add this to purchase order"
+      def item1 = new PurchaseOrderItem(name:'item1',quantity:1,price:new BigDecimal(amountItem1), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      def item2 = new PurchaseOrderItem(name:'item2',quantity:1,price:new BigDecimal(amountItem2), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      purchaseOrder.addToItems(item1)
+      purchaseOrder.addToItems(item2)
+      purchaseOrder.save(validate:false)
+    and: "create paymentToPurchase and add to purchase order"
+      def payment = new PaymentToPurchase(amount: new BigDecimal(paymentAmount)).save(validate:false)
+      purchaseOrder.addToPayments(payment)
+    when:
+      def response = service.amountPaymentIsTotalForPurchaseOrder(purchaseOrder)
+    then:
+      response == comparate
+    where:
+      amountItem1 | amountItem2 | paymentAmount || comparate
+        "50"      | "100"       | "75"          || false
+        "40"      | "60"        | "116"         || true
+        "50"      | "75"        | "0"           || false
+        "300"     | "200"       | "580"         || true
+        "600"     | "800"       | "860"         || false
+  }
+
+  @Unroll
+  void """verify if the payments (#paymentAmount1 #paymentAmount2) it covers all amount (#amountItem1 #amountItem2) of purchase Order"""() {
+    given: "create a purchase order"
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.save(validate:false)
+    and: "create 2 items and add this to purchase order"
+      def item1 = new PurchaseOrderItem(name:'item1',quantity:1,price:new BigDecimal(amountItem1), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      def item2 = new PurchaseOrderItem(name:'item2',quantity:1,price:new BigDecimal(amountItem2), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      purchaseOrder.addToItems(item1)
+      purchaseOrder.addToItems(item2)
+      purchaseOrder.save(validate:false)
+    and: "create differents paymentToPurchase and add to purchase order"
+        purchaseOrder.addToPayments(createPayment(paymentAmount1))
+        purchaseOrder.addToPayments(createPayment(paymentAmount2))
+        purchaseOrder.save()
+    when:
+      def response = service.amountPaymentIsTotalForPurchaseOrder(purchaseOrder)
+    then:
+      response == comparate
+    where:
+      amountItem1 | amountItem2 |  paymentAmount1 | paymentAmount2 || comparate
+        "50"      | "100"       | "75"            | "85"           || false
+        "40"      | "60"        | "100"           | "16"           || true
+        "50"      | "75"        | "1"             | "30"           || false
+        "300"     | "200"       | "500"           | "80"           || true
+        "600"     | "800"       | "0"             | "860"          || false
+  }
+
+  void "pay order and verify is amount of payment it cover all amount order"() {
+    given: "create a purchase order"
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.status = PurchaseOrderStatus.AUTORIZADA
+      purchaseOrder.save(validate:false)
+    and: "create 2 items and add this to purchase order"
+      def item1 = new PurchaseOrderItem(name:'item1',quantity:1,price:new BigDecimal(amountItem1), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      def item2 = new PurchaseOrderItem(name:'item2',quantity:1,price:new BigDecimal(amountItem2), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      purchaseOrder.addToItems(item1)
+      purchaseOrder.addToItems(item2)
+      purchaseOrder.save(validate:false)
+    and: "create differents paymentToPurchase and add to purchase order"
+        purchaseOrder.addToPayments(createPayment(paymentAmount1))
+        purchaseOrder.addToPayments(createPayment(paymentAmount2))
+        purchaseOrder.save()
+    when:
+      def response = service.payPurchaseOrder(purchaseOrder, PaymentToPurchase.get(2))
+    then:
+      response.status == status
+      1 * emailSenderService.sendPaidPurchaseOrder(purchaseOrder, PaymentToPurchase.get(2))
+      1 * modulusUnoService.payPurchaseOrder(purchaseOrder, PaymentToPurchase.findById(2))
+    where:
+      amountItem1 | amountItem2 |  paymentAmount1 | paymentAmount2 || status
+        "50"      | "100"       | "75"            | "85"           || PurchaseOrderStatus.AUTORIZADA
+        "40"      | "60"        | "100"           | "16"           || PurchaseOrderStatus.PAGADA
+        "50"      | "75"        | "1"             | "30"           || PurchaseOrderStatus.AUTORIZADA
+        "300"     | "200"       | "500"           | "80"           || PurchaseOrderStatus.PAGADA
+        "600"     | "800"       | "0"             | "860"          || PurchaseOrderStatus.AUTORIZADA
+        "355"     | "445"       | "390"           | "538"          || PurchaseOrderStatus.PAGADA
+        "600"     | "800"       | "0"             | "860"          || PurchaseOrderStatus.AUTORIZADA
+        "123.12"  | "560.20"    | "600.32"        | "192.34"       || PurchaseOrderStatus.PAGADA
+
+
+  }
+
+  void "verify if payment not exceeds amount of order"() {
+     given: "create a purchase order"
+      def purchaseOrder = new PurchaseOrder()
+      purchaseOrder.providerName = "prueba"
+      purchaseOrder.status = PurchaseOrderStatus.AUTORIZADA
+      purchaseOrder.save(validate:false)
+    and: "create one items and add this to purchase order"
+      def item1 = new PurchaseOrderItem(name:'item1',quantity:1,price:new BigDecimal(amountItem1), unitType:"UNIDADES", purchaseOrder:purchaseOrder )
+      purchaseOrder.addToItems(item1)
+      purchaseOrder.save(validate:false)
+    and: "create one paymentToPurchase and add to purchase order"
+      purchaseOrder.addToPayments(createPayment(paymentAmount1))
+      purchaseOrder.save()
+    when:
+      boolean response = service.amountExceedsTotal(paymentAmount2,purchaseOrder)
+    then:
+      response == result
+    where:
+      amountItem1 | paymentAmount1 | paymentAmount2         || result
+        "590"     | "75"           | new BigDecimal("85")   || false
+        "116"     | "100"          | new BigDecimal("16")   || false
+        "50"      | "1"            | new BigDecimal("30")   || false
+        "300"     | "500"          | new BigDecimal("900")  || true
+        "900"     | "0"            | new BigDecimal("860")  || false
+        "355"     | "390"          | new BigDecimal("900")  || true
+        "1600"    | "100"          | new BigDecimal("860")  || false
+        "123.12"  | "600.32"       | new BigDecimal("1000") || true
+
+  }
+
   private def createMultiPayments(def numberPayments) {
     def payments = []
    (1..numberPayments).each {
@@ -117,6 +241,8 @@ class PurchaseOrderServiceSpec extends Specification {
    payments
   }
 
-
+  private PaymentToPurchase createPayment(String amount) {
+    new PaymentToPurchase(amount: new BigDecimal(amount)).save()
+  }
 
 }
