@@ -202,5 +202,10 @@ class PurchaseOrderService {
     purchaseOrder
   }
 
+  def addingPaymentToPurchaseOrder(PaymentToPurchase payment, PurchaseOrder purchaseOrder) {
+    purchaseOrder.addToPayments(payment)
+    purchaseOrder.save()
+    purchaseOrder
+  }
 
 }
