@@ -102,8 +102,10 @@ class PurchaseOrderController {
 
   def executePurchaseOrder(PurchaseOrder order) {
     BigDecimal amount = new BigDecimal(params.amount ?: 0) ?: order.total
-    if (purchaseOrderService.amountExceedsTotal(amount))
+    if (purchaseOrderService.amountExceedsTotal(amount, order)) {
       render view:'show', model:[purchaseOrder:order, amountExcceds: "El monto excede el total del pago de la order de compra"]
+      return
+    }
     PaymentToPurchase payment = new PaymentToPurchase(amount:amount)
     purchaseOrderService.addingPaymentToPurchaseOrder(payment, order)
     String messageSuccess = message(code:"purchaseOrder.already.executed")

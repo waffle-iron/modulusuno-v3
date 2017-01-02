@@ -187,7 +187,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Pago Parcial</label>
-                        <input type="text" name="amount" class="form-control" pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                        <input type="text" name="amount" class="form-control" pattern="[0-9]+(\.[0-9]{2})?" />
                       </div>
                     </div>
                     <div class="col-md-6">
