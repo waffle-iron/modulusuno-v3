@@ -4,33 +4,43 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 import grails.test.mixin.Mock
 import spock.lang.Unroll
+import java.lang.Void as Should
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(ManagerApplicationService)
-@Mock([Company,User,Profile,CompanyRejectedLog,FirstAccessToLegalRepresentatives])
+@Mock([Company,User,Role,UserRoleCompany,Profile,CompanyRejectedLog,FirstAccessToLegalRepresentatives])
 class ManagerApplicationServiceSpec extends Specification {
 
   def restService = Mock(RestService)
   def modulusUnoService = Mock(ModulusUnoService)
   def collaboratorService = Mock(CollaboratorService)
   def emailSenderService = Mock(EmailSenderService)
+  def directorService = Mock(DirectorService)
 
   def setup() {
     service.restService = restService
     service.modulusUnoService = modulusUnoService
     service.collaboratorService = collaboratorService
     service.emailSenderService = emailSenderService
+    service.directorService = directorService
   }
 
-  void "Accepting a company to integrate"() {
-    given:
-      def company = new Company(name:"apple").save(validate:false)
-      def profile = new Profile(email:"sergio@makingdevs.con").save(validate:false)
-      def user = new User(profile:profile).save(validate:false)
-      company.addToActors(user)
+  Should "accept a company to integrate"(){
+    given:"the company"
+      Company company = new Company(name:"apple").save(validate:false)
       company.save(validate:false)
+      Profile profile = new Profile(email:"sergio@makingdevs.con").save(validate:false)
+      User user = new User(profile:profile).save(validate:false)
+    and:"the role"
+      Role role = new Role(authority:"ROLE_CORPORATIVE")
+      role.save(validate:false)
+    and:"the company's user"
+      UserRoleCompany userRoleCompany = new UserRoleCompany(user:user,
+                                                            company:company)
+      userRoleCompany.addToRoles(role)
+      userRoleCompany.save()
     and:
       grailsApplication.config.emailer.notificationIntegrated = "template1"
     when:
@@ -157,8 +167,14 @@ class ManagerApplicationServiceSpec extends Specification {
       user.save(validate:false)
       def userBefore = user.password
     and:
-      company.addToLegalRepresentatives(user)
-      company.save()
+      Role role = new Role(authority:"ROLE_LEGAL_REPRESENTATIVE")
+      role.save(validate:false)
+      UserRoleCompany userRole = new UserRoleCompany(user:user,
+                                                     company:company)
+      userRole.addToRoles(role)
+      userRole.save(validate:false)
+    and:
+      directorService.findUsersOfCompanyByRole(_,_) >> [user]
     when:
       service.createNewPasswordForLegalRepresentatives(company)
     then:

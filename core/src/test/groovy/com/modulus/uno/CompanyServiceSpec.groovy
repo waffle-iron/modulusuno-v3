@@ -8,9 +8,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import static java.util.Calendar.*
 import spock.lang.Unroll
+import spock.lang.Ignore
 
 @TestFor(CompanyService)
-@Mock([Company,Address,S3Asset,User,UserRole,Role,Profile])
+@Mock([Company,Corporate,Address,S3Asset,User,UserRole,Role,UserRoleCompany,Profile])
 class CompanyServiceSpec extends Specification {
 
   ModulusUnoService modulusUnoService = Mock(ModulusUnoService)
@@ -21,6 +22,7 @@ class CompanyServiceSpec extends Specification {
   SaleOrderService saleOrderService = Mock(SaleOrderService)
   DepositOrderService depositOrderService = Mock(DepositOrderService)
   CollaboratorService collaboratorService = Mock(CollaboratorService)
+  DirectorService directorService = Mock(DirectorService)
 
   def setup(){
     service.modulusUnoService = modulusUnoService
@@ -31,6 +33,7 @@ class CompanyServiceSpec extends Specification {
     service.saleOrderService = saleOrderService
     service.depositOrderService = depositOrderService
     service.collaboratorService = collaboratorService
+    service.directorService = directorService
   }
 
   Should "create a direction for a Company"(){
@@ -79,6 +82,23 @@ class CompanyServiceSpec extends Specification {
       companyResult.first().status == CompanyStatus.VALIDATE
   }
 
+  Should "get the companies of a corporate and with the validate status"(){
+    given:"the corporate"
+      Corporate corporate = new Corporate()
+    and:"the companies"
+      ArrayList<Company> companies = [new Company(status:CompanyStatus.VALIDATE),
+                                      new Company(status:CompanyStatus.VALIDATE)]
+      companies.each{ company ->
+        corporate.addToCompanies(company)
+      }
+
+      corporate.save(validate:false)
+    when:
+      ArrayList<Company> corporateCompanies = service.findCompaniesByCorporateAndStatus(CompanyStatus.VALIDATE,corporate.id)
+    then:
+      corporateCompanies.size() == 2
+  }
+
   void "search company by filters"() {
     given:
       createSevenCompanies()
@@ -95,67 +115,26 @@ class CompanyServiceSpec extends Specification {
       [status:CompanyStatus.ACCEPTED,rfc:"ROW861224LDD"]   | 1
   }
 
-  void "find company in base to actor"() {
-    given:
-      def user = new User(username:"says33",password:"123456789QWE").save(validate:false)
-    and:
-      createSevenCompanies()
-      def company = Company.get(1)
-      company.addToActors(user)
-      company.save(validate:false)
-    when:
-      def companyResult = service.findCompaniesForThisUser(user)
-    then:
-      companyResult.first().id == 1
-  }
-
-  void "find company in base to legal representatives"() {
-    given:
-      def user = new User(username:"says33",password:"123456789QWE").save(validate:false)
-    and:
-      createSevenCompanies()
-      def company = Company.get(1)
-      company.addToLegalRepresentatives(user)
-      company.save(validate:false)
-    when:
-      def companyResult = service.findCompaniesForThisUser(user)
-    then:
-      companyResult.first().id == 1
-  }
-
-  void "find company in base to legal representatives and actor "() {
-    given:
-      def user = new User(username:"says33",password:"123456789QWE").save(validate:false)
-    and:
-      createSevenCompanies()
-      def company = Company.get(1)
-      company.addToLegalRepresentatives(user)
-      company.save(validate:false)
-      def company2 = Company.get(3)
-      company2.addToActors(user)
-      company2.addToLegalRepresentatives(user)
-      company2.save(validate:false)
-    when:
-      def companyResult = service.findCompaniesForThisUser(user)
-    then:
-      companyResult.size() == 2
-      companyResult.first().id == 1
-  }
-
   def "verify that not missing autorizers for this company"() {
     given:
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
       def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
-    and:
-      createUserWithRole('autorizador1', 'autorizador1', 'autorizador1@email.com', userRole)
-      createUserWithRole('autorizador2', 'autorizador2', 'autorizador2@email.com', userRole)
-      createUserWithRole('representante', 'representante', 'representante@email.com', userRole1)
-    and:
+    and:"the company"
       def company = new Company()
       company.numberOfAuthorizations = 2
-      company.addToActors(User.get(1))
-      company.addToActors(User.get(2))
       company.save(validate:false)
+    and:
+      ArrayList<User> users = [createUserWithRole([username:'autorizador1',
+                                                   password:'autorizador1',
+                                                   email:'autorizador1@email.com'], userRole, company),
+                               createUserWithRole([username:'autorizador2',
+                                                   password:'autorizador2',
+                                                   email:'autorizador2@email.com'], userRole, company),
+                               createUserWithRole([username:'representante',
+                                                   password:'representante',
+                                                   email:'representante@email.com'],userRole1,company)]
+    and:
+      directorService.findUsersOfCompanyByRole(_,_) >> [users[0],users[1]]
     when:
       def result = service.getAuthorizersByCompany(company)
     then:
@@ -167,14 +146,18 @@ class CompanyServiceSpec extends Specification {
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
       def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
     and:
-      createUserWithRole('autorizador1', 'autorizador1', 'autorizador1@email.com', userRole)
-      createUserWithRole('representante', 'representante', 'representante@email.com', userRole1)
-    and:
-      def company = new Company()
+      Company company = new Company()
       company.numberOfAuthorizations = 2
-      company.addToActors(User.get(1))
-      company.addToActors(User.get(2))
       company.save(validate:false)
+    and:
+      ArrayList<User> users = [createUserWithRole([username:'autorizador1',
+                                                  password:'autorizador1',
+                                                  email:'autorizador1@email.com'], userRole, company),
+                              createUserWithRole([username:'representante',
+                                                  password:'representante',,
+                                                  email:'representante@email.com'], userRole1, company)]
+    and:
+      directorService.findUsersOfCompanyByRole(_,_) >> [users[0]]
     when:
       def result = service.getAuthorizersByCompany(company)
     then:
@@ -183,19 +166,24 @@ class CompanyServiceSpec extends Specification {
 
   def "verify that lack autorizers for this company,when exist 2 authorizers and one legal Representavice"() {
     given:
-      def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
-
-      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
+      Role userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
+      Role userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
     and:
-      createUserWithRole('autorizador1', 'autorizador1', 'autorizador1@email.com', userRole)
-      createUserWithRole('autorizador2', 'autorizador2', 'autorizador2@email.com', userRole)
-      createUserWithRole('representante', 'representante', 'representante@email.com', userRole1)
-    and:
-      def company = new Company()
+      Company company = new Company()
       company.numberOfAuthorizations = 1
-      company.addToActors(User.get(1))
-      company.addToActors(User.get(2))
       company.save(validate:false)
+    and:
+      ArrayList<User> users = [createUserWithRole([username:'autorizador1',
+                                                   password:'autorizador1',
+                                                   email:'autorizador1@email.com'], userRole, company),
+                               createUserWithRole([username:'autorizador2',
+                                                   password:'autorizador2',
+                                                   email:'autorizador2@email.com'], userRole, company),
+                               createUserWithRole([username:'representante',
+                                                   password:'representante',
+                                                   email:'representante@email.com'], userRole1, company)]
+    and:
+      directorService.findUsersOfCompanyByRole(_,_) >> [users[0],users[1]]
     when:
       def result = service.getAuthorizersByCompany(company)
     then:
@@ -205,13 +193,16 @@ class CompanyServiceSpec extends Specification {
   def "verify that lack an autorizer for this company,when only exist legal a representative"() {
     given:
       def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
-    and:
-      createUserWithRole('representante', 'representante', 'representante@email.com', userRole1)
-    and:
+and:
       def company = new Company()
       company.numberOfAuthorizations = 1
-      company.addToActors(User.get(1))
       company.save(validate:false)
+    and:
+      User user = createUserWithRole([username:'representante',
+                                      password:'representante',
+                                      email:'representante@email.com'], userRole1, company)
+    and:
+      directorService.findUsersOfCompanyByRole(_,_) >> []
     when:
       def result = service.getAuthorizersByCompany(company)
     then:
@@ -223,15 +214,22 @@ class CompanyServiceSpec extends Specification {
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
       def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
     and:
-      createUserWithRole('autorizador1', 'autorizador1', 'autorizador1@email.com', userRole)
-      createUserWithRole('autorizador2', 'autorizador2', 'autorizador2@email.com', userRole)
-      createUserWithRole('representante', 'representante', 'representante@email.com', userRole1)
-    and:
       def company = new Company()
-      company.addToActors(User.get(1))
-      company.addToActors(User.get(2))
-      company.addToActors(User.get(3))
       company.save(validate:false)
+
+    and:
+      ArrayList<User> users = [createUserWithRole([username:'autorizador1',
+                                                   password:'autorizador1',
+                                                   email:'autorizador1@email.com'], userRole,company),
+                               createUserWithRole([username:'autorizador2',
+                                                   password:'autorizador2',
+                                                   email:'autorizador2@email.com'], userRole,company),
+                               createUserWithRole([username:'representante',
+                                                   password:'representante',
+                                                   email:'representante@email.com'], userRole1,company)]
+
+    and:"the director service mock"
+      directorService.findUsersOfCompanyByRole(_,_) >> [users[0],users[1]]
     when:
       def count = service.getAuthorizersByCompany(company)
     then:
@@ -244,16 +242,21 @@ class CompanyServiceSpec extends Specification {
       def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
       def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
     and:
-      createUserWithRole('autorizador1', 'autorizador1', 'autorizador1@email.com', userRole)
-      createUserWithRole('autorizador2', 'autorizador2', 'autorizador2@email.com', userRole)
-      createUserWithRole('representante', 'representante', 'representante@email.com', userRole1)
-    and:
       def company = new Company()
       company.numberOfAuthorizations = count
-      company.addToActors(User.get(1))
-      company.addToActors(User.get(2))
-      company.addToActors(User.get(3))
       company.save(validate:false)
+    and:
+      ArrayList<User> users = [createUserWithRole([username:'autorizador1',
+                                                   password:'autorizador1',
+                                                   email:'autorizador1@email.com'], userRole, company),
+                               createUserWithRole([username:'autorizador2',
+                                                   password:'autorizador2',
+                                                   email:'autorizador2@email.com'], userRole, company),
+                               createUserWithRole([username:'representante',
+                                                   password:'representante',
+                                                   email:'representante@email.com'], userRole1, company)]
+    and:
+      directorService.findUsersOfCompanyByRole(_,_) >> [users[0],users[1]]
     when:
       def numberOfAuthorizers = service.getNumberOfAuthorizersMissingForThisCompany(company)
     then:
@@ -348,7 +351,7 @@ class CompanyServiceSpec extends Specification {
       Company company = createCompany()
     and:"An account"
       ModulusUnoAccount account = Mock(ModulusUnoAccount)
-      account.timoneUuid = "1234567890"
+      account.timoneUuid   = "1234567890"
       account.save(validate:false)
       company.accounts = [account]
       company.status = CompanyStatus.ACCEPTED
@@ -369,17 +372,49 @@ class CompanyServiceSpec extends Specification {
       1001    | 1001          | true
   }
 
-  private def createUserWithRole(String username, String password, String email, def userRole) {
-      def user = User.findByUsername(username) ?: new User(username:username,
-      password:password,
-      enabled:true,
-      profile:new Profile(name:username,
-      lastName:'lastName',
-      motherLastName:'motherLastName',
-      email:email)).save(validate:false)
+  void "create simple company and add it to one corporate"(){
+    given:
+      Company company = new Company(rfc:"ROD861224KJD",
+                                    bussinessName:"apple1",
+                                    webSite:"http://url.com",
+                                    employeeNumbers:2,
+                                    grossAnnualBilling:1_000_000)
+      Corporate corporate = new Corporate(nameCorporate:"nombre",corporateUrl:"url")
+      corporate.save(validate:false)
+      User corporateUser = new User().save(validate:false)
+    and:
+      def corporateServiceMock = Mock(CorporateService) {
+        1 * addCompanyToCorporate(corporate,company) >> {
+          corporate.addToCompanies(company)
+          corporate.save()
+          company
+        }
+      }
+      service.corporateService = corporateServiceMock
+    when:
+      Company expectedCompany = service.saveInsideAndAssingCorporate(company,corporate.id)
+    then:
+      expectedCompany.id
+  }
 
-      if(!UserRole.get(user.id,userRole.id))
-        UserRole.create user, userRole, true
+  private def createUserWithRole(Map userInfo,Role userRole,Company company) {
+    def user = User.findByUsername(userInfo.username) ?: new User(username:userInfo.username,
+                                                                  password:userInfo.password,
+                                                                  enabled:true,
+                                                                  profile:new Profile(name:userInfo.username,
+                                                                                      lastName:'lastName',
+                                                                                      motherLastName:'motherLastName',
+                                                                                      email:userInfo.email)).save(validate:false)
+
+    if(!UserRole.get(user.id,userRole.id))
+      UserRole.create user, userRole, true
+
+    UserRoleCompany userRoleCompany = new UserRoleCompany(user:user,
+                                                          company:company)
+    userRoleCompany.addToRoles(userRole)
+    userRoleCompany.save()
+
+    user
   }
 
   private createSevenCompanies() {

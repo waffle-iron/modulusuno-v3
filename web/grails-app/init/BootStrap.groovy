@@ -17,6 +17,8 @@ class BootStrap {
       createUserWithRole('admin', 'admin', 'admin@email.com', 'ROLE_ADMIN')
       createUserWithRole('integrado', 'admin', 'integrado@email.com', 'ROLE_INTEGRADO')
       createUserWithRole('autorizador', 'autorizador', 'autorizador@email.com', 'ROLE_INTEGRADO_AUTORIZADOR')
+      createUserWithRole('user_m1','user_m1','user_m1@email.com','ROLE_M1')
+      createUserWithRole('corporative','corporative','corporative@email.com','ROLE_CORPORATIVE')
     }
   }
 
@@ -49,7 +51,6 @@ class BootStrap {
   }
 
   def saveBanksInfo(){
-
     if(!Bank.findByBankingCode("2001")){
       [new Bank(bankingCode:"2001",name:"BANXICO"),
       new Bank(bankingCode:"37006",name:"BANCOMEXT"),
@@ -154,4 +155,5 @@ class BootStrap {
       new Bank(bankingCode:"90902",name:"INDEVAL")]*.save()
     }
   }
+
 }

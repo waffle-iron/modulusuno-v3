@@ -5,7 +5,6 @@ import grails.transaction.Transactional
 import java.text.SimpleDateFormat
 import pl.touk.excel.export.WebXlsxExporter
 
-@Transactional(readOnly = true)
 class CompanyController {
 
   def springSecurityService
@@ -16,6 +15,7 @@ class CompanyController {
   def providerService
   def managerApplicationService
   def modulusUnoService
+  RoleService roleService
 
   static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -57,25 +57,20 @@ class CompanyController {
     render view:"/uploadDocuments/uploadDocumentsUser",model:[company:company]
   }
 
-  @Transactional
   def save(Company company) {
     if (company == null) {
-      transactionStatus.setRollbackOnly()
       notFound()
       return
     }
 
     if(company.hasErrors()) {
-      transactionStatus.setRollbackOnly()
       respond company.errors, view:'create'
       return
     }
+
     def user = springSecurityService.currentUser
-    company.addToActors(user)
-
-    company.save(flush:true)
-
-    session['company'] = company.id
+    company.status = CompanyStatus.VALIDATE
+    company = companyService.saveInsideAndAssingCorporate(company, user)
 
     request.withFormat {
       form multipartForm {
@@ -118,7 +113,9 @@ class CompanyController {
   def setCompanyInSession() {
     def company = params.company
     session['company'] = company
+    def currentUser = springSecurityService.currentUser
     def companyInfo = Company.findById(company.toLong())
+    roleService.updateTheUserRolesOfUserAtThisCompany(currentUser,companyInfo)
     if (companyInfo.status != CompanyStatus.ACCEPTED) {
       redirect(action:"show",id:"${company}")
       return
