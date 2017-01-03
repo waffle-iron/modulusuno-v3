@@ -3,15 +3,15 @@ package com.modulus.uno
 import org.springframework.context.i18n.LocaleContextHolder as LCH
 
 class RecoveryService {
-  def restService
   def grailsApplication
   def registrationService
   def recoveryCollaboratorService
   def messageSource
+  def emailSenderService
 
   def sendConfirmationAccountToken(String email){
     def message = recoveryCollaboratorService.generateToken("${grailsApplication.config.recovery.register}", email)
-    restService.sendCommand(message, grailsApplication.config.emailer.register)
+    emailSenderService.sendEmailForConfirmAccount(message, email)
   }
 
   def confirmAccountForToken(token){
@@ -24,7 +24,7 @@ class RecoveryService {
 
     String name = "${user.profile.name} ${user.profile.lastName} ${user.profile.motherLastName}"
     def message = new NameCommand(name:name, type:EmailerMessageType.NEW_USER)
-    restService.sendCommand(message, grailsApplication.config.emailer.newUser)
+    emailSenderService.sendEmailForConfirmAccountForToken(message, user)
     user
   }
 
@@ -46,7 +46,7 @@ class RecoveryService {
     if(!user) throw new UserNotFoundException(messageSource.getMessage('exception.user.not.found', null, LCH.getLocale()))
     if(!user.enabled) throw new AccountNoActivatedException(messageSource.getMessage('exception.account.not.activated', null, LCH.getLocale()))
     def message = recoveryCollaboratorService.generateToken("${grailsApplication.config.recovery.forgot}", email)
-    restService.sendCommand(message, grailsApplication.config.emailer.forgot)
+    emailSenderService.sendEmailForRegistrationCode(message, email)
   }
 
   def changePasswordForToken(token, password){
