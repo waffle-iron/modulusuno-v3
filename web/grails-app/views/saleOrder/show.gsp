@@ -180,12 +180,18 @@
               <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
                 <g:if test="${saleOrder.status == SaleOrderStatus.AUTORIZADA}">
                   <div class="container-fluid">
-                    <g:form name="executeSale" action="executeSaleOrder" id="${saleOrder.id}">
+                    <g:form name="executeSale">
+                    <input type="hidden" id="saleOrderId" name="id" value="${saleOrder.id}"/>
                     <companyInfo:listTemplatesPdfForCompany rfc="${saleOrder.company.rfc}"/>
+                    <div class="row text-right">
+                      <button id="btnPreview" type="button" class="btn btn-info">Vista Previa</button>
+                    </div>
+                    <br/>
                     <div class="row">
                       <div class="col-md-6">
-                        <button class="btn btn-success btn-block">Ejecutar orden de venta</button>
-                      </div></g:form>
+                        <button id="btnExecute" type="button" class="btn btn-success btn-block">Ejecutar orden de venta</button>
+                      </div>
+                      </g:form>
                       <div class="col-md-6">
                         <a data-toggle="collapse" role="button" href="#inputReasonCancellation" class="btn btn-danger btn-block" aria-expanded="false" aria-controls="inputReasonCancellation">Rechazar la orden de venta</a>
                       </div>
