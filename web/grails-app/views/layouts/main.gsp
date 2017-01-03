@@ -268,7 +268,13 @@
               </ul>
             </li>
           </sec:ifAnyGranted>
-
+          <sec:ifAnyGranted roles="ROLE_EJECUTOR">
+            <li>
+              <g:link controller="dashboard" action="jobs">
+                <i class="fa fa-book"></i> Ejecuciones
+              </g:link>
+            </li>
+          </sec:ifAnyGranted>
          </g:if>
 
           <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
@@ -282,13 +288,7 @@
           </li>
           </sec:ifAnyGranted>
 
-          <sec:ifAnyGranted roles="ROLE_EJECUTOR">
-            <li>
-              <g:link controller="dashboard" action="jobs">
-                <i class="fa fa-book"></i> Ejecuciones
-              </g:link>
-            </li>
-          </sec:ifAnyGranted>
+
 
           <li><g:link controller="logout" action="index"><i class="fa fa-sign-out"></i> Cerrar sesión</g:link></li>
         </ul>
