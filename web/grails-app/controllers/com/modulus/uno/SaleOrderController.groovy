@@ -74,6 +74,7 @@ class SaleOrderController {
   }
 
   def executeSaleOrder(SaleOrder saleOrder){
+    log.info "Execute saleOrder ${saleOrder.id} with pdf template ${saleOrder.pdfTemplate}"
     String messageSuccess = message(code:"saleOrder.already.executed")
     if (saleOrderIsInStatus(saleOrder, SaleOrderStatus.AUTORIZADA)) {
       saleOrderService.executeSaleOrder(saleOrder)
@@ -137,6 +138,13 @@ class SaleOrderController {
       }
       '*'{ render status: NOT_FOUND }
     }
+  }
+
+  def previewInvoicePdf(SaleOrder saleOrder) {
+    log.info "Showing preview pdf for SaleOrder: ${saleOrder.id} with template: ${saleOrder.pdfTemplate}"
+    def file = saleOrderService.generatePreviewInvoiceForSaleOrderWithTemplate(saleOrder)
+    response.setContentType("application/pdf")
+    response.outputStream << file
   }
 
   def save() {
