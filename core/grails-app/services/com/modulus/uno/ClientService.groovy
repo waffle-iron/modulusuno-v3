@@ -15,7 +15,7 @@ class ClientService {
     if(isClientOfThisCompany(client, company))throw new BusinessException(messageSource.getMessage('exception.client.already.exist', null, LCH.getLocale()))
     def clientLink = new ClientLink(type:client.class.simpleName, clientRef: client.rfc, company: company).save()
     company.addToBusinessEntities(client)
-    emailSenderService.sendNewClientProviderNotificaton(company, client.toString(), EmailerMessageType.CLIENTE)
+    emailSenderService.sendEmailForNewClient(company, client)
     clientLink
   }
 
