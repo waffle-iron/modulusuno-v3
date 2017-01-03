@@ -54,6 +54,20 @@ class RestService {
     }
   }
 
+//Send arguments to Emailer Modulus Uno
+  def sendArgumentsToEmailer(def message){
+    try{
+      log.info message.dump()
+      restClientBean.uri = grailsApplication.config.emailer.urlv2
+      restClientBean.post(
+        body: message,
+        requestContentType: 'application/json' )
+    } catch(BusinessException ex) {
+      log.warn "Error: ${ex.message}"
+      throw new RestException(ex.message)
+    }
+  }
+
   def sendCommand(MessageCommand message, String template){
     try{
       log.info "CALLING Email service: ${template}"
