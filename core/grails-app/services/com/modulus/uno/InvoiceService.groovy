@@ -42,9 +42,9 @@ class InvoiceService {
 
     if(Company.findByRfcAndStatus(command.receptor.datosFiscales.rfc, CompanyStatus.ACCEPTED)){
       command.betweenIntegrated = true
-      command.datosDeFacturacion.addendaLabel = "Factura a nombre y cuenta de los socios integrados, como Emisor ${company.bussinessName} con RFC ${company.rfc} y como Receptor ${receptor.datosFiscales.razonSocial} con RFC ${receptor.datosFiscales.rfc}"
+      command.datosDeFacturacion.addendaLabel = "Factura a nombre y cuenta de las empresas, como Emisor ${company.bussinessName} con RFC ${company.rfc} y como Receptor ${receptor.datosFiscales.razonSocial} con RFC ${receptor.datosFiscales.rfc}"
     } else {
-      command.datosDeFacturacion.addendaLabel = "Factura a nombre y cuenta del Socio Integrado ${company.bussinessName} con RFC ${company.rfc}"
+      command.datosDeFacturacion.addendaLabel = "Factura a nombre y cuenta de ${company.bussinessName} con RFC ${company.rfc}"
     }
 
     def conceptos = []
@@ -67,6 +67,17 @@ class InvoiceService {
     def factura = createInvoiceFromSaleOrder(saleOrder)
     def result = restService.sendFacturaCommandWithAuth(factura, grailsApplication.config.modulus.facturaCreate)
     result.str
+  }
+
+  def generatePreviewFactura(SaleOrder saleOrder){
+    def factura = createInvoiceFromSaleOrder(saleOrder)
+    String file = "previo.pdf"
+    String rfc = "${saleOrder.company.rfc}"
+    def url = "${grailsApplication.config.modulus.facturacionUrl}${grailsApplication.config.modulus.showFactura}"
+    url = url.replace('#rfc',rfc).replace('#file',file)
+    def result = restService.sendFacturaCommandWithAuth(factura, url)
+    log.info "Preview invoice generated for sale order ${saleOrder.id} with template ${saleOrder.pdfTemplate}"
+    result
   }
 
   void cancelBill(SaleOrder saleOrder) {

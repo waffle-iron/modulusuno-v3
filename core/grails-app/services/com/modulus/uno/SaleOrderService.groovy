@@ -96,6 +96,10 @@ class SaleOrderService {
     saleOrder
   }
 
+  def generatePreviewInvoiceForSaleOrderWithTemplate(SaleOrder saleOrder) {
+    invoiceService.generatePreviewFactura(saleOrder)
+  }
+
   def getTotalSaleOrderAuthorizedOfCompany(Company company){
     SaleOrder.findAllByCompanyAndStatus(company, SaleOrderStatus.AUTORIZADA).total.sum()
   }

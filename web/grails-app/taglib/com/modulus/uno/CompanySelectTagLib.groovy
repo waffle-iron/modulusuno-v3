@@ -41,7 +41,7 @@ class CompanySelectTagLib {
         }
       out << """
           </select>
-        </div><br/><br/>
+        </div><br/>
       """
     }
   }
