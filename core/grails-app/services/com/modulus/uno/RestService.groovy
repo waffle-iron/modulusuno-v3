@@ -58,7 +58,7 @@ class RestService {
   def sendArgumentsToEmailer(def message){
     try{
       log.info message.dump()
-      restClientBean.uri = grailsApplication.config.emailer.urlv2
+      restClientBean.uri = grailsApplication.config.emailer.urlEmailer
       restClientBean.post(
         body: message,
         requestContentType: 'application/json' )
