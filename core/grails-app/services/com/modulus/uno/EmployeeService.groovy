@@ -8,10 +8,12 @@ import grails.transaction.Transactional
 class EmployeeService {
 
   def messageSource
+  def emailSenderService
 
   def addEmployeeToCompany(EmployeeBusinessEntity employee, Company company, String curp){
     if(isEmployeeOfThisCompany(employee, company))throw new BusinessException(messageSource.getMessage('exception.employee.already.exist', null, LCH.getLocale()))
     def employeeLink = new EmployeeLink(type:employee.class.simpleName, employeeRef: employee.rfc, company: company,curp:curp).save()
+    emailSenderService.sendEmailForNewEmployee(company, employee)
     company.addToBusinessEntities(employee)
     employeeLink
   }
