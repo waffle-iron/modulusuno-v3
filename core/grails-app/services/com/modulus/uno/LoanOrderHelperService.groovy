@@ -24,7 +24,7 @@ class LoanOrderHelperService {
   def authorizeLoanPaymentOrder (LoanPaymentOrder loanPaymentOrder) {
     loanPaymentOrder.status = LoanPaymentOrderStatus.AUTHORIZED
     loanPaymentOrder.save flush:true
-    emailSenderService.authorizeLoanPaymentOrder(loanPaymentOrder)
+    emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
     loanPaymentOrder
   }
 
@@ -62,9 +62,9 @@ class LoanOrderHelperService {
 
   def executeLoanPaymentOrder (LoanPaymentOrder loanPaymentOrder) {
     modulusUnoService.applyTransferFunds(createTransferFundsCommandFromLoanPaymentOrder(loanPaymentOrder))
-    emailSenderService.notifyLoanPaymentOrderExecuted(loanPaymentOrder)
     loanPaymentOrder.status = LoanPaymentOrderStatus.EXECUTED
     loanPaymentOrder.save flush:true
+    emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
     loanPaymentOrder
   }
 
@@ -100,7 +100,7 @@ class LoanOrderHelperService {
   LoanPaymentOrder sendToAuthorize(LoanPaymentOrder loanPaymentOrder) {
     loanPaymentOrder.status = LoanPaymentOrderStatus.VALIDATE
     loanPaymentOrder.save flush:true
-    emailSenderService.sendLoanPaymentOrderToAuthorize(loanPaymentOrder)
+    emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
     loanPaymentOrder
   }
 
