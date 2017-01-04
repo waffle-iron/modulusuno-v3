@@ -16,6 +16,7 @@ class SaleOrderController {
   def documentService
   def businessEntity
   def s3AssetService
+  def emailSenderService
 
   def authorizeSaleOrder(SaleOrder saleOrder){
     saleOrder = saleOrderService.addAuthorizationToSaleOrder(saleOrder, springSecurityService.currentUser)
@@ -29,6 +30,7 @@ class SaleOrderController {
   def authorizeCancelBill(SaleOrder saleOrder) {
     saleOrder.status = SaleOrderStatus.CANCELACION_AUTORIZADA
     saleOrder.save()
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     redirect action:'list', params:[status:'CANCELACION_POR_AUTORIZAR']
   }
 
@@ -63,6 +65,7 @@ class SaleOrderController {
   def cancelSaleOrder(SaleOrder saleOrder){
     flash.message = message(code: 'saleOrder.cancel', args: [:])
     saleOrder.status = SaleOrderStatus.CANCELADA
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     redirect action:'list', params:[companyId:saleOrder.company.id, status:"${SaleOrderStatus.POR_AUTORIZAR}"]
   }
 
@@ -179,6 +182,7 @@ class SaleOrderController {
 
   def rejectSaleOrder(SaleOrder saleOrder){
     saleOrder.status = SaleOrderStatus.RECHAZADA
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     flash.message = message(code: 'saleOrder.execute', args: [:])
     redirect action:'list'
   }
@@ -208,6 +212,7 @@ class SaleOrderController {
   def requestCancelBill(SaleOrder saleOrder) {
     saleOrder.status = SaleOrderStatus.CANCELACION_POR_AUTORIZAR
     saleOrder.save()
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     redirect action:'list'
   }
 

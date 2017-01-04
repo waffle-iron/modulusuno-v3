@@ -41,11 +41,9 @@ class SaleOrderService {
   }
 
   def sendOrderToConfirmation(SaleOrder saleOrder){
-    def approvers = companyService.getAuthorizersByCompany(saleOrder.company)
-
     saleOrder.status = SaleOrderStatus.POR_AUTORIZAR
     saleOrder.save()
-    emailSenderService.sendSaleOrderToAuthorize(saleOrder, approvers)
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     saleOrder
   }
 
@@ -63,6 +61,7 @@ class SaleOrderService {
   def authorizeSaleOrder(SaleOrder saleOrder){
     saleOrder.status = SaleOrderStatus.AUTORIZADA
     saleOrder.save()
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     saleOrder
   }
 
@@ -77,6 +76,7 @@ class SaleOrderService {
     saleOrder.folio = tokens[1]
     saleOrder.status = SaleOrderStatus.EJECUTADA
     saleOrder.save()
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     saleOrder
   }
 
@@ -84,6 +84,7 @@ class SaleOrderService {
     invoiceService.cancelBill(saleOrder)
     saleOrder.status = SaleOrderStatus.CANCELACION_EJECUTADA
     saleOrder.save()
+    emailSenderService.notifySaleOrderChangeStatus(saleOrder)
   }
 
   String getFactura(SaleOrder saleOrder, String format){
