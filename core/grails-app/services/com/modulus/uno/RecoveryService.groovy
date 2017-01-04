@@ -11,6 +11,7 @@ class RecoveryService {
 
   def sendConfirmationAccountToken(String email){
     def message = recoveryCollaboratorService.generateToken("${grailsApplication.config.recovery.register}", email)
+    log.info "send notification to new user"
     restService.sendCommand(message, grailsApplication.config.emailer.register)
   }
 

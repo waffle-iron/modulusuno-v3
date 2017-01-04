@@ -31,7 +31,7 @@
           </button>
           <ul class="nav navbar-nav">
             <sec:ifNotLoggedIn>
-              <li class="active"><g:link controller="user" action="create">Regístrate Aquí</g:link></li>
+
               <li><g:link controller="dashboard" >Ingresa a tu Cuenta</g:link></li>
             </sec:ifNotLoggedIn>
             <sec:ifLoggedIn>

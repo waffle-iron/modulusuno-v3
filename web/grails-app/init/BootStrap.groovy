@@ -14,9 +14,6 @@ class BootStrap {
   def init = { servletContext ->
     saveBanksInfo()
     if (!User.count()) {
-      createUserWithRole('admin', 'admin', 'admin@email.com', 'ROLE_ADMIN')
-      createUserWithRole('integrado', 'admin', 'integrado@email.com', 'ROLE_INTEGRADO')
-      createUserWithRole('autorizador', 'autorizador', 'autorizador@email.com', 'ROLE_INTEGRADO_AUTORIZADOR')
       createUserWithRole('user_m1','user_m1','user_m1@email.com','ROLE_M1')
       createUserWithRole('corporative','corporative','corporative@email.com','ROLE_CORPORATIVE')
     }
