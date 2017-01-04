@@ -187,6 +187,9 @@
                 <g:message code="role_authorizer_visor" /><i class="fa fa-caret-down"></i>
               </a>
               <ul class="collapse nav" id="ROLE_AUTHORIZER_VISOR">
+                <li class="panel">
+                  <a class="" href="${createLink(controller:'dashboard', action:'authorizations')}">Autorizaciones</a>
+                </li>
               </ul>
             </li>
           </sec:ifAnyGranted>
@@ -196,6 +199,9 @@
               <g:message code="role_authorizer_ejecutor" /><i class="fa fa-caret-down"></i>
               </a>
               <ul class="collapse nav" id="ROLE_AUTHORIZER_EJECUTOR">
+                <li class="panel">
+                  <a class="" href="${createLink(controller:'dashboard', action:'authorizations')}">Autorizaciones</a>
+                </li>
               </ul>
             </li>
           </sec:ifAnyGranted>
@@ -219,64 +225,7 @@
           </sec:ifAnyGranted>
 
           <g:if test="${session.company && companyInfo.isAvailableForOperationInThisCompany()}">
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
-            <li class="panel">
-              <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#administracion">
-                Administración<i class="fa fa-caret-down"></i>
-              </a>
-              <ul class="collapse nav" id="administracion">
-                <li>
-                  <g:link controller="company" action="show" id="${session.company}">Mi Empresa</g:link>
-                </li>
-                <li>
-                  <g:if test="${companyInfo.isAvailableForOperationInThisCompany() == 'true'}">
-                    <g:link controller="company" action="accountStatement">Estado de Cuenta</g:link>
-                  </g:if>
-                </li>
-                <li>
-                  <g:link controller="user" action="authorizer">Alta Usuario</g:link>
-                </li>
-                <li>
-                  <g:link controller="user" action="edit" id="${sec.loggedInUserInfo(field: "id")}">Editar Usuario</g:link>
-                </li>
-                <li>
-                  <g:link controller="user" action="manageUsers">Lista de Usuarios</g:link>
-                </li>
 
-              </ul>
-            </li>
-            <li class="panel">
-              <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#registros">
-                Registros <i class="fa fa-caret-down"></i>
-              </a>
-              <ul class="collapse nav" id="registros">
-                <li>
-                  <g:link action="create" controller="businessEntity" params='[clientProviderType:"${com.modulus.uno.LeadType.CLIENTE}"]' >Alta Cliente</g:link>
-                </li>
-                <li>
-                  <g:link action="create" controller="businessEntity"  params='[clientProviderType:"${com.modulus.uno.LeadType.PROVEEDOR}"]'>Alta Proveedor</g:link>
-                </li>
-                <li>
-                  <g:link action="create" controller="businessEntity"  params='[clientProviderType:"${com.modulus.uno.LeadType.EMPLEADO}"]'>Alta Empleado</g:link>
-                </li>
-                <li>
-                  <g:link action="createMultiEmployees" controller="businessEntity" >Alta Multiples Empleados</g:link>
-                </li>
-                <li>
-                  <g:link action="processorPayroll" controller="payroll" >Listado de Archivos procesados</g:link>
-                </li>
-                <li>
-                  <g:link action="create" controller="product">Alta Producto/Servicio</g:link>
-                </li>
-                <li>
-                  <g:link controller="businessEntity" action="index">Lista de Relaciones Comerciales</g:link>
-                </li>
-                <li>
-                  <g:link controller="product" action="index">Mis Productos/Servicios</g:link>
-                </li>
-              </ul>
-            </li>
-          </sec:ifAnyGranted>
           <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
           <g:if test="${companyInfo.isAvailableForOperationInThisCompany() == 'true'}">
             <li class="panel">
