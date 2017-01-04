@@ -20,7 +20,7 @@ class FeesReceiptService {
   def authorizeFeesReceipt(FeesReceipt feesReceipt) {
     feesReceipt.status = FeesReceiptStatus.AUTORIZADA
     feesReceipt.save flush:true
-    emailSenderService.sendFeesReceiptAuthorized(feesReceipt)
+    emailSenderService.notifyFeesReceiptChangeStatus(feesReceipt)
   }
 
   BigDecimal getTotalFeesReceiptAuthorizedOfCompany(Company company){
@@ -40,13 +40,14 @@ class FeesReceiptService {
     restService.sendCommandWithAuth(command, grailsApplication.config.modulus.receiptCreate)
     feesReceipt.status = FeesReceiptStatus.EJECUTADA
     feesReceipt.save flush:true
+    emailSenderService.notifyFeesReceiptChangeStatus(feesReceipt)
     feesReceipt
   }
 
   def sendToAuthorize(FeesReceipt feesReceipt) {
     feesReceipt.status = FeesReceiptStatus.POR_AUTORIZAR
     feesReceipt.save flush:true
-    emailSenderService.sendFeesReceiptToAuthorize(feesReceipt)
+    emailSenderService.notifyFeesReceiptChangeStatus(feesReceipt)
   }
 
   private def createFeesReceiptCommand(FeesReceipt feesReceipt){
