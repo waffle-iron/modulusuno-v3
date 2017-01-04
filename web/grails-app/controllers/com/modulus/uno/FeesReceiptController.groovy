@@ -11,6 +11,7 @@ class FeesReceiptController {
   FeesReceiptService feesReceiptService
   def springSecurityService
   def companyService
+  def emailSenderService
 
   def index(Integer max) {
     params.max = Math.min(max ?: 10, 100)
@@ -53,12 +54,14 @@ class FeesReceiptController {
     Company company = Company.get(session.company)
     feesReceipt.status = FeesReceiptStatus.CANCELADA
     feesReceipt.save()
+    emailSenderService.notifyFeesReceiptChangeStatus(feesReceipt)
     render view:"list", model:[feesReceiptList:FeesReceipt.findAllByStatusAndCompany(FeesReceiptStatus.POR_AUTORIZAR, company)]
   }
 
   def rejectFeesReceipt(FeesReceipt feesReceipt){
     feesReceipt.status = FeesReceiptStatus.RECHAZADA
     feesReceipt.save()
+    emailSenderService.notifyFeesReceiptChangeStatus(feesReceipt)
     render view:"list", model:[feesReceiptList:FeesReceipt.findAllByStatus(FeesReceiptStatus.AUTORIZADA)]
   }
 
