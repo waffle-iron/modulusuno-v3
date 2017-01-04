@@ -247,26 +247,6 @@ class NotifyServiceSpec extends Specification {
     paramsEmployee == ['id':3, 'rfc':'sara123456', company:"PAtitoABC", url:"http://localhost:8080/"]
     }
 
-  void "Get parameters for build Params when accept or reject Request Integrated Company"(){
-    given:"A company"
-    def company = new Company('rfc':'abc100', 'bussinessName':'PAtitoABC')
-    company.save(validate:false)
-    when:"The company is accept or reject by admin"
-    def params = service.parametersForRequestIntegratedCompany(company)
-    then:"get the params for emailer template"
-    params == ['id':1, 'rfc':'abc100', 'bussinessName':'PAtitoABC']
-  }
-
-  void "Get parameters for build params when notify of Request Integrated Sended"(){
-    given:"A Company"
-    def company = new Company('rfc':'qwerty123456', 'bussinessName':'PAtitoABC')
-    company.save(validate:false)
-    when:"Send a request for be integrated"
-    def params = service.parametersForRequestSended(company)
-    then:"we should get the params"
-    params==['id':1, 'rfc':'qwerty123456', 'bussinessName':'PAtitoABC', url:'http://localhost:8080/']
-  }
-
   void "Get parameters for build params when we need confirm account or password recovery"(){
     given:"A string token"
     String token = "www.token.com/integradora/here/pick/me"
