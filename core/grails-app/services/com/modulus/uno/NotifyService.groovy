@@ -301,33 +301,18 @@ class NotifyService {
     paramsMap
   }
 
-  def parametersForRequestIntegratedCompany(Company company){
-    def paramsFields= ['id', 'rfc', 'bussinessName']
-    def paramsMap = buildParamsEmailMap(company, paramsFields)
-    paramsMap
-  }
-
-  def parametersForRequestSended(Company company){
-    def paramsFields = ['id','rfc', 'bussinessName']
-    def paramsMap = buildParamsEmailMap(company, paramsFields)
-    paramsMap.url="http://localhost:8080/"
-    paramsMap
-  }
-
   def parametersForRecoveryToken(def message){
     def paramsMap = ['token': message.token]
     paramsMap
   }
 
 
-  //Método para iterar una lista de users y llamar al Emailer
   def sendEmailNotifications(def usersToNotify, String idTemplate, def paramsMap){
     usersToNotify.each{ user ->
       sendNotify(buildEmailerMap(idTemplate, user, paramsMap))
     }
   }
 
-  //Método para construir el mapa de argumentos para envíar el Emailer
   def buildEmailerMap(String idEmailer, String toSend, def params){
     def emailerMap = [
     'id': idEmailer,
@@ -338,15 +323,12 @@ class NotifyService {
     emailerMap
   }
 
-  //Método para construir el mapa de parametros
   private buildParamsEmailMap(def order, def fieldsEmail){
     def emailParamsMap=[:]
     fieldsEmail.each{ p -> emailParamsMap."$p" = order."$p"}
     emailParamsMap
   }
 
-
- //Envío del mapa de parametros de emailer
   private def sendNotify(def arguments){
     restService.sendArgumentsToEmailer(arguments)
   }
