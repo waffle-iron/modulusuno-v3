@@ -161,7 +161,7 @@ class PurchaseOrderService {
 
   def payPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment){
     modulusUnoService.payPurchaseOrder(order, payment)
-    emailSenderService.sendPaidPurchaseOrder(order, payment)
+    emailSenderService.sendPaidPurchaseOrder(order)
     if (amountPaymentIsTotalForPurchaseOrder(order))
       order.status = PurchaseOrderStatus.PAGADA
     order.save()
