@@ -29,7 +29,7 @@ class DirectorServiceSpec extends Specification {
       companyUsersByRole.size() == 1
   }
 
- Should "get the users of a company by two roles"(){
+ Should "get the users of a company by more roles"(){
     given:"the company"
       Company company = createCompanyAndUsers()
     and:"the role to looking for"
