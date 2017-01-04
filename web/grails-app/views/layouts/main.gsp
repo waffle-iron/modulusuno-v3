@@ -169,6 +169,11 @@
                 <g:message code="role_fico_visor" /><i class="fa fa-caret-down"></i>
               </a>
               <ul class="collapse nav" id="ROLE_FICO_VISOR">
+                <li>
+                  <g:link controller="dashboard" action="jobs">
+                    <i class="fa fa-book"></i> Ejecuciones
+                  </g:link>
+                </li>
               </ul>
             </li>
           </sec:ifAnyGranted>
@@ -178,6 +183,11 @@
                 <g:message code="role_fico_ejecutor" /><i class="fa fa-caret-down"></i>
               </a>
               <ul class="collapse nav" id="ROLE_FICO_EJECUTOR">
+                <li>
+                  <g:link controller="dashboard" action="jobs">
+                    <i class="fa fa-book"></i> Ejecuciones
+                  </g:link>
+                </li>
               </ul>
             </li>
           </sec:ifAnyGranted>
