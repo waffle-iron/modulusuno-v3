@@ -10,14 +10,16 @@ class EmailSenderServiceSpec extends Specification {
 
   def restService = Mock(RestService)
   def companyService = Mock(CompanyService)
+  def directorService = Mock(DirectorService)
   def grailsApplication = new GrailsApplicationMock()
 
   def setup() {
     service.restService = restService
     service.companyService = companyService
+    service.directorService = directorService
     service.grailsApplication = grailsApplication
   }
-
+/*
   void "should send new client notification"() {
     given:"A legal representative"
       String email = 'user@email.com'
@@ -142,7 +144,29 @@ class EmailSenderServiceSpec extends Specification {
     notifications[0].nameCompany == order.company.bussinessName
     notifications[0].emailResponse == "mailauthorize@mail.com"
   }
+*/
 
+  void "Get an email list for send email"(){
+    given:"A list of users"
+    def user1= new User(username:"User1",enabled:true,
+    profile:new Profile(name:"User1", email:"user1@me.com")).save(validate:false)
+    def user2= new User(username:"User2",enabled:true,
+    profile:new Profile(name:"User2", email:"user2@me.com")).save(validate:false)
+    def user3= new User(username:"User3", enabled:true,
+    profile:new Profile(name:"User3", email:"user3@me.com")).save(validate:false)
+    def userList = [user1, user2, user3]
+    and:"A company"
+    def company = new Company(bussinessName:"C1")
+    company.save(validate:false)
+    and:
+    directorService.findUsersOfCompanyByRole(_,_) >> userList
+    when: "we want to get the email list of users"
+    def emailList = service.getEmailList(company, [])
+    then: "We should get a list of emails"
+    emailList == ["user1@me.com", "user2@me.com", "user3@me.com"]
+  }
+
+  /*
   private def prepareMoneyBackOrder(){
     def company = new Company(bussinessName:"C1")
     company.save(validate:false)
@@ -161,6 +185,6 @@ class EmailSenderServiceSpec extends Specification {
     PurchaseOrder moneyBackOrder = new PurchaseOrder(company:company,providerName:"Empleado",isMoneyBackOrder:true)
     moneyBackOrder.save(validate:false)
     moneyBackOrder
-  }
+  }*/
 
 }
