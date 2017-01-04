@@ -115,6 +115,24 @@
                 <g:message code="role_legal_representative_visor" /><i class="fa fa-caret-down"></i>
               </a>
               <ul class="collapse nav" id="ROLE_LEGAL_REPRESENTATIVE_VISOR">
+                <li class="panel" >
+                  <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_VISOR" data-toggle="collapse" class="accordion-toggle" data-target="#administracion-visor">
+                    Administración<i class="fa fa-caret-down"></i>
+                  </a>
+                  <g:render template="/layouts/administracion" model="['action': 'visor']" />
+                </li>
+                <li>
+                  <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_VISOR" data-toggle="collapse" class="accordion-toggle" data-target="#registros-visor">
+                    Registros <i class="fa fa-caret-down"></i>
+                  </a>
+                  <g:render template="/layouts/registros" model="['action': 'visor']" />
+                </li>
+                <li>
+                  <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_VISOR" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones-visor">
+                    Operaciones <i class="fa fa-caret-down"></i>
+                  </a>
+                  <g:render template="/layouts/operaciones" model="['action': 'visor']" />
+                </li>
               </ul>
             </li>
           </sec:ifAnyGranted>
@@ -124,6 +142,24 @@
                 <g:message code="role_legal_representative_ejecutor" /><i class="fa fa-caret-down"></i>
               </a>
               <ul class="collapse nav" id="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
+                <li>
+                  <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR" data-toggle="collapse" class="accordion-toggle" data-target="#administracion-ejecutor">
+                    Administración<i class="fa fa-caret-down"></i>
+                   </a>
+                 <g:render template="/layouts/administracion" model="['action': 'ejecutor']" />
+                </li>
+                <li>
+                  <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR" data-toggle="collapse" class="accordion-toggle" data-target="#registros-ejecutor">
+                    Registros <i class="fa fa-caret-down"></i>
+                  </a>
+                  <g:render template="/layouts/registros" model="['action': 'ejecutor']" />
+                </li>
+                <li>
+                  <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones-ejecutor">
+                    Operaciones <i class="fa fa-caret-down"></i>
+                  </a>
+                  <g:render template="/layouts/operaciones" model="['action': 'ejecutor']" />
+                <li>
               </ul>
             </li>
           </sec:ifAnyGranted>
@@ -180,11 +216,6 @@
               <ul class="collapse nav" id="ROLE_OPERATOR_EJECUTOR">
               </ul>
             </li>
-          </sec:ifAnyGranted>
-
-
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
-            <li><g:link controller="company" action="create" >Crear Nueva Empresa</g:link></li>
           </sec:ifAnyGranted>
 
           <g:if test="${session.company && companyInfo.isAvailableForOperationInThisCompany()}">
