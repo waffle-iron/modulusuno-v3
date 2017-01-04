@@ -8,7 +8,7 @@ if (!System.getProperty("PID")) {
     System.setProperty("PID", (new ApplicationPid()).toString())
 }
 
-def basePath = System.getenv("CATALINA_BASE") ?: "."
+def basePath = System.getenv("TOMCAT_HOME") ?: "."
 
 conversionRule 'clr', org.springframework.boot.logging.logback.ColorConverter
 conversionRule 'wex', org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
