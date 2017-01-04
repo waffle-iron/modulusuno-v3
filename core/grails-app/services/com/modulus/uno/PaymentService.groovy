@@ -6,6 +6,7 @@ import grails.transaction.Transactional
 class PaymentService {
 
   def modulusUnoService
+  def emailSenderService
 
   def getPaymentStatus(String status){
     def listPaymentStatus = []
@@ -41,6 +42,7 @@ class PaymentService {
       order.status = SaleOrderStatus.PAGADA
       payment.save()
       order.save()
+      emailSenderService.notifySaleOrderChangeStatus(saleOrder)
     } else {
       throw new BusinessException("Error al conciliar la orden...")
     }
