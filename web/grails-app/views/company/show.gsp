@@ -234,6 +234,9 @@
       </div>
       <div id="defaultPortlet" class="panel-collapse collapse in">
         <div class="portlet-body">
+          <g:if test="${!company.telephones}">
+            <h4><span class="label label-warning">Debe agregar al menos un Telefono</span></h4>
+          </g:if>
           <g:render template="telephones" />
         </div>
       </div>
