@@ -11,6 +11,7 @@ class CashOutOrderController {
     def springSecurityService
     def cashOutOrderService
     def companyService
+    def emailSenderService
 
     @Transactional
     def authorizeCashOutOrder(CashOutOrder cashOutOrder) {
@@ -21,6 +22,7 @@ class CashOutOrderController {
         if (isAvailableThisCashoutOrderForAuthorize) {
           cashOutOrder.status = CashOutOrderStatus.AUTHORIZED
           cashOutOrder.save()
+          emailSenderService.notifyCashOutOrderChangeStatus(cashOutOrder)
         } else {
           flash.message = message(code: 'cashOutOrder.unauthorize')
         }
@@ -36,6 +38,7 @@ class CashOutOrderController {
     def cancelCashOutOrder(CashOutOrder cashOutOrder) {
       cashOutOrder.status = CashOutOrderStatus.CANCELED
       cashOutOrder.save()
+      emailSenderService.notifyCashOutOrderChangeStatus(cashOutOrder)
       redirect action:'list', params:[status:'TO_AUTHORIZED']
     }
 
@@ -43,6 +46,7 @@ class CashOutOrderController {
     def rejectCashOutOrder(CashOutOrder cashOutOrder) {
       cashOutOrder.status = CashOutOrderStatus.REJECTED
       cashOutOrder.save()
+      emailSenderService.notifyCashOutOrderChangeStatus(cashOutOrder)
       redirect action:'list', params:[status:'AUTHORIZED']
     }
 
@@ -53,6 +57,7 @@ class CashOutOrderController {
         cashOutOrderService.authorizeAndDoCashOutOrder(cashOutOrder)
         cashOutOrder.status = CashOutOrderStatus.EXECUTED
         cashOutOrder.save()
+        emailSenderService.notifyCashOutOrderChangeStatus(cashOutOrder)
         messageSuccess = message(code:"cashOutOrder.executed.message")
       }
       redirect action:'list', params:[status:'AUTHORIZED', messageSuccess:messageSuccess]
@@ -166,6 +171,7 @@ class CashOutOrderController {
         cashOutOrderService.notificationToAuthorizersAndLegalRepresentatives(cashOutOrder)
         cashOutOrder.status = CashOutOrderStatus.TO_AUTHORIZED
         cashOutOrder.save(flush:true)
+        emailSenderService.notifyCashOutOrderChangeStatus(cashOutOrder)
       }
 
       redirect action:"list"
