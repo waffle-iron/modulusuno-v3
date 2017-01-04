@@ -30,6 +30,7 @@ class PurchaseOrderController {
   def cancelPurchaseOrder(PurchaseOrder order){
     order.status = PurchaseOrderStatus.CANCELADA
     order.save flush:true
+    emailSenderService.notifyPurchaseOrderChangeStatus(order)
 
     if (order.isMoneyBackOrder) {
       redirect action:'listMoneyBackOrders', params:[status:'POR_AUTORIZAR']
@@ -52,7 +53,6 @@ class PurchaseOrderController {
       purchaseOrderService.addAuthorizationToPurchaseOrder(order, user)
       if (purchaseOrderService.isFullAuthorized(order)){
         purchaseOrderService.authorizePurchaseOrder(order)
-        emailSenderService.sendPurchaseOrderAuthorized(order)
       }
       if (order.isMoneyBackOrder) {
         redirect action:'listMoneyBackOrders', params:[status:'POR_AUTORIZAR']
@@ -170,6 +170,7 @@ class PurchaseOrderController {
   def rejectPurchaseOrder(PurchaseOrder order){
     order.status = PurchaseOrderStatus.RECHAZADA
     order.save flush:true
+    emailSenderService.notifyPurchaseOrderChangeStatus(order)
 
     if (order.isMoneyBackOrder) {
       redirect action:'listMoneyBackOrders', params:[status:'AUTORIZADA']
