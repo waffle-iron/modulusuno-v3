@@ -22,7 +22,9 @@
           <label>Password</label>
           <input type="password" required="true" class="form-control" name="password" />
           <br />
-          <input type="submit" class="btn btn-green btn-lg" value="Subir" />
+          <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
+            <input type="submit" class="btn btn-green btn-lg" value="Subir" />
+          </sec:ifAnyGranted>
         </g:form>
       </g:if>
       <g:else>
