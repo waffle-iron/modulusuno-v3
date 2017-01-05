@@ -321,7 +321,7 @@ class NotifyService {
     def emailerMap = [
     'id': idEmailer,
     'to': toSend,
-    'subject': 'Mensaje de Integradora de Emprendimientos Culturales',
+    'subject': 'Mensaje de Modulus Uno',
     'params': params
     ]
     emailerMap
