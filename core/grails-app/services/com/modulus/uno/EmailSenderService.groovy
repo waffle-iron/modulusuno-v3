@@ -5,12 +5,8 @@ import grails.transaction.Transactional
 @Transactional(readOnly=true)
 class EmailSenderService {
 
-  def restService
   def grailsApplication
-  def companyService
-  def userService
   def notifyService
-  CorporateService corporateService
   DirectorService directorService
 
    /*
