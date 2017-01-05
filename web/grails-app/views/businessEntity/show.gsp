@@ -95,7 +95,9 @@
           <g:else>
             <g:if test="${!relation.equals('EMPLEADO')}">
             <div class="property-value" aria-labelledby="company-label">
-              <g:link action="create" controller="address" params="[businessEntity:businessEntity.id]" class="btn btn-default">Agregar Dirección</g:link>
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
+                <g:link action="create" controller="address" params="[businessEntity:businessEntity.id]" class="btn btn-default">Agregar Dirección</g:link>
+              </sec:ifAnyGranted>
             </div>
             </g:if>
           </g:else>
@@ -118,7 +120,9 @@
             </ul>
             <div class="property-value">
               <fieldset class="buttons">
-                <g:link class="btn btn-default" action="create" controller="bankAccount" params="[businessEntity:businessEntity.id, businessEntityInfo:businessEntity.toString(), relation:relation]"><g:message code="businessEntity.label.createBankAccount.${relation}" default="Agregar Cuenta"/></g:link>
+                <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
+                  <g:link class="btn btn-default" action="create" controller="bankAccount" params="[businessEntity:businessEntity.id, businessEntityInfo:businessEntity.toString(), relation:relation]"><g:message code="businessEntity.label.createBankAccount.${relation}" default="Agregar Cuenta"/></g:link>
+                </sec:ifAnyGranted>
               </fieldset>
             </div>
         </div>
