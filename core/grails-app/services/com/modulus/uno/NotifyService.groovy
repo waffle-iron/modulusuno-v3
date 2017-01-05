@@ -306,6 +306,10 @@ class NotifyService {
     paramsMap
   }
 
+  def parametersForConfirmUser(User user){
+    def paramsMap = ['user': user.username]
+  }
+
 
   def sendEmailNotifications(def usersToNotify, String idTemplate, def paramsMap){
     usersToNotify.each{ user ->
