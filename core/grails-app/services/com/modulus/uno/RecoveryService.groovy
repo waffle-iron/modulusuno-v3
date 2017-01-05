@@ -11,6 +11,8 @@ class RecoveryService {
 
   def sendConfirmationAccountToken(String email){
     def message = recoveryCollaboratorService.generateToken("${grailsApplication.config.recovery.register}", email)
+    log.info ">> >>"*20
+    log.info "Confirm Account"
     emailSenderService.sendEmailForConfirmAccount(message, email)
   }
 
@@ -25,6 +27,8 @@ class RecoveryService {
     String name = "${user.profile.name} ${user.profile.lastName} ${user.profile.motherLastName}"
     def message = new NameCommand(name:name, type:EmailerMessageType.NEW_USER)
     emailSenderService.sendEmailForConfirmAccountForToken(user)
+    log.info ">> >>"*20
+    log.info "Confirm Account For token"
     user
   }
 
