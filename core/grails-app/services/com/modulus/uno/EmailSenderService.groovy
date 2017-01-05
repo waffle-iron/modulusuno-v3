@@ -9,43 +9,15 @@ class EmailSenderService {
   def notifyService
   DirectorService directorService
 
-   /*
-  def notifyTheApprovementOfLoanOrder(LoanOrder order){
-    ArrayList<User> usersToNotify = directorService.findUsersOfCompanyByRole(order.creditor.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
-                                                                                                'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
-    prepareCommandsAndSendRequestToEmailer(usersToNotify, order, "approvementAuthorize")
-  }
-*/
-/*
-  def sendNewClientProviderNotificaton(Company company, String name, EmailerMessageType type) {
-    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(company.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
-                                                                                                'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
-
-    legalRepresentatives.each { legal ->
-      def message = new NameCommand(email:legal.profile.email, name:name, company:company.bussinessName, type:type)
-      restService.sendCommand(message, grailsApplication.config.emailer.clientProvider)
-    }
-  }*/
-/*
-  def sendPaidPurchaseOrder(PurchaseOrder order){
-    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(order.company.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
-                                                                                                      'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
-
-    legalRepresentatives.each(){
-      def command = emailIntegratedCommand("Una Orden de Pago a Proveedor ha sido PAGADA, haz click en el link de este mail para más información","/purchaseOrder/show/${order.id}", order.company.toString(), it.profile.email)
-      restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
-    }
-  }*/
-
   //RecoveryService
   def sendEmailForConfirmAccount(def message, String email){
-    def idEmailer=grailsApplication.config.emailer.recoveryToken
+    def idEmailer=grailsApplication.config.emailer.recoveryConfirm
     def paramsEmailer=notifyService.parametersForRecoveryToken(message)
     notifyService.sendEmailNotifications([email], idEmailer, paramsEmailer)
   }
 
   def sendEmailForConfirmAccountForToken(User user){
-    def idEmailer=grailsApplication.config.emailer.recoveryConfirm
+    def idEmailer=grailsApplication.config.emailer.recoveryToken
     def paramsEmailer=notifyService.parametersForConfirmUser(user)
     notifyService.sendEmailNotifications([user.profile.email], idEmailer, paramsEmailer)
   }
