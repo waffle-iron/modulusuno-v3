@@ -11,13 +11,13 @@ class EmailSenderService {
 
   //RecoveryService
   def sendEmailForConfirmAccount(def message, String email){
-    def idEmailer=grailsApplication.config.emailer.recoveryToken
+    def idEmailer=grailsApplication.config.emailer.recoveryConfirm
     def paramsEmailer=notifyService.parametersForRecoveryToken(message)
     notifyService.sendEmailNotifications([email], idEmailer, paramsEmailer)
   }
 
   def sendEmailForConfirmAccountForToken(User user){
-    def idEmailer=grailsApplication.config.emailer.recoveryConfirm
+    def idEmailer=grailsApplication.config.emailer.recoveryToken
     def paramsEmailer=notifyService.parametersForConfirmUser(user)
     notifyService.sendEmailNotifications([user.profile.email], idEmailer, paramsEmailer)
   }
