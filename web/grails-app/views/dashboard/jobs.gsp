@@ -8,12 +8,12 @@
 
     <div class="page-title">
       <h1>
-        <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+        <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
           <i class="fa fa-tachometer fa-3x"></i>
           Administración
           <small>Operaciones</small>
         </sec:ifAnyGranted>
-        <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+        <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
           <i class="fa fa-tachometer fa-3x"></i>
           Autorizaciones
           <small>Órdenes por Autorizar de la Compañía</small>
@@ -31,16 +31,16 @@
             <div class="circle-tile-description">
               Depósitos
               <span>
-                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">por ejecutar</sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">por autorizar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">por ejecutar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">por autorizar</sec:ifAnyGranted>
               </span>
             </div>
             <div class="circle-tile-number">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">${depositOrderAuthorizedCount}</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">${depositOrderToAuthorizeCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">${depositOrderAuthorizedCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">${depositOrderToAuthorizeCount}</sec:ifAnyGranted>
             </div>
             <div class="text-right">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
                 <g:link controller="depositOrder" action="list" params="[status:'AUTHORIZED']" class="btn btn-green btn-xs">
                   Ver pendientes
                 </g:link>
@@ -48,12 +48,12 @@
                   Ver todas
                 </g:link>
               </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_EJECUTOR">
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
                 <g:link controller="depositOrder" action="list" params="[status:'AUTHORIZED']" class="btn btn-green btn-xs">
                   Por Ejecutar
                 </g:link>
                 </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
                 <g:link controller="depositOrder" action="list" params="[status:'VALIDATE']" class="btn btn-green btn-xs">
                   Ver por autorizar
                 </g:link>
@@ -73,16 +73,16 @@
             <div class="circle-tile-description">
               Retiros
               <span>
-                 <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">por ejecutar</sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">por autorizar</sec:ifAnyGranted>
+                 <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">por ejecutar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">por autorizar</sec:ifAnyGranted>
               </span>
             </div>
             <div class="circle-tile-number ">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">${cashOutOrderAuthorizedCount}</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">${cashOutOrderToAuthorizeCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">${cashOutOrderAuthorizedCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">${cashOutOrderToAuthorizeCount}</sec:ifAnyGranted>
             </div>
         <div class="text-right">
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
               <g:link controller="cashOutOrder" params="[status:'AUTHORIZED']" action="list" class="btn btn-green btn-xs">
                 Ver autorizadas
               </g:link>
@@ -90,12 +90,12 @@
                 Ver todas
               </g:link>
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_EJECUTOR">
+            <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
               <g:link controller="cashOutOrder" params="[status:'AUTHORIZED']" action="list" class="btn btn-green btn-xs">
                 Por Ejecutar
               </g:link>
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
               <g:link controller="cashOutOrder" params="[status:'TO_AUTHORIZED']" action="list" class="btn btn-green btn-xs">
                 Ver por autorizar
               </g:link>
@@ -115,16 +115,16 @@
             <div class="circle-tile-description">
               Cobranza
               <span>
-                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">por ejecutar</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">por autorizar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">por ejecutar</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">por autorizar</sec:ifAnyGranted>
               </span>
             </div>
             <div class="circle-tile-number">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">${saleOrderAuthorizedCount}</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">${saleOrderToAuthorizeCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">${saleOrderAuthorizedCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">${saleOrderToAuthorizeCount}</sec:ifAnyGranted>
             </div>
 <div class="text-right">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
                 <g:link controller="saleOrder" params="[status:'AUTORIZADA']" action="list" class="btn btn-green btn-xs">
                   Ver autorizadas
                 </g:link>
@@ -136,7 +136,7 @@
                   Ver Cancelaciones por ejecutar <strong>[${saleOrderToCancelBillForExecuteCount}]</strong>
                 </g:link>
              </sec:ifAnyGranted>
-             <sec:ifAnyGranted roles="ROLE_EJECUTOR">
+             <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
                <g:link controller="saleOrder" params="[status:'AUTORIZADA']" action="list" class="btn btn-green btn-xs">
                  Por Ejecutar
                </g:link>
@@ -145,7 +145,7 @@
                  Ver Cancelaciones por ejecutar <strong>[${saleOrderToCancelBillForExecuteCount}]</strong>
                </g:link>
             </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
                 <g:link controller="saleOrder" params="[status:'POR_AUTORIZAR']" action="list" class="btn btn-green btn-xs">
                   Ver por autorizar
                 </g:link>
@@ -170,20 +170,20 @@
 
           <div class="circle-tile-content green">
             <div class="circle-tile-description">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">Pagos</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">Compras</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">Pagos</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">Compras</sec:ifAnyGranted>
               <span>
-                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">por ejecutar</sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">por autorizar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">por ejecutar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">por autorizar</sec:ifAnyGranted>
               </span>
             </div>
             <div class="circle-tile-number">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">${purchaseOrderAuthorizedCount}</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">${purchaseOrderToAuthorizeCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">${purchaseOrderAuthorizedCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">${purchaseOrderToAuthorizeCount}</sec:ifAnyGranted>
             </div>
 <div class="text-right">
 
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
                 <g:link controller="purchaseOrder" action="list" params="[status:'AUTORIZADA']" class="btn btn-green btn-xs">
                   Ver autorizadas
                 </g:link>
@@ -191,12 +191,12 @@
                   Ver todas
                 </g:link>
               </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_EJECUTOR">
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
                 <g:link controller="purchaseOrder" action="list" params="[status:'AUTORIZADA']" class="btn btn-green btn-xs">
                   Por Ejecutar
                 </g:link>
               </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
                 <g:link controller="purchaseOrder" action="list" params="[status:'POR_AUTORIZAR']" class="btn btn-green btn-xs">
                   Ver por autorizar
                 </g:link>
@@ -216,17 +216,16 @@
             <div class="circle-tile-description">
               Reembolsos
               <span>
-                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">por ejecutar</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">por autorizar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">por ejecutar</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">por autorizar</sec:ifAnyGranted>
               </span>
             </div>
             <div class="circle-tile-number">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">${moneyBackOrderAuthorizedCount}</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">${moneyBackOrderToAuthorizeCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">${moneyBackOrderAuthorizedCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">${moneyBackOrderToAuthorizeCount}</sec:ifAnyGranted>
             </div>
-<div class="text-right">
-
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+            <div class="text-right">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
                 <g:link controller="purchaseOrder" action="listMoneyBackOrders" params="[status:'AUTORIZADA']" class="btn btn-green btn-xs">
                   Ver autorizadas
                 </g:link>
@@ -234,17 +233,17 @@
                   Ver todas
                 </g:link>
               </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_EJECUTOR">
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
                 <g:link controller="purchaseOrder" action="listMoneyBackOrders" params="[status:'AUTORIZADA']" class="btn btn-green btn-xs">
                   Por Ejecutar
                 </g:link>
               </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
                 <g:link controller="purchaseOrder" action="listMoneyBackOrders" params="[status:'POR_AUTORIZAR']" class="btn btn-green btn-xs">
                   Ver por autorizar
                 </g:link>
               </sec:ifAnyGranted>
-</div>
+            </div>
           </div>
         </div>
       </div>
@@ -260,16 +259,16 @@
             <div class="circle-tile-description">
               Recibos de Honorarios
               <span>
-                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">por ejecutar</sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">por autorizar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">por ejecutar</sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">por autorizar</sec:ifAnyGranted>
               </span>
             </div>
             <div class="circle-tile-number">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">${feesReceiptCount}</sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">${feesReceiptToAuthorizeCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">${feesReceiptCount}</sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">${feesReceiptToAuthorizeCount}</sec:ifAnyGranted>
             </div>
             <div class="text-right">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
                 <g:link controller="feesReceipt" action="listToExecute" class="btn btn-green btn-xs">
                 Ver pendientes
                 </g:link>
@@ -277,12 +276,12 @@
                 Ver todas
                 </g:link>
               </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_EJECUTOR">
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
                 <g:link controller="feesReceipt" action="listToExecute" class="btn btn-green btn-xs">
                   Por Ejecutar
                 </g:link>
               </sec:ifAnyGranted>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
                 <g:link controller="feesReceipt" action="listToAuthorize" class="btn btn-green btn-xs">
                 Ver  por autorizar
                 </g:link>
