@@ -44,7 +44,7 @@
 
     </sec:ifAnyGranted>
 
-    <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR">
+    <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
     <div class="row">
       <div class="col-md-12">
         <g:if test="${companies.isEmpty()}">
@@ -53,7 +53,7 @@
         </div>
         <p>
         <g:link class="btn btn-default btn-lg" controller="company" action="create">
-        Registra tu primera empresa
+          Registra tu primera empresa
         </g:link>
         </g:if>
         </p>
@@ -71,7 +71,7 @@
     </div>
     </g:if>
     </sec:ifAnyGranted>
-    <sec:ifAnyGranted  roles="ROLE_INTEGRADO_AUTORIZADOR">
+    <sec:ifAnyGranted  roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
       <h1>Seccion para Operaciones de Modulus UNO</h1>
     </sec:ifAnyGranted>
 
