@@ -11,7 +11,6 @@ class ManagerApplicationService {
   def documentService
   def modulusUnoService
   def collaboratorService
-  def emailSenderService
   DirectorService directorService
 
   def acceptingCompanyToIntegrate(Long companyId) {
@@ -20,7 +19,6 @@ class ManagerApplicationService {
     company.status = CompanyStatus.ACCEPTED
     company.save()
     //createNewPasswordForLegalRepresentatives(company)
-    emailSenderService.notifyAcceptedCompany(company)
     company
   }
 
@@ -70,7 +68,6 @@ class ManagerApplicationService {
     createCompanyRejectedLogsForOtherReason(company,params.reason)
     company.status = CompanyStatus.REJECTED
     company.save()
-    emailSenderService.notifyRejectedCompany(company)
     company
   }
 
