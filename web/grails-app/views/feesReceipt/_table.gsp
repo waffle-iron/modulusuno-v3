@@ -8,7 +8,7 @@
     <th class="text-center"><g:message code="feesReceipt.isr" /></th>
     <th class="text-center"><g:message code="feesReceipt.ivaWithHolding" /></th>
     <th class="text-center"><g:message code="feesReceipt.status" /></th>
-    <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+    <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
       <th class="text-center">Autorizaciones</th>
       <th class="text-center">Por Autorizar</th>
     </sec:ifAnyGranted>
@@ -28,7 +28,7 @@
     <td class="text-right">${modulusuno.formatPrice(number: feesReceipt.isr)}</td>
     <td class="text-right">${modulusuno.formatPrice(number: feesReceipt.ivaWithHolding)}</td>
     <td class="text-center">${feesReceipt.status}</td>
-    <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+    <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
       <td class="text-center">${feesReceipt.authorizations?.size() ?: 0}</td>
       <td class="text-center">${feesReceipt.company.numberOfAuthorizations - (feesReceipt.authorizations?.size() ?: 0)}</td>
     </sec:ifAnyGranted>
@@ -39,4 +39,3 @@
 <div class="pagination">
   <g:paginate total="${feesReceiptCount ?: 0}" />
 </div>
-
