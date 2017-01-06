@@ -18,7 +18,7 @@ class NotifyService {
       break
       case DepositOrderStatus.VALIDATE:
       paramsFields=["id", "amount"]
-      orderStatus="VALIDADA"
+      orderStatus="PUESTA EN ESPERA DE SER AUTORIZADA"
       break
       case DepositOrderStatus.AUTHORIZED:
       paramsFields=["id", "amount"]
@@ -58,7 +58,7 @@ class NotifyService {
       break
       case SaleOrderStatus.POR_AUTORIZAR:
       paramsFields=["id", "clientName", "rfc"]
-      orderStatus="PENDIENTE POR AUTORIZAR"
+      orderStatus="PUESTA EN ESPERA DE SER AUTORIZADA"
       break
       case SaleOrderStatus.AUTORIZADA:
       paramsFields=["id", "clientName", "rfc"]
@@ -146,7 +146,7 @@ class NotifyService {
       break
       case LoanOrderStatus.VALIDATE:
       paramsFields = ["id","amount"]
-      orderStatus = "VALIDADA"
+      orderStatus = "PUESTA EN ESPERA DE SER AUTORIZADA"
       break
       case LoanOrderStatus.AUTHORIZED:
       paramsFields = ["id","amount"]
@@ -230,7 +230,7 @@ class NotifyService {
       break
       case LoanPaymentOrderStatus.VALIDATE:
       paramsFields = ["id","amountInterest", "amountIvaInterest", "amountToCapital"]
-      orderStatus = "VALIDADA"
+      orderStatus = "PUESTA EN ESPERA DE SER AUTORIZADA"
       break
       case LoanPaymentOrderStatus.AUTHORIZED:
       paramsFields = ["id","amountInterest", "amountIvaInterest", "amountToCapital"]
@@ -267,7 +267,7 @@ class NotifyService {
       break
       case FeesReceiptStatus.POR_AUTORIZAR:
       paramsFields=['id']
-      orderStatus= "PUESTA POR AUTORIZAR"
+      orderStatus= "PUESTA EN ESPERA DE SER AUTORIZADA"
       break
       case FeesReceiptStatus.AUTORIZADA:
       paramsFields=['id']

@@ -31,7 +31,7 @@ class NotifyServiceSpec extends Specification {
 
   expectedParams <<[
     [id:1, amount:10000, status:"CREADA", url:"http://localhost:8080/"],
-    [id:1, amount:10000, status:"VALIDADA", url:"http://localhost:8080/"],
+    [id:1, amount:10000, status:"PUESTA EN ESPERA DE SER AUTORIZADA", url:"http://localhost:8080/"],
     [id:1, amount:10000, status:"AUTORIZADA", url:"http://localhost:8080/" ],
     [id:1, amount:10000, status:"RECHAZADA", rejectComment:"Fake", rejectReason: RejectReason.DOCUMENTO_INVALIDO, url:"http://localhost:8080/"],
     [id:1, amount:10000, status:"EJECUTADA", url:"http://localhost:8080/"],
@@ -64,7 +64,7 @@ class NotifyServiceSpec extends Specification {
     ]
     expectedParams << [
       [id:1, clientName:"PatitoAC", rfc:"MDE130712JA6", status:"CREADA", url:"http://localhost:8080/"],
-      [id:1, clientName:"PatitoAC", rfc:"MDE130712JA6", status:"PENDIENTE POR AUTORIZAR", url:"http://localhost:8080/"],
+      [id:1, clientName:"PatitoAC", rfc:"MDE130712JA6", status:"PUESTA EN ESPERA DE SER AUTORIZADA", url:"http://localhost:8080/"],
       [id:1, clientName:"PatitoAC", rfc:"MDE130712JA6", status:"AUTORIZADA", url:"http://localhost:8080/"],
       [id:1, rfc:"MDE130712JA6", clientName:"PatitoAC" ,rejectReason: RejectReason.DOCUMENTO_INVALIDO, comments:"fake", status:"RECHAZADA", url:"http://localhost:8080/"],
       [id:1, clientName:"PatitoAC", rfc:"MDE130712JA6", status:"PAGADA", url:"http://localhost:8080/"],
@@ -157,7 +157,7 @@ class NotifyServiceSpec extends Specification {
     ]
     expectedParams <<[
       [id:1, amount:88888, status:"CREADA", url:"http://localhost:8080/"],
-      [id:1, amount:88888, status:"VALIDADA", url:"http://localhost:8080/"],
+      [id:1, amount:88888, status:"PUESTA EN ESPERA DE SER AUTORIZADA", url:"http://localhost:8080/"],
       [id:1, amount:88888, status:"AUTORIZADA", url:"http://localhost:8080/"],
       [id:1, amount:88888, status:"EJECUTADA", url:"http://localhost:8080/"],
       [id:1, amount:88888, status:"APROBADA", url:"http://localhost:8080/"],
@@ -187,7 +187,7 @@ class NotifyServiceSpec extends Specification {
     ]
     expectedParams <<[
     [id:1, amountInterest:10000, status:"CREADA", amountIvaInterest:20000, amountToCapital:30000, url:"http://localhost:8080/"],
-    [id:1, amountInterest:10000, status:"VALIDADA", amountIvaInterest:20000, amountToCapital:30000, url:"http://localhost:8080/"],
+    [id:1, amountInterest:10000, status:"PUESTA EN ESPERA DE SER AUTORIZADA", amountIvaInterest:20000, amountToCapital:30000, url:"http://localhost:8080/"],
     [id:1, amountInterest:10000, status:"AUTORIZADA", amountIvaInterest:20000, amountToCapital:30000, url:"http://localhost:8080/"],
     [id:1, amountInterest:10000, status:"RECHAZADA", amountIvaInterest:20000, amountToCapital:30000, rejectComment:"Fake", rejectReason: RejectReason.DOCUMENTO_INVALIDO, url:"http://localhost:8080/"],
     [id:1, amountInterest:10000, status:"EJECUTADA", amountIvaInterest:20000, amountToCapital:30000, url:"http://localhost:8080/"],
@@ -218,7 +218,7 @@ class NotifyServiceSpec extends Specification {
     ]
     expectedParams <<[
     ['id':1, 'company':'apple', 'status':'CREADA', 'url':'http://localhost:8080/'],
-    ['id':1, 'company':'apple', 'status':'PUESTA POR AUTORIZAR', 'url':'http://localhost:8080/'],
+    ['id':1, 'company':'apple', 'status':'PUESTA EN ESPERA DE SER AUTORIZADA', 'url':'http://localhost:8080/'],
     ['id':1, 'company':'apple', 'status':'AUTORIZADA', 'url':'http://localhost:8080/'],
     ['id':1, 'company':'apple', 'status':'EJECUTADA', 'url':'http://localhost:8080/'],
     ['id':1, 'company':'apple', 'status':'CANCELADA', 'rejectReason': RejectReason.DOCUMENTO_INVALIDO, 'comments':'fake', 'url':'http://localhost:8080/'],
