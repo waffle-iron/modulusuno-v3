@@ -58,15 +58,16 @@ class DepositOrderService {
     (order.authorizations?.size() ?: 0) >= order.company.numberOfAuthorizations
   }
 
+  //TODO:checar la obtencion de los autorizadores
   @Transactional(readOnly = true)
   def notifyAuthorizationDepositOrder(DepositOrder order){
     def usersToNotify = order.company.legalRepresentatives
     def authorizers = companyService.getAuthorizersByCompany(order.company)
     usersToNotify.addAll(authorizers)
-    def usersAdminIecce = userService.getUsersByRole("ROLE_ADMIN_IECCE")
-    usersToNotify.addAll(usersAdminIecce)
-    def usersOperatorsIecce = userService.getUsersByRole("ROLE_OPERADOR_IECCE")
-    usersToNotify.addAll(usersOperatorsIecce)
+    usersToNotify.addAll(userService.getUsersByRole("ROLE_LEGAL_REPRESENTATIVE_VISOR"))
+    usersToNotify.addAll(userService.getUsersByRole("ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"))
+    usersToNotify.addAll(userService.getUsersByRole("ROLE_OPERATOR_VISOR"))
+    usersToNotify.addAll(userService.getUsersByRole("ROLE_OPERATOR_EJECUTOR"))
     usersToNotify.each(){
       def messageCommand = notificationDepositOrderToValidate(order, it.profile.email)
       messageCommand.message = "Una Orden de Depósito ha sido autorizada, haz click en el link de este correo para más información"
