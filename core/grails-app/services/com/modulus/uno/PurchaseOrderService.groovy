@@ -225,4 +225,8 @@ class PurchaseOrderService {
     return true
   }
 
+  def deleteItemFromPurchaseOrder(PurchaseOrderItem item) {
+    PurchaseOrderItem.executeUpdate("delete PurchaseOrderItem item where item.id = :id", [id: item.id])
+  }
+
 }
