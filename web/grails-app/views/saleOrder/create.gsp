@@ -115,9 +115,9 @@
                 <input type="text" id="datepicker" name="fechaCobro" required="required">
               </div>
               <br />
-              <div class="">
+              <div class="form-group">
                 <label>Notas</label>
-                <textarea rows="4" cols="50" name="note" id="note" ></textarea>
+                <textarea class="form-control" rows="4" cols="50" name="note" id="note" ></textarea>
               </div>
               <br/>
               <p>
