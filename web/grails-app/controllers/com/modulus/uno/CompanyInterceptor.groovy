@@ -29,8 +29,6 @@ class CompanyInterceptor {
       session["sepomexUrl"] = grails.util.Holders.grailsApplication.config.sepomex.url
       if (!currentUser)
         return true
-      if (currentUser.authorities.any { it.authority == "ROLE_ADMIN"})
-        return true
       if (session.company)
         return true
       def companies = organizationService.findAllCompaniesOfUser(currentUser)
