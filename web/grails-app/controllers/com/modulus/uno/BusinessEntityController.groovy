@@ -18,12 +18,7 @@ class BusinessEntityController {
   def index(Integer max) {
     params.max = Math.min(max ?: 10, 100)
     def roles = springSecurityService.getPrincipal().getAuthorities()
-    def company
-    if (Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN")) {
-      company = Company.findById(params.company)
-    } else {
-      company = Company.findById(session.company.toLong())
-    }
+    def company = Company.findById(session.company.toLong())
     max = Math.min(max ?: 10, 100)
     def offset = params.offset? params.offset.toInteger() : 0
     def total = company.businessEntities.size()
