@@ -8,22 +8,16 @@
   <body>
 
     <div class="page-title">
-    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
-     <h1>
-            <i class="icon-prestamo fa-3x"></i>
-            Préstamos
-      <small><g:message code="loanOrder.list"/></small>
+      <h1>
+      <i class="icon-prestamo fa-3x"></i>
+        <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
+          Préstamos<small><g:message code="loanOrder.list"/></small>
+        </h1>
+        </sec:ifAnyGranted>
+        <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+          Operaciones / Préstamo<small><g:message code="loanOrder.list"/></small>
+        </sec:ifAnyGranted>
       </h1>
-</sec:ifAnyGranted>
-
-<sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
- <h1>
-            <i class="icon-prestamo fa-3x"></i>
-            Operaciones / Préstamo
-      <small><g:message code="loanOrder.list"/></small>
-      </h1>
-</sec:ifAnyGranted>
-
       <ol class="breadcrumb">
         <li><i class="fa fa-caret-square-o-up"></i> Compañía</li>
         <li class="active"><g:message code="loanOrder.list"/></li>

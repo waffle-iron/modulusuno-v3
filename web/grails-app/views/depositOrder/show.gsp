@@ -56,13 +56,13 @@
                 </li>
               </ol>
 
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR, ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR, ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
                 <g:if test="${depositOrder.status != DepositOrderStatus.CREATED}">
                   <iframe id="frameView" src="${baseUrlDocuments}/${depositOrder.documents?.first().title}.${depositOrder.documents?.first().mimeType}" width="100%" height="400px"> </iframe>
                 </g:if>
               </sec:ifAnyGranted>
 
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles=" ROLE_AUTHORIZER_EJECUTOR">
                 <div class="col-sm-12 col-md-12">
                   <g:if test="${depositOrder.status == DepositOrderStatus.VALIDATE &&
                   !depositOrder.authorizations?.find{it.user == user}}">
@@ -93,19 +93,19 @@
 
 
               <div class="col-sm-12 col-md-12">
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR, ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
                 <g:if test="${depositOrder.status == DepositOrderStatus.CANCELED || depositOrder.status == DepositOrderStatus.REJECTED}">
                   <div class="alert alert-danger" role="alert">
                     <label class="control-label">Motivo ${message(code:'depositOrder.rejectReason.'+depositOrder.status)}:</label>
                   <g:message code="rejectReason.${depositOrder.rejectReason}" default="${depositOrder.rejectReason}" />
                   <g:if test="${depositOrder.rejectComment}">
-                  <textarea class="form-control" rows="3" cols="60" readonly>${depositOrder.rejectComment}</textarea>
+                    <textarea class="form-control" rows="3" cols="60" readonly>${depositOrder.rejectComment}</textarea>
                   </div>
                   </g:if>
                 </g:if>
               </sec:ifAnyGranted>
 
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
                 <g:if test="${depositOrder.status == DepositOrderStatus.AUTHORIZED}">
                   <g:link action="executeDepositOrder" id="${depositOrder.id}" params="[status:'AUTHORIZED']" class="btn btn-primary"> Ejecutar Depósito</g:link>
                   <a data-toggle="collapse" role="button" href="#inputReasonRejected" class="btn btn-danger" aria-expanded="false" aria-controls="inputReasonRejected">Rechazar Depósito</a>
@@ -125,7 +125,7 @@
 
              </sec:ifAnyGranted>
 
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR, ROLE_OPERATOR_EJECUTOR">
                 <g:if test="${depositOrder.status == DepositOrderStatus.CREATED}">
                   <g:link controller="depositOrder" action="confirmDepositOrder" id="${depositOrder.id}" class="btn btn-success"><i class="fa fa-check"></i> Solicitar Autorización de Depósito</g:link>
 
