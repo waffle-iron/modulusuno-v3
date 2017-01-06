@@ -18,7 +18,7 @@
         </table>
       </div>
       <div class="portlet-footer">
-        <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+        <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
           <g:form class="form-inline" controller="purchaseOrder" action="executePurchaseOrder" id="${purchaseOrder.id}">
             <div class="form-group">
               <label class="sr-only" for="exampleInputAmount">Monto</label>
