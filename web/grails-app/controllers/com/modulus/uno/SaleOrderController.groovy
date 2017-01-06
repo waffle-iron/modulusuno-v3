@@ -106,12 +106,7 @@ class SaleOrderController {
 
   def index() {
     def roles = springSecurityService.getPrincipal().getAuthorities()
-    def company
-    if (Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN")) {
-      company = Company.findById(params.companyId)
-    } else {
-      company = Company.get(session.company ?: params.companyId)
-    }
+    def company = Company.get(session.company ?: params.companyId)
     respond SaleOrder.findAllByCompany(company), model:[company:company]
   }
 
