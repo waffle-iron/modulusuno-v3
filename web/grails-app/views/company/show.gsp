@@ -94,22 +94,16 @@
 <g:link action="rejected" class="btn btn-default" id="${company.id}">Revisar Razones de Rechazo</g:link>
 </g:if>
 </sec:ifAnyGranted>
-<sec:ifAnyGranted roles="ROLE_ADMIN">
-<g:if test="${company.status == CompanyStatus.VALIDATE}">
-<g:link controller="managerApplication" action="accepted" class="btn btn-success" params="[companyId:company.id]">Aprobar Solicitud</g:link>
-<g:link controller="managerApplication" action="invalid" class="btn btn-danger" params="[companyId:company.id]">Rechazar Solicitud</g:link>
-</g:if>
-</sec:ifAnyGranted>
 </div>
 </div>
 </div>
 <div class="portlet-footer">
-  <sec:ifAnyGranted roles="ROLE_INTEGRADO">
+  <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
   <div class="text-right">
     <g:link class="btn btn-default" action="edit" resource="${this.company}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
   </div>
 </sec:ifAnyGranted>
-<sec:ifAnyGranted roles="ROLE_ADMIN_IECCE">
+<sec:ifAnyGranted roles="ROLE_M1">
 <div class="text-right">
   <g:link class="btn btn-default" controller="commission" action="index" params="[companyId:company.id]">Listar comisiones</g:link>
 </div>
@@ -117,45 +111,6 @@
 </div>
 </div>
 </div>
-<sec:ifAnyGranted roles="ROLE_ADMIN">
-<div class="col-md-6">
-  <div class="portlet portlet-blue">
-    <div class="portlet-heading">
-      <div class="portlet-title">
-        <h4>Operaciones</h4>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div id="defaultPortlet" class="panel-collapse collapse in">
-      <div class="portlet-body">
-
-        <form class="form-horizontal" role="form">
-          <g:if test="${company.status == CompanyStatus.ACCEPTED}">
-          <g:render template="clientsProviders" />
-          <g:render template="products" />
-          <g:render template="depositOrder" />
-          <g:render template="saleOrder" />
-          <g:render template="purchaseOrder" />
-          <g:render template="removalOrder" />
-          <br />
-          <g:link action="accountStatement" controller="company" params='[company:"${company.id}"]' class="btn btn-default"><g:message code="Estado de Cuenta" default="Estado de Cuenta" /></g:link>
-          <br />
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO">
-          <g:link controller="user" action="authorizer" params='[company:"${company.id}"]'><input class="btn btn-default" value="Crear nuevo Autorizador" /></g:link>
-        </sec:ifAnyGranted>
-      </g:if>
-      <g:else>
-      <div class="alert alert-warning" role="alert">
-        <b>Aún no está autorizado para realizar operaciones</b>
-      </div>
-    </g:else>
-  </form>
-
-</div>
-</div>
-</div>
-</div>
-</sec:ifAnyGranted>
 <!-- Cuentas -->
 <div class="col-md-6">
   <div class="">
