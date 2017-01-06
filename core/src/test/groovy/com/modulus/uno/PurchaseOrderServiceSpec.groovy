@@ -53,7 +53,7 @@ class PurchaseOrderServiceSpec extends Specification {
     def result = service.requestAuthorizationForTheOrder(purchaseOrder)
   then:"We expect new status"
     result.status == PurchaseOrderStatus.POR_AUTORIZAR
-    1 * emailSenderService.sendPurchaseOrderToAuthorize(purchaseOrder)
+    1 * emailSenderService.notifyPurchaseOrderChangeStatus(purchaseOrder)
     result instanceof PurchaseOrder
   }
 
