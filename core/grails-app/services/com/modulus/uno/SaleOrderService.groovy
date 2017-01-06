@@ -92,10 +92,7 @@ class SaleOrderService {
   }
 
   def addTheAddressToSaleOrder(SaleOrder saleOrder, Address address){
-    Address addressCopy = new Address()
-    addressCopy.properties = address.properties
-    addressCopy.id = null
-    saleOrder.addToAddresses(addressCopy)
+    saleOrder.addToAddresses(address)
     saleOrder.save()
     saleOrder
   }
