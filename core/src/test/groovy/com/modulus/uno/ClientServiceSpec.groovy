@@ -36,7 +36,7 @@ class ClientServiceSpec extends Specification {
     clientLink.clientRef == be.rfc
     clientLink.company == company
     isClient
-    1 * emailSenderService.sendNewClientProviderNotificaton(company, _ , EmailerMessageType.CLIENTE)
+    1 * emailSenderService.sendEmailForNewClient(company, be)
   }
 
   void "should not save a be since already exist"(){
