@@ -9,6 +9,12 @@ import grails.test.mixin.Mock
 @Mock([User, FeesReceipt, BusinessEntity, CashOutOrder, LoanOrder, LoanPaymentOrder, SaleOrder, Company, DepositOrder, PurchaseOrder])
 class NotifyServiceSpec extends Specification {
 
+  GrailsApplicationMock grailsApplication = new GrailsApplicationMock()
+
+  def setup(){
+    service.grailsApplication = grailsApplication
+  }
+
   @Unroll("Obtain the params when the DEPOSIT ORDER is #status")
   void "get params for Deposit Order"() {
   given:"a deposit order"
@@ -269,6 +275,6 @@ class NotifyServiceSpec extends Specification {
     when:"Build the email map to send to EmailerApp v2"
     def emailMap = service.buildEmailerMap(idEmailer, toSend,  params)
     then:"We should get a map"
-    emailMap == [id:"12345678qwerty", to:"hi@me.com", subject:"Mensaje de Integradora de Emprendimientos Culturales", params:["a":1] ]
+    emailMap == [id:"12345678qwerty", to:"hi@me.com", subject:"Mensaje de Modulus Uno", params:["a":1] ]
   }
 }
