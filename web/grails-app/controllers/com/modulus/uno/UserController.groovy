@@ -34,35 +34,6 @@ class UserController {
     [user:new UserCommand(),legal:params.legal,company:session.company]
   }
 
-  def authorizer() {
-    [user:new UserCommand(),authorize:true,company:session.company, authorities:Role.findAllByAuthorityInList(['ROLE_INTEGRADO_OPERADOR', 'ROLE_INTEGRADO_AUTORIZADOR','ROLE_EJECUTOR', 'ROLE_FINANCIAL'])]
-  }
-
-  @Transactional
-  def save(UserCommand command) {
-    command.legal = params.legal
-    if (command.hasErrors()) {
-      if (params.authorize) {
-        render(view:'authorizer', model:[user:command, authorize:true, roleId:params.roleId, company:session.company, authorities:Role.findAllByAuthorityInList(['ROLE_INTEGRADO_OPERADOR', 'ROLE_INTEGRADO_AUTORIZADOR','ROLE_EJECUTOR'])])
-      } else {
-        render(view:params.legal?'legalRepresentative':'create', model:[user:command, legal:params.legal])
-      }
-      return
-    }
-
-    Company company = Company.get(session.company)
-
-    User user = userService.createUser(command, params, company)
-
-    flash.message = g.message(code: 'login.create')
-    if(params.legal || params.authorize) {
-      render view:"show", model:[user:user,company:session.company]
-      return
-    }
-
-    render view:"detail", model:[user:user,company:session.company]
-  }
-
   def edit(User user) {
     respond user,model:[company:session.company]
   }
@@ -93,19 +64,6 @@ class UserController {
       }
       '*'{ render status: NO_CONTENT }
     }
-  }
-
-  def manageUsers() {
-    Company company = Company.get(session.company)
-    [users: company.actors]
-  }
-
-  @Transactional
-  def updateAuthorities(){
-    Company company = Company.get(session.company)
-    userService.updateAuthoritiesUsers(company, params)
-    flash.message = "Usuarios actualizados"
-    redirect (action:'manageUsers')
   }
 
   protected void notFound() {
