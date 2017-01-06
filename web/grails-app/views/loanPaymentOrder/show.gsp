@@ -31,7 +31,7 @@
             <g:render template="show"/>
             <br /><br />
 
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR,ROLE_EJECUTOR">
+            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
               <g:if test="${loanPaymentOrder.status == LoanPaymentOrderStatus.CANCELED || loanPaymentOrder.status == LoanPaymentOrderStatus.REJECTED}">
                 <div class="alert alert-danger" role="alert">
                   <label class="control-label">Motivo ${message(code:'loanPaymentOrder.rejectReason.'+loanPaymentOrder.status)}:</label>
@@ -44,13 +44,13 @@
               </g:if>
             </sec:ifAnyGranted>
 
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
               <g:if test="${loanPaymentOrder.status == LoanPaymentOrderStatus.CREATED}">
                 <g:link controller="loanPaymentOrder" action="requestAuthorization" id="${loanPaymentOrder.id}" class="btn btn-success col-md-4"><i class="fa fa-check"></i> Solicitar Autorización</g:link>
               </g:if>
             </sec:ifAnyGranted>
 
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_EJECUTOR">
               <g:if test="${loanPaymentOrder.status == LoanPaymentOrderStatus.VALIDATE &&
                   !loanPaymentOrder.authorizations?.find{it.user == user}}">
                 <div class="container-fluid">
@@ -85,7 +85,7 @@
 
             </sec:ifAnyGranted>
 
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+            <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
               <g:if test="${loanPaymentOrder.status == LoanPaymentOrderStatus.AUTHORIZED}">
                 <div class="container-fluid">
                   <div class="row">
@@ -115,13 +115,13 @@
 
             <br /><br />
 
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
               <g:link action="loanOrderPayments" id="${loanPaymentOrder.loanOrder.id}" class="list btn btn-default"><i class="fa fa-reply"></i> Regresar</g:link>
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
               <g:link action="listToAuthorize" class="list btn btn-default"><i class="fa fa-reply"></i> Regresar</g:link>
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+            <sec:ifAnyGranted roles="ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR">
               <g:link action="listAll" class="list btn btn-default"><i class="fa fa-reply"></i> Regresar</g:link>
             </sec:ifAnyGranted>
 
