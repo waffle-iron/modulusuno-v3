@@ -6,6 +6,7 @@ import grails.transaction.Transactional
 class NotifyService {
 
   def restService
+  def grailsApplication
 
   def parametersForDepositOrder(DepositOrder depositOrder, def status){
     def paramsMap = [:]
@@ -43,7 +44,8 @@ class NotifyService {
     }
     paramsMap = buildParamsEmailMap(depositOrder, paramsFields)
     paramsMap.status = orderStatus
-    paramsMap.url="http://localhost:8080/"
+    println grailsApplication.config.grails.server.url
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
 
@@ -95,7 +97,7 @@ class NotifyService {
     }
     paramsMap = buildParamsEmailMap(saleOrder, paramsFields)
     paramsMap.status = orderStatus
-    paramsMap.url="http://localhost:8080/"
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
 
@@ -131,7 +133,7 @@ class NotifyService {
     }
     paramsMap = buildParamsEmailMap(purchaseOrder, paramsFields)
     paramsMap.status = orderStatus
-    paramsMap.url="http://localhost:8080/"
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
 
@@ -175,7 +177,7 @@ class NotifyService {
     }
     paramsMap = buildParamsEmailMap(loanOrder, paramsFields)
     paramsMap.status = orderStatus
-    paramsMap.url="http://localhost:8080/"
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
 
@@ -215,7 +217,7 @@ class NotifyService {
     }
     paramsMap = buildParamsEmailMap(cashOutOrder, paramsFields)
     paramsMap.status = orderStatus
-    paramsMap.url="http://localhost:8080/"
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
 
@@ -251,7 +253,7 @@ class NotifyService {
     }
     paramsMap = buildParamsEmailMap(loanPaymentOrder, paramsFields)
     paramsMap.status = orderStatus
-    paramsMap.url="http://localhost:8080/"
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
 
   }
@@ -289,7 +291,7 @@ class NotifyService {
     paramsMap = buildParamsEmailMap(feesReceipt, paramsFields)
     paramsMap.status=orderStatus
     paramsMap.company=company.toString()
-    paramsMap.url="http://localhost:8080/"
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
 
@@ -297,7 +299,7 @@ class NotifyService {
     def paramsFields = ['id', 'rfc']
     def paramsMap = buildParamsEmailMap(businessEntity, paramsFields)
     paramsMap.company=company.toString()
-    paramsMap.url="http://localhost:8080/"
+    paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
 
