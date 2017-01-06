@@ -276,6 +276,12 @@ class PurchaseOrderController {
     }
   }
 
+  def deleteItem(PurchaseOrderItem item) {
+    Long idPurchaseOrder = item.purchaseOrder.id
+    purchaseOrderService.deleteItemFromPurchaseOrder(item)
+    redirect action:'show', id:idPurchaseOrder
+  }
+
   private def validateBankAccountsAndAddressOfProvider(String rfc) {
     def thisBusinessEntityHaveAAccount = businessEntityService.knowIfBusinessEntityHaveABankAccountOrAddress(rfc)
     if (thisBusinessEntityHaveAAccount.flatten().size() < 2)
