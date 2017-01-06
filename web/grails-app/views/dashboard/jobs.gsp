@@ -8,14 +8,12 @@
 
     <div class="page-title">
       <h1>
+        <i class="fa fa-tachometer fa-3x"></i>
+        Autorizaciones
         <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR, ROLE_FICO_VISOR">
-          <i class="fa fa-tachometer fa-3x"></i>
-          Administración
           <small>Operaciones</small>
         </sec:ifAnyGranted>
         <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
-          <i class="fa fa-tachometer fa-3x"></i>
-          Autorizaciones
           <small>Órdenes por Autorizar de la Compañía</small>
         </sec:ifAnyGranted>
       </h1>
