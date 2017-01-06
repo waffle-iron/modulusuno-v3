@@ -48,7 +48,7 @@ class FeesReceiptServiceSpec extends Specification {
       service.authorizeFeesReceipt(feesReceipt)
     then:
       feesReceipt.status == FeesReceiptStatus.AUTORIZADA
-      1 * emailSenderService.sendFeesReceiptAuthorized(feesReceipt)
+      1 * emailSenderService.notifyFeesReceiptChangeStatus(feesReceipt)
   }
 
   void "should set status POR_AUTORIZAR to fees receipt"() {
@@ -59,7 +59,7 @@ class FeesReceiptServiceSpec extends Specification {
       service.sendToAuthorize(feesReceipt)
     then:
       feesReceipt.status == FeesReceiptStatus.POR_AUTORIZAR
-      1 * emailSenderService.sendFeesReceiptToAuthorize(feesReceipt)
+      1 * emailSenderService.notifyFeesReceiptChangeStatus(feesReceipt)
   }
 
 }

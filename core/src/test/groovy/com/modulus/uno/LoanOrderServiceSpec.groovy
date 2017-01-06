@@ -9,10 +9,12 @@ class LoanOrderServiceSpec extends Specification {
 
   RestService restService = Mock(RestService)
   TransactionHelperService transactionHelperService = Mock(TransactionHelperService)
+  EmailSenderService emailSenderService = Mock(EmailSenderService)
   def grailsApplication = new GrailsApplicationMock()
 
   def setup(){
     service.restService = restService
+    service.emailSenderService = emailSenderService
     service.transactionHelperService = transactionHelperService
     service.grailsApplication = grailsApplication
   }
@@ -31,6 +33,7 @@ class LoanOrderServiceSpec extends Specification {
       LoanOrder result = service.executeLoanOrder(loanOrder)
     then:"We expect to call modulus uno service"
     1 * restService.sendCommandWithAuth(command, grailsApplication.config.modulus.loanCreate)
+    1 * emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
     result == loanOrder
   }
 

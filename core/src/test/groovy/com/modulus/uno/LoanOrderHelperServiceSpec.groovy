@@ -61,7 +61,7 @@ class LoanOrderHelperServiceSpec extends Specification {
     when:"When we send to authorize"
       LoanPaymentOrder result = service.sendToAuthorize(loanPaymentOrder)
     then:"We expect this"
-      1 * emailSenderService.sendLoanPaymentOrderToAuthorize(loanPaymentOrder)
+      1 * emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
       result.status == LoanPaymentOrderStatus.VALIDATE
   }
 
@@ -86,7 +86,7 @@ class LoanOrderHelperServiceSpec extends Specification {
       loanPaymentOrder = service.authorizeLoanPaymentOrder(loanPaymentOrder)
     then:"We expect this"
       loanPaymentOrder.status == LoanPaymentOrderStatus.AUTHORIZED
-      1 * emailSenderService.authorizeLoanPaymentOrder(loanPaymentOrder)
+      1 * emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
   }
 
   void "should set executed a loan payment order"(){
@@ -111,7 +111,7 @@ class LoanOrderHelperServiceSpec extends Specification {
       loanPaymentOrder = service.executeLoanPaymentOrder(loanPaymentOrder)
     then:"We expect this"
       loanPaymentOrder.status == LoanPaymentOrderStatus.EXECUTED
-      1 * emailSenderService.notifyLoanPaymentOrderExecuted(loanPaymentOrder)
+      1 * emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
   }
 
 }
