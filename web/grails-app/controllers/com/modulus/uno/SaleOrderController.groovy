@@ -105,6 +105,19 @@ class SaleOrderController {
     render model as JSON
   }
 
+  def getProductBySku(){
+    def company = Company.get(session.company)
+    def product = Product.findBySkuAndCompany(params.sku, company)
+    // TODO: Aqui podría ir un marshaller
+    Map model = [:]
+    model.productName = product.name
+    model.price = product.price
+    model.ieps = product.ieps
+    model.iva = product.iva
+    model.unit = product.unitType.name()
+    render model as JSON
+  }
+
   def index() {
     def roles = springSecurityService.getPrincipal().getAuthorities()
     def company
@@ -126,8 +139,12 @@ class SaleOrderController {
 
   def listProducts(){
     def company = Company.get(session.company)
-    def products = Product.findAllByNameIlikeAndCompany("%${params.pname}%", company)
-    render products as JSON
+    def products = []
+    if (params.pname)
+      products = Product.findAllByNameIlikeAndCompany("%${params.pname}%", company)
+    else if (params.psku)
+      products = Product.findAllBySkuIlikeAndCompany("%${params.psku}%", company)
+      render products as JSON
   }
 
   protected void notFound() {
