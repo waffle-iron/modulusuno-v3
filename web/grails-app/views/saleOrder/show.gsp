@@ -114,7 +114,7 @@
               <p>
               <g:if test="${saleOrder.items}">
 
-                <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+                <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
                   <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
                     <g:form controller="saleOrder" action="sendOrderToConfirmation" id="${saleOrder.id}">
                     <button type="submit" class="btn btn-success btn-block">
@@ -129,7 +129,7 @@
                   </g:if>
                 </sec:ifAnyGranted>
 
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+              <sec:ifAnyGranted roles="ROLE_AUTHORIZER_EJECUTOR">
                 <g:if test="${saleOrder.status == SaleOrderStatus.POR_AUTORIZAR}">
                   <g:if test="!saleOrder.authorizations?.find{it.user == user}}">
                     <div class="container-fluid">
@@ -177,7 +177,7 @@
                 </g:if>
               </sec:ifAnyGranted>
 
-              <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+              <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
                 <g:if test="${saleOrder.status == SaleOrderStatus.AUTORIZADA}">
                   <div class="container-fluid">
                     <g:form name="executeSale" action="executeSaleOrder" id="${saleOrder.id}">
@@ -336,7 +336,7 @@
                       <strong>${modulusuno.formatPrice(number:item.netAmount)}</strong>
                     </td>
                     <td class="text-center">
-                      <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+                      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
                         <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
                           <g:link action="deleteItem" id="${item.id}" class="btn btn-danger">
                             <i class="fa fa-minus"></i> Quitar
