@@ -96,6 +96,16 @@ class PurchaseOrderController {
     }
   }
 
+  def deleteOrder(PurchaseOrder purchaseOrder) {
+    Boolean isMoneyBackOrder = purchaseOrder.isMoneyBackOrder
+    purchaseOrder.delete flush:true
+    if (isMoneyBackOrder) {
+      redirect action:'listMoneyBackOrders'
+    } else {
+      redirect action:'list'
+    }
+  }
+
   def edit(PurchaseOrder purchaseOrder) {
     respond purchaseOrder
   }
