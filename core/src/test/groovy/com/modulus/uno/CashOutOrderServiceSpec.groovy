@@ -20,7 +20,7 @@ class CashOutOrderServiceSpec extends Specification {
       cashout.company = company
       cashout.save()
     and:
-      def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
+      def userRole = new Role(authority:'ROLE_AUTHORIZER_EJECUTOR').save(validate:false)
       createUserWithRole('autorizador1', 'autorizador1', 'autorizador1@email.com', userRole)
     when:
       def cashoutResult = service.addAutorizationToCashoutOrder(cashout,User.get(1))
