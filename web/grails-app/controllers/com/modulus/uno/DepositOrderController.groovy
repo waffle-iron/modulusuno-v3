@@ -102,12 +102,7 @@ class DepositOrderController {
 
     def index(Integer max) {
       def roles = springSecurityService.getPrincipal().getAuthorities()
-      def company
-      if (Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN")) {
-        company = Company.findById(params.companyId)
-      } else {
-        company = Company.findById(session.company.toLong())
-      }
+      def company = Company.findById(session.company.toLong())
       def depositOrder = DepositOrder.findAllByCompany(company)
       [depositOrderCount: depositOrder.size(),depositOrderList:depositOrder]
     }
