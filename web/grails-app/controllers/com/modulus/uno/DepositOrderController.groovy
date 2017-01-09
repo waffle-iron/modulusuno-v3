@@ -3,11 +3,13 @@ package com.modulus.uno
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+//TODO: Se agregó notificacion aquí siguiendo cambio de estados de la orden
 class DepositOrderController {
 
     def springSecurityService
     def depositOrderService
     def documentService
+    def emailSenderService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -18,7 +20,7 @@ class DepositOrderController {
       if (depositOrderService.isFullAuthorized(order)){
         order.status = DepositOrderStatus.AUTHORIZED
         order.save flush:true
-        depositOrderService.notifyAuthorizationDepositOrder(order)
+        emailSenderService.notifyDepositOrderChangeStatus(order)
       }
 
       redirect action:"list", params:[status: params.status]
@@ -28,10 +30,12 @@ class DepositOrderController {
     def cancelDepositOrder(DepositOrder order){
       order.status = DepositOrderStatus.CANCELED
       order.save flush:true
+      emailSenderService.notifyDepositOrderChangeStatus(order)
 
       redirect action:"list", params:[status:'VALIDATE']
     }
 
+    //TODO: no sé si esta en uso para mandar notificacion
     def conciliateDepositOrder(DepositOrder order){
       order.status = DepositOrderStatus.CONCILIATED
       order.save flush:true
@@ -128,6 +132,7 @@ class DepositOrderController {
     def rejectDepositOrder(DepositOrder order){
       order.status = DepositOrderStatus.REJECTED
       order.save flush:true
+      emailSenderService.notifyDepositOrderChangeStatus(order)
 
       redirect action:"list", params:[status:'AUTHORIZED']
     }
