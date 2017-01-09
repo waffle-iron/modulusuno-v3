@@ -33,4 +33,5 @@ databaseChangeLog = {
     include file: 'adding-indicator-for-account-stp.groovy'
     include file: 'adding-variable-note-to-purchase-and-sale-order.groovy'
     include file: 'create-table-stp-deposit.groovy'
+    include file: 'create-new-domain-to-parcial-payments.groovy'
 }
