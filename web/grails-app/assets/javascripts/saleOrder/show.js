@@ -128,3 +128,15 @@ $("#quantity").change( function() {
    calculateAmountAndNetPrice()
   }
 )
+
+$("#btnPreview").click( function() {
+    $("#executeSale").attr("action","/saleOrder/previewInvoicePdf/");
+    $("#executeSale").submit();
+  }
+)
+
+$("#btnExecute").click( function() {
+    $("#executeSale").attr("action","/saleOrder/executeSaleOrder")
+    $("#executeSale").submit()
+  }
+)
