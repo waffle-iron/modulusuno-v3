@@ -1,6 +1,41 @@
 <%! import com.modulus.uno.PurchaseOrderStatus %>
 <%! import com.modulus.uno.RejectReason %>
 <div class="btn-group" role="group">
+  <!-- -->
+  <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+  <g:if test="${purchaseOrder.status == PurchaseOrderStatus.CREADA}">
+  <div class="row">
+    <div class="col-md-4">
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalConfirm">
+        <i class="fa fa-trash"></i> Borrar
+      </button>
+
+      <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Confirme la acción</h4>
+            </div>
+            <div class="modal-body">
+              ¿Está seguro de eliminar la orden seleccionada?
+            </div>
+            <div class="modal-footer">
+              <g:link action="deleteOrder" id="${purchaseOrder.id}" class="btn btn-primary">
+              Sí
+              </g:link>
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><p>
+  </g:if>
+  </sec:ifAnyGranted>
+  <!-- -->
+
   <g:if test="${purchaseOrder.items}">
     <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
       <g:if test="${(purchaseOrder.status == PurchaseOrderStatus.CREADA && (purchaseOrder.documents && ((!purchaseOrder.isMoneyBackOrder && purchaseOrder.documents?.size()>=2) || (purchaseOrder.isMoneyBackOrder && purchaseOrder.documents.size()==3) ))) || (purchaseOrder.status == PurchaseOrderStatus.CREADA && purchaseOrder.isAnticipated)}">
