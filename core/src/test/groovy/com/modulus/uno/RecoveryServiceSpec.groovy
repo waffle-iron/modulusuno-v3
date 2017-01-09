@@ -6,18 +6,18 @@ class RecoveryServiceSpec extends Specification {
 
   def service = new RecoveryService()
 
-  def restService = Mock(RestService)
   def recoveryCollaboratorService = Mock(RecoveryCollaboratorService)
   def registrationService = Mock(RegistrationService)
   def messageSource = new MessageSourceMock()
   def grailsApplication = new GrailsApplicationMock()
+  def emailSenderService = Mock(EmailSenderService)
 
   def setup() {
-    service.restService = restService
     service.recoveryCollaboratorService = recoveryCollaboratorService
     service.registrationService = registrationService
     service.grailsApplication = grailsApplication
     service.messageSource = messageSource
+    service.emailSenderService = emailSenderService
   }
 
   void "should send confirmation account token"(){
@@ -29,7 +29,7 @@ class RecoveryServiceSpec extends Specification {
   service.sendConfirmationAccountToken(email)
   then:"We expect generate token and send email"
   recoveryCollaboratorService.generateToken('register', email) >> message
-  1 * restService.sendCommand(message, 'register')
+  1 * emailSenderService.sendEmailForConfirmAccount(message, email)
   }
 
   void "should confirm account for token"(){
@@ -48,9 +48,9 @@ class RecoveryServiceSpec extends Specification {
   when: "We confirm account for token"
   service.confirmAccountForToken(token)
   then: "We expect user enabled"
+  1 * emailSenderService.sendEmailForConfirmAccountForToken(user)
   1 * user.setProperty('enabled',true)
   1 * user.save()
-  1 * restService.sendCommand(_ as NameCommand, 'newUser')
   }
 
   void "should generate registration code for email"() {
@@ -68,7 +68,7 @@ class RecoveryServiceSpec extends Specification {
   user.enabled >> true
   service.generateRegistrationCodeForEmail(email)
   then: "We expect send message to the email service"
-  1 * restService.sendCommand(message, 'forgot')
+  1 * emailSenderService.sendEmailForRegistrationCode(message, email)
   }
 
 
