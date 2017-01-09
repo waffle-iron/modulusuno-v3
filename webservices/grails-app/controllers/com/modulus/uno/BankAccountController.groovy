@@ -5,7 +5,7 @@ import com.github.rahulsom.swaggydoc.*
 import com.wordnik.swagger.annotations.*
 import static org.springframework.http.HttpStatus.*
 
-
+@Api
 class BankAccountController {
 
   def bankAccountService

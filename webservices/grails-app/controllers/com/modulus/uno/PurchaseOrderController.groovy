@@ -35,8 +35,9 @@ class PurchaseOrderController {
     if (params.xml && params.pdf && purchaseOrder.id) {
       purchaseOrderService.addInvoiceToPurchaseOrder(params.xml, purchaseOrder.id, "invoiceForPO")
       purchaseOrderService.addInvoiceToPurchaseOrder(params.pdf, purchaseOrder.id, "invoiceForPO")
-      purchaseOrderService.requestAuthorizationForTheOrder(purchaseOrder)
     }
+
+    purchaseOrderService.requestAuthorizationForTheOrder(purchaseOrder)
 
     if (purchaseOrder.id)
       respond purchaseOrder, status: 201, formats: ['json']

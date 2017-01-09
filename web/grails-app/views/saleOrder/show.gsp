@@ -267,16 +267,15 @@
             <tr>
               <td>
                 <div class="input-group">
-                  <input id="quantity" name="quantity" class="form-control" type="number" min="1" required="" />
+                  <input id="quantity" name="quantity" class="form-control" type="number" min="0.01" step="0.01" required="" />
                 </div>
               </td>
               <td>
                 <div class="input-group easy-autocomplete col-xs-12">
                   <input id="product-name" name="name" type="text" class="form-control" autocomplete="off" placeholder="Nombre del producto" required="" maxlength="300" />
                 </div>
-                <div class="input-group col-xs-10">
-                  <div class="input-group-addon">SKU</div>
-                  <g:textField id="sku" name="sku" class="form-control" required="" pattern=".{4,50}" title="4 caracteres mínimo" class="behind"/>
+                <div class="input-group easy-autocomplete col-xs-10">
+                  <input type="text" id="sku" name="sku" class="form-control" autocomplete="off" placeholder="SKU" required="" pattern=".{4,50}" maxlength="50" title="4 caracteres mínimo"/>
                 </div>
               </td>
               <td>
