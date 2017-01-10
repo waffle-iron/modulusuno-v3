@@ -3,6 +3,7 @@ package com.modulus.uno
 import grails.transaction.Transactional
 import java.text.SimpleDateFormat
 import org.springframework.context.i18n.LocaleContextHolder as LCH
+import org.springframework.transaction.annotation.Propagation
 
 @Transactional
 class CompanyService {
@@ -17,6 +18,8 @@ class CompanyService {
   def collaboratorService
   def messageSource
   def restService
+  def corporateService
+  DirectorService directorService
 
   def addingActorToCompany(Company company, User user) {
     company.addToActors(user)
@@ -41,6 +44,12 @@ class CompanyService {
     Company.createCriteria().list {
      eq 'status', status
     }
+  }
+
+  def findCompaniesByCorporateAndStatus(CompanyStatus status,Long corporateId){
+    Corporate corporate = Corporate.get(corporateId)
+    ArrayList<Company> companies = corporate.companies.findAll{ it.status == status }
+    companies
   }
 
   def createAddressForCompany(Address address, Long companyId){
@@ -79,23 +88,6 @@ class CompanyService {
     availableBalance >= amount
   }
 
-  def findCompaniesForThisUser(User user) {
-    def companiesLegalRepresentatives =  Company.withCriteria {
-      legalRepresentatives {
-        eq 'username', user.username
-      }
-    }
-    def companiesActors = Company.withCriteria {
-      actors {
-        eq 'username',user.username
-      }
-    }
-    def companies = []
-    companies << companiesLegalRepresentatives ?: ""
-    companies << companiesActors ?: ""
-    companies.flatten().unique()
-  }
-
   AccountStatement getAccountStatementOfCompany(Company company, String beginDate, String endDate){
     if (!beginDate && !endDate) {
       beginDate = collaboratorService.getBeginDateCurrentMonth()
@@ -117,11 +109,8 @@ class CompanyService {
     accountStatement
   }
 
-  def getAuthorizersByCompany(Company company) {
-  	company.actors.findAll { user ->
-      if (user.authorities.any { it.authority == "ROLE_INTEGRADO_AUTORIZADOR" })
-        return user
-    }
+  ArrayList<User> getAuthorizersByCompany(Company company) {
+    directorService.findUsersOfCompanyByRole(company.id,['ROLE_INTEGRADO_AUTORIZADOR'])
   }
 
   Balance getBalanceOfCompany(Company company) {
@@ -224,6 +213,19 @@ class CompanyService {
     pendingAccounts.totalPayments = pendingAccounts.listPayments ? pendingAccounts.listPayments.sum { it.total } : new BigDecimal(0)
     pendingAccounts.totalCharges = pendingAccounts.listCharges ? pendingAccounts.listCharges.sum { it.total } : new BigDecimal(0)
     pendingAccounts
+  }
+
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  Company saveInsideAndAssingCorporate(Company company, Long corporateId){
+    // TODO: Se podría revalidar que el usuario sea corporativo
+    if(company.validate()){
+      Corporate corporate = Corporate.get(corporateId)
+      corporateService.addCompanyToCorporate(corporate, company)
+      company
+    }
+    else {
+      throw new RuntimeException(company.errors*.toString().join(","))
+    }
   }
 
   private def isAvailableForInvoices(def response) {

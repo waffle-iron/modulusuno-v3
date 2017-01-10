@@ -5,9 +5,10 @@ import spock.lang.Specification
 import grails.test.mixin.Mock
 import spock.lang.Unroll
 import java.math.RoundingMode
+import java.lang.Void as Should
 
 @TestFor(ModulusUnoService)
-@Mock([User,Profile,Company,DepositOrder,ModulusUnoAccount,Commission,SaleOrder,SaleOrderItem, CashOutOrder])
+@Mock([User,Role,UserRoleCompany,Profile,Company,DepositOrder,ModulusUnoAccount,Commission,SaleOrder,SaleOrderItem, CashOutOrder])
 class ModulusUnoServiceSpec extends Specification {
 
   def restService = Mock(RestService)
@@ -18,11 +19,10 @@ class ModulusUnoServiceSpec extends Specification {
     service.grailsApplication = grailsApplication
   }
 
-  void "should create an user with main stp account"() {
+  Should "create an user with main stp account"() {
     given:
-      def profile = new Profile()
-      profile.name = "sergio"
-      profile.email = "s@s.com"
+      Profile profile = new Profile(name:"Gamaliel",
+                                    email:"egjimenezg@gmail.com")
       profile.save()
     and:
       def user = new User()
@@ -37,11 +37,19 @@ class ModulusUnoServiceSpec extends Specification {
       company.employeeNumbers = 5
       company.grossAnnualBilling = 23000.00
       company.save()
-    and:
-      company.addToLegalRepresentatives(user)
-      company.addToActors(user)
-      company.save()
-      println company.dump()
+    and:"the role"
+      ArrayList<Role> roles = [new Role(authority:"ROLE_LEGAL_REPRESENTATIVE_VISOR"),
+                               new Role(authority:"ROLE_LEGAL_REPRESENTATIVE_EJECUTOR")]
+    and:"the user role company"
+      UserRoleCompany userRoleCompany = new UserRoleCompany(user:user,
+                                                            company:company)
+
+      roles.each{ role ->
+        userRoleCompany.addToRoles(role)
+        role.save(validate:false)
+      }
+
+      userRoleCompany.save()
     when:"We create an account"
       service.createAccount(company)
     then:"We expect service was called"
@@ -164,11 +172,13 @@ class ModulusUnoServiceSpec extends Specification {
 
   void "should create an user with stp subaccount"() {
     given:"A create account command"
-      CreateAccountCommand command = new CreateAccountCommand(payerAccount:"thePayerAccount", uuid:"theUuid", name:"theClientName", email:"theEmailToNotification")
+      CreateAccountCommand command = new CreateAccountCommand(payerAccount:"thePayerAccount",
+                                                              uuid:"theUuid",
+                                                              name:"theClientName")
     when:"We create an account"
       def result = service.generateSubAccountStpForClient(command)
     then:"We expect service was called"
-    1 * restService.sendCommandWithAuth(_ as CreateAccountCommand, _)
+      1 * restService.sendCommandWithAuth(_ as CreateAccountCommand, _)
   }
 
 }

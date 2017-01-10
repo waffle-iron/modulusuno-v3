@@ -187,7 +187,7 @@ class PurchaseOrderServiceSpec extends Specification {
       def response = service.payPurchaseOrder(purchaseOrder, PaymentToPurchase.get(2))
     then:
       response.status == status
-      1 * emailSenderService.sendPaidPurchaseOrder(purchaseOrder, PaymentToPurchase.get(2))
+      1 * emailSenderService.sendPaidPurchaseOrder(purchaseOrder)
       1 * modulusUnoService.payPurchaseOrder(purchaseOrder, PaymentToPurchase.findById(2))
     where:
       amountItem1 | amountItem2 |  paymentAmount1 | paymentAmount2 || status

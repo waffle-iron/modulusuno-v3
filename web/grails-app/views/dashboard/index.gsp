@@ -7,7 +7,6 @@
   <body>
 
     <div class="page-title">
-
       <h1>
       <i class="fa fa-tachometer fa-3x"></i>
         Tablero principal
@@ -19,6 +18,31 @@
         <li class="active">Bienvenido, puedes empezar por aquí... </li>
       </ol>
     </div>
+
+    <sec:ifAnyGranted roles="ROLE_M1">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <g:if test="${!corporates}">
+            <div class="alert alert-info">
+              <strong>Atención</strong> Vemos que aún no tienes corporaciones registradas en Modulus UNO, comienza...
+            </div>
+            <p>
+              <g:link class="btn btn-default btn-lg" controller="corporate" action="create">
+                Registra tu primera corporación
+              </g:link>
+            </p>
+          </g:if>
+          <g:else>
+            <div class="content scaffold-list">
+              <h1><g:message code="corporate.list.label" /></h1>
+              <f:table collection="${corporates}" properties="['nameCorporate','corporateUrl']" />
+            </div>
+          </g:else>
+        </div>
+      </div>
+
+
+    </sec:ifAnyGranted>
 
     <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR">
     <div class="row">

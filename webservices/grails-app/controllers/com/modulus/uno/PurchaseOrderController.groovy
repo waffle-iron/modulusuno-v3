@@ -36,6 +36,7 @@ class PurchaseOrderController {
       purchaseOrderService.addInvoiceToPurchaseOrder(params.xml, purchaseOrder.id, "invoiceForPO")
       purchaseOrderService.addInvoiceToPurchaseOrder(params.pdf, purchaseOrder.id, "invoiceForPO")
     }
+    purchaseOrderService.requestAuthorizationForTheOrder(purchaseOrder)
 
     purchaseOrderService.requestAuthorizationForTheOrder(purchaseOrder)
 

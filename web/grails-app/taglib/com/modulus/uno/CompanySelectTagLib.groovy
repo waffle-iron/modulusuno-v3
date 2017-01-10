@@ -2,14 +2,11 @@ package com.modulus.uno
 
 class CompanySelectTagLib {
 
-  def companyService
   def springSecurityService
-  def restService
+  OrganizationService organizationService
 
   static namespace = "companyInfo"
   static defaultEncodeAs = "raw"
-
-  //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 
   def companyInfo = { attrs, body ->
     def company = Company.findById(session.company.toLong())
@@ -18,7 +15,7 @@ class CompanySelectTagLib {
 
   def selectedCompany = { attrs,body ->
     def user = springSecurityService.currentUser
-    def companies = companyService.findCompaniesForThisUser(user)
+    def companies = organizationService.findAllCompaniesOfUser(user)
     out << g.select(from:companies, id:"companyNavSelect", name:"company",optionKey:"id", value:"${session.company}",required:"required")
   }
 

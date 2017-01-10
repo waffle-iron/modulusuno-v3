@@ -10,6 +10,7 @@
 </head>
 <body>
   <div class="row">
+    <!-- BEGIN PAGE TITLE -->
     <div class="page-title">
       <h1>
         <i class="fa fa-info-circle fa-3x"></i>
@@ -21,6 +22,7 @@
         <li class="active"><g:message code="company.show"/></li>
       </ol>
     </div>
+    <!-- END OF PAGE TITLE -->
   </div>
 
   <div class="row">
@@ -156,82 +158,73 @@
 </sec:ifAnyGranted>
 <!-- Cuentas -->
 <div class="col-md-6">
-<div class="">
-<div class="portlet portlet-blue">
-<div class="portlet-heading">
-<div class="portlet-title">
-  <h4>Cuentas Bancarias</h4>
-</div>
-  <div class="clearfix"></div>
-</div>
-  <div id="defaultPortlet" class="panel-collapse collapse in">
-    <div class="portlet-body">
-    <g:if test="${!company.banksAccounts}">
-      <h4><span class="label label-warning">Debe agregar al menos una cuenta</span></h4>
-    </g:if>
-      <g:render template="bankAccounts" />
-    </div>
-  </div>
-  <div class="portlet-footer"></div>
-</div>
-</div>
-
-<!-- Representantes -->
-<!--div class="">
-  <div class="portlet portlet-blue">
-    <div class="portlet-heading">
-      <div class="portlet-title">
-        <h4>
-          <g:if test="${company.taxRegime == CompanyTaxRegime.MORAL}">
-          Representantes Legales
-        </g:if><g:else>
-        Persona Física
-      </g:else>
-    </h4>
-  </div>
-  <div class="clearfix"></div>
-</div>
-<div id="defaultPortlet" class="panel-collapse collapse in">
- <div class="portlet-body">
-   <form class="form-horizontal" role="form">
-    <g:render template="legalRepresentatives" />
-  </form>
-</div>
-</div>
-<div class="portlet-footer"></div>
-</div>
-</div-->
-
-<!-- Documentos -->
-<g:if test="${company.status == CompanyStatus.ACCEPTED}">
-  <g:render template="documents" />
-</g:if>
-
-
-<!-- Direcciones -->
-<div class="">
-  <div class="portlet portlet-blue">
-    <div class="portlet-heading">
-      <div class="portlet-title">
-        <h4>Direcciones</h4>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div id="defaultPortlet" class="panel-collapse collapse in">
-      <div class="portlet-body">
-        <g:if test="${!company.addresses}">
-        <h4><span class="label label-warning">Debe agregar al menos una dirección</span></h4>
-      </g:if>
-      <g:render template="addresses" />
-    </div>
-  </div>
-  <div class="portlet-footer">
-  </div>
-</div>
-</div>
-
-<!-- Telefonos -->
   <div class="">
+    <!-- BEGIN PORTLET -->
+    <div class="portlet portlet-blue">
+      <!-- BEGIN PORTLET-HEADING -->
+      <div class="portlet-heading">
+        <div class="portlet-title">
+          <h4>Cuentas Bancarias</h4>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!-- END OF PORTLET-HEADING -->
+
+      <!-- BEGIN PANEL-COLLAPSE -->
+      <div id="defaultPortlet" class="panel-collapse collapse in">
+        <!-- BEGIN PORTLET-BODY -->
+        <div class="portlet-body">
+          <g:if test="${!company.banksAccounts}">
+          <h4><span class="label label-warning">Debe agregar al menos una cuenta</span></h4>
+          </g:if>
+          <g:render template="bankAccounts" />
+        </div>
+        <!-- END OF PORTLET BODY -->
+      </div>
+      <!-- END OF PANEL-COLLAPSE-->
+      <div class="portlet-footer"></div>
+    </div>
+    <!-- END OF PORTLET -->
+  </div>
+
+  <!-- DOCUMENTS -->
+  <g:if test="${company.status == CompanyStatus.ACCEPTED}">
+    <g:render template="documents" />
+  </g:if>
+
+  <!-- ADDRESSES -->
+  <div class="">
+    <!-- BEGIN PORTLET -->
+    <div class="portlet portlet-blue">
+      <!-- BEGIN PORTLET-HEADING -->
+      <div class="portlet-heading">
+        <!-- BEGIN PORTLET-TITLE -->
+        <div class="portlet-title">
+          <h4>Direcciones</h4>
+        </div>
+        <!-- END OF PORTLET-TITLE -->
+        <div class="clearfix"></div>
+      </div>
+      <!-- END OF PORTLET -->
+
+      <!-- BEGIN PANEL COLLAPSE -->
+      <div class="panel-collapse collapse in">
+        <div class="portlet-body">
+          <g:if test="${!company.addresses}">
+            <h4><span class="label label-warning">Debe agregar al menos una dirección</span></h4>
+          </g:if>
+          <g:render template="addresses" />
+        </div>
+      </div>
+      <!-- END OF PANEL COLLAPSE -->
+      <div class="portlet-footer"></div>
+    </div>
+    <!--END OF PORTLET -->
+  </div>
+
+  <!-- Telefonos -->
+  <div class="">
+    <!-- BEGIN PORTLET -->
     <div class="portlet portlet-blue">
       <div class="portlet-heading">
         <div class="portlet-title">
@@ -241,11 +234,15 @@
       </div>
       <div id="defaultPortlet" class="panel-collapse collapse in">
         <div class="portlet-body">
+          <g:if test="${!company.telephones}">
+            <h4><span class="label label-warning">Debe agregar al menos un Telefono</span></h4>
+          </g:if>
           <g:render template="telephones" />
         </div>
       </div>
       <div class="portlet-footer"></div>
     </div>
+    <!-- END OF PORTLET -->
   </div>
 </div>
 </div>
