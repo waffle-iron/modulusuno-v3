@@ -5,222 +5,314 @@ import grails.transaction.Transactional
 @Transactional(readOnly=true)
 class EmailSenderService {
 
-  def restService
   def grailsApplication
-  def companyService
-  def userService
-  CorporateService corporateService
+  def notifyService
   DirectorService directorService
 
-  static final messages = [
-    SaleOrder : [:],
-    PurchaseOrder : [
-      sendToAuthorize:"""\
-        Se ha solicitado autorización de una nueva Orden de Pago a Proveedor, si deseas más información haz click en el link de este mail
-      """,
-      alreadyAuthorize:"""\
-        Una Orden de Pago a Proveedor ha sido autorizada, haz click en el link de este mail para más información
-      """,
-      paymentOrder:"""\
-        Una Orden de Pago a Proveedor ha sido PAGADA, haz click en el link de este mail para más información
-      """
-    ],
-    MoneyBackOrder : [
-      sendToAuthorize:"""\
-        Se ha solicitado autorización de una nueva Orden de Reembolso, si deseas más información haz click en el link de este mail
-      """,
-      alreadyAuthorize:"""\
-        Una Orden de Reembolso ha sido autorizada, haz click en el link de este mail para más información
-      """,
-      paymentOrder:"""\
-        Una Orden de Reembolso ha sido PAGADA, haz click en el link de este mail para más información
-      """
-    ],
-    LoanOrder : [
-      sendToAuthorize:"""\
-        Se ha solicitado autorización de una nueva Orden de Préstamo, si deseas más información haz click en el link de este mail
-      """,
-      alreadyAuthorize:"""\
-        Una Orden de Préstamo ha sido autorizada, haz click en el link de este mail para más información
-      """,
-      approvementAuthorize:"""\
-        Una Orden de Préstamo ha sido aprobada, haz click en el link de este mail para más información
-      """
-    ],
-    LoanPaymentOrder : [
-      sendToAuthorize:"""\
-        Se ha solicitado autorización de una nueva Orden Pago a Préstamo, si deseas más información haz click en el link de este mail
-      """,
-      alreadyAuthorize:"""\
-        Una Orden de Pago a Préstamo ha sido autorizada, haz click en el link de este mail para más información
-      """,
-      paymentOrder:"""\
-        Una Orden de Pago a Préstamo ha sido EJECUTADA, haz click en el link de este mail para más información
-      """
-    ],
-    FeesReceipt : [
-      sendToAuthorize:"""\
-        Se ha solicitado autorización de una nueva Orden de Recibo de Honorarios, si deseas más información haz click en el link de este mail
-      """,
-      alreadyAuthorize:"""\
-        Una Orden de Recibo de Honorarios ha sido autorizada, haz click en el link de este mail para más información
-      """,
-      paymentOrder:"""\
-        Una Orden de Recibo de Honorarios ha sido PAGADA, haz click en el link de este mail para más información
-      """
-    ]
-  ]
-
-  static final urls = [
-    LoanOrder :"/loanOrder/show/",
-    PurchaseOrder : "/purchaseOrder/show/",
-    SaleOrder : "",
-    FeesReceipt : "/feesReceipt/show/",
-    LoanPaymentOrder : "/loanPaymentOrder/show/"
-  ]
-
-  def authorizeLoanPaymentOrder (LoanPaymentOrder loanPaymentOrder) {
-    prepareCommandsAndSendRequestToEmailer(getUsersToNotify(loanPaymentOrder.company, "alreadyAuthorize"), loanPaymentOrder, "alreadyAuthorize")
+  //RecoveryService
+  def sendEmailForConfirmAccount(def message, String email){
+    def idEmailer=grailsApplication.config.emailer.recoveryConfirm
+    def paramsEmailer=notifyService.parametersForRecoveryToken(message)
+    notifyService.sendEmailNotifications([email], idEmailer, paramsEmailer)
   }
 
-  def emailIntegratedCommand(String message, String url, String nameCompany, def email){
-    def emailCommand = new EmailNotificationToIntegratedCommand()
-    emailCommand.emailResponse = email
-    emailCommand.nameCompany = nameCompany
-    emailCommand.message = message
-    emailCommand.url = grailsApplication.config.grails.server.url + url
-    emailCommand
+  def sendEmailForConfirmAccountForToken(User user){
+    def idEmailer=grailsApplication.config.emailer.recoveryToken
+    def paramsEmailer=notifyService.parametersForConfirmUser(user)
+    notifyService.sendEmailNotifications([user.profile.email], idEmailer, paramsEmailer)
   }
 
-  private def prepareCommandsAndSendRequestToEmailer(usersToNotify, order, actionToExecute){
-    String classMessage = order.class.simpleName == "PurchaseOrder" && order.isMoneyBackOrder ? "MoneyBackOrder" : order.class.simpleName
-    usersToNotify.collect { user ->
-      def command = emailIntegratedCommand(messages."${classMessage}"."${actionToExecute}",urls."${order.class.simpleName}" + order.id, order.company.bussinessName, user.profile.email)
-      restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
-      command
+  def sendEmailForRegistrationCode(def message, String email){
+    def idEmailer=grailsApplication.config.emailer.recoveryRegistrationCode
+    def paramsEmailer=notifyService.parametersForRecoveryToken(message)
+    notifyService.sendEmailNotifications([email], idEmailer, paramsEmailer)
+  }
+
+  //EmployeeServ
+  def sendEmailForNewEmployee(Company company, def employee){
+    def paramsEmailer=notifyService.parametersForBusinessEntity(employee, company)
+    def emailList = getEmailList(company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    notifyService.sendEmailNotifications(emailList, grailsApplication.config.emailer.newEmployee, paramsEmailer)
+  }
+
+  //Provider
+  def sendEmailForNewProvider(Company company, def provider){
+    def paramsEmailer=notifyService.parametersForBusinessEntity(provider, company)
+    def emailList = getEmailList(company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    notifyService.sendEmailNotifications(emailList, grailsApplication.config.emailer.newProvider, paramsEmailer)
+  }
+
+  //Client
+  def sendEmailForNewClient(Company company, def client){
+    def paramsEmailer=notifyService.parametersForBusinessEntity(client, company)
+    def emailList = getEmailList(company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    notifyService.sendEmailNotifications(emailList, grailsApplication.config.emailer.newClient, paramsEmailer)
+  }
+
+  //DepositOrder
+  //TODO: Status CONCILIATED parece que no se usa, y el CREATED no manda notificación
+  def notifyDepositOrderChangeStatus(DepositOrder order){
+    def emailList
+    def idEmailer
+    def paramsEmailer=notifyService.parametersForDepositOrder(order, order.status)
+    switch(order.status){
+      //case DepositOrderStatus.CREATED:
+      //break
+      case DepositOrderStatus.VALIDATE:
+      idEmailer = grailsApplication.config.emailer.depositOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+      break
+      case DepositOrderStatus.AUTHORIZED:
+      idEmailer = grailsApplication.config.emailer.depositOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+      break
+      case DepositOrderStatus.REJECTED:
+      idEmailer = grailsApplication.config.emailer.depositOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_OPERATOR_VISOR", "ROLE_OPERATOR_EJECUTOR"])
+      break
+      case DepositOrderStatus.EXECUTED:
+      idEmailer = grailsApplication.config.emailer.depositOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case DepositOrderStatus.CANCELED:
+      idEmailer = grailsApplication.config.emailer.depositOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      //case DepositOrderStatus.CONCILIATED:
+      //break
     }
+    notifyService.sendEmailNotifications(emailList, idEmailer, paramsEmailer)
   }
 
-  private List<User> getUsersToNotify(Company company, String actionToExecute){
-    List<User> users = []
-    switch (actionToExecute) {
-      case "sendToAuthorize" :
-          users.addAll(companyService.getAuthorizersByCompany(company))
-        break
-      case "alreadyAuthorize" :
-          users.addAll(company.legalRepresentatives.collect())
-          users.addAll(companyService.getAuthorizersByCompany(company))
-          users.addAll(userService.getUsersByRole("ROLE_ADMIN_IECCE"))
-          users.addAll(userService.getUsersByRole("ROLE_OPERADOR_IECCE"))
-        break
-      case "approvementAuthorize" : case "paymentOrder" :
-          users.addAll(company.legalRepresentatives.collect())
-        break
+  //SaleOrder, CREADA:Sin correo
+  def notifySaleOrderChangeStatus(SaleOrder order){
+    def emailList
+    def idEmailer
+    def paramsEmailer=notifyService.prepareParametersToSendForSaleOrder(order, order.status)
+    switch(order.status){
+      //case SaleOrderStatus.CREADA:
+      //break
+      case SaleOrderStatus.POR_AUTORIZAR:
+      idEmailer = grailsApplication.config.emailer.saleOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+      break
+      case SaleOrderStatus.AUTORIZADA:
+      idEmailer = grailsApplication.config.emailer.saleOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+      break
+      case SaleOrderStatus.RECHAZADA:
+      idEmailer = grailsApplication.config.emailer.saleOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_OPERATOR_VISOR", "ROLE_OPERATOR_EJECUTOR"])
+      break
+      case SaleOrderStatus.PAGADA:
+      idEmailer = grailsApplication.config.emailer.saleOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case SaleOrderStatus.EJECUTADA:
+      idEmailer = grailsApplication.config.emailer.saleOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case SaleOrderStatus.CANCELADA:
+      idEmailer = grailsApplication.config.emailer.saleOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case SaleOrderStatus.CANCELACION_POR_AUTORIZAR:
+      idEmailer = grailsApplication.config.emailer.saleOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+      break
+      case SaleOrderStatus.CANCELACION_AUTORIZADA:
+      idEmailer = grailsApplication.config.emailer.saleOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+      break
+      case SaleOrderStatus.CANCELACION_EJECUTADA:
+      idEmailer = grailsApplication.config.emailer.saleOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
     }
-    users
+    notifyService.sendEmailNotifications(emailList, idEmailer, paramsEmailer)
   }
 
-  def notifyTheApprovementOfLoanOrder(LoanOrder order){
-    ArrayList<User> usersToNotify = directorService.findUsersOfCompanyByRole(order.creditor.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
-                                                                                                'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
-    prepareCommandsAndSendRequestToEmailer(usersToNotify, order, "approvementAuthorize")
-  }
-
-  // TODO: Revisión pra refactor en el agrupamiento de la gente
-  def notifyAuthorizationLoanOrder(LoanOrder order){
-    def usersToNotify = order.company.legalRepresentatives.collect()
-    def authorizers = companyService.getAuthorizersByCompany(order.company)
-    usersToNotify.addAll(authorizers)
-    def usersAdminIecce = userService.getUsersByRole("ROLE_ADMIN_IECCE")
-    usersToNotify.addAll(usersAdminIecce)
-    def usersOperatorsIecce = userService.getUsersByRole("ROLE_OPERADOR_IECCE")
-    usersToNotify.addAll(usersOperatorsIecce)
-    prepareCommandsAndSendRequestToEmailer(usersToNotify, order, "alreadyAuthorize")
-  }
-
-  def notifyLoanPaymentOrderExecuted(LoanPaymentOrder loanPaymentOrder) {
-    prepareCommandsAndSendRequestToEmailer(getUsersToNotify(loanPaymentOrder.company, "paymentOrder"), loanPaymentOrder, "paymentOrder")
-  }
-
-  //TODO refactor del email notificar a la persona correcta
-  void notifyAcceptedCompany(Company company) {
-    String url = "${grailsApplication.config.accepting.integrated}${company.id}"
-    String message = "La Empresa ${company}, ha sido aprobada para formar parte de de ModulusUno"
-    User user = corporateService.findCorporateUserOfCompany(company.id)
-    def email = user.profile.email
-    def command = emailIntegratedCommand(message, url, company.toString(), email)
-    restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
-  }
-
-  void notifyRejectedCompany(Company company) {
-    String url = "${grailsApplication.config.rejected.integrated}${company.id}"
-    String message = "La Empresa ${company}, ha sido rechazada por diversos motivos"
-    User user = corporateService.findCorporateUserOfCompany(company.id)
-    def email = user.profile.email
-    def command = emailIntegratedCommand(message, url, company.toString(), email)
-    restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
-  }
-
-  def sendFeesReceiptAuthorized(FeesReceipt feesReceipt) {
-    List<User> usersToNotify = getUsersToNotify(feesReceipt.company, "alreadyAuthorize")
-    prepareCommandsAndSendRequestToEmailer(usersToNotify, feesReceipt, "alreadyAuthorize")
-  }
-
-  def sendFeesReceiptToAuthorize(FeesReceipt feesReceipt) {
-    prepareCommandsAndSendRequestToEmailer(getUsersToNotify(feesReceipt.company, "sendToAuthorize"), feesReceipt, "sendToAuthorize")
-  }
-
-  def sendLoanOrderToAuthorize(LoanOrder order){
-    def authorizers = companyService.getAuthorizersByCompany(order.company)
-    prepareCommandsAndSendRequestToEmailer(authorizers, order, "sendToAuthorize")
-  }
-
-  def sendLoanPaymentOrderToAuthorize(LoanPaymentOrder loanPaymentOrder){
-    prepareCommandsAndSendRequestToEmailer(getUsersToNotify(loanPaymentOrder.company, "sendToAuthorize"), loanPaymentOrder, "sendToAuthorize")
-  }
-
-  def sendNewClientProviderNotificaton(Company company, String name, EmailerMessageType type) {
-    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(company.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
-                                                                                                'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
-
-    legalRepresentatives.each { legal ->
-      def message = new NameCommand(email:legal.profile.email, name:name, company:company.bussinessName, type:type)
-      restService.sendCommand(message, grailsApplication.config.emailer.clientProvider)
+  //CashOut
+  def notifyCashOutOrderChangeStatus(CashOutOrder order){
+    def idEmailer
+    def emailList
+    def paramsEmailer=notifyService.parametersForCashOutOrder(order, order.status)
+    switch(order.status){
+      //case CashOutOrderStatus.CREATED:
+      //break
+      //case CashOutOrderStatus.IN_PROCESS:
+      //break
+      case CashOutOrderStatus.TO_AUTHORIZED:
+      idEmailer = grailsApplication.config.emailer.cashOutOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+      break
+      case CashOutOrderStatus.AUTHORIZED:
+      idEmailer = grailsApplication.config.emailer.cashOutOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+      break
+      case CashOutOrderStatus.EXECUTED:
+      idEmailer = grailsApplication.config.emailer.cashOutOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case CashOutOrderStatus.REJECTED:
+      idEmailer = grailsApplication.config.emailer.cashOutOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case CashOutOrderStatus.CANCELED:
+      idEmailer = grailsApplication.config.emailer.cashOutOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_OPERATOR_VISOR", "ROLE_OPERATOR_EJECUTOR"])
+      break
     }
+    notifyService.sendEmailNotifications(emailList, idEmailer, paramsEmailer)
   }
 
-  //TODO: carlo revisara este metodo en especifico ya que tiene cambios de logica que no tenia contenplados
-  def sendPaidPurchaseOrder(PurchaseOrder order){
-    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(order.company.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
-                                                                                                      'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
-
-    legalRepresentatives.each(){
-      def command = emailIntegratedCommand("Una Orden de Pago a Proveedor ha sido PAGADA, haz click en el link de este mail para más información","/purchaseOrder/show/${order.id}", order.company.toString(), it.profile.email)
-      restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
+  //FeesReceipt
+  def notifyFeesReceiptChangeStatus(FeesReceipt feesReceipt){
+    def emailList=directoryService.searchUsersSendToAuthorize(feesReceipt.company)
+    def paramsEmailer=notifyService.parametersForFeesReceipt(feesReceipt, feesReceipt.status, feesReceipt.company)
+    def idEmailer
+    switch(feesReceipt.status){
+      //case FeesReceiptStatus.CREADA:
+      //break
+      case FeesReceiptStatus.POR_AUTORIZAR:
+      idEmailer = grailsApplication.config.emailer.feesReceiptAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+      break
+      case FeesReceiptStatus.AUTORIZADA:
+      idEmailer = grailsApplication.config.emailer.feesReceiptAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+      break
+      case FeesReceiptStatus.EJECUTADA:
+      idEmailer = grailsApplication.config.emailer.feesReceiptAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case FeesReceiptStatus.CANCELADA:
+      idEmailer = grailsApplication.config.emailer.feesReceiptCancelStatus
+      emailList = getEmailList(order.company,["ROLE_OPERATOR_VISOR", "ROLE_OPERATOR_EJECUTOR"])
+      break
+      case FeesReceiptStatus.RECHAZADA:
+      idEmailer = grailsApplication.config.emailer.feesReceiptCancelStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
     }
+    notifyService.sendEmailNotifications(emailList, idEmailer, paramsEmailer)
   }
 
-  def sendPurchaseOrderAuthorized(PurchaseOrder order){
-    def usersToNotify = order.company.legalRepresentatives.collect()
-    def authorizers = companyService.getAuthorizersByCompany(order.company)
-    usersToNotify.addAll(authorizers)
-    def usersAdminIecce = userService.getUsersByRole("ROLE_ADMIN_IECCE")
-    usersToNotify.addAll(usersAdminIecce)
-    def usersOperatorsIecce = userService.getUsersByRole("ROLE_OPERADOR_IECCE")
-    usersToNotify.addAll(usersOperatorsIecce)
-    prepareCommandsAndSendRequestToEmailer(usersToNotify, order, "alreadyAuthorize")
-  }
-
-  def sendPurchaseOrderToAuthorize(PurchaseOrder order){
-    def authorizers = companyService.getAuthorizersByCompany(order.company)
-    prepareCommandsAndSendRequestToEmailer(authorizers, order, "sendToAuthorize")
- }
-
-  def sendSaleOrderToAuthorize(saleOrder, users){
-    users.each { user ->
-      def command = new SaleOrderCommand(email:user.profile.email, rfc:saleOrder.rfc, name: saleOrder.clientName, url:"${grailsApplication.config.grails.server.url}/saleOrder/show/${saleOrder.id}")
-      restService.sendCommand(command, grailsApplication.config.emailer.authorizeSaleOrder)
+  //LoanOrderPayment
+  def notifyLoanPaymentOrderChangeStatus(LoanPaymentOrder order){
+    def idEmailer
+    def emailList
+    def paramsEmailer=notifyService.parametersForLoanPaymentOrder(order, order.status)
+    switch(order.status){
+      //case LoanPaymentOrderStatus.CREATED:
+      //break
+      case LoanPaymentOrderStatus.VALIDATE:
+      idEmailer = grailsApplication.config.emailer.LoanPaymentOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+      break
+      case LoanPaymentOrderStatus.AUTHORIZED:
+      idEmailer = grailsApplication.config.emailer.LoanPaymentOrderAcceptStatus
+      emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+      break
+      case LoanPaymentOrderStatus.REJECTED:
+      idEmailer = grailsApplication.config.emailer.LoanPaymentOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case LoanPaymentOrderStatus.EXECUTED:
+      idEmailer = grailsApplication.config.emailer.LoanPaymentOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+      break
+      case LoanPaymentOrderStatus.CANCELED:
+      idEmailer = grailsApplication.config.emailer.LoanPaymentOrderCancelStatus
+      emailList = getEmailList(order.company,["ROLE_OPERATOR_VISOR", "ROLE_OPERATOR_EJECUTOR"])
+      break
     }
+    notifyService.sendEmailNotifications(emailList, idEmailer, paramsEmailer)
+  }
+
+  //LoanOrder
+  //TODO:
+  //Approved: Legal Representatives de company creditor
+  //Accepted: Fico de compañia a la que pertenece la orden
+  //Execute: Legal Rep. de ambas compañías
+  def notifyLoanOrderChangeStatus(LoanOrder order){
+  def idEmailer
+  def emailList
+  def paramsEmailer=notifyService.parametersForLoanOrder(order, order.status)
+  switch(order.status){
+    //case LoanOrderStatus.CREATED:
+    //break
+    case LoanOrderStatus.VALIDATE:
+    idEmailer = grailsApplication.config.emailer.loanOrderAcceptStatus
+    emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+    break
+    case LoanOrderStatus.AUTHORIZED:
+    idEmailer = grailsApplication.config.emailer.loanOrderAcceptStatus
+    emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+    break
+    case LoanOrderStatus.EXECUTED:
+    idEmailer = grailsApplication.config.emailer.loanOrderAcceptStatus
+    emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    break
+    case LoanOrderStatus.APPROVED:
+    idEmailer = grailsApplication.config.emailer.loanOrderAcceptStatus
+    emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    break
+    case LoanOrderStatus.ACCEPTED:
+    idEmailer = grailsApplication.config.emailer.loanOrderAcceptStatus
+    emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+    break
+    case LoanOrderStatus.REJECTED:
+    idEmailer = grailsApplication.config.emailer.loanOrderCancelStatus
+    emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    break
+    case LoanOrderStatus.CANCELED:
+    idEmailer = grailsApplication.config.emailer.loanOrderCancelStatus
+    emailList = getEmailList(order.company,["ROLE_OPERATOR_VISOR", "ROLE_OPERATOR_EJECUTOR"])
+    break
+  }
+  notifyService.sendEmailNotifications(emailList, idEmailer, paramsEmailer)
+}
+
+//PurchaseOrder
+def notifyPurchaseOrderChangeStatus(PurchaseOrder order){
+  def emailList
+  def idEmailer
+  def paramsEmailer=notifyService.parametersForPurchaseOrder(order, order.status)
+  switch(order.status){
+    //case PurchaseOrderStatus.CREADA:
+    //break;
+    case PurchaseOrderStatus.POR_AUTORIZAR:
+    idEmailer = grailsApplication.config.emailer.purchaseOrderAcceptStatus
+    emailList = getEmailList(order.company,["ROLE_AUTHORIZER_VISOR", "ROLE_AUTHORIZER_EJECUTOR"])
+    break;
+    case PurchaseOrderStatus.AUTORIZADA:
+    idEmailer = grailsApplication.config.emailer.purchaseOrderAcceptStatus
+    emailList = getEmailList(order.company,["ROLE_FICO_VISOR", "ROLE_FICO_EJECUTOR"])
+    break;
+    case PurchaseOrderStatus.RECHAZADA:
+    idEmailer = grailsApplication.config.emailer.purchaseOrderCancelStatus
+    emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    break;
+    case PurchaseOrderStatus.PAGADA:
+    idEmailer = grailsApplication.config.emailer.purchaseOrderCancelStatus
+    emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    break;
+    case PurchaseOrderStatus.CANCELADA:
+    idEmailer = grailsApplication.config.emailer.purchaseOrderCancelStatus
+    emailList = getEmailList(order.company,["ROLE_OPERATOR_VISOR", "ROLE_OPERATOR_EJECUTOR"])
+    break;
+  }
+  notifyService.sendEmailNotifications(emailList, idEmailer, paramsEmailer)
+}
+
+  private def getEmailList (Company company, def roleList){
+    def emailList = []
+    def usersList = directorService.findUsersOfCompanyByRole(company.id, roleList)
+    usersList.each{ user ->
+      emailList.add(user.profile.email)
+    }
+    emailList
   }
 
 }

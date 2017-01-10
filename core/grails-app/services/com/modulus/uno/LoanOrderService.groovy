@@ -22,6 +22,7 @@ class LoanOrderService {
     loanOrder.status = LoanOrderStatus.VALIDATE
     company.addToLoanOrders(loanOrder)
     company.save()
+    emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
     loanOrder
   }
 
@@ -40,6 +41,7 @@ class LoanOrderService {
     if (isFullAuthorized(order)){
       order.status = LoanOrderStatus.AUTHORIZED
       order.save()
+      emailSenderService.notifyLoanOrderChangeStatus(order)
     }
   }
 
@@ -51,7 +53,7 @@ class LoanOrderService {
   def approvingLoanOrder(LoanOrder loanOrder){
     loanOrder.status = LoanOrderStatus.APPROVED
     loanOrder.save flush:true
-    emailSenderService.notifyTheApprovementOfLoanOrder(loanOrder)
+      emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
   }
 
   def executeLoanOrder(LoanOrder loanOrder){
@@ -67,6 +69,7 @@ class LoanOrderService {
     loanOrder.status = LoanOrderStatus.EXECUTED
     loanOrder.loanDate = new Date()
     loanOrder.save()
+    emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
     loanOrder
   }
 
@@ -77,7 +80,6 @@ class LoanOrderService {
   def sendToConfirmLoanOrder(LoanOrder loanOrder) {
     loanOrder.status = LoanOrderStatus.VALIDATE
     loanOrder.save flush:true
-
-    emailSenderService.sendLoanOrderToAuthorize(loanOrder)
+    emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
   }
 }
