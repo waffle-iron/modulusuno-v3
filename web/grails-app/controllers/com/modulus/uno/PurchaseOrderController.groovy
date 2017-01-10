@@ -117,14 +117,13 @@ class PurchaseOrderController {
       return
     }
     PaymentToPurchase payment = new PaymentToPurchase(amount:amount)
-    purchaseOrderService.addingPaymentToPurchaseOrder(payment, order)
     String messageSuccess = message(code:"purchaseOrder.already.executed")
     if (companyService.enoughBalanceCompany(order.company, order.total)){
       if (purchaseOrderIsInStatus(order, PurchaseOrderStatus.AUTORIZADA)) {
         purchaseOrderService.payPurchaseOrder(order,payment)
         messageSuccess = message(code:"purchaseOrder.executed.message")
       }
-
+      purchaseOrderService.addingPaymentToPurchaseOrder(payment, order)
       if (order.isMoneyBackOrder)
         redirect action:'listMoneyBackOrders', params:[status:PurchaseOrderStatus.AUTORIZADA, messageSuccess:messageSuccess]
       else
