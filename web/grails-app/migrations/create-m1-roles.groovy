@@ -16,7 +16,7 @@ databaseChangeLog = {
          "ROLE_AUTHORIZER_EJECUTOR",
          "ROLE_OPERATOR_VISOR",
          "ROLE_OPERATOR_EJECUTOR"].each { roleName ->
-           sql.execute("INSERT INTO ROLE(version,authority) VALUES (0,${roleName})")
+           sql.execute("INSERT INTO role(version,authority) VALUES (0,${roleName})")
          }
       }
     }
