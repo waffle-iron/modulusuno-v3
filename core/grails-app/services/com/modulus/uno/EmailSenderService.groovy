@@ -31,21 +31,21 @@ class EmailSenderService {
   //EmployeeServ
   def sendEmailForNewEmployee(Company company, def employee){
     def paramsEmailer=notifyService.parametersForBusinessEntity(employee, company)
-    def emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    def emailList = getEmailList(company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
     notifyService.sendEmailNotifications(emailList, grailsApplication.config.emailer.newEmployee, paramsEmailer)
   }
 
   //Provider
   def sendEmailForNewProvider(Company company, def provider){
     def paramsEmailer=notifyService.parametersForBusinessEntity(provider, company)
-    def emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    def emailList = getEmailList(company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
     notifyService.sendEmailNotifications(emailList, grailsApplication.config.emailer.newProvider, paramsEmailer)
   }
 
   //Client
   def sendEmailForNewClient(Company company, def client){
     def paramsEmailer=notifyService.parametersForBusinessEntity(client, company)
-    def emailList = getEmailList(order.company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
+    def emailList = getEmailList(company,["ROLE_LEGAL_REPRESENTATIVE_VISOR", "ROLE_LEGAL_REPRESENTATIVE_EJECUTOR"])
     notifyService.sendEmailNotifications(emailList, grailsApplication.config.emailer.newClient, paramsEmailer)
   }
 
