@@ -26,7 +26,7 @@ class PurchaseOrderController {
       ])
   def save() {
     params.isMoneyBackOrder = false
-    if (params.isAnticipated == "true")
+    if (params.isAnticipated)
       params.orderType = "0"
     if (!params.isAnticipated)
       if (!params.xml || !params.pdf)
@@ -59,9 +59,9 @@ class PurchaseOrderController {
     def purchaseOrderItem = command.createPurchaseOrderItem()
     purchaseOrderItem.purchaseOrder = purchaseOrder
 
-    purchaseOrderItem.save flush:true
+    purchaseOrderItem.save()
 
-    if(purchaseOrderItem)
+    if(purchaseOrderItem.id)
       respond purchaseOrder, status:201, formats: ['json']
     else
       response.senErrod(404, "Missing fields for item")
