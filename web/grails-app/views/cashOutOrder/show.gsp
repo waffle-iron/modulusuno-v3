@@ -40,7 +40,7 @@
               </div>
            </form>
 
-              <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
                 <g:if test="${cashOutOrder.status == CashOutOrderStatus.CANCELED || cashOutOrder.status == CashOutOrderStatus.REJECTED}">
                   <div class="alert alert-danger" role="alert">
                     <label class="control-label">Motivo ${message(code:'cashOutOrder.rejectReason.'+cashOutOrder.status)}:</label>
@@ -52,7 +52,7 @@
                 </g:if>
              </sec:ifAnyGranted>
 
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
             <g:if test="${cashOutOrder.status == CashOutOrderStatus.CREATED}">
             <g:link controller="cashOutOrder" action="sendToAuthorize" class="btn btn-success" id="${cashOutOrder.id}">Confirmar Orden de Retiro</g:link>
 
@@ -81,7 +81,7 @@
             </g:if>
             </sec:ifAnyGranted>
 
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_EJECUTOR">
             <g:if test="${cashOutOrder.status == CashOutOrderStatus.TO_AUTHORIZED &&
                   !cashOutOrder.authorizations?.find{it.user == user}}">
             <div class="container-fluid">
@@ -121,7 +121,7 @@
             </sec:ifAnyGranted>
 
            <g:if test="${cashOutOrder.status == CashOutOrderStatus.AUTHORIZED}">
-             <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+             <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
              <div class="container-fluid">
                <div class="row">
                  <div class="col-md-6">
@@ -159,10 +159,10 @@
           </g:if>
 
 
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR, ROLE_ADMIN, ROLE_ADMIN_IECCE">
+          <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
             <g:link class="btn btn-default" action="list"><g:message code="cashoutOrder.list.label" /></g:link>
           </sec:ifAnyGranted>
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+          <sec:ifAnyGranted roles="ROLE_AUTHORIZER_EJECUTOR,ROLE_AUTHORIZER_VISOR">
             <g:link class="btn btn-default" action="list" params="[status:'TO_AUTHORIZED']"><g:message code="cashoutOrder.list.label" /></g:link>
           </sec:ifAnyGranted>
 

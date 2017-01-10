@@ -115,7 +115,7 @@ class EmailSenderServiceSpec extends Specification {
     def profile = new Profile(email:"mailauthorize@mail.com")
     user.profile = profile
     user.save(validate:false)
-    def role = new Role(authority:"ROLE_INTEGRADO_AUTORIZADOR")
+    def role = new Role(authority:"ROLE_AUTHORIZER_EJECUTOR")
     role.save(validate:false)
     def userRole = new UserRole(user:user, role:role)
     userRole.save(validate:false)
@@ -150,7 +150,7 @@ class EmailSenderServiceSpec extends Specification {
     def profile = new Profile(email:"mailauthorize@mail.com")
     user.profile = profile
     user.save(validate:false)
-    def role = new Role(authority:"ROLE_INTEGRADO_AUTORIZADOR")
+    def role = new Role(authority:"ROLE_AUTHORIZER_EJECUTOR")
     role.save(validate:false)
     UserRole userRole = new UserRole(user:user, role:role)
     userRole.save(validate:false)

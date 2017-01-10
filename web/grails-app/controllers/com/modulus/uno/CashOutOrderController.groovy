@@ -96,18 +96,9 @@ class CashOutOrderController {
       respond cashOutOrder, model:[banksAccounts:accounts]
     }
 
-    private Company getCompany(params) {
-      def roles = springSecurityService.getPrincipal().getAuthorities()
-      if (Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN") || Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN_IECCE")){
-        return Company.findById(params.company?:params.id)
-      } else {
-        return Company.findById(session.company.toLong())
-      }
-    }
-
     def index(Integer max) {
       params.max = Math.min(max ?: 10, 100)
-      def company = getCompany(params)
+      def company = Company.findById(session.company.toLong())
       def cashOutOrders = CashOutOrder.findByCompany(company)
       respond cashOutOrders, model:[cashOutOrderList:cashOutOrders, cashOutOrderCount: CashOutOrder.count()]
     }
@@ -173,7 +164,7 @@ class CashOutOrderController {
     }
 
     def show(CashOutOrder cashOutOrder) {
-      def company = getCompany(params)
+      def company = Company.findById(session.company.toLong())
       respond cashOutOrder , model:[banksAccounts:company.banksAccounts, user:springSecurityService.currentUser]
     }
 

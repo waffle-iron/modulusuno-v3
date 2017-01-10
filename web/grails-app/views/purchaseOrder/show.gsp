@@ -178,7 +178,7 @@
       <g:if test="${params.badfile}">
         <div class="alert alert-warning">${params.badfile}</div>
       </g:if>
-     <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+     <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
       <g:if test="${enableAddDocuments}">
       <h3>Agregar documentos</h3><h4>${messageDocuments}</h4>
       <g:form class="form-horizontal" action="addDocumentToPurchaseOrder" name="documentForPurchaseOrder" method="POST" enctype="multipart/form-data" id="${purchaseOrder.id}">

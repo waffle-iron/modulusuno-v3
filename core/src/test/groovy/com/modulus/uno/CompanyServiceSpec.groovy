@@ -117,8 +117,8 @@ class CompanyServiceSpec extends Specification {
 
   def "verify that not missing autorizers for this company"() {
     given:
-      def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
-      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
+      def userRole = new Role(authority:'ROLE_AUTHORIZER_EJECUTOR').save(validate:false)
+      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE_VISOR').save(validate:false)
     and:"the company"
       def company = new Company()
       company.numberOfAuthorizations = 2
@@ -143,8 +143,8 @@ class CompanyServiceSpec extends Specification {
 
   def "verify that lack an autorizer for this company"() {
     given:
-      def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
-      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
+      def userRole = new Role(authority:'ROLE_AUTHORIZER_EJECUTOR').save(validate:false)
+      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE_VISOR').save(validate:false)
     and:
       Company company = new Company()
       company.numberOfAuthorizations = 2
@@ -166,8 +166,8 @@ class CompanyServiceSpec extends Specification {
 
   def "verify that lack autorizers for this company,when exist 2 authorizers and one legal Representavice"() {
     given:
-      Role userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
-      Role userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
+      Role userRole = new Role(authority:'ROLE_AUTHORIZER_EJECUTOR').save(validate:false)
+      Role userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE_VISOR').save(validate:false)
     and:
       Company company = new Company()
       company.numberOfAuthorizations = 1
@@ -192,7 +192,7 @@ class CompanyServiceSpec extends Specification {
 
   def "verify that lack an autorizer for this company,when only exist legal a representative"() {
     given:
-      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
+      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE_VISOR').save(validate:false)
 and:
       def company = new Company()
       company.numberOfAuthorizations = 1
@@ -211,8 +211,8 @@ and:
 
   def "get all actors with role INTEGRADO_AUTORIZADOR for this company"() {
     given:
-      def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
-      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
+      def userRole = new Role(authority:'ROLE_AUTHORIZER_EJECUTOR').save(validate:false)
+      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE_VISOR').save(validate:false)
     and:
       def company = new Company()
       company.save(validate:false)
@@ -239,8 +239,8 @@ and:
 
   def "get the number of authorizers missing from is Company"() {
     given:
-      def userRole = new Role(authority:'ROLE_INTEGRADO_AUTORIZADOR').save(validate:false)
-      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE').save(validate:false)
+      def userRole = new Role(authority:'ROLE_AUTHORIZER_EJECUTOR').save(validate:false)
+      def userRole1 = new Role(authority:'ROLE_LEGAL_REPRESENTATIVE_VISOR').save(validate:false)
     and:
       def company = new Company()
       company.numberOfAuthorizations = count

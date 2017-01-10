@@ -17,10 +17,7 @@
         <li class="active">Lista de empresas</li>
       </ol>
     </div>
-    <!-- END OF PAGE-TITLE-->
-    <ul class="nav nav-tabs nav-pills" role="tablist">
-      <li role="presentation" class="active"><a href="#acepted" aria-controls="acepted" role="tab" data-toggle="tab">Aceptadas</a></li>
-    </ul>
+
     <!-- BEGIN TAB-CONTENT -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="acepted">

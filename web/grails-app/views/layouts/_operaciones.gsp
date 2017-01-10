@@ -1,74 +1,92 @@
 
 <ul class="collapse nav" id="operaciones-${action}">
   <li>
-    <a href="javascript:;" data-parent="#operaciones-${action}" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesDeposito-${action}">
+    <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesDeposito-${action}">
       Depósitos <i class="fa fa-caret-down"></i>
     </a>
     <ul class="collapse nav" id="ordenesDeposito-${action}">
-      <li>
-        <g:link controller="depositOrder" action="create">Nueva</g:link>
-      </li>
-      <li>
-        <g:link controller="depositOrder" action="list"> Listado</g:link>
-      </li>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+        <li>
+          <g:link controller="depositOrder" action="create">Nueva</g:link>
+        </li>
+      </sec:ifAnyGranted>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
+        <li>
+          <g:link controller="depositOrder" action="list"> Listado</g:link>
+        </li>
+      </sec:ifAnyGranted>
     </ul>
   </li>
   <li>
   <li>
-    <a href="javascript:;" data-parent="#operaciones-${action}" data-toggle="collapse" class="accordion-toggle" data-target="#cashoutOrder-${action}">
+    <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#cashoutOrder-${action}">
       Retiros <i class="fa fa-caret-down"></i>
     </a>
     <ul class="collapse nav" id="cashoutOrder-${action}">
-      <li>
-        <g:link controller="cashOutOrder" action="create">Nueva</g:link>
-      </li>
-      <li>
-        <g:link controller="cashOutOrder" action="list">Listado</g:link>
-      </li>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+        <li>
+          <g:link controller="cashOutOrder" action="create">Nueva</g:link>
+        </li>
+      </sec:ifAnyGranted>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
+        <li>
+          <g:link controller="cashOutOrder" action="list">Listado</g:link>
+        </li>
+      </sec:ifAnyGranted>
     </ul>
   </li>
   <li>
-    <a href="javascript:;" data-parent="#operaciones-${action}" data-toggle="collapse" class="accordion-toggle" data-target="#saleOrder-${action}">
+    <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#saleOrder-${action}">
       Facturas <i class="fa fa-caret-down"></i>
     </a>
     <ul class="collapse nav" id="saleOrder-${action}">
-      <li>
-        <g:link controller="saleOrder" action="create">Nueva</g:link>
-      </li>
-      <li>
-        <g:link controller="saleOrder" action="list">Listado</g:link>
-      </li>
-      <li>
-        <g:link controller="payment" action="reconcile">Conciliaciones</g:link>
-      </li>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+        <li>
+          <g:link controller="saleOrder" action="create">Nueva</g:link>
+        </li>
+      </sec:ifAnyGranted>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
+        <li>
+          <g:link controller="saleOrder" action="list">Listado</g:link>
+        </li>
+      </sec:ifAnyGranted>
+
     </ul>
   </li>
 
 
   <li>
-    <a href="javascript:;" data-parent="#operaciones-${action}" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesCompra-${action}">
+    <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesCompra-${action}">
       Órdenes de Compra <i class="fa fa-caret-down"></i>
     </a>
     <ul class="collapse nav" id="ordenesCompra-${action}">
-      <li>
-        <g:link controller="purchaseOrder" action="create">Nueva</g:link>
-      </li>
-      <li>
-        <g:link controller="purchaseOrder" action="list"> Listado</g:link>
-      </li>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+        <li>
+          <g:link controller="purchaseOrder" action="create">Nueva</g:link>
+        </li>
+      </sec:ifAnyGranted>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
+        <li>
+          <g:link controller="purchaseOrder" action="list"> Listado</g:link>
+        </li>
+      </sec:ifAnyGranted>
     </ul>
   </li>
   <li>
-    <a href="javascript:;" data-parent="#operaciones-${action}" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesReembolso-${action}">
+    <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesReembolso-${action}">
       Reembolsos a Empleados <i class="fa fa-caret-down"></i>
     </a>
     <ul class="collapse nav" id="ordenesReembolso-${action}">
-      <li>
-        <g:link controller="purchaseOrder" action="createMoneyBackOrder">Nueva</g:link>
-      </li>
-      <li>
-        <g:link controller="purchaseOrder" action="listMoneyBackOrders"> Listado</g:link>
-      </li>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+        <li>
+          <g:link controller="purchaseOrder" action="createMoneyBackOrder">Nueva</g:link>
+        </li>
+      </sec:ifAnyGranted>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
+        <li>
+          <g:link controller="purchaseOrder" action="listMoneyBackOrders"> Listado</g:link>
+        </li>
+      </sec:ifAnyGranted>
     </ul>
   </li>
   <li>
@@ -76,22 +94,28 @@
       Recibo de Honorarios<i class="fa fa-caret-down"></i>
     </a>
     <ul class="collapse nav" id="feesReceipt-${action}">
-      <li>
-        <g:link controller="feesReceipt" action="list">
-        Todas</a>
-        </g:link>
-      </li>
-      <li>
-        <g:link controller="feesReceipt" action="list" params="[status:'CREADA']">
-         Creadas
-        </g:link>
-      </li>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
+        <li>
+          <g:link controller="feesReceipt" action="list">
+          Todas</a>
+          </g:link>
+        </li>
+        <li>
+          <g:link controller="feesReceipt" action="list" params="[status:'CREADA']">
+          Creadas
+          </g:link>
+        </li>
+      </sec:ifAnyGranted>
     </ul>
   </li>
-  <li>
-    <g:link controller="movimientosBancarios" >Movimiento</g:link>
-  </li>
-  <li>
-    <g:link controller="movimientosBancarios" action="multiMovimientos" >Subir Movimientos Bancarios</g:link>
-  </li>
+  <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
+    <li>
+      <g:link controller="movimientosBancarios" >Movimiento</g:link>
+    </li>
+  </sec:ifAnyGranted>
+  <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+    <li>
+      <g:link controller="movimientosBancarios" action="multiMovimientos" >Subir Movimientos Bancarios</g:link>
+    </li>
+  </sec:ifAnyGranted>
 </ul>

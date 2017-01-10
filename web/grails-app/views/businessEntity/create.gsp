@@ -53,7 +53,9 @@
                     <g:render template="form" bean="${businessEntity}"/>
                   </fieldset>
                   <br />
-                  <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                  <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
+                    <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                  </sec:ifAnyGranted>
               </g:form>
           </div>
     </body>

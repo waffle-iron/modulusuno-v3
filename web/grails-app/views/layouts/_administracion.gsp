@@ -1,4 +1,4 @@
-<ul class="collapse nav" id="administracion-${action}">
+<ul class="collapse nav" id="administracion">
   <li>
     <g:link controller="company" action="show" id="${session.company}">Mi Empresa</g:link>
   </li>

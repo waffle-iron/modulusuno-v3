@@ -30,11 +30,13 @@
 
               <g:render template="show"/>
 
-              <g:form resource="${this.product}" method="DELETE">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
+                <g:form resource="${this.product}" method="DELETE">
                   <fieldset class="buttons">
-                      <g:link class="edit btn btn-default" action="edit" resource="${this.product}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                    <g:link class="edit btn btn-default" action="edit" resource="${this.product}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
                   </fieldset>
-              </g:form>
+                </g:form>
+              </sec:ifAnyGranted>
             </div>
           </div>
         </div>

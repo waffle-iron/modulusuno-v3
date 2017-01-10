@@ -151,12 +151,7 @@ class PurchaseOrderController {
 
   def index() {
     def roles = springSecurityService.getPrincipal().getAuthorities()
-    def company
-    if (Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN")) {
-      company = Company.findById(params.companyId)
-    } else {
-      company = Company.findById(session.company.toLong())
-    }
+    def company = Company.findById(session.company.toLong())
     respond PurchaseOrder.findAllByCompany(company), model:[company:company]
   }
 

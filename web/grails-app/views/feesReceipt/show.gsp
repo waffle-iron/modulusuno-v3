@@ -61,7 +61,7 @@
           </ul>
           </g:if>
 
-          <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+          <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR, ROLE_OPERATOR_EJECUTOR">
 
           <g:if test="${feesReceipt.status == FeesReceiptStatus.CREADA}">
           <hr/>
@@ -101,7 +101,7 @@
 
           <fieldset class="buttons">
             <g:if test="${feesReceipt.status == FeesReceiptStatus.POR_AUTORIZAR}">
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_EJECUTOR">
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-6">
@@ -135,7 +135,7 @@
           </fieldset>
           <fieldset class="buttons">
             <g:if test="${feesReceipt.status == FeesReceiptStatus.AUTORIZADA}">
-            <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+            <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-6">
