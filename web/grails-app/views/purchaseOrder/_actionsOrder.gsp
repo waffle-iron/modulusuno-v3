@@ -50,17 +50,19 @@
       <g:if test="${purchaseOrder.status == PurchaseOrderStatus.POR_AUTORIZAR &&
          !purchaseOrder.authorizations?.find{it.user == user}}">
         <div class="row">
-          <div class="col-md-4">
-          <g:if test="${purchaseOrder.bankAccount}">
-            <g:form controller="purchaseOrder" action="confirmThePurchaseOrder" id="${purchaseOrder.id}">
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <g:if test="${purchaseOrder.bankAccount}">
+              <g:form controller="purchaseOrder" action="confirmThePurchaseOrder" id="${purchaseOrder.id}">
               <button type="submit" class="btn btn-primary">
                 Autorizar el pago
               </button>
-            </g:form>
-          </g:if>
-          </div>
-          <div class="col-md-4">
-            <a data-toggle="collapse" role="button" href="#inputReasonCancellation" class="btn btn-danger btn-block" aria-expanded="false" aria-controls="inputReasonCancellation">Cancelar la orden</a>
+              </g:form>
+              </g:if>
+            </div>
+            <div class="col-md-6">
+              <a data-toggle="collapse" role="button" href="#inputReasonCancellation" class="btn btn-danger btn-block" aria-expanded="false" aria-controls="inputReasonCancellation">Cancelar la orden</a>
+            </div>
           </div>
         </div>
         <div class="row">
