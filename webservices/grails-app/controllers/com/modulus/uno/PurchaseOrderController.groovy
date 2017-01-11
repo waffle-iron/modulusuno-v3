@@ -12,6 +12,10 @@ class PurchaseOrderController {
   BusinessEntityService businessEntityService
   PurchaseOrderService purchaseOrderService
 
+  @SwaggyList
+  def index() {
+    respond PurchaseOrder.list(), status:200, formats: ["json"]
+  }
 
   @SwaggySave(extraParams = [
       @ApiImplicitParam(name = 'companyId', value = '', required = true, dataType = 'number',paramType = 'form'),
