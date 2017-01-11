@@ -4,6 +4,7 @@ class CompanySelectTagLib {
 
   def springSecurityService
   OrganizationService organizationService
+  def restService
 
   static namespace = "companyInfo"
   static defaultEncodeAs = "raw"
@@ -30,7 +31,7 @@ class CompanySelectTagLib {
       out << """
         <div class="row">
           <label>Formato PDF:*</label>
-          <select name="pdfTemplate" class="form-control" required="">
+          <select name="pdfTemplate" class="form-control" required="required">
             <option value="">- Seleccione un formato...</option>
         """
         emisor.templatesPdf.each { it ->
