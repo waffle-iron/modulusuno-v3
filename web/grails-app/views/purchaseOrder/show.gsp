@@ -138,13 +138,11 @@
               <td>${item.unitType}</td>
               <td class="text-right">${modulusuno.formatPrice(number:item.netAmount)}</td>
               <td class="text-center">
-                <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
-                  <g:if test="${purchaseOrder.status == PurchaseOrderStatus.CREADA}">
-                    <g:link action="deleteItem" id="${item.id}" class="btn btn-danger">
-                      <i class="fa fa-minus"></i> Quitar
-                    </g:link>
-                  </g:if>
-                </sec:ifAnyGranted>
+                <g:if test="${purchaseOrder.status == PurchaseOrderStatus.CREADA}">
+                  <g:link action="deleteItem" id="${item.id}" class="btn btn-danger">
+                    <i class="fa fa-minus"></i> Quitar
+                  </g:link>
+                </g:if>
               </td>
             </tr>
             </g:each>
