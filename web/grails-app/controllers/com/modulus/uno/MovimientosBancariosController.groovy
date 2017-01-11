@@ -20,7 +20,7 @@ class MovimientosBancariosController {
 
     def show(BankAccount bankAccount) {
       def movimientosBancarios = MovimientosBancarios.findAllByCuenta(bankAccount)
-      [movimientosBancarios:movimientosBancarios]
+      [movimientosBancarios:movimientosBancarios, bankAccount:bankAccount]
     }
 
     def create() {
