@@ -124,9 +124,8 @@ class PurchaseOrderServiceSpec extends Specification {
       purchaseOrder.save(validate:false)
     and: "create paymentToPurchase and add to purchase order"
       def payment = new PaymentToPurchase(amount: new BigDecimal(paymentAmount)).save(validate:false)
-      purchaseOrder.addToPayments(payment)
     when:
-      def response = service.amountPaymentIsTotalForPurchaseOrder(purchaseOrder)
+      def response = service.amountPaymentIsTotalForPurchaseOrder(purchaseOrder,payment)
     then:
       response == comparate
     where:
@@ -152,10 +151,10 @@ class PurchaseOrderServiceSpec extends Specification {
       purchaseOrder.save(validate:false)
     and: "create differents paymentToPurchase and add to purchase order"
         purchaseOrder.addToPayments(createPayment(paymentAmount1))
-        purchaseOrder.addToPayments(createPayment(paymentAmount2))
+        createPayment(paymentAmount2)
         purchaseOrder.save()
     when:
-      def response = service.amountPaymentIsTotalForPurchaseOrder(purchaseOrder)
+      def response = service.amountPaymentIsTotalForPurchaseOrder(purchaseOrder,PaymentToPurchase.get(2))
     then:
       response == comparate
     where:
@@ -180,23 +179,23 @@ class PurchaseOrderServiceSpec extends Specification {
       purchaseOrder.addToItems(item2)
       purchaseOrder.save(validate:false)
     and: "create differents paymentToPurchase and add to purchase order"
+        createPayment(paymentAmount2)
         purchaseOrder.addToPayments(createPayment(paymentAmount1))
-        purchaseOrder.addToPayments(createPayment(paymentAmount2))
         purchaseOrder.save()
     when:
-      def response = service.payPurchaseOrder(purchaseOrder, PaymentToPurchase.get(2))
+      def response = service.payPurchaseOrder(purchaseOrder, PaymentToPurchase.get(1))
     then:
       response.status == status
       1 * emailSenderService.notifyPurchaseOrderChangeStatus(purchaseOrder)
-      1 * modulusUnoService.payPurchaseOrder(purchaseOrder, PaymentToPurchase.findById(2))
+      1 * modulusUnoService.payPurchaseOrder(purchaseOrder, PaymentToPurchase.findById(1))
     where:
       amountItem1 | amountItem2 |  paymentAmount1 | paymentAmount2 || status
-        "50"      | "100"       | "75"            | "85"           || PurchaseOrderStatus.AUTORIZADA
+        "50"      | "100"       | "75"            | "80"           || PurchaseOrderStatus.AUTORIZADA
         "40"      | "60"        | "100"           | "16"           || PurchaseOrderStatus.PAGADA
         "50"      | "75"        | "1"             | "30"           || PurchaseOrderStatus.AUTORIZADA
         "300"     | "200"       | "500"           | "80"           || PurchaseOrderStatus.PAGADA
         "600"     | "800"       | "0"             | "860"          || PurchaseOrderStatus.AUTORIZADA
-        "355"     | "445"       | "390"           | "538"          || PurchaseOrderStatus.PAGADA
+        "355"     | "445"       | "396.40"        | "537.6"        || PurchaseOrderStatus.PAGADA
         "600"     | "800"       | "0"             | "860"          || PurchaseOrderStatus.AUTORIZADA
         "123.12"  | "560.20"    | "600.32"        | "192.34"       || PurchaseOrderStatus.PAGADA
 

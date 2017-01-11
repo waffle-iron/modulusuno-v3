@@ -162,7 +162,7 @@ class PurchaseOrderService {
 
   def payPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment){
     modulusUnoService.payPurchaseOrder(order, payment)
-    if (amountPaymentIsTotalForPurchaseOrder(order)) {
+    if (amountPaymentIsTotalForPurchaseOrder(order, payment)) {
       order.status = PurchaseOrderStatus.PAGADA
       order.save()
     }
@@ -212,9 +212,9 @@ class PurchaseOrderService {
     purchaseOrder
   }
 
-  boolean amountPaymentIsTotalForPurchaseOrder(PurchaseOrder purchaseOrder) {
+  boolean amountPaymentIsTotalForPurchaseOrder(PurchaseOrder purchaseOrder, PaymentToPurchase payment) {
     def amountPurchase = purchaseOrder.total
-    def amountPayments = purchaseOrder.totalPayments
+    def amountPayments = (purchaseOrder.totalPayments + payment.amount)
     amountPurchase <= amountPayments
   }
 

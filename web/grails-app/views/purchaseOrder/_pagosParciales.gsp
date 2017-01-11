@@ -19,6 +19,7 @@
       </div>
       <div class="portlet-footer">
         <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
+        <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA}">
           <g:form class="form-inline" controller="purchaseOrder" action="executePurchaseOrder" id="${purchaseOrder.id}">
             <div class="form-group">
               <label class="sr-only" for="exampleInputAmount">Monto</label>
@@ -37,6 +38,7 @@
               </g:form>
             </g:if>
           </g:if>
+        </g:if>
         </sec:ifAnyGranted>
       </div>
     </div>

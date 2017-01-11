@@ -57,32 +57,7 @@ class CompanyController {
     def company = Company.findById(session.company.toLong())
     render view:"/uploadDocuments/uploadDocumentsUser",model:[company:company]
   }
-
-  def save(Company company) {
-    if (company == null) {
-      notFound()
-      return
-    }
-
-    if(company.hasErrors()) {
-      respond company.errors, view:'create'
-      return
-    }
-
-    def user = springSecurityService.currentUser
-    company.status = CompanyStatus.VALIDATE
-    def corporate = corporateService.findCorporateOfUser(user)
-    company = companyService.saveInsideAndAssingCorporate(company, corporate.id)
-
-    request.withFormat {
-      form multipartForm {
-        flash.message = message(code: 'default.created.message', args: [message(code: 'company.label', default: 'Company'), company.id])
-        redirect company
-      }
-      '*' { respond company, [status: CREATED] }
-    }
-  }
-
+  
   def edit(Company company) {
     respond company,model:[edit:true]
   }
