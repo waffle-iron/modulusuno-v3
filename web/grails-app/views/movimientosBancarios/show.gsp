@@ -8,8 +8,8 @@
     </head>
     <body>
         <div id="show-movimientosBancarios" class="content scaffold-show" role="main">
-          <h1><g:message code="default.show.label" args="[entityName]" /> ${movimientosBancarios.first().cuenta} <p> Saldo Total: <modulusuno:amountAccountToday id="${movimientosBancarios.first().cuenta.id}" /></p></h1>
-          <p><g:link controller="movimientosBancarios" action="create" class="btn btn-green" id="${movimientosBancarios.first().cuenta.id}"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo movimiento</g:link></p>
+          <h1><g:message code="default.show.label" args="[entityName]" /> ${bankAccount} <p> Saldo Total: <modulusuno:amountAccountToday id="${bankAccount.id}" /></p></h1>
+          <p><g:link controller="movimientosBancarios" action="create" class="btn btn-green" id="${bankAccount.id}"><i class="fa fa-plus" aria-hidden="true"></i> Agregar nuevo movimiento</g:link></p>
 
             <g:if test="${flash.message}">
               <div class="message" role="status">${flash.message}</div>
