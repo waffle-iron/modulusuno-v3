@@ -5,7 +5,7 @@ class Corporate {
   String nameCorporate
   String corporateUrl
 
-  static  hasMany =[companies:Company,users: User]
+  static  hasMany =[companies:Company,users: User, commissions: Commission]
 
   static constraints = {
     nameCorporate: nullable:false
