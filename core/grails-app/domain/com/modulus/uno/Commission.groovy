@@ -16,6 +16,7 @@ class Commission {
       }
     }
     type unique:"company"
+    company nullable:true
   }
 
 }
