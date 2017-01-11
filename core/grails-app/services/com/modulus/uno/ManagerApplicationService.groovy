@@ -151,17 +151,6 @@ class ManagerApplicationService {
     firstAccess.save()
   }
 
-
-  private def createEmailNotification(company,message,url) {
-    def userToNotify = company.actors.first()
-    def emailNotificationCommand = new EmailNotificationToIntegratedCommand()
-    emailNotificationCommand.emailResponse = userToNotify.profile.email
-    emailNotificationCommand.nameCompany = company.toString()
-    emailNotificationCommand.message = message
-    emailNotificationCommand.url = url
-    emailNotificationCommand
-  }
-
   private def findCompanyRejectedLogsByStatus(companyId,status) {
     CompanyRejectedLog.withCriteria {
       eq 'companyId',companyId
