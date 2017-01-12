@@ -70,11 +70,12 @@ class ModulusUnoService {
     [balance.responseData.balance, balance.responseData.usd]
   }
 
-  def createAccount(Company company) {
-    //TODO falta agreagar email al command analizar a quien se debe de notificar
+  def createAccount(Company company,String email) {
     def command = new CreateAccountCommand(payerAccount:grailsApplication.config.modulus.stpPayerAccount,
                                            uuid:company.uuid,
-                                           name:company.bussinessName)
+                                           name:company.bussinessName,
+                                           email:email)
+
 
     def accountResult = restService.sendCommandWithAuth(command, grailsApplication.config.modulus.users)
     accountResult
@@ -109,8 +110,8 @@ class ModulusUnoService {
 
   }
 
-  def generedModulusUnoAccountByCompany(Company company) {
-    def accountInfo = createAccount(company)
+  def generedModulusUnoAccountByCompany(Company company, String email) {
+    def accountInfo = createAccount(company,email)
     def modulusUnoAccount = saveAccountOfModulusUnoOfIntegrated(accountInfo,company)
     modulusUnoAccount
   }
