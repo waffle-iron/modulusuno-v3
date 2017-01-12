@@ -7,4 +7,5 @@
       <g:link controller="company" action="accountStatement">Estado de Cuenta</g:link>
     </g:if>
   </li>
+  <li><g:link controller="company" action="pendingAccounts">Cuentas por Cobrar/Pagar</g:link></li>
 </ul>
