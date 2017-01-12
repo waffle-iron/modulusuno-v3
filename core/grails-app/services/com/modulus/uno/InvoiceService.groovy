@@ -15,7 +15,7 @@ class InvoiceService {
     Company company = saleOrder.company
     Address address = company.addresses.find { addr -> addr.addressType == AddressType.FISCAL }
     command.emisor.datosFiscales.razonSocial = company.bussinessName
-    command.emisor.datosFiscales.rfc = company.rfc
+    command.emisor.datosFiscales.rfc = (Environment.current == Environment.PRODUCTION) ? company.rfc : "AAA010101AAA"
     command.emisor.datosFiscales.codigoPostal = address.zipCode
     command.emisor.datosFiscales.pais = address.country
     command.emisor.datosFiscales.ciudad = address.city
