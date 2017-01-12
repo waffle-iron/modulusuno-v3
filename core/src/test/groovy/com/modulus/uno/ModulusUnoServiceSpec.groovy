@@ -51,7 +51,7 @@ class ModulusUnoServiceSpec extends Specification {
 
       userRoleCompany.save()
     when:"We create an account"
-      service.createAccount(company)
+      service.createAccount(company, "email")
     then:"We expect service was called"
     1 * restService.sendCommandWithAuth(_ as CreateAccountCommand, 'users')
   }

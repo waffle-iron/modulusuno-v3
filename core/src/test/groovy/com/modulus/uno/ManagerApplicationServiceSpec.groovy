@@ -42,7 +42,7 @@ class ManagerApplicationServiceSpec extends Specification {
     and:
       grailsApplication.config.emailer.notificationIntegrated = "template1"
     when:
-      def companyResult = service.acceptingCompanyToIntegrate(company.id)
+      def companyResult = service.acceptingCompanyToIntegrate(company.id, "email")
     then:
       companyResult.status == CompanyStatus.ACCEPTED
   }
