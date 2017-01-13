@@ -142,10 +142,12 @@ class EmailSenderService {
     prepareCommandsAndSendRequestToEmailer(getUsersToNotify(loanPaymentOrder.company, "paymentOrder"), loanPaymentOrder, "paymentOrder")
   }
 
+  //TODO refactor del email notificar a la persona correcta
   void notifyAcceptedCompany(Company company) {
     String url = "${grailsApplication.config.accepting.integrated}${company.id}"
     String message = "La Empresa ${company}, ha sido aprobada para formar parte de de ModulusUno"
-    def email = company.actors.first().profile.email
+    User user = corporateService.findCorporateUserOfCompany(company.id)
+    def email = user.profile.email
     def command = emailIntegratedCommand(message, url, company.toString(), email)
     restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
   }

@@ -7,6 +7,7 @@ class CorporateController {
   UserService userService
   OrganizationService organizationService
   def springSecurityService
+  def managerApplicationService
 
   def create(){
     respond new Corporate()
@@ -120,7 +121,8 @@ class CorporateController {
     company.status = CompanyStatus.ACCEPTED
     Corporate corporate = session.corporate
 
-    company = companyService.saveInsideAndAssingCorporate(company,corporate.id)
+    companyService.saveInsideAndAssingCorporate(company,corporate.id)
+    managerApplicationService.acceptingCompanyToIntegrate(company.id)
     redirect(action:"companies",id:corporate.id)
   }
 

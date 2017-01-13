@@ -71,6 +71,7 @@ class ModulusUnoService {
   }
 
   def createAccount(Company company) {
+    //TODO falta agreagar email al command analizar a quien se debe de notificar
     def command = new CreateAccountCommand(payerAccount:grailsApplication.config.modulus.stpPayerAccount,
                                            uuid:company.uuid,
                                            name:company.bussinessName)
