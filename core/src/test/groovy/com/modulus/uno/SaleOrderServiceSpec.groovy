@@ -81,11 +81,7 @@ class SaleOrderServiceSpec extends Specification {
                                 employeeNumbers:40,
                                 grossAnnualBilling:4000).save(validate:false)
     def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
-<<<<<<< HEAD
     def saleOrder = service.createSaleOrder(businessEntity, company,new Date().format("dd/MM/yyyy").toString(), "", "qwerty12345")
-=======
-    def saleOrder = service.createSaleOrder(businessEntity, company,new Date().format("dd/MM/yyyy").toString(), "qwerty12345")
->>>>>>> origin/feature/5
   when:"We authoriza a sale order"
     companyService.getAuthorizersByCompany(company) >> approvers
     def result = service.sendOrderToConfirmation(saleOrder)
@@ -105,11 +101,7 @@ class SaleOrderServiceSpec extends Specification {
                                 grossAnnualBilling:4000,
                                 legalRepresentatives:legalRepresentatives).save(validate:false)
     def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
-<<<<<<< HEAD
     def saleOrder = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString(), "", "qwerty123456")
-=======
-    def saleOrder = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString(), "qwerty123456")
->>>>>>> origin/feature/5
   when:"We authoriza a sale order"
     def result = service.authorizeSaleOrder(saleOrder)
   then:"We expect new status"

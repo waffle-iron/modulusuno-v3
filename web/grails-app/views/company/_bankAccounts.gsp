@@ -7,7 +7,7 @@
     </g:each>
   </ul>
 </div>
-<sec:ifAnyGranted roles="ROLE_INTEGRADO">
+<sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
 <div class="text-right">
   <g:link action="create" controller="bankAccount" params="[company:company.id, companyBankAccount:true]" class="btn btn-default"><i class="fa fa-plus"></i></g:link>
   </div>
