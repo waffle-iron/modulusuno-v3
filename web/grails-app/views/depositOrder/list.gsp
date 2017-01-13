@@ -7,21 +7,11 @@
 </head>
 <body>
   <div class="page-title">
-  <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
    <h1>
      <i class="icon-deposito fa-3x"></i>
      Operaciones / Depósito
      <small><g:message code="depositOrder.list" args="[entityName]" /></small>
    </h1>
-</sec:ifAnyGranted>
-<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
-   <h1>
-     <i class="icon-deposito fa-3x"></i>
-      Depósitos
-     <small>Listado de Depósitos</small>
-   </h1>
-</sec:ifAnyGranted>
-
    <ol class="breadcrumb">
    <li><i class="fa fa-caret-square-o-up"></i> Compañía</li>
     <li class="active">Órdenes de Depósito</li>

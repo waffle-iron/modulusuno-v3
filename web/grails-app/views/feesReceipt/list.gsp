@@ -7,22 +7,15 @@
   </head>
   <body>
     <div class="page-title">
-    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
-    <h1>
-      <i class="icon-recibo fa-3x"></i>
-      Recibos de honorarios
-      <small><g:message code="feesReceipt.list.label" /></small>
+      <h1>
+        <i class="icon-recibo fa-3x">
+        <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR">
+          <i class="icon-recibo fa-3x"></i>Recibos de honorarios<small><g:message code="feesReceipt.list.label" /></small>
+        </sec:ifAnyGranted>
+        <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
+          </i>Operaciones | Recibo de honorarios<small><g:message code="feesReceipt.list.label" /></small>
+        </sec:ifAnyGranted>
       </h1>
-</sec:ifAnyGranted>
-
-<sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
-<h1>
-      <i class="icon-recibo fa-3x"></i>
-      Operaciones | Recibo de honorarios
-      <small><g:message code="feesReceipt.list.label" /></small>
-      </h1>
-</sec:ifAnyGranted>
-
       <ol class="breadcrumb">
         <li><i class="fa fa-caret-square-o-up"></i> Compañía</li>
         <li class="active">Órdenes de Recibo de Honorarios</li>

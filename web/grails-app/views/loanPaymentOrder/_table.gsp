@@ -1,5 +1,5 @@
 <g:if test="${loanPaymentOrderList}">
-<sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+<sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
 <div class="table-responsive">
   <table class="table">
     <tr>
@@ -25,10 +25,10 @@
       <th>No. de Orden</th>
       <th>Fecha</th>
       <th>Monto</th>
-      <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR, ROLE_ADMIN, ROLE_ADMIN_IECCE">
+      <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR, ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
         <th>Acreedor</th>
       </sec:ifAnyGranted>
-      <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+      <sec:ifAnyGranted roles="ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR">
         <th>Deudor</th>
       </sec:ifAnyGranted>
       <th>Estatus</th>
@@ -44,10 +44,10 @@
         <g:formatDate format="dd-MM-yyyy" date="${loanPaymentOrder.datePayment}"/>
       </td>
       <td><modulusuno:formatPrice number="${loanPaymentOrder.amountToCapital + loanPaymentOrder.amountInterest + loanPaymentOrder.amountIvaInterest}"/></td>
-      <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR, ROLE_ADMIN, ROLE_ADMIN_IECCE">
+      <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR, ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
         <td>${loanPaymentOrder.loanOrder.company}</td>
       </sec:ifAnyGranted>
-      <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+      <sec:ifAnyGranted roles="ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR">
         <td>${loanPaymentOrder.loanOrder.creditor}</td>
       </sec:ifAnyGranted>
       <td><g:message code="${loanPaymentOrder.status.code}"/></td>
@@ -59,13 +59,13 @@
   <g:paginate total="${loanPaymentOrderCount ?: 0}" />
 </div>
 </g:if><g:else>
-  <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+  <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
     <div class="alert alert-danger">El préstamo seleccionado no tiene pagos registrados</div>
   </sec:ifAnyGranted>
-  <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+  <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
     <div class="alert alert-danger">No hay pagos a préstamos por autorizar</div>
   </sec:ifAnyGranted>
-  <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE">
+  <sec:ifAnyGranted roles="ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR">
     <div class="alert alert-danger">No hay pagos a préstamos por revisar</div>
   </sec:ifAnyGranted>
 </g:else>

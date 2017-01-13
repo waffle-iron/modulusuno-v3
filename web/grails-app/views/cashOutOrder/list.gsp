@@ -7,21 +7,11 @@
   </head>
   <body>
     <div class="page-title">
-    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_ADMIN_IECCE, ROLE_EJECUTOR">
       <h1>
-     <i class="icon-retiro fa-3x"></i>
-        Retiros
-         <small><g:message code="cashoutOrder.list.label" args="[entityName]" /></small>
-     </h1>
-</sec:ifAnyGranted>
-<sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE, ROLE_INTEGRADO_OPERADOR">
-<h1>
-     <i class="icon-retiro fa-3x"></i>
-         Operaciones / Retiro
-         <small><g:message code="cashoutOrder.list.label" args="[entityName]" /></small>
-     </h1>
-</sec:ifAnyGranted>
-
+        <i class="icon-retiro fa-3x"></i>
+        Operaciones / Retiro
+        <small><g:message code="cashoutOrder.list.label" args="[entityName]" /></small>
+      </h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-caret-square-o-up"></i> Administración</li>
         <li class="active">Listado de tus ordenes de retiro</li>
@@ -85,7 +75,7 @@
                     <g:paginate total="${cashOutOrderCount ?: 0}" />
                 </div>
               </div>
-              <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE">
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
                 <g:link class="create btn btn-default" action="create"><g:message code="cashoutOrder.new.label" args="[entityName]" /></g:link>
               </sec:ifAnyGranted>
             </div>

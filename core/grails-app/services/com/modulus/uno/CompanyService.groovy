@@ -110,7 +110,7 @@ class CompanyService {
   }
 
   ArrayList<User> getAuthorizersByCompany(Company company) {
-    directorService.findUsersOfCompanyByRole(company.id,['ROLE_INTEGRADO_AUTORIZADOR'])
+    directorService.findUsersOfCompanyByRole(company.id,['ROLE_AUTHORIZER_VISOR','ROLE_AUTHORIZER_EJECUTOR'])
   }
 
   Balance getBalanceOfCompany(Company company) {

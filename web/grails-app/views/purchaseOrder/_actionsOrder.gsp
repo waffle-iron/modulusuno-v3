@@ -37,7 +37,7 @@
   <!-- -->
 
   <g:if test="${purchaseOrder.items}">
-    <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+    <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
       <g:if test="${(purchaseOrder.status == PurchaseOrderStatus.CREADA && (purchaseOrder.documents && ((!purchaseOrder.isMoneyBackOrder && purchaseOrder.documents?.size()>=2) || (purchaseOrder.isMoneyBackOrder && purchaseOrder.documents.size()==3) ))) || (purchaseOrder.status == PurchaseOrderStatus.CREADA && purchaseOrder.isAnticipated)}">
         <g:form controller="purchaseOrder" action="sendOrderToConfirmation" id="${purchaseOrder.id}">
           <button type="submit" class="btn btn-warning">
@@ -46,7 +46,7 @@
         </g:form>
       </g:if>
     </sec:ifAnyGranted>
-    <sec:ifAnyGranted roles="ROLE_INTEGRADO_AUTORIZADOR">
+    <sec:ifAnyGranted roles="ROLE_AUTHORIZER_EJECUTOR">
       <g:if test="${purchaseOrder.status == PurchaseOrderStatus.POR_AUTORIZAR &&
          !purchaseOrder.authorizations?.find{it.user == user}}">
         <div class="row">
@@ -90,7 +90,7 @@
   </g:if>
 
 
-  <sec:ifAnyGranted roles="ROLE_ADMIN_IECCE,ROLE_EJECUTOR">
+  <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
     <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
       <a data-toggle="collapse" role="button" href="#inputReasonRejected" class="btn btn-danger" aria-expanded="false" aria-controls="inputReasonRejected">Rechazar la orden</a>
       <div class="row">

@@ -48,27 +48,6 @@ class UserService {
     user
   }
 
-  User createUser(UserCommand command, def params, Company company){
-    User user = new User(username: command.username, password:command.password)
-    def profile = command.getProfile()
-    def telephone = command.getTelephone()
-    if (telephone) {
-      profile.addToTelephones(telephone)
-    }
-    user.profile = profile
-    def userRole = Role.findWhere(authority: 'ROLE_INTEGRADO')
-    if(params.legal) {
-      userRole = Role.findWhere(authority: 'ROLE_LEGAL_REPRESENTATIVE')
-      companyService.addingLegalRepresentativeToCompany(company, user)
-    } else if (params.authorize) {
-      userRole = Role.get(params.roleId)
-      println userRole.dump()
-      companyService.addingActorToCompany(company, user)
-    }
-    save(user, userRole)
-    user
-  }
-
   User createUserWithoutRole(User user,Profile profile){
     profile.save()
     user.profile = profile
@@ -96,39 +75,6 @@ class UserService {
     user.save()
     UserRole.create user, role, true
     recoveryService.sendConfirmationAccountToken(user.profile?.email)
-  }
-
-  def updateAuthoritiesUsers(Company company, params){
-    Role roleop = Role.findByAuthority("ROLE_INTEGRADO_OPERADOR")
-    Role roleau = Role.findByAuthority("ROLE_INTEGRADO_AUTORIZADOR")
-    Role roleej = Role.findByAuthority("ROLE_EJECUTOR")
-    Role rolefin = Role.findByAuthority("ROLE_FINANCIAL")
-    company.actors.each(){
-      User us = it
-      String oper = "operator"+us.id
-      String auth = "authorizer"+us.id
-      String ejec = "ejecutor"+us.id
-      String fin = "financial"+us.id
-      if (params.get(oper) && !us.authorities.find{it.authority.equals("ROLE_INTEGRADO_OPERADOR")})
-        UserRole.create us, roleop, true
-      else if (!params.get(oper) && us.authorities.find{it.authority.equals("ROLE_INTEGRADO_OPERADOR")})
-        UserRole.remove us, roleop, true
-
-      if (params.get(auth) && !us.authorities.find{it.authority.equals("ROLE_INTEGRADO_AUTORIZADOR")})
-        UserRole.create us, roleau, true
-      else if (!params.get(auth) && us.authorities.find{it.authority.equals("ROLE_INTEGRADO_AUTORIZADOR")})
-        UserRole.remove us, roleau, true
-
-      if (params.get(ejec) && !us.authorities.find{it.authority.equals("ROLE_EJECUTOR")})
-        UserRole.create us, roleej, true
-      else if (!params.get(ejec) && us.authorities.find{it.authority.equals("ROLE_EJECUTOR")})
-        UserRole.remove us, roleej, true
-
-      if (params.get(fin) && !us.authorities.find{it.authority.equals("ROLE_FINANCIAL")})
-        UserRole.create us, rolefin, true
-      else if (!params.get(fin) && us.authorities.find{it.authority.equals("ROLE_FINANCIAL")})
-        UserRole.remove us, rolefin, true
-    }
   }
 
   private def createTelephone(params) {

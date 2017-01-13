@@ -43,23 +43,9 @@
                 </g:form>
               </g:if>
             </sec:ifAnyGranted>
-
-            <!-- TODO esto se quitara cuando desaparescan estos roles -->
-            <sec:ifAnyGranted roles="ROLE_INTEGRADO,ROLE_LEGAL_REPRESENTATIVE,ROLE_INTEGRADO_AUTORIZADOR,ROLE_INTEGRADO_OPERADOR">
-            <g:if test="${session.company}">
-            <g:form class="form-group" id="company-selection" url="[action:'setCompanyInSession',controller:'company']" >
-            <font color="white">Selecciona tu Compañía </font>${companyInfo.selectedCompany()}
-            <input type="submit" class="btn btn-primary btn-xs" />
-            </g:form>
-            </g:if>
-            </sec:ifAnyGranted>
-
           </li>
           <li>
-          &nbsp;
-          &nbsp;
-          &nbsp;
-          &nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
           </li>
           <li align="center">
             <sec:ifLoggedIn>
@@ -110,158 +96,23 @@
           </sec:ifAnyGranted>
 
           <g:if test="${session.company && companyInfo.isAvailableForOperationInThisCompany()}">
-            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_LEGAL_REPRESENTATIVE_VISOR">
-                  <g:message code="role_legal_representative_visor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_LEGAL_REPRESENTATIVE_VISOR">
-                  <li class="panel" >
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_VISOR" data-toggle="collapse" class="accordion-toggle" data-target="#administracion-visor">
-                      Administración<i class="fa fa-caret-down"></i>
-                    </a>
-                    <g:render template="/layouts/administracion" model="['action': 'visor']" />
-                  </li>
-                  <li>
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_VISOR" data-toggle="collapse" class="accordion-toggle" data-target="#registros-visor">
-                      Registros <i class="fa fa-caret-down"></i>
-                    </a>
-                    <g:render template="/layouts/registros" model="['action': 'visor']" />
-                  </li>
-                  <li>
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_VISOR" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones-visor">
-                      Operaciones <i class="fa fa-caret-down"></i>
-                    </a>
-                    <g:render template="/layouts/operaciones" model="['action': 'visor']" />
-                  </li>
-                  <li>
-                    <g:link controller="dashboard" action="jobs">
-                      <i class="fa fa-book"></i> Consultas
-                    </g:link>
-                  </li>
-                </ul>
-              </li>
+            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
+            <g:render template="/layouts/representante_legal" />
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
-                  <g:message code="role_legal_representative_ejecutor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR">
-                  <li>
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR" data-toggle="collapse" class="accordion-toggle" data-target="#administracion-ejecutor">
-                      Administración<i class="fa fa-caret-down"></i>
-                     </a>
-                   <g:render template="/layouts/administracion" model="['action': 'ejecutor']" />
-                  </li>
-                  <li>
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR" data-toggle="collapse" class="accordion-toggle" data-target="#registros-ejecutor">
-                      Registros <i class="fa fa-caret-down"></i>
-                    </a>
-                    <g:render template="/layouts/registros" model="['action': 'ejecutor']" />
-                  </li>
-                  <li>
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones-ejecutor">
-                      Operaciones <i class="fa fa-caret-down"></i>
-                    </a>
-                    <g:render template="/layouts/operaciones" model="['action': 'ejecutor']" />
-                  <li>
-                  <li>
-                    <g:link controller="dashboard" action="jobs">
-                      <i class="fa fa-book"></i> Consultas
-                    </g:link>
-                  </li>
-                </ul>
-              </li>
+            <sec:ifAnyGranted roles="ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR">
+              <g:render template="/layouts/fico" />
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_FICO_VISOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_FICO_VISOR">
-                  <g:message code="role_fico_visor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_FICO_VISOR">
-                  <li>
-                    <g:link controller="dashboard" action="jobs">
-                      <i class="fa fa-book"></i> Ejecuciones
-                    </g:link>
-                  </li>
-                </ul>
-              </li>
+            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
+              <g:render template="/layouts/authorizer" />
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_FICO_EJECUTOR">
-                  <g:message code="role_fico_ejecutor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_FICO_EJECUTOR">
-                  <li>
-                    <g:link controller="dashboard" action="jobs">
-                      <i class="fa fa-book"></i> Ejecuciones
-                    </g:link>
-                  </li>
-                </ul>
-              </li>
-            </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_AUTHORIZER_VISOR">
-                  <g:message code="role_authorizer_visor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_AUTHORIZER_VISOR">
-                  <li class="panel">
-                    <a class="" href="${createLink(controller:'dashboard', action:'authorizations')}">Autorizaciones</a>
-                  </li>
-                </ul>
-              </li>
-            </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_EJECUTOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_AUTHORIZER_EJECUTOR">
-                <g:message code="role_authorizer_ejecutor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_AUTHORIZER_EJECUTOR">
-                  <li class="panel">
-                    <a class="" href="${createLink(controller:'dashboard', action:'authorizations')}">Autorizaciones</a>
-                  </li>
-                </ul>
-              </li>
-            </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_OPERATOR_VISOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_OPERATOR_VISOR">
-                <g:message code="role_operator_visor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_OPERATOR_VISOR">
-                  <li>
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_VISOR" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones-visor">
-                      Operaciones <i class="fa fa-caret-down"></i>
-                    </a>
-                    <g:render template="/layouts/operaciones" model="['action': 'visor']" />
-                  </li>
-                </ul>
-              </li>
-            </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_OPERATOR_EJECUTOR">
-              <li class="panel">
-                <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#ROLE_OPERATOR_EJECUTOR">
-                <g:message code="role_operator_ejecutor" /><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="collapse nav" id="ROLE_OPERATOR_EJECUTOR">
-                  <li>
-                    <a href="javascript:;" data-parent="#ROLE_LEGAL_REPRESENTATIVE_EJECUTOR" data-toggle="collapse" class="accordion-toggle" data-target="#operaciones-ejecutor">
-                      Operaciones <i class="fa fa-caret-down"></i>
-                    </a>
-                    <g:render template="/layouts/operaciones" model="['action': 'ejecutor']" />
-                  </li>
-                </ul>
-              </li>
+            <sec:ifAnyGranted roles="ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
+              <g:render template="/layouts/operador" />
             </sec:ifAnyGranted>
           </g:if>
           <li><g:link controller="logout" action="index"><i class="fa fa-sign-out"></i> Cerrar sesión</g:link></li>
         </ul>
       </div>
     </nav>
-
     <div id="page-wrapper">
       <div class="page-content page-content-ease-in">
         <div class="row">

@@ -126,7 +126,7 @@ class CompanyController {
   def redirectToViewAccordingToRole() {
     def user = springSecurityService.currentUser
     def autoriti = user.getAuthorities()
-    if (autoriti.contains(Role.findByAuthority('ROLE_INTEGRADO_AUTORIZADOR')))
+    if (autoriti.contains(Role.findByAuthorityInList(['ROLE_AUTHORIZER_VISOR','ROLE_AUTHORIZER_EJECUTOR'])))
       redirect(action:'authorizations', controller:'dashboard')
     else
       redirect(action:"accountStatement")
@@ -173,13 +173,7 @@ class CompanyController {
 
   def accountStatement(){
     def roles = springSecurityService.getPrincipal().getAuthorities()
-    def company
-    if (Role.findByAuthority(roles.first()) == Role.findByAuthority("ROLE_ADMIN")) {
-      company = Company.get(params.company)
-    } else {
-      company = Company.get(session.company.toLong())
-    }
-
+    def company = Company.get(session.company.toLong())
     String startDate = params.startDate ? new SimpleDateFormat("dd-MM-yyyy").format(params.startDate) : ""
     String endDate = params.endDate ? new SimpleDateFormat("dd-MM-yyyy").format(params.endDate) : ""
     AccountStatement accountStatement = companyService.getAccountStatementOfCompany(company, startDate, endDate)
