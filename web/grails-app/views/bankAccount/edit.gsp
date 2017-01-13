@@ -79,8 +79,9 @@
                 <g:if test="${params.companyBankAccount}">
                   <input type="hidden" name="companyBankAccount" value="true"/>
                   <input type="hidden" name="company" value="${session.company}"/>
+
                 </g:if>
-                <g:else>
+               <g:else>
                   <input type="hidden" name="businessEntity" value="${params.businessEntity}"/>
                 </g:else>
                 <g:hiddenField name="version" value="${this.bankAccount?.version}" />
@@ -94,6 +95,12 @@
                     <g:select name="sbanco" from="${banks}" optionValue="name" optionKey="bankingCode" class="form-control" aria-controls="example-table" readonly="true" noSelection="['':'']" value="${bankAccount.banco.bankingCode}" />
                   </div>
                 </div>
+                <g:if test="${bankLib.checkAccountForSTPAvailable() == '0' }" >
+                  <div class="center">
+                    <input type="radio" name="concentradora" value="true" class="control-form"> Cuenta Concentradora<br>
+                  </div>
+                </g:if>
+
 
               </g:else>
 

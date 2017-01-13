@@ -15,6 +15,7 @@ class CompanyController {
   def providerService
   def managerApplicationService
   def modulusUnoService
+  def corporateService
   RoleService roleService
 
   static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
@@ -70,7 +71,8 @@ class CompanyController {
 
     def user = springSecurityService.currentUser
     company.status = CompanyStatus.VALIDATE
-    company = companyService.saveInsideAndAssingCorporate(company, user)
+    def corporate = corporateService.findCorporateOfUser(user)
+    company = companyService.saveInsideAndAssingCorporate(company, corporate.id)
 
     request.withFormat {
       form multipartForm {
