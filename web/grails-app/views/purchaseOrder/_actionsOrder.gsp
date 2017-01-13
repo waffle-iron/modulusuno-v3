@@ -2,7 +2,7 @@
 <%! import com.modulus.uno.RejectReason %>
 <div class="btn-group" role="group">
   <!-- -->
-  <sec:ifAnyGranted roles="ROLE_INTEGRADO, ROLE_INTEGRADO_OPERADOR">
+  <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
   <g:if test="${purchaseOrder.status == PurchaseOrderStatus.CREADA}">
   <div class="row">
     <div class="col-md-4">
