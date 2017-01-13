@@ -123,6 +123,7 @@ class CorporateController {
 
     companyService.saveInsideAndAssingCorporate(company,corporate.id)
     managerApplicationService.acceptingCompanyToIntegrate(company.id)
+    createCommissionsToCompany(company)
     redirect(action:"companies",id:corporate.id)
   }
 
@@ -141,6 +142,12 @@ class CorporateController {
     [companiesForValidation:companiesForValidation,
      companiesRejected:companiesRejected,
      companiesAccepted:companiesAccepted]
+  }
+
+  def createCommissionsToCompany(Company company) {
+    def commissionDeposito = new Commission(fee:new BigDecimal("0"), percentage: new BigDecimal(0), type: CommissionType.DEPOSITO, company: company).save()
+    def commissionVenta = new Commission(fee:new BigDecimal("0"), percentage: new BigDecimal(0), type: CommissionType.VENTA, company: company).save()
+    def commissionPrestamo = new Commission(fee:new BigDecimal("0"), percentage: new BigDecimal(0), type: CommissionType.PRESTAMO, company: company).save()
   }
 
 }
