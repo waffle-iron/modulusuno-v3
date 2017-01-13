@@ -8,7 +8,11 @@ class DashboardController {
   def index() {
     def user = springSecurityService.currentUser
     def companyList = companyService.allCompaniesByUser(user)
-    [companies:companyList, companiesCount: companyList.size()]
+    def corporates= Corporate.list()
+
+    [companies:companyList,
+     corporates:corporates,
+     companiesCount: companyList.size()]
   }
 
   def jobs() {

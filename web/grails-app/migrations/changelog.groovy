@@ -38,4 +38,5 @@ databaseChangeLog = {
     include file: 'create-new-domain-to-parcial-payments.groovy'
     include file: 'adding-multi-payments-to-purchase-order.groovy'
     include file: 'create-m1-roles.groovy'
+    include file: 'adding-new-domain-corporate.groovy'
 }
