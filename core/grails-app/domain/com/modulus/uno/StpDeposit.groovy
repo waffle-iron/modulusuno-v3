@@ -17,19 +17,19 @@ class StpDeposit {
   String companyNameStp
 
   static constraints = {
-    operationNumber blank:false
-    operationDate blank:false
+    operationNumber nullable:false
+    operationDate nullable:false
     payerKey blank:false
     beneficiaryKey blank:false
     tracingKey blank:false
-    amount blank:false
+    amount nullable:false
     payerName blank:true, nullable:true
     beneficiaryName blank:false
-    typeAccountBeneficiary blank:false
+    typeAccountBeneficiary nullable:false
     accountBeneficiary blank:false
     rfcCurpBeneficiary blank:false
     paymentConcept blank:false
-    numericalReference blank:false
+    numericalReference nullable:false
     companyNameStp blank:false
   }
 
