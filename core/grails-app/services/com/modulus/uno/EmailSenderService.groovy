@@ -9,6 +9,8 @@ class EmailSenderService {
   def grailsApplication
   def companyService
   def userService
+  CorporateService corporateService
+  DirectorService directorService
 
   static final messages = [
     SaleOrder : [:],
@@ -92,8 +94,6 @@ class EmailSenderService {
 
   private def prepareCommandsAndSendRequestToEmailer(usersToNotify, order, actionToExecute){
     String classMessage = order.class.simpleName == "PurchaseOrder" && order.isMoneyBackOrder ? "MoneyBackOrder" : order.class.simpleName
-    log.debug classMessage
-
     usersToNotify.collect { user ->
       def command = emailIntegratedCommand(messages."${classMessage}"."${actionToExecute}",urls."${order.class.simpleName}" + order.id, order.company.bussinessName, user.profile.email)
       restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
@@ -121,7 +121,8 @@ class EmailSenderService {
   }
 
   def notifyTheApprovementOfLoanOrder(LoanOrder order){
-    def usersToNotify = order.creditor.legalRepresentatives.collect()
+    ArrayList<User> usersToNotify = directorService.findUsersOfCompanyByRole(order.creditor.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
+                                                                                                'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
     prepareCommandsAndSendRequestToEmailer(usersToNotify, order, "approvementAuthorize")
   }
 
@@ -152,7 +153,8 @@ class EmailSenderService {
   void notifyRejectedCompany(Company company) {
     String url = "${grailsApplication.config.rejected.integrated}${company.id}"
     String message = "La Empresa ${company}, ha sido rechazada por diversos motivos"
-    def email = company.actors.first().profile.email
+    User user = corporateService.findCorporateUserOfCompany(company.id)
+    def email = user.profile.email
     def command = emailIntegratedCommand(message, url, company.toString(), email)
     restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
   }
@@ -176,15 +178,21 @@ class EmailSenderService {
   }
 
   def sendNewClientProviderNotificaton(Company company, String name, EmailerMessageType type) {
-    company.legalRepresentatives.each { legal ->
+    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(company.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
+                                                                                                'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
+
+    legalRepresentatives.each { legal ->
       def message = new NameCommand(email:legal.profile.email, name:name, company:company.bussinessName, type:type)
       restService.sendCommand(message, grailsApplication.config.emailer.clientProvider)
     }
   }
 
-  def sendPaidPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment){
-    order.company.legalRepresentatives.each(){
-      def command = emailIntegratedCommand("Una Orden de Pago a Proveedor ha sido PAGADA por el monto  ${payment.amount}, haz click en el link de este mail para más información","/purchaseOrder/show/${order.id}", order.company.toString(), it.profile.email)
+  def sendPaidPurchaseOrder(PurchaseOrder order){
+    ArrayList<User> legalRepresentatives = directorService.findUsersOfCompanyByRole(order.company.id,['ROLE_LEGAL_REPRESENTATIVE_VISOR',
+                                                                                                      'ROLE_LEGAL_REPRESENTATIVE_EJECUTOR']) ?: []
+
+    legalRepresentatives.each(){
+      def command = emailIntegratedCommand("Una Orden de Pago a Proveedor ha sido PAGADA, haz click en el link de este mail para más información","/purchaseOrder/show/${order.id}", order.company.toString(), it.profile.email)
       restService.sendCommand(command, grailsApplication.config.emailer.notificationIntegrated)
     }
   }

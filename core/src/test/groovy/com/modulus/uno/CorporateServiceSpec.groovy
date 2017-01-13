@@ -66,6 +66,31 @@ class CorporateServiceSpec extends Specification {
       userCorporate.nameCorporate == "Corporate1"
   }
 
+  Should "get the corporate user of a company"(){
+    given:"the company"
+      Company company = new Company(rfc:"CIGE930831RB1",
+                                    webSite:"http://www.somewebsite.com",
+                                    employeeNumbers:10)
+      company.save(validate:false)
+    and:"the corporate"
+      Corporate corporate = new Corporate(nameCorporate:"someName",
+                                          corporateUrl:"someUrl")
+      corporate.addToCompanies(company)
+    and:"the user"
+      User user = new User(username:"egjimenezg")
+      user.save(validate:false)
+      Role role = new Role(authority:"ROLE_CORPORATIVE")
+      role.save(validate:false)
+      UserRole.create(user,role)
+      corporate.addToUsers(user)
+      corporate.save(validate:false)
+    when:
+      User corporateUser = service.findCorporateUserOfCompany(company.id)
+    then:
+      user
+      user.username == "egjimenezg"
+  }
+
   Should "get the corporate users by role"(){
     given:"the corporate"
       Corporate corporate = new Corporate(nameCorporate:"Corporate I",
