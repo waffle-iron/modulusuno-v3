@@ -56,7 +56,7 @@ class PurchaseOrder {
   }
 
   BigDecimal getTotalPayments() {
-    payments*.amount.sum() ?: 0
+    payments*.amount?.sum() ?: 0
   }
 
 

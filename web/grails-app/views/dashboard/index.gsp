@@ -47,12 +47,13 @@
     <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
     <div class="row">
       <div class="col-md-12">
+        <!-- verificar las companies del corporate -->
         <g:if test="${companies.isEmpty()}">
         <div class="alert alert-info">
           <strong>Atención:</strong> Vemos que aún no tienes empresas registradas en Modulus UNO, comienza...
         </div>
         <p>
-        <g:link class="btn btn-default btn-lg" controller="company" action="create">
+        <g:link class="btn btn-default btn-lg" controller="corporate" action="addCompany" id="${session.corporate.id}">
           Registra tu primera empresa
         </g:link>
         </g:if>
