@@ -49,8 +49,10 @@
             <g:form action="save">
               <fieldset class="form">
                 <g:render template="form" bean="${corporate}" />
+                <div class="col-sm-12">
+                  <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                </div>
               </fieldset>
-              <g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" />
             </g:form>
           </div>
           <!-- END OF CREATE ADDRESS -->

@@ -4,15 +4,17 @@ class DashboardController {
 
   def companyService
   def springSecurityService
+  OrganizationService organizationService
 
   def index() {
     def user = springSecurityService.currentUser
-    def companyList = companyService.allCompaniesByUser(user)
+    def companyList = organizationService.findAllCompaniesOfUser(user)
     def corporates= Corporate.list()
 
     [companies:companyList,
      corporates:corporates,
-     companiesCount: companyList.size()]
+     companiesCount: companyList.size(),
+     user:user]
   }
 
   def jobs() {

@@ -57,7 +57,9 @@ class CorporateController {
 
   def saveRolesForUser(RolesCompanyCommand command){
     User user = organizationService.updateRolesForUserInCompanies(command.username,command.rolesByCompany())
-    redirect(action:"assignRolesInCompaniesForUser",id:user.id)
+    Corporate corporate = session.corporate
+    flash.message = message(code:'users.roles.updated',default: 'Usuario actualizado')
+    redirect(action:"users",id:corporate.id)
   }
 
   def addCompany(Corporate corporate){
@@ -93,7 +95,7 @@ class CorporateController {
                                                             password:userCommand.password),profile)
 
     ArrayList<Role> roles = springSecurityService.getPrincipal().getAuthorities()
-    corporateService.addNewUserToCorporate(corporateId,user)
+    corporateService.addUserToCorporate(corporateId,user)
 
     if(roles[0].authority == "ROLE_M1"){
       userService.setAuthorityToUser(user,'ROLE_CORPORATIVE')

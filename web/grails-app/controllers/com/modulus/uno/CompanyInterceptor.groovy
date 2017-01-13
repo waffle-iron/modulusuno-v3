@@ -7,7 +7,8 @@ class CompanyInterceptor {
     int order = LOWEST_PRECEDENCE;
 
     def springSecurityService
-    def companyService
+    OrganizationService organizationService
+    RoleService roleService
     PageRenderer groovyPageRenderer
 
     CompanyInterceptor() {
@@ -32,12 +33,13 @@ class CompanyInterceptor {
         return true
       if (session.company)
         return true
-      def companies = companyService.findCompaniesForThisUser(currentUser)
+      def companies = organizationService.findAllCompaniesOfUser(currentUser)
       switch (companies.size()) {
         case 0:
           return true
           break
         case 1:
+          roleService.updateTheUserRolesOfUserAtThisCompany(currentUser,companies.first())
           session["company"] = companies.first().id
           return true
           break
