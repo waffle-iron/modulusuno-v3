@@ -79,6 +79,23 @@ class CompanyServiceSpec extends Specification {
       companyResult.first().status == CompanyStatus.VALIDATE
   }
 
+  Should "get the companies of a corporate and with the validate status"(){
+    given:"the corporate"
+      Corporate corporate = new Corporate()
+    and:"the companies"
+      ArrayList<Company> companies = [new Company(status:CompanyStatus.VALIDATE),
+                                      new Company(status:CompanyStatus.VALIDATE)]
+      companies.each{ company ->
+        corporate.addToCompanies(company)
+      }
+
+      corporate.save(validate:false)
+    when:
+      ArrayList<Company> corporateCompanies = service.findCompaniesByCorporateAndStatus(CompanyStatus.VALIDATE,corporate.id)
+    then:
+      corporateCompanies.size() == 2
+  }
+
   void "search company by filters"() {
     given:
       createSevenCompanies()
@@ -371,18 +388,16 @@ class CompanyServiceSpec extends Specification {
 
   void "create simple company and add it to one corporate"(){
     given:
-      Company company = new Company(
-        rfc:"ROD861224KJD",
-        bussinessName:"apple1",
-        webSite:"http://url.com", 
-        employeeNumbers:2,
-        grossAnnualBilling:1_000_000)
+      Company company = new Company(rfc:"ROD861224KJD",
+                                    bussinessName:"apple1",
+                                    webSite:"http://url.com",
+                                    employeeNumbers:2,
+                                    grossAnnualBilling:1_000_000)
       Corporate corporate = new Corporate(nameCorporate:"nombre",corporateUrl:"url")
       corporate.save(validate:false)
       User corporateUser = new User().save(validate:false)
     and:
       def corporateServiceMock = Mock(CorporateService) {
-        1 * findCorporateOfUser(corporateUser) >> corporate
         1 * addCompanyToCorporate(corporate,company) >> {
           corporate.addToCompanies(company)
           corporate.save()
@@ -391,7 +406,7 @@ class CompanyServiceSpec extends Specification {
       }
       service.corporateService = corporateServiceMock
     when:
-      Company expectedCompany = service.saveInsideAndAssingCorporate(company, corporateUser)
+      Company expectedCompany = service.saveInsideAndAssingCorporate(company,corporate.id)
     then:
       expectedCompany.id
   }

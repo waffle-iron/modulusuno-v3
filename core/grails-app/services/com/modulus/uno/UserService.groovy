@@ -69,6 +69,21 @@ class UserService {
     user
   }
 
+  User createUserWithoutRole(User user,Profile profile){
+    profile.save()
+    user.profile = profile
+    user.save()
+    recoveryService.sendConfirmationAccountToken(user.profile?.email)
+    user
+  }
+
+  User setAuthorityToUser(User user,String authority){
+    Role role = Role.findByAuthority(authority)
+    UserRole.create user,role, true
+    user.save()
+    user
+  }
+
   def getUsersByRole(String srol){
     def users = User.list().findAll { user ->
       if (user.authorities.any { it.authority == srol })

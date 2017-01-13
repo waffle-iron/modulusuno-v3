@@ -85,12 +85,16 @@
           <!-- BEGIN PANEL-->
           <div class="panel-collapse collapse in">
             <div class="portlet-body">
-              <g:if test="${corporate.users}">
-                <ul class="list-group">
-                  <g:each var="user" in="${corporate.users}">
-                    <li class="text-primary list-group-item">${user.username}</li>
+              <g:if test="${users}">
+                <table class="table">
+                  <g:each var="user" in="${users}">
+                    <tr>
+                      <td class="text-primary">
+                        ${user.profile.fullName}
+                      </td>
+                    </tr>
                   </g:each>
-                </ul>
+                </table>
                 <div class="text-right">
                   <g:link action="addUser" controller="corporate" class="btn btn-default" id="${corporate.id}"><i class="fa fa-plus"></i></g:link>
                 </div>

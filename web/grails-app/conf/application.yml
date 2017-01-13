@@ -1,4 +1,6 @@
 beans:
+  CorporateInterceptor:
+    order: 40
   CompanyInterceptor:
     order: 50
 ---
