@@ -120,9 +120,10 @@ class CorporateController {
 
     company.status = CompanyStatus.ACCEPTED
     Corporate corporate = session.corporate
+    User user = springSecurityService.currentUser
 
     companyService.saveInsideAndAssingCorporate(company,corporate.id)
-    managerApplicationService.acceptingCompanyToIntegrate(company.id)
+    managerApplicationService.acceptingCompanyToIntegrate(company.id, user.profile.email)
     createCommissionsToCompany(company)
     redirect(action:"companies",id:corporate.id)
   }

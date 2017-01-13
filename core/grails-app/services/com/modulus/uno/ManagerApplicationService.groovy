@@ -13,12 +13,11 @@ class ManagerApplicationService {
   def collaboratorService
   DirectorService directorService
 
-  def acceptingCompanyToIntegrate(Long companyId) {
+  def acceptingCompanyToIntegrate(Long companyId, String email) {
     Company company = Company.findById(companyId)
-    ModulusUnoAccount account = modulusUnoService.generedModulusUnoAccountByCompany(company)
+    ModulusUnoAccount account = modulusUnoService.generedModulusUnoAccountByCompany(company, email)
     company.status = CompanyStatus.ACCEPTED
     company.save()
-    //createNewPasswordForLegalRepresentatives(company)
     company
   }
 
