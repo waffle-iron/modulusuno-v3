@@ -26,8 +26,8 @@ class OrganizationServiceSpec extends Specification {
           ROLE_FICO_VISOR:"on"], 
         makingdevs:[
           ROLE_LEGAL_REPRESENTATIVE_EJECUTOR:"on", 
-          ROLE_FICO_VISOR:"on"
-        ]
+          ROLE_FICO_VISOR:"on"],
+        other:[]
       ]
     and:
       def roleServiceMock = Mock(RoleService){
@@ -35,7 +35,25 @@ class OrganizationServiceSpec extends Specification {
       }
       service.roleService = roleServiceMock
     when:
-      user = service.createRolesForUserInCompanies("user",rolesForCompanies)
+      user = service.createRolesForUserInCompanies(user,rolesForCompanies)
+    then:
+      assert user
+  }
+
+  Should "Delete the roles for user in companies"(){
+    given:
+      Company c1 = new Company(bussinessName:"makingdevs")
+      Company c2 = new Company(bussinessName:"talachero")
+      List<Company> companies = [c1,c2]*.save(validate:false)
+      User user = new User("user","user")
+      user.save(validate:false)
+    and:
+      def roleServiceMock = Mock(RoleService){
+        2 * deleteRolesForUserAtThisCompany(user,_)
+      }
+      service.roleService = roleServiceMock
+    when:
+      user = service.deleteRolesForUserInCompanies(user,companies)
     then:
       assert user
   }
