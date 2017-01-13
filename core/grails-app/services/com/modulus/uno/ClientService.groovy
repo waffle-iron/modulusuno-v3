@@ -10,6 +10,7 @@ class ClientService {
   def messageSource
   def emailSenderService
   def modulusUnoService
+  def springSecurityService
 
   def addClientToCompany(ClientBusinessEntity client, Company company){
     if(isClientOfThisCompany(client, company))throw new BusinessException(messageSource.getMessage('exception.client.already.exist', null, LCH.getLocale()))
@@ -37,7 +38,8 @@ class ClientService {
   }
 
   ClientLink generateSubAccountStp(ClientLink client, BusinessEntity businessEntity) {
-    CreateAccountCommand command = new CreateAccountCommand(payerAccount:client.company.accounts.first().stpClabe, uuid:businessEntity.uuid, name:businessEntity.toString(), email:client.company.actors.first().profile.email)
+    User user = springSecurityService.currentUser
+    CreateAccountCommand command = new CreateAccountCommand(payerAccount:client.company.accounts.first().stpClabe, uuid:businessEntity.uuid, name:businessEntity.toString(), email:user.profile.email)
     client.stpClabe = modulusUnoService.generateSubAccountStpForClient(command)
     client.save()
     client
