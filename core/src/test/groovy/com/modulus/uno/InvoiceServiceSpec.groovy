@@ -55,7 +55,7 @@ class InvoiceServiceSpec extends Specification {
       result.datosDeFacturacion.moneda == 'MXN'
 
       result.emisor.datosFiscales.razonSocial == 'Integradora de Emprendimientos Culturales S.A. de C.V.'
-      result.emisor.datosFiscales.rfc == 'AAD990814BP7'
+      result.emisor.datosFiscales.rfc == 'AAA010101AAA'
       result.emisor.datosFiscales.codigoPostal == '11850'
       result.emisor.datosFiscales.pais == 'México'
       result.emisor.datosFiscales.ciudad == 'Ciudad de México'
