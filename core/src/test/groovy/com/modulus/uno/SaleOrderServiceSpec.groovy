@@ -34,7 +34,7 @@ class SaleOrderServiceSpec extends Specification {
     and:"A business entity"
       def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
     when:"We create a sale order"
-      def result = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString())
+      def result = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString(), "", "")
     then:"We expect a new sale order"
       result instanceof SaleOrder
       result.status == SaleOrderStatus.CREADA
@@ -81,7 +81,7 @@ class SaleOrderServiceSpec extends Specification {
                                 employeeNumbers:40,
                                 grossAnnualBilling:4000).save(validate:false)
     def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
-    def saleOrder = service.createSaleOrder(businessEntity, company,new Date().format("dd/MM/yyyy").toString())
+    def saleOrder = service.createSaleOrder(businessEntity, company,new Date().format("dd/MM/yyyy").toString(), "", "")
   when:"We authoriza a sale order"
     companyService.getAuthorizersByCompany(company) >> approvers
     def result = service.sendOrderToConfirmation(saleOrder)
@@ -101,7 +101,7 @@ class SaleOrderServiceSpec extends Specification {
                                 grossAnnualBilling:4000,
                                 legalRepresentatives:legalRepresentatives).save(validate:false)
     def businessEntity = new BusinessEntity(rfc:'XXX010101XXX', website:'http://www.iecce.mx',type:BusinessEntityType.FISICA).save(validate:false)
-    def saleOrder = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString())
+    def saleOrder = service.createSaleOrder(businessEntity, company, new Date().format("dd/MM/yyyy").toString(), "", "")
   when:"We authoriza a sale order"
     def result = service.authorizeSaleOrder(saleOrder)
   then:"We expect new status"

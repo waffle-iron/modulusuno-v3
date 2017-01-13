@@ -162,11 +162,12 @@ class PurchaseOrderService {
 
   def payPurchaseOrder(PurchaseOrder order, PaymentToPurchase payment){
     modulusUnoService.payPurchaseOrder(order, payment)
-    if (amountPaymentIsTotalForPurchaseOrder(order))
+    if (amountPaymentIsTotalForPurchaseOrder(order)) {
       order.status = PurchaseOrderStatus.PAGADA
       order.save()
-      emailSenderService.notifyPurchaseOrderChangeStatus(purchaseOrder)
-      order
+    }
+    emailSenderService.notifyPurchaseOrderChangeStatus(order)
+    order
   }
 
   def requestAuthorizationForTheOrder(PurchaseOrder purchaseOrder){
