@@ -31,7 +31,7 @@ class ProviderServiceSpec extends Specification {
     providerLink.providerRef == be.rfc
     providerLink.company == company
     isProvider
-    1 * emailSenderService.sendNewClientProviderNotificaton(company, _ , EmailerMessageType.PROVEEDOR)
+    1 * emailSenderService.sendEmailForNewProvider(company, be)
   }
 
   void "should not save a be since already exist"(){

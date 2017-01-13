@@ -16,14 +16,12 @@ class ManagerApplicationServiceSpec extends Specification {
   def restService = Mock(RestService)
   def modulusUnoService = Mock(ModulusUnoService)
   def collaboratorService = Mock(CollaboratorService)
-  def emailSenderService = Mock(EmailSenderService)
   def directorService = Mock(DirectorService)
 
   def setup() {
     service.restService = restService
     service.modulusUnoService = modulusUnoService
     service.collaboratorService = collaboratorService
-    service.emailSenderService = emailSenderService
     service.directorService = directorService
   }
 

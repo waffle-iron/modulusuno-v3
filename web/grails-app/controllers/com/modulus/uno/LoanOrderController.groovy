@@ -14,6 +14,7 @@ class LoanOrderController {
 
   def acceptLoanOrder(LoanOrder loanOrder){
     loanOrder.status = LoanOrderStatus.ACCEPTED
+    emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
     respond view:'list', LoanOrder.findAllByCreditorAndStatus(loanOrder.company, LoanOrderStatus.APPROVED)
   }
 
@@ -24,7 +25,6 @@ class LoanOrderController {
 
   def authorize(LoanOrder loanOrder){
     loanOrderService.addAuthorizationToLoanOrder(loanOrder, springSecurityService.currentUser)
-    emailSenderService.notifyAuthorizationLoanOrder(loanOrder)
     redirect action:'index'
   }
 
@@ -67,6 +67,7 @@ class LoanOrderController {
   def cancelLoanOrder(LoanOrder loanOrder){
     loanOrder.status = LoanOrderStatus.CANCELED
     loanOrder.save flush:true
+    emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
 
     redirect action:'listToAuthorize'
   }
@@ -118,6 +119,7 @@ class LoanOrderController {
   def rejectLoanOrder(LoanOrder loanOrder){
     loanOrder.status = LoanOrderStatus.REJECTED
     loanOrder.save flush:true
+    emailSenderService.notifyLoanOrderChangeStatus(loanOrder)
 
     redirect action:'listToApprove'
   }

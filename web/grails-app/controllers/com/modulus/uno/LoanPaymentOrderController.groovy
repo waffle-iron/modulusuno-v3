@@ -11,6 +11,7 @@ class LoanPaymentOrderController {
     def loanOrderHelperService
     def springSecurityService
     def companyService
+    def emailSenderService
 
     @Transactional
     def authorizeLoanPaymentOrder(LoanPaymentOrder loanPaymentOrder) {
@@ -32,7 +33,7 @@ class LoanPaymentOrderController {
     def cancelLoanPaymentOrder(LoanPaymentOrder loanPaymentOrder) {
       loanPaymentOrder.status = LoanPaymentOrderStatus.CANCELED
       loanPaymentOrder.save flush:true
-
+      emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
       redirect action:'listToAuthorize'
     }
 
@@ -108,6 +109,7 @@ class LoanPaymentOrderController {
     def rejectLoanPaymentOrder (LoanPaymentOrder loanPaymentOrder) {
       loanPaymentOrder.status = LoanPaymentOrderStatus.REJECTED
       loanPaymentOrder.save flush:true
+      emailSenderService.notifyLoanPaymentOrderChangeStatus(loanPaymentOrder)
       redirect action:'listToExecute'
     }
 
