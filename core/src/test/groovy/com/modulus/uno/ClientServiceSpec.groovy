@@ -82,13 +82,10 @@ class ClientServiceSpec extends Specification {
       company.save(validate:false)
       ClientLink clientLink = new ClientLink(type:'CLIENTE',clientRef:"cliente",company:company).save()
       clientLink.company = new Company()
-      println clientLink.dump()
       clientLink.save(validate:false)
-
     and:
       modulusUnoService.generateSubAccountStpForClient(_) >> "TheSubAccountStp"
     when: "Generate the subaccount"
-      println clientLink.dump()
       def result = service.generateSubAccountStp(clientLink, businessEntity)
     then:
       result.stpClabe == "TheSubAccountStp"
