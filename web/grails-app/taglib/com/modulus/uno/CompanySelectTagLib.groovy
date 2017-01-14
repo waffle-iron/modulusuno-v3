@@ -5,9 +5,7 @@ class CompanySelectTagLib {
   def companyService
   def springSecurityService
   def restService
-  def springSecurityService
   OrganizationService organizationService
-  def restService
 
   static namespace = "companyInfo"
   static defaultEncodeAs = "raw"
