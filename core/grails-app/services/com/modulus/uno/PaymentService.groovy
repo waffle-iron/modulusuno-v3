@@ -42,7 +42,7 @@ class PaymentService {
       order.status = SaleOrderStatus.PAGADA
       payment.save()
       order.save()
-      emailSenderService.notifySaleOrderChangeStatus(saleOrder)
+      emailSenderService.notifySaleOrderChangeStatus(order)
     } else {
       throw new BusinessException("Error al conciliar la orden...")
     }
