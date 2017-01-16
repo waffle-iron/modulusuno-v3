@@ -2,9 +2,10 @@ package com.modulus.uno
 
 class CompanySelectTagLib {
 
+  def companyService
   def springSecurityService
-  OrganizationService organizationService
   def restService
+  OrganizationService organizationService
 
   static namespace = "companyInfo"
   static defaultEncodeAs = "raw"

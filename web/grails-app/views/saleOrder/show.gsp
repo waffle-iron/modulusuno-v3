@@ -110,7 +110,40 @@
               </div>
               </g:if>
               </p>
+              <!-- -->
+              <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
+              <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
+              <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalConfirm">
+                    <i class="fa fa-trash"></i> Borrar
+                  </button>
 
+                  <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="myModalLabel">Confirme la acción</h4>
+                        </div>
+                        <div class="modal-body">
+                          ¿Está seguro de eliminar la orden seleccionada?
+                        </div>
+                        <div class="modal-footer">
+                          <g:link action="deleteOrder" id="${saleOrder.id}" class="btn btn-primary">
+                          Sí
+                          </g:link>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              </g:if>
+              </sec:ifAnyGranted>
+              <!-- -->
               <p>
               <g:if test="${saleOrder.items}">
 

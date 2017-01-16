@@ -40,24 +40,6 @@ class SaleOrderController {
     respond new SaleOrder(params),model: [company:company]
   }
 
-  def delete(SaleOrder saleOrder) {
-
-    if (saleOrder == null) {
-      notFound()
-      return
-    }
-
-    saleOrder.delete()
-
-    request.withFormat {
-      form multipartForm {
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'saleOrder.label', default: 'SaleOrder'), saleOrder.id])
-        redirect action:"index", method:"GET"
-      }
-      '*'{ render status: NO_CONTENT }
-    }
-  }
-
   def edit(SaleOrder saleOrder) {
     respond saleOrder
   }
@@ -74,6 +56,11 @@ class SaleOrderController {
     def clients = businessEntityService.findBusinessEntityByKeyword(params.q, "CLIENT", company)
     def client = BusinessEntity.get(params.id)
     render view:'create',model:([company:company, clients:clients, client:client] + params)
+  }
+
+  def deleteOrder(SaleOrder saleOrder) {
+    saleOrder.delete flush:true
+    redirect action:'list'
   }
 
   def executeSaleOrder(SaleOrder saleOrder){

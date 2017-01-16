@@ -44,7 +44,6 @@ class NotifyService {
     }
     paramsMap = buildParamsEmailMap(depositOrder, paramsFields)
     paramsMap.status = orderStatus
-    println grailsApplication.config.grails.server.url
     paramsMap.url=grailsApplication.config.grails.server.url
     paramsMap
   }
