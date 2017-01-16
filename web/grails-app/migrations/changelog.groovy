@@ -43,4 +43,5 @@ databaseChangeLog = {
   include file: 'removing-actors-relationship-in-company.groovy'
   include file: 'delete-relationship-into-user-and-role.groovy'
   include file: 'delete-old-roles-in-m1.groovy'
+  include file: 'adding-user-to-production.groovy'
 }
