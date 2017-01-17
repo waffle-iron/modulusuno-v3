@@ -12,4 +12,4 @@
     <g:select name="type" from="${com.modulus.uno.CommissionType.values()}" class="form-control" />
   </div>
 </f:with>
-<input type="hidden" id="company" name="company" value="${company.id}" />
+<input type="hidden" name="corporateId" value="${corporate.id}" />
