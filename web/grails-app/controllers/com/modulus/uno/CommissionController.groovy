@@ -8,6 +8,8 @@ class CommissionController {
 
   static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+  def corporateService
+
   def index(Integer max) {
     params.max = Math.min(max ?: 10, 100)
     def company = Company.get(params.companyId)
@@ -19,8 +21,8 @@ class CommissionController {
   }
 
   def create() {
-    def company = Company.get(params.long("companyId"))
-    respond new Commission(params), model:[company: company]
+    def corporate = Corporate.get(params.long("corporateId"))
+    respond new Commission(params), model:[corporate: corporate]
   }
 
   @Transactional
@@ -38,20 +40,18 @@ class CommissionController {
     }
 
     Commission commission = command.createCommission()
-    commission.company = Company.get(params.long('company'))
-
+    Corporate corporate = Corporate.get(params.corporateId)
     if (!commission.validate()){
       transactionStatus.setRollbackOnly()
-      render view:'create', model:[commission:commission, company:commission.company]
+      render view:'create', model:[commission:commission, corporate:corporate]
       return
     }
-
-    commission.save flush:true
-
+    commission.save()
+    corporate = corporateService.addCommissionToCorporate(corporate,commission)
     request.withFormat {
       form multipartForm {
         flash.message = message(code: 'commission.created.message', args: [message(code: 'commission.label', default: 'Commission'), commission.id])
-        redirect action:'show', id: commission.id, params: params
+        redirect action:'show',controller: 'corporate', id: corporate.id, params: params
       }
       '*' { respond commission, [status: CREATED] }
     }
