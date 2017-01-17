@@ -7,25 +7,20 @@
   </head>
   <body>
     <div class="page-title">
-      <h1><g:message code="commission.create.label" args="[entityName]" /></h1>
-      <ol class="breadcrumb">
-        <li><i class="fa fa-caret-square-o-up"></i> Compañia</li>
-        <li class="active">Creacion de comisiones</li>
-      </ol>
+      <h1>
+        <i class="fa fa-caret-square-o-up"></i> Corporativo <b>${corporate.nameCorporate}</b>
+        <small>Creacion de comisionessss</small>
+      </h1>
     </div>
-    <br />
     <div id="create-address" class="content scaffold-create" role="main">
       <div class="portlet portlet-blue">
         <div class="portlet-heading">
           <div class="portlet-title">
-            <br />
-            <br />
           </div>
           <div class="clearfix"></div>
         </div>
         <div id="horizontalFormExample" class="panel-collapse collapse in">
           <div class="portlet-body">
-
             <div id="create-commission" class="content scaffold-create" role="main">
               <g:if test="${flash.message}">
               <div class="message" role="status">${flash.message}</div>
@@ -59,12 +54,5 @@
         </div>
       </div>
     </div>
-    <g:link controller="company" action="show" id="${session.company}" class="home btn btn-default">
-    <g:message code="company.show"/>
-    </g:link>
-    <g:link class="list btn btn-default" action="index" params="[companyId:"${company.id}"]">
-    <g:message code="commission.list.label" args="[entityName]" />
-    </g:link>
-
   </body>
 </html>
