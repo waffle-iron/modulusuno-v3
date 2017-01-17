@@ -28,7 +28,7 @@ class CompanySelectTagLib {
 
   def listTemplatesPdfForCompany = { attrs, body ->
     def emisor = restService.existEmisorForGenerateInvoice(attrs.rfc)
-    if (emisor.templatesPdf.size()>1) {
+    if (emisor.templatesPdf?.size()>1) {
       out << """
         <div class="row">
           <label>Formato PDF:*</label>

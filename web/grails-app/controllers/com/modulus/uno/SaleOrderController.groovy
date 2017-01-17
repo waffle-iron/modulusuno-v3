@@ -178,7 +178,7 @@ class SaleOrderController {
   }
 
   def show(SaleOrder saleOrder) {
-    respond saleOrder, model:[saleOrderItem: new SaleOrderItem(), user:springSecurityService.currentUser]
+    respond saleOrder, model:[saleOrderItem: new SaleOrderItem(), user:springSecurityService.currentUser, isEnabledToStamp:companyService.isCompanyEnabledToStamp(saleOrder.company)]
   }
 
   def showFactura(SaleOrder saleOrder){
