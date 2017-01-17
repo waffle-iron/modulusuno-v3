@@ -35,7 +35,7 @@ class CompanyController {
       def balance, usd, documents
       params.sepomexUrl = grails.util.Holders.grailsApplication.config.sepomex.url
       if (company.status == CompanyStatus.ACCEPTED) {
-        documents = companyService.isAvailableForGenerateInvoces(company.rfc)
+        documents = companyService.isAvailableForGenerateInvoices(company.rfc)
         if (company.accounts){
           (balance, usd) = modulusUnoService.consultBalanceOfAccount(company?.accounts?.first()?.timoneUuid)
         }
@@ -57,7 +57,7 @@ class CompanyController {
     def company = Company.findById(session.company.toLong())
     render view:"/uploadDocuments/uploadDocumentsUser",model:[company:company]
   }
-  
+
   def edit(Company company) {
     respond company,model:[edit:true]
   }
