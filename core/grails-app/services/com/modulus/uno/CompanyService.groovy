@@ -192,7 +192,7 @@ class CompanyService {
     result
   }
 
-  def isAvailableForGenerateInvoces(String rfc) {
+  def isAvailableForGenerateInvoices(String rfc) {
     def response = restService.existEmisorForGenerateInvoice(rfc)
     isAvailableForInvoices(response)
   }
@@ -242,4 +242,8 @@ class CompanyService {
     purchaseOrderService.updateDatePaymentForOrder(orderId.toLong(), newPaymentDate)
   }
 
+  Boolean isCompanyEnabledToStamp(Company company) {
+    Address fiscalAddress = company.addresses.find {it.addressType == AddressType.FISCAL}
+    !(isAvailableForGenerateInvoices(company.rfc)) && fiscalAddress
+  }
 }
