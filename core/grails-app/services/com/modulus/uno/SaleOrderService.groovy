@@ -153,4 +153,14 @@ class SaleOrderService {
     saleOrder
   }
 
+  List<SaleOrder> obtainListPastDuePortfolio(Long idCompany, Integer days) {
+    Company company = Company.get(idCompany)
+    Date begin = new Date()-days
+    if (days==120) {
+      SaleOrder.findAllByCompanyAndOriginalDateGreaterThanEquals(company, begin)
+    } else {
+      Date end = new Date()-(days+30)
+      SaleOrder.findAllByCompanyAndOriginalDateBetween(company, begin, end)
+    }
+  }
 }
