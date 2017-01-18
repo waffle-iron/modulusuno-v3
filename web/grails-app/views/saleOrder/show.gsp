@@ -216,13 +216,23 @@
                     <g:form name="executeSale">
                     <input type="hidden" id="saleOrderId" name="id" value="${saleOrder.id}"/>
                     <companyInfo:listTemplatesPdfForCompany rfc="${saleOrder.company.rfc}"/>
+                    <g:if test="${!isEnabledToStamp}">
+                    <div class="alert alert-warning">
+                      No está habilitado para timbrar facturas, debe registrar su certificado y su domicilio fiscal
+                    </div><br/>
+                    </g:if>
+
+                    <g:if test="${isEnabledToStamp}">
                     <div class="row text-right">
                       <button id="btnPreview" type="button" class="btn btn-info">Vista Previa</button>
                     </div>
                     <br/>
-                    <div class="row">
+                    </g:if>
+                   <div class="row">
                       <div class="col-md-6">
+                        <g:if test="${isEnabledToStamp}">
                         <button id="btnExecute" type="button" class="btn btn-success btn-block">Ejecutar orden de venta</button>
+                        </g:if>
                       </div>
                       </g:form>
                       <div class="col-md-6">
@@ -230,6 +240,7 @@
                       </div>
                       <div class="row">
                         <div class="col-md-12">
+
                           <div class="collapse" id="inputReasonCancellation">
                             <div class="well">
                               <g:form action="rejectSaleOrder" id="${saleOrder.id}">
