@@ -15,7 +15,7 @@ databaseChangeLog = {
   include file: 'adding-column-stpclabe-to-clientlink.groovy'
   include file: 'adding-column-uuid-to-business-entity.groovy'
   include file: 'drop-modulusunoaccounts_and_update_status-for-all-companies.groovy'
-  include file: 'adding-ids-of-artimisa.groovy'
+  //include file: 'adding-ids-of-artimisa.groovy'
   include file: 'adding-date-operation-in-sale-and-puchase-order.groovy'
   include file: 'creating-role-ejecutor.groovy'
   include file: 'adding-column-externalid-to-sale-order.groovy'
@@ -43,6 +43,4 @@ databaseChangeLog = {
   include file: 'removing-actors-relationship-in-company.groovy'
   include file: 'delete-relationship-into-user-and-role.groovy'
   include file: 'delete-old-roles-in-m1.groovy'
-    include file: 'delete-constraint-company-to-commissions.groovy'
-    include file: 'adding-commission-to-corporate.groovy'
 }
