@@ -39,4 +39,33 @@ class CommissionSpec extends Specification {
     11    | 12         | CommissionType.VENTA    || false
   }
 
+  @Unroll
+  void """When we have a commission with fee: #fee, percentage: #percentage, type:#type uncompany,when we validate we expect result is : #result"""(){
+    given:"A commission"
+      def commission = new Commission()
+    when:"It's data"
+      commission.fee = fee
+      commission.percentage = percentage
+      commission.type = type
+    then:"We validate"
+      result == commission.validate()
+    where:"We have the following values"
+    fee   | percentage | type                    || result
+    100   | 0          | CommissionType.VENTA    || true
+    100   | null       | CommissionType.VENTA    || true
+    null  | 10         | CommissionType.VENTA    || true
+    0     | 10         | CommissionType.VENTA    || true
+    0     | 0          | CommissionType.VENTA    || true
+    null  | null       | CommissionType.VENTA    || true
+    100   | 0          | CommissionType.DEPOSITO || true
+    100   | 0          | CommissionType.PRESTAMO || true
+    100   | 0          | null                    || false
+    100   | -1         | CommissionType.VENTA    || false
+    100   | 101        | CommissionType.VENTA    || false
+    -1    | 0          | CommissionType.VENTA    || false
+    11    | 12         | CommissionType.VENTA    || false
+  }
+
+
+
 }

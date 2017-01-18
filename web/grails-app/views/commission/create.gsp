@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+CTYPE html>
 <html>
   <head>
     <meta name="layout" content="main" />
@@ -31,19 +31,19 @@
               <div class="message" role="status">${flash.message}</div>
               </g:if>
               <g:if test="${commandErrors}">
-                <g:each in="${commandErrors}" var="error">
-                  <div class="alert alert-danger" role="alert">
-                    <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error.getFieldError()}"/></li>
-                 </div>
-                </g:each>
+              <g:each in="${commandErrors}" var="error">
+              <div class="alert alert-danger" role="alert">
+                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error.getFieldError()}"/></li>
+              </div>
+                  </g:each>
               </g:if>
               <g:hasErrors bean="${this.commission}">
               <ul class="errors" role="alert">
                 <g:eachError bean="${this.commission}" var="error">
                 <div class="alert alert-danger" role="alert">
-                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                  <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
                 </div>
-                </g:eachError>
+                    </g:eachError>
               </ul>
                 </g:hasErrors>
                 <g:form action="save">
@@ -68,3 +68,4 @@
 
   </body>
 </html>
+
