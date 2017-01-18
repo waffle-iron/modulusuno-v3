@@ -8,4 +8,5 @@
     </g:if>
   </li>
   <li><g:link controller="company" action="pendingAccounts">Cuentas por Cobrar/Pagar</g:link></li>
+  <li><g:link controller="company" action="pastDuePortfolio">Cartera Vencida</g:link></li>
 </ul>
