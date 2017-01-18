@@ -1,6 +1,7 @@
 package com.modulus.uno
 
 import grails.transaction.Transactional
+import java.text.SimpleDateFormat
 
 @Transactional
 class SaleOrderService {
@@ -155,12 +156,42 @@ class SaleOrderService {
 
   List<SaleOrder> obtainListPastDuePortfolio(Long idCompany, Integer days) {
     Company company = Company.get(idCompany)
-    Date begin = new Date()-days
+    def dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    Date end = dateFormat.parse(dateFormat.format(new Date()-days))
+    def saleCriteria = SaleOrder.createCriteria()
+    def listResult = []
+
+    println "Days: ${days}"
+    println "End: ${end}"
+    def allSales = SaleOrder.list()
+    println "Total sale orders: ${allSales.size()}"
+
     if (days==120) {
-      SaleOrder.findAllByCompanyAndOriginalDateGreaterThanEquals(company, begin)
+      listResult = saleCriteria.list {
+          eq("company", company)
+          or {
+            le("fechaCobro", end)
+            le("originalDate", end)
+          }
+          eq("status", SaleOrderStatus.EJECUTADA)
+      }
     } else {
-      Date end = new Date()-(days+30)
-      SaleOrder.findAllByCompanyAndOriginalDateBetween(company, begin, end)
+      Date begin = dateFormat.parse(dateFormat.format(new Date()-(days+30)))
+      println "Begin: ${begin}"
+
+      listResult = saleCriteria.list {
+          eq("company", company)
+          or {
+            between("fechaCobro", begin, end)
+            between("originalDate", begin, end)
+          }
+          eq("status", SaleOrderStatus.EJECUTADA)
+      }
     }
+    listResult.each {
+      println "Sale: ${it.id}, Client: ${it.clientName}, OriginalDate: ${it.originalDate}, FechaCobro: ${it.fechaCobro}, Total: ${it.total}"
+    }
+    listResult
   }
+
 }
