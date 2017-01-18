@@ -242,4 +242,8 @@ class CompanyService {
     purchaseOrderService.updateDatePaymentForOrder(orderId.toLong(), newPaymentDate)
   }
 
+  List<SaleOrder> getDetailPastDuePortfolio(Long idCompany, Integer days) {
+    saleOrderService.obtainListPastDuePortfolio(idCompany, days)
+  }
+
 }
