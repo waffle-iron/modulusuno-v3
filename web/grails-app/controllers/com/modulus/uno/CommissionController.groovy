@@ -21,8 +21,8 @@ class CommissionController {
   }
 
   def create() {
-    def corporate = Corporate.get(params.long("corporateId"))
-    respond new Commission(params), model:[corporate: corporate]
+    def company = Company.get(params.long("companyId"))
+    respond new Commission(params), model:[company: company]
   }
 
   @Transactional
@@ -40,18 +40,20 @@ class CommissionController {
     }
 
     Commission commission = command.createCommission()
-    Corporate corporate = Corporate.get(params.corporateId)
+    commission.company = Company.get(params.long('company'))
+
     if (!commission.validate()){
       transactionStatus.setRollbackOnly()
-      render view:'create', model:[commission:commission, corporate:corporate]
+      render view:'create', model:[commission:commission, company:commission.company]
       return
     }
-    commission.save()
-    corporate = corporateService.addCommissionToCorporate(corporate,commission)
+
+    commission.save flush:true
+
     request.withFormat {
       form multipartForm {
         flash.message = message(code: 'commission.created.message', args: [message(code: 'commission.label', default: 'Commission'), commission.id])
-        redirect action:'show',controller: 'corporate', id: corporate.id, params: params
+        redirect action:'show', id: commission.id, params: params
       }
       '*' { respond commission, [status: CREATED] }
     }
