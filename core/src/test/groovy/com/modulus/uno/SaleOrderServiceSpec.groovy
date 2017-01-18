@@ -221,4 +221,34 @@ class SaleOrderServiceSpec extends Specification {
 
   }
 
+  void "Should get 3 elements which are 30 days past due"() {
+    given:"A company"
+      Company company = new Company(rfc:"XYZ010101ABC").save(validate:false)
+    and: "Days past due"
+      Integer days = 30
+    and:"All Sale orders for company"
+      createSaleOrdersForCompany(company)
+    and:
+      def criteriaMock = [
+        list: {Closure cls -> [new SaleOrder().save(validate:false)]}
+      ]
+      SaleOrder.metaClass.static.createCriteria = {criteriaMock}
+    when:
+      def result = service.obtainListPastDuePortfolio(company.id, days)
+    then:
+      result.size() == 3
+  }
+
+  private void createSaleOrdersForCompany(Company company) {
+    new SaleOrder(company:company, fechaCobro:new Date()).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-60).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-30).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-35).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-45).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-60).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-65).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-90).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-120).save(validate:false)
+    new SaleOrder(company:company, fechaCobro:new Date()-200).save(validate:false)
+  }
 }
