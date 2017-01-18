@@ -257,7 +257,7 @@ class CompanyController {
   def pastDuePortfolioForDays() {
     Integer days = params.days.toInteger()
     String alert = getAlertColor(days)
-    List<SaleOrder> detailPastDuePortfolio = saleOrderService.obtainListPastDuePortfolio(session.company.toLong(), days)
+    List<SaleOrder> detailPastDuePortfolio = companyService.getDetailPastDuePortfolio(session.company.toLong(), days)
     render view:"pastDuePortfolio", model:[detail:detailPastDuePortfolio, days:days, alert:alert]
   }
 
