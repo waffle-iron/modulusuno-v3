@@ -57,7 +57,7 @@ class CompanyController {
     def company = Company.findById(session.company.toLong())
     render view:"/uploadDocuments/uploadDocumentsUser",model:[company:company]
   }
-  
+
   def edit(Company company) {
     respond company,model:[edit:true]
   }
@@ -249,6 +249,29 @@ class CompanyController {
     PendingAccounts pendingAccounts = companyService.obtainPendingAccountsOfPeriod(new SimpleDateFormat("dd/MM/yyyy").parse(params.startDate), new SimpleDateFormat("dd/MM/yyyy").parse(params.endDate), company)
 
     render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.find {it.concentradora}]
+  }
+
+  def pastDuePortfolio() {
+  }
+
+  def pastDuePortfolioForDays() {
+    Integer days = params.days.toInteger()
+    String alert = getAlertColor(days)
+    List<SaleOrder> detailPastDuePortfolio = saleOrderService.obtainListPastDuePortfolio(session.company.toLong(), days)
+    render view:"pastDuePortfolio", model:[detail:detailPastDuePortfolio, days:days, alert:alert]
+  }
+
+  private String getAlertColor(Integer days) {
+    switch(days) {
+      case 30: "info"
+        break
+      case 60: "warning"
+        break
+      case 90: "warning"
+        break
+      case 120: "danger"
+        break
+    }
   }
 
 }
