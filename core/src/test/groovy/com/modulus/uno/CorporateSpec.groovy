@@ -27,26 +27,5 @@ class CorporateSpec extends Specification {
       null          | null         || false
   }
 
-  void "create a corporate and add one user, one company and one commission"() {
-    given:
-      Corporate corporate = new Corporate()
-      corporate.nameCorporate = "makingdevs"
-      corporate.corporateUrl = "makingdevs"
-      corporate.save()
-    and:
-      def user = new User().save(validate:false)
-      def company = new Company().save(validate:false)
-      def commission = new Commission().save(validate:false)
-    when:
-      corporate.addToUsers(user)
-      corporate.addToCompanies(company)
-      corporate.addToCommissions(commission)
-      corporate.save()
-    then:
-      corporate.id == 1
-      corporate.companies.size() == 1
-      corporate.users.size() == 1
-      corporate.commissions.size() == 1
-  }
 
 }
