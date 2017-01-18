@@ -47,4 +47,10 @@ class DashboardController {
       loanPaymentOrderToAuthorizeCount : LoanPaymentOrder.countByStatusAndCompany(LoanPaymentOrderStatus.VALIDATE, company)
     ]
   }
+
+  def listCompanies() {
+     params.max = (params.max ?: 10)
+     [companies:Company.list(params),companiesCount: Company.count()]
+  }
+
 }
