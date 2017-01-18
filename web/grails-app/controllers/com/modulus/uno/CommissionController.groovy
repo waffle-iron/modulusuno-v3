@@ -8,6 +8,8 @@ class CommissionController {
 
   static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+  def corporateService
+
   def index(Integer max) {
     params.max = Math.min(max ?: 10, 100)
     def company = Company.get(params.companyId)

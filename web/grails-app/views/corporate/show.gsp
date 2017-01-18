@@ -115,6 +115,45 @@
         </div>
         <!-- END OF PORTLET-DEFAULT -->
       </div>
+      <div class="col-md-12 col-lg-12">
+        <!-- BEGIN PORTLET-DEFAULT -->
+        <div class="portlet portlet-default">
+          <div class="portlet-heading">
+            <div class="portlet-title">
+              <h4>Comisiones</h4>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="panel-collapse collapse in">
+            <div class="portlet-body">
+              <g:if test="${corporate.commissions}">
+              <div class="table-responsive">
+                <table class="table">
+                  <tr>
+                    <th><g:message code="commission.fee.label"/></th>
+                    <th><g:message code="commission.percentage.label"/></th>
+                    <th><g:message code="commission.type.label"/></th>
+                  </tr>
+                  <g:each in="${corporate.commissions}" var="commission">
+                  <tr>
+                    <td>
+                      ${modulusuno.formatPrice(number:commission.fee)}
+                    </td>
+                    <td>${commission.percentage}</td>
+                    <td>${commission.type}</td>
+                  </tr>
+                  </g:each>
+                </table>
+              </g:if>
+              <g:if test="${corporate.commissions?.size() < 3}">
+                <g:link class="create btn btn-default" action="create" controller="commission" params="[corporateId:corporate.id]">
+                  <g:message code="commission.create.label" args="[entityName]" />
+                </g:link>
+              </g:if>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- END OF ROW -->
 

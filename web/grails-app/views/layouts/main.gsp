@@ -83,6 +83,7 @@
             <li>
               <g:link controller="dashboard" action="index" >Ver Corporativos</g:link>
               <g:link controller="corporate" action="create" >Crear Nuevo Corporativo</g:link>
+              <g:link controller="dashboard" action="listCompanies" >Agregar Comisiones a Empresas</g:link>
             </li>
           </sec:ifAnyGranted>
 
