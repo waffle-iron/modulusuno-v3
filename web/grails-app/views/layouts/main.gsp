@@ -103,12 +103,13 @@
             <sec:ifAnyGranted roles="ROLE_FICO_VISOR,ROLE_FICO_EJECUTOR">
               <g:render template="/layouts/fico" />
             </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
-              <g:render template="/layouts/authorizer" />
-            </sec:ifAnyGranted>
             <sec:ifAnyGranted roles="ROLE_OPERATOR_VISOR,ROLE_OPERATOR_EJECUTOR">
               <g:render template="/layouts/operador" />
             </sec:ifAnyGranted>
+            <sec:ifAnyGranted roles="ROLE_AUTHORIZER_VISOR, ROLE_AUTHORIZER_EJECUTOR">
+              <g:render template="/layouts/authorizer" />
+            </sec:ifAnyGranted>
+
           </g:if>
           <li><g:link controller="logout" action="index"><i class="fa fa-sign-out"></i> Cerrar sesión</g:link></li>
         </ul>
