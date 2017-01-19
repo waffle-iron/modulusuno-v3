@@ -165,8 +165,13 @@ class SaleOrderService {
       listResult = saleCriteria.list {
           eq("company", company)
           or {
-            le("fechaCobro", end)
-            le("originalDate", end)
+            and {
+              le("fechaCobro", end)
+              isNull("originalDate")
+            }
+            and {
+              le("originalDate", end)
+            }
           }
           eq("status", SaleOrderStatus.EJECUTADA)
       }
@@ -175,7 +180,10 @@ class SaleOrderService {
       listResult = saleCriteria.list {
           eq("company", company)
           or {
-            between("fechaCobro", begin, end)
+            and {
+              between("fechaCobro", begin, end)
+              isNull("originalDate")
+            }
             between("originalDate", begin, end)
           }
           eq("status", SaleOrderStatus.EJECUTADA)
