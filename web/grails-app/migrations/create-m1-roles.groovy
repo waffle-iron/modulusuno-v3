@@ -1,6 +1,3 @@
-import liquibase.statement.core.*
-import com.modulus.uno.Role
-
 databaseChangeLog = {
 
   changeSet(author: "neodevelop (manual)", id: "new-roles-for-m1") {
