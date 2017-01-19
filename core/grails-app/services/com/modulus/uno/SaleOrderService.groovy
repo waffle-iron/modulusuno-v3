@@ -161,11 +161,6 @@ class SaleOrderService {
     def saleCriteria = SaleOrder.createCriteria()
     def listResult = []
 
-    println "Days: ${days}"
-    println "End: ${end}"
-    def allSales = SaleOrder.list()
-    println "Total sale orders: ${allSales.size()}"
-
     if (days==120) {
       listResult = saleCriteria.list {
           eq("company", company)
@@ -177,8 +172,6 @@ class SaleOrderService {
       }
     } else {
       Date begin = dateFormat.parse(dateFormat.format(new Date()-(days+30)))
-      println "Begin: ${begin}"
-
       listResult = saleCriteria.list {
           eq("company", company)
           or {
@@ -187,9 +180,6 @@ class SaleOrderService {
           }
           eq("status", SaleOrderStatus.EJECUTADA)
       }
-    }
-    listResult.each {
-      println "Sale: ${it.id}, Client: ${it.clientName}, OriginalDate: ${it.originalDate}, FechaCobro: ${it.fechaCobro}, Total: ${it.total}"
     }
     listResult
   }
