@@ -1,6 +1,7 @@
 package com.modulus.uno
 
 import grails.transaction.Transactional
+import java.text.SimpleDateFormat
 
 @Transactional
 class SaleOrderService {
@@ -151,6 +152,44 @@ class SaleOrderService {
     saleOrder.fechaCobro = chargeDate
     saleOrder.save()
     saleOrder
+  }
+
+  List<SaleOrder> obtainListPastDuePortfolio(Long idCompany, Integer days) {
+    Company company = Company.get(idCompany)
+    def dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    Date end = dateFormat.parse(dateFormat.format(new Date()-days))
+    def saleCriteria = SaleOrder.createCriteria()
+    def listResult = []
+
+    if (days==120) {
+      listResult = saleCriteria.list {
+          eq("company", company)
+          or {
+            and {
+              le("fechaCobro", end)
+              isNull("originalDate")
+            }
+            and {
+              le("originalDate", end)
+            }
+          }
+          eq("status", SaleOrderStatus.EJECUTADA)
+      }
+    } else {
+      Date begin = dateFormat.parse(dateFormat.format(new Date()-(days+30)))
+      listResult = saleCriteria.list {
+          eq("company", company)
+          or {
+            and {
+              between("fechaCobro", begin, end)
+              isNull("originalDate")
+            }
+            between("originalDate", begin, end)
+          }
+          eq("status", SaleOrderStatus.EJECUTADA)
+      }
+    }
+    listResult
   }
 
 }
