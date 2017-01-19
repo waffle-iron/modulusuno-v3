@@ -48,6 +48,9 @@
 
             <div class="row">
             <g:if test="${detail}">
+              <div class="text-right">
+                <g:link class="btn btn-default" action="pdfForPastDuePortfolio" params="[days:days]">PDF</g:link>
+              </div>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
