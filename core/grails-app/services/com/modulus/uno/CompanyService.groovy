@@ -246,4 +246,9 @@ class CompanyService {
     Address fiscalAddress = company.addresses.find {it.addressType == AddressType.FISCAL}
     !(isAvailableForGenerateInvoices(company.rfc)) && fiscalAddress
   }
+
+  List<SaleOrder> getDetailPastDuePortfolio(Long idCompany, Integer days) {
+    saleOrderService.obtainListPastDuePortfolio(idCompany, days)
+  }
+
 }

@@ -218,7 +218,6 @@ class SaleOrderServiceSpec extends Specification {
       fechaCobro    | originalDate  | sendDate      | fechaCobroOriginal
       new Date()    | null          | new Date()+4  | new Date()
       new Date()+12 | new Date()+40 | new Date()+40 | new Date()+40
-
   }
 
 }
