@@ -40,11 +40,45 @@
       <div class="panel panel-primary">
         <div class="panel-body">
           <div class="container-fluid">
-          <div class="row">
-            <div class="alert alert-${alert}">
-              Cartera vencida de ${days} días ${days==120? "y más" : ""}
+            <div class="row">
+              <div class="alert alert-${alert}">
+                Cartera vencida de ${days} días ${days==120? "y más" : ""}
+              </div>
             </div>
-          </div>
+
+            <div class="row">
+            <g:if test="${detail}">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>No. de Orden</th>
+                      <th>Cliente</th>
+                      <th>Fecha de Cobro</th>
+                      <th>Fecha de Vencimiento</th>
+                      <th>Estatus</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <g:each in="${detail.sort {it.fechaCobro}}" var="sale">
+                      <tr>
+                        <td class="text-center">${sale.id}</td>
+                        <td>${sale.clientName}</td>
+                        <td><g:formatDate format="dd-MM-yyyy" date="${sale.fechaCobro}"/></td>
+                        <td><g:formatDate format="dd-MM-yyyy" date="${sale.originalDate ?: sale.fechaCobro}"/></td>
+                        <td>${sale.status}</td>
+                        <td class="text-right">${modulusuno.formatPrice(number: sale.total)}</td>
+                      </tr>
+                    </g:each>
+                </table>
+              </div>
+            </g:if>
+            <g:else>
+              <div class="alert alert-warning">No se encontraron facturas vencidas </div>
+            </g:else>
+            </div>
+
           </div>
         </div>
       </div>
