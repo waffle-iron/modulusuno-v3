@@ -251,4 +251,27 @@ class CompanyController {
     render view:'pendingAccounts', model:[pendingAccounts:pendingAccounts, mainAccount:company.banksAccounts.find {it.concentradora}]
   }
 
+  def pastDuePortfolio() {
+  }
+
+  def pastDuePortfolioForDays() {
+    Integer days = params.days.toInteger()
+    String alert = getAlertColor(days)
+    List<SaleOrder> detailPastDuePortfolio = companyService.getDetailPastDuePortfolio(session.company.toLong(), days)
+    render view:"pastDuePortfolio", model:[detail:detailPastDuePortfolio, days:days, alert:alert]
+  }
+
+  private String getAlertColor(Integer days) {
+    switch(days) {
+      case 30: "info"
+        break
+      case 60: "warning"
+        break
+      case 90: "warning"
+        break
+      case 120: "danger"
+        break
+    }
+  }
+
 }
