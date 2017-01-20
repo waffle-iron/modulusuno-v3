@@ -29,6 +29,82 @@ class BankAccountServiceSpec extends Specification {
       savedBankAccount.id
   }
 
+  Should "find bank account repeated for company"() {
+    given:"A bank account"
+      BankAccount bankAccount = createBankAccount()
+    and:"A company with bank accounts"
+      BankAccount bankExisting = createBankAccount()
+      bankExisting.banco = bankAccount.banco
+      bankExisting.save(validate:false)
+      Company company = createCompany()
+      company.banksAccounts = [bankExisting]
+    when:
+      def repeated = service.repeatedBankAccountCompany(bankAccount, company)
+    then:
+      repeated
+  }
+
+  Should "not found bank account repeated for company"() {
+    given:"A bank account"
+      BankAccount bankAccount = createBankAccount()
+    and:"A company with bank accounts"
+      BankAccount bankExisting = createBankAccount()
+      bankExisting.accountNumber = "09876543210"
+      bankExisting.banco = bankAccount.banco
+      bankExisting.save(validate:false)
+      Company company = createCompany()
+      company.banksAccounts = [bankExisting]
+    when:
+      def repeated = service.repeatedBankAccountCompany(bankAccount, company)
+    then:
+      !repeated
+  }
+
+  Should "create a bank account"() {
+    given:"A bank account command"
+      BankAccountCommand bankAccountCommand = new BankAccountCommand(accountNumber:"12345", branchNumber:"120", clabe:"123456789123456789", bank:"90902", concentradora:false)
+    and:
+      Bank.metaClass.static.findByBankingCode = { new Bank(bankingCode:"90902",name:"INDEVAL").save() }
+    when:
+      def bankAccount = service.createABankAccount(bankAccountCommand)
+    then:
+      bankAccount.accountNumber == "12345"
+      bankAccount.branchNumber == "120"
+      bankAccount.clabe == "123456789123456789"
+      bankAccount.banco.bankingCode == "90902"
+  }
+
+  Should "find bank account repeated for business entity"() {
+    given:"A bank account"
+      BankAccount bankAccount = createBankAccount()
+    and:"A business entity with bank accounts"
+      BankAccount bankExisting = createBankAccount()
+      bankExisting.banco = bankAccount.banco
+      bankExisting.save(validate:false)
+      BusinessEntity businessEntity = createBusinessEntity()
+      businessEntity.banksAccounts = [bankExisting]
+    when:
+      def repeated = service.repeatedBankAccountBusinessEntity(bankAccount, businessEntity)
+    then:
+      repeated
+  }
+
+  Should "not found bank account repeated for businessEntity"() {
+    given:"A bank account"
+      BankAccount bankAccount = createBankAccount()
+    and:"A business entity with bank accounts"
+      BankAccount bankExisting = createBankAccount()
+      bankExisting.accountNumber = "09876543210"
+      bankExisting.banco = bankAccount.banco
+      bankExisting.save(validate:false)
+      BusinessEntity businessEntity = createBusinessEntity()
+      businessEntity.banksAccounts = [bankExisting]
+    when:
+      def repeated = service.repeatedBankAccountBusinessEntity(bankAccount, businessEntity)
+    then:
+      !repeated
+  }
+
   private def createCompany(){
     def company = new Company(rfc:"JIGE930831NZ1",
                   bussinessName:"ABCD",
