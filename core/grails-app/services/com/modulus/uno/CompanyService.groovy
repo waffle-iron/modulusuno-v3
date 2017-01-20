@@ -250,4 +250,5 @@ class CompanyService {
   List<SaleOrder> getDetailPastDuePortfolio(Long idCompany, Integer days) {
     saleOrderService.obtainListPastDuePortfolio(idCompany, days)
   }
+
 }
