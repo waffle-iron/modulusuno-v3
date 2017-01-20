@@ -261,6 +261,13 @@ class CompanyController {
     render view:"pastDuePortfolio", model:[detail:detailPastDuePortfolio, days:days, alert:alert]
   }
 
+  def pdfForPastDuePortfolio() {
+    Integer days = params.days.toInteger()
+    Company company = Company.get(session.company)
+    List<SaleOrder> detailPastDuePortfolio = companyService.getDetailPastDuePortfolio(session.company.toLong(), days)
+    renderPdf(template: "/documentTemplates/pastDuePortfolioForCompany", model: [company:company, detail:detailPastDuePortfolio, days:days])
+  }
+
   private String getAlertColor(Integer days) {
     switch(days) {
       case 30: "info"

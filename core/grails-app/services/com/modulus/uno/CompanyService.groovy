@@ -242,15 +242,13 @@ class CompanyService {
     purchaseOrderService.updateDatePaymentForOrder(orderId.toLong(), newPaymentDate)
   }
 
-<<<<<<< HEAD
   Boolean isCompanyEnabledToStamp(Company company) {
     Address fiscalAddress = company.addresses.find {it.addressType == AddressType.FISCAL}
     !(isAvailableForGenerateInvoices(company.rfc)) && fiscalAddress
   }
-=======
+
   List<SaleOrder> getDetailPastDuePortfolio(Long idCompany, Integer days) {
     saleOrderService.obtainListPastDuePortfolio(idCompany, days)
   }
 
->>>>>>> origin/feature/115
 }
