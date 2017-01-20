@@ -23,6 +23,7 @@ class CompanyServiceSpec extends Specification {
   DepositOrderService depositOrderService = Mock(DepositOrderService)
   CollaboratorService collaboratorService = Mock(CollaboratorService)
   DirectorService directorService = Mock(DirectorService)
+  RestService restService = Mock(RestService)
 
   def setup(){
     service.modulusUnoService = modulusUnoService
@@ -34,6 +35,7 @@ class CompanyServiceSpec extends Specification {
     service.depositOrderService = depositOrderService
     service.collaboratorService = collaboratorService
     service.directorService = directorService
+    service.restService = restService
   }
 
   Should "create a direction for a Company"(){
@@ -450,6 +452,26 @@ and:
     company
   }
 
+  void "Should return is not enabled to stamp when company is missing documents to stamp"() {
+    given: "A company"
+      Company company = createCompany()
+    and: "documents to stamp"
+      restService.existEmisorForGenerateInvoice(_) >> [validCer:true, validKey:false]
+    when: "we verify status"
+      Boolean result = service.isCompanyEnabledToStamp(company)
+    then:
+      result == false
+  }
 
+  void "Should return is not enabled to stamp when company is missing fiscal address"() {
+    given: "A company"
+      Company company = new Company(rfc:"XYZ010203ABC").save(validate:false)
+    and: "documents to stamp"
+      service.isAvailableForGenerateInvoices(_) >> [:]
+    when: "we verify status"
+      Boolean result = service.isCompanyEnabledToStamp(company)
+    then:
+      result == false
+  }
 
 }

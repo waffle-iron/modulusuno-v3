@@ -115,8 +115,6 @@
         </div>
         <!-- END OF PORTLET-DEFAULT -->
       </div>
-    </div>
-    <!-- END OF ROW -->
 
   </body>
 </html>

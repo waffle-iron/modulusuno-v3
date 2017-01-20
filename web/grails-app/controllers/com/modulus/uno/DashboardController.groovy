@@ -24,18 +24,19 @@ class DashboardController {
   }
 
   def jobs() {
+    Company company = Company.get(session.company)
     [
-    depositOrderAuthorizedCount : DepositOrder.countByStatus(DepositOrderStatus.AUTHORIZED),
-    cashOutOrderAuthorizedCount : CashOutOrder.countByStatus(CashOutOrderStatus.AUTHORIZED),
-    saleOrderAuthorizedCount : SaleOrder.countByStatus(SaleOrderStatus.AUTORIZADA),
-    saleOrderToCancelBillForExecuteCount : SaleOrder.countByStatus(SaleOrderStatus.CANCELACION_AUTORIZADA),
-    purchaseOrderAuthorizedCount : PurchaseOrder.countByStatusAndIsMoneyBackOrder(PurchaseOrderStatus.AUTORIZADA, false),
-    moneyBackOrderAuthorizedCount : PurchaseOrder.countByStatusAndIsMoneyBackOrder(PurchaseOrderStatus.AUTORIZADA, true),
-    loanOrderAuthorizeCount : LoanOrder.countByStatus(LoanOrderStatus.AUTHORIZED),
-    loanOrderToExecuteCount : LoanOrder.countByStatus(LoanOrderStatus.ACCEPTED),
-    feesReceiptCount : FeesReceipt.countByStatus(FeesReceiptStatus.AUTORIZADA),
-    paymentsToConciliateCount: Payment.countByStatus(PaymentStatus.PENDING),
-    loanPaymentOrderAuthorizedCount : LoanPaymentOrder.countByStatus(LoanPaymentOrderStatus.AUTHORIZED)
+    depositOrderAuthorizedCount : DepositOrder.countByStatusAndCompany(DepositOrderStatus.AUTHORIZED, company),
+    cashOutOrderAuthorizedCount : CashOutOrder.countByStatusAndCompany(CashOutOrderStatus.AUTHORIZED, company),
+    saleOrderAuthorizedCount : SaleOrder.countByStatusAndCompany(SaleOrderStatus.AUTORIZADA, company),
+    saleOrderToCancelBillForExecuteCount : SaleOrder.countByStatusAndCompany(SaleOrderStatus.CANCELACION_AUTORIZADA, company),
+    purchaseOrderAuthorizedCount : PurchaseOrder.countByStatusAndCompanyAndIsMoneyBackOrder(PurchaseOrderStatus.AUTORIZADA, company, false),
+    moneyBackOrderAuthorizedCount : PurchaseOrder.countByStatusAndCompanyAndIsMoneyBackOrder(PurchaseOrderStatus.AUTORIZADA, company, true),
+    loanOrderAuthorizeCount : LoanOrder.countByStatusAndCompany(LoanOrderStatus.AUTHORIZED, company),
+    loanOrderToExecuteCount : LoanOrder.countByStatusAndCompany(LoanOrderStatus.ACCEPTED, company),
+    feesReceiptCount : FeesReceipt.countByStatusAndCompany(FeesReceiptStatus.AUTORIZADA, company),
+    paymentsToConciliateCount: Payment.countByStatusAndCompany(PaymentStatus.PENDING, company),
+    loanPaymentOrderAuthorizedCount : LoanPaymentOrder.countByStatusAndCompany(LoanPaymentOrderStatus.AUTHORIZED, company)
     ]
   }
 
@@ -53,4 +54,10 @@ class DashboardController {
       loanPaymentOrderToAuthorizeCount : LoanPaymentOrder.countByStatusAndCompany(LoanPaymentOrderStatus.VALIDATE, company)
     ]
   }
+
+  def listCompanies() {
+     params.max = (params.max ?: 10)
+     [companies:Company.list(params),companiesCount: Company.count()]
+  }
+
 }

@@ -73,4 +73,10 @@ class CorporateService {
     corporateUsers
   }
 
+  def addCommissionToCorporate(Corporate corporate, Commission commission) {
+    corporate.addToCommissions(commission)
+    corporate.save()
+    corporate
+  }
+
 }
