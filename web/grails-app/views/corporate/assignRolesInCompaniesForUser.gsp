@@ -24,6 +24,7 @@
       <div class="col-md-12 col-lg-12">
         <g:form action="saveRolesForUser" method="POST" class="form-horizontal" role="form">
         <g:hiddenField name="username" value="${user.username}" />
+        <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
@@ -46,6 +47,7 @@
             </g:each>
           </tbody>
         </table>
+        </div>
         <input class="save btn btn-default" type="submit" value="${message(code: 'default.button.save.label', default: 'Save')}" />
         </g:form>
       </div>
