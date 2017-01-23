@@ -4,4 +4,6 @@ databaseChangeLog = {
   include file: 'adding-user-admin-production.groovy'
   include file: 'adding-list-banks.groovy'
   include file: 'adding-colunm-reference-to-payment.groovy'
+  include file: 'adding-uuid-to-purchase-order.groovy'
+  include file: 'initializeUuidToPurchaseOrder.groovy'
 }
