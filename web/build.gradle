@@ -97,6 +97,7 @@ dependencies {
   compile 'net.bull.javamelody:javamelody-core:1.59.0'
   compile "net.sourceforge.jexcelapi:jxl:2.6.12"
   compile 'org.grails.plugins:excel-export:2.0.1'
+  compile 'com.amazonaws:aws-java-sdk-route53:1.11.83'
   runtime "org.grails.plugins:asset-pipeline"
   runtime 'org.grails.plugins:database-migration:2.0.0.RC1'
   runtime "org.springframework:spring-test:4.0.7.RELEASE"
