@@ -8,6 +8,7 @@ class CorporateController {
   OrganizationService organizationService
   def springSecurityService
   def managerApplicationService
+  def awsRoute53Service
 
   def create(){
     respond new Corporate()
@@ -21,7 +22,8 @@ class CorporateController {
     }
 
     corporateService.saveNewCorporate(corporate)
-
+    corporateService.createAVirtualHostNginx(corporate)
+    corporateService.createRoute53(corporate)
     request.withFormat {
       form multipartForm {
         flash.message = message(code:'default.created.message', args:[message(code: 'corporate.label',
