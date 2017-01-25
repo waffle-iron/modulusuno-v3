@@ -25,6 +25,10 @@
 <label id="rfcLabel"><g:message code="businessEntity.rfc" /><span class="required-indicator">*</span></label>
 <input id="rfc" name="rfc" value="${businessEntity.rfc}" class="form-control" style="text-transform:uppercase" required="" />
 
+<g:if test="${clientProviderType == LeadType.EMPLEADO.toString()}">
+  <label id="curpLabel"><g:message code="businessEntity.curp" /><span class="required-indicator">*</span></label>
+  <input id="curp" name="curp" value="${curp ?: params.curp}" class="form-control" style="text-transform:uppercase" required="" />
+</g:if>
 
 <div id="website">
   <f:field property="website" label="${message(code:"businessEntity.website")}" wrapper="home">

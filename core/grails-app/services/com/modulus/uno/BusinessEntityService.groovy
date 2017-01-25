@@ -77,6 +77,9 @@ class BusinessEntityService {
     clientLink?.delete()
     def providerLink = ProviderLink.findByProviderRef(rfc)
     providerLink?.delete()
+    def employeeLink = EmployeeLink.findByEmployeeRef(rfc)
+    employeeLink?.delete()
+
   }
 
   def findBusinessEntityByKeyword(String keyword, String entity, Company company){
@@ -156,13 +159,35 @@ class BusinessEntityService {
   }
 
   def generateSubAccountStp(Company company, BusinessEntity businessEntity) {
-  ClientLink client = ClientLink.findByCompanyAndClientRef(company, businessEntity.rfc)
-  client = clientService.generateSubAccountStp(client, businessEntity)
-  client
-}
+    ClientLink client = ClientLink.findByCompanyAndClientRef(company, businessEntity.rfc)
+    client = clientService.generateSubAccountStp(client, businessEntity)
+    client
+  }
 
-ClientLink getClientLinkOfBusinessEntityAndCompany(BusinessEntity businessEntity, Company company) {
-  ClientLink.findByCompanyAndClientRef(company, businessEntity.rfc)
-}
+  ClientLink getClientLinkOfBusinessEntityAndCompany(BusinessEntity businessEntity, Company company) {
+    ClientLink.findByCompanyAndClientRef(company, businessEntity.rfc)
+  }
+
+  def updateBusinessEntity(BusinessEntity businessEntity, Company company, def params) {
+    LeadType leadType = LeadType."${params.clientProviderType}"
+    if(businessEntity.type == BusinessEntityType.FISICA){
+      updateNamesToBusinessEntity(businessEntity, (String[])[params.name, params.lastName, params.motherLastName])
+    } else {
+      updateDataToBusinessEntity(businessEntity, params.businessName)
+    }
+
+    deleteLinksForRfc(businessEntity.rfc)
+
+    if(leadType == LeadType.CLIENTE || leadType == LeadType.CLIENTE_PROVEEDOR){
+      clientService.addClientToCompany(businessEntity, company)
+    }
+    if(leadType == LeadType.PROVEEDOR || leadType == LeadType.CLIENTE_PROVEEDOR){
+      providerService.addProviderToCompany(businessEntity, company)
+    }
+    if(leadType == LeadType.EMPLEADO){
+      employeeService.addEmployeeToCompany(businessEntity, company, params.curp)
+    }
+
+  }
 
 }
