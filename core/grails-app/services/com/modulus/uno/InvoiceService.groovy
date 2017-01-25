@@ -25,7 +25,7 @@ class InvoiceService {
     command.emisor.datosFiscales.noExterior = address.streetNumber
     command.emisor.datosFiscales.noInterior = address.suite ?: "SN"
     command.emisor.datosFiscales.regimen = company.taxRegime.code
-    datosDeFacturacion.numeroDeCuentaDePago = company.accounts[0].stpClabe
+
     command.emitter = company.rfc
     command.pdfTemplate = saleOrder.pdfTemplate
 
@@ -39,6 +39,9 @@ class InvoiceService {
     command.receptor.datosFiscales.noExterior = saleOrder.addresses[0].streetNumber ?: "SN"
     command.receptor.datosFiscales.noInterior = saleOrder.addresses[0].suite ?: "SN"
     command.receptor.datosFiscales.colonia = saleOrder.addresses[0].colony
+
+    ClientLink client = ClientLink.findByClientRefAndCompany(saleOrder.rfc, company)
+    datosDeFacturacion.numeroDeCuentaDePago = client.stpClabe ?: company.accounts[0].stpClabe
 
     if(Company.findByRfcAndStatus(command.receptor.datosFiscales.rfc, CompanyStatus.ACCEPTED)){
       command.betweenIntegrated = true
