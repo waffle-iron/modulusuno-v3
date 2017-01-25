@@ -7,6 +7,7 @@ class CorporateService {
 
   RecoveryService recoveryService
   def springSecurityService
+  def awsRoute53Service
 
   def addCompanyToCorporate(Corporate corporate, Company company) {
     corporate.addToCompanies(company)
@@ -19,14 +20,20 @@ class CorporateService {
   }
 
   def createRoute53(Corporate corporate) {
-    //checar esta ligas http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+    def valueHost = System.env['VALUE_HOST_IP']
+    def baseUrl = System.env['DOMAIN_BASE_URL']
+    awsRoute53Service.createRecordSet(corporate.corporateUrl,"-api${baseUrl}", valueHost)
+    awsRoute53Service.createRecordSet(corporate.corporateUrl,baseUrl, valueHost)
     true
   }
 
 
   def createAVirtualHostNginx(Corporate corporate) {
-    //Esta en si en manejo del nginx pero deveras de chacar muy bien los puestos que se van usando tanto para cada nuevo coorporativo
-    true
+    def baseUrl = System.env['DOMAIN_BASE_URL']
+    def destFile = System.env['NGINX_LOCAL']
+    createWebAndApiViHost(corporate, baseUrl, destFile)
+    "sudo service nginx reload".execute()
+
   }
 
   Corporate findCorporateOfUser(User user){
@@ -77,6 +84,19 @@ class CorporateService {
     corporate.addToCommissions(commission)
     corporate.save()
     corporate
+  }
+
+  private def copyAndReplaceTextInFile(source, dest, Closure replaceText) {
+    dest.write(replaceText(source.text))
+  }
+
+  private def createWebAndApiViHost(Corporate corporate, String baseUrl, String destFile) {
+    def fileDefaultWeb =  new File('src/main/groovy/com/modulus/uno/web.txt')
+    def fileDefaultApi =  new File('src/main/groovy/com/modulus/uno/api.txt')
+    def fileNewWeb = new File("${destFile}${corporate.corporateUrl}.conf")
+    def fileNewApi = new File("${destFile}api-${corporate.corporateUrl}.conf")
+    copyAndReplaceTextInFile(fileDefaultWeb,fileNewWeb) { it.replaceAll('urlCorporate',"${corporate.corporateUrl}${baseUrl}" )}
+    copyAndReplaceTextInFile(fileDefaultApi,fileNewApi) { it.replaceAll('urlCorporate',"${corporate.corporateUrl}-api${baseUrl}" )}
   }
 
 }
