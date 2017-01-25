@@ -33,8 +33,7 @@ class CorporateService {
 
   def createAVirtualHostNginx(Corporate corporate) {
     def baseUrl = System.env['DOMAIN_BASE_URL']
-    def env = System.getenv()
-    def tempDirectory = env['FILES_NGINX']
+    def tempDirectory = System.env['FILES_NGINX']
     log.info baseUrl
     log.info tempDirectory
     log.info "*****************"
