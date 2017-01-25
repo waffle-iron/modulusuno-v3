@@ -22,6 +22,7 @@ class CorporateController {
     }
 
      println System.env['FILES_NGINX']
+    println System.getenv("FILES_NGINX");
     corporateService.saveNewCorporate(corporate)
     corporateService.createAVirtualHostNginx(corporate)
     corporateService.createRoute53(corporate)
