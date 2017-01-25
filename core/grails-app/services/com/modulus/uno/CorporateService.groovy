@@ -31,7 +31,8 @@ class CorporateService {
 
   def createAVirtualHostNginx(Corporate corporate) {
     def baseUrl = System.env['DOMAIN_BASE_URL']
-    def tempDirectory = System.env['DIRECTORY_TEMP_FILES']
+    def env = System.getenv()
+    def tempDirectory = env['DIRECTORY_TEMP_FILES']
     log.info tempDirectory
     log.info "*****************"
     createWebAndApiViHost(corporate, baseUrl, tempDirectory)
