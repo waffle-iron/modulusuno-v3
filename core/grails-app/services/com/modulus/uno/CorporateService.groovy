@@ -32,7 +32,9 @@ class CorporateService {
   def createAVirtualHostNginx(Corporate corporate) {
     def baseUrl = System.env['DOMAIN_BASE_URL']
     def destFile = System.env['NGINX_LOCAL']
-    createWebAndApiViHost(corporate, baseUrl, destFile)
+    def tempDirectory = System.env['DIRECTORY_TEMP_FILES']
+    createWebAndApiViHost(corporate, baseUrl, tempDirectory)
+    "sudo mv ${tempDirectory}/*.conf ${destFile}".execute()
     "sudo service nginx reload".execute()
 
   }
