@@ -23,8 +23,6 @@ class CorporateService {
   def createRoute53(Corporate corporate) {
     def valueHost = System.env['VALUE_HOST_IP']
     def baseUrl = System.env['DOMAIN_BASE_URL']
-    log.info valueHost
-    log.info "****************************"
     awsRoute53Service.createRecordSet(corporate.corporateUrl,"-api${baseUrl}", valueHost)
     awsRoute53Service.createRecordSet(corporate.corporateUrl,baseUrl, valueHost)
     true
@@ -34,9 +32,6 @@ class CorporateService {
   def createAVirtualHostNginx(Corporate corporate) {
     def baseUrl = System.env['DOMAIN_BASE_URL']
     def tempDirectory = System.env['FILES_NGINX']
-    log.info baseUrl
-    log.info tempDirectory
-    log.info "*****************"
     createWebAndApiViHost(corporate, baseUrl, tempDirectory)
     "sudo service nginx reload".execute()
 
@@ -100,8 +95,6 @@ class CorporateService {
     def file = corporate.getClass().getClassLoader().getResource("web.txt").file
     def fileDefaultWeb =  new File(corporate.getClass().getClassLoader().getResource("web.txt").file)
     def fileDefaultApi =  new File(corporate.getClass().getClassLoader().getResource("api.txt").file)
-    log.info "${destFile}${corporate.corporateUrl}.conf"
-    log.info "***********************"
     def fileNewWeb = new File("${destFile}${corporate.corporateUrl}.conf")
     def fileNewApi = new File("${destFile}api-${corporate.corporateUrl}.conf")
     copyAndReplaceTextInFile(fileDefaultWeb,fileNewWeb) { it.replaceAll('urlCorporate',"${corporate.corporateUrl}${baseUrl}" )}
