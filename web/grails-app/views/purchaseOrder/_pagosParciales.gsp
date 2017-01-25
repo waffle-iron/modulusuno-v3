@@ -32,7 +32,7 @@
           </g:form>
           <br />
           <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
-            <g:if test="${purchaseOrder.bankAccount}">
+            <g:if test="${purchaseOrder.bankAccount && !purchaseOrder.payments}">
               <g:form controller="purchaseOrder" action="executePurchaseOrder" id="${purchaseOrder.id}">
                 <button type="submit" class="btn btn-info btn-block">Pagar Completo</button>
               </g:form>

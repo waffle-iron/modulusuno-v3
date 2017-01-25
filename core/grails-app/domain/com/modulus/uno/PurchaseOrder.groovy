@@ -3,6 +3,7 @@ import grails.converters.JSON
 
 class PurchaseOrder {
 
+  String uuid = UUID.randomUUID().toString().replace('-','')[0..15]
   String providerName
   PurchaseOrderStatus status = PurchaseOrderStatus.CREADA
 
