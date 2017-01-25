@@ -23,6 +23,8 @@ class CorporateService {
   def createRoute53(Corporate corporate) {
     def valueHost = System.env['VALUE_HOST_IP']
     def baseUrl = System.env['DOMAIN_BASE_URL']
+    log.info valueHost
+    log.info "****************************"
     awsRoute53Service.createRecordSet(corporate.corporateUrl,"-api${baseUrl}", valueHost)
     awsRoute53Service.createRecordSet(corporate.corporateUrl,baseUrl, valueHost)
     true
@@ -33,6 +35,7 @@ class CorporateService {
     def baseUrl = System.env['DOMAIN_BASE_URL']
     def env = System.getenv()
     def tempDirectory = env['FILES_NGINX']
+    log.info baseUrl
     log.info tempDirectory
     log.info "*****************"
     createWebAndApiViHost(corporate, baseUrl, tempDirectory)
