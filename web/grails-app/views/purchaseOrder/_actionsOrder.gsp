@@ -91,7 +91,7 @@
 
 
   <sec:ifAnyGranted roles="ROLE_FICO_EJECUTOR">
-    <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA }">
+    <g:if test="${purchaseOrder.status == PurchaseOrderStatus.AUTORIZADA && !purchaseOrder.payments}">
       <a data-toggle="collapse" role="button" href="#inputReasonRejected" class="btn btn-danger" aria-expanded="false" aria-controls="inputReasonRejected">Rechazar la orden</a>
       <div class="row">
         <div class="col-md-12">
