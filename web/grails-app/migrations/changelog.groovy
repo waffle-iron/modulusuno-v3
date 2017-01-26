@@ -9,4 +9,6 @@ databaseChangeLog = {
   include file: 'moving-data-from-uuid-to-folio-in-sale-order.groovy'
   include file: 'adding-uuid-to-cashout-order.groovy'
   include file: 'initialize-uuid-from-cashout-order-existing.groovy'
+  include file: 'adding-uuid-to-fees-receipt.groovy'
+  include file: 'initialize-uuid-for-existing-fees-receipt.groovy'
 }
