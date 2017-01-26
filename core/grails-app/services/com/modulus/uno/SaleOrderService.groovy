@@ -73,8 +73,7 @@ class SaleOrderService {
 
   private updateSaleOrderFromGeneratedBill(String uuidFolio, SaleOrder saleOrder) {
     def tokens = uuidFolio.tokenize("_")
-    saleOrder.uuid = tokens[0]
-    saleOrder.folio = tokens[1]
+    saleOrder.folio = tokens[0]
     saleOrder.status = SaleOrderStatus.EJECUTADA
     saleOrder.save()
     emailSenderService.notifySaleOrderChangeStatus(saleOrder)
@@ -89,7 +88,7 @@ class SaleOrderService {
   }
 
   String getFactura(SaleOrder saleOrder, String format){
-    "${grailsApplication.config.modulus.facturacionUrl}${grailsApplication.config.modulus.showFactura}/${saleOrder.uuid}_${saleOrder.folio}/${format}"
+    "${grailsApplication.config.modulus.facturacionUrl}${grailsApplication.config.modulus.showFactura}/${saleOrder.folio}_${saleOrder.id}/${format}"
   }
 
   def addTheAddressToSaleOrder(SaleOrder saleOrder, Address address){

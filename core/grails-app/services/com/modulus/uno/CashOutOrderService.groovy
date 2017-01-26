@@ -18,9 +18,6 @@ class CashOutOrderService {
 
 	def authorizeAndDoCashOutOrder(CashOutOrder cashOutOrder) {
 		modulusUnoService.approveCashOutOrder(cashOutOrder)
-		def legalRepresentatives = cashOutOrder.company.legalRepresentatives
-		def message = "Se ha generado la orden de retiro por ${cashOutOrder.amount}, para la cuenta ${cashOutOrder.account} con fecha de ${new Date().format('dd/MMM/yyyy')}"
-		sendNotificationToUsers(legalRepresentatives,cashOutOrder,message)
 		cashOutOrder
 	}
 
@@ -31,34 +28,6 @@ class CashOutOrderService {
 	def isAvailableForAuthorize(CashOutOrder cashOutOrder) {
 		(cashOutOrder.authorizations?.size() ?: 0) == cashOutOrder.company.numberOfAuthorizations
 	}
-
-  def notificationToAuthorizersAndLegalRepresentatives(CashOutOrder cashOutOrder) {
-  	def authorizers = companyService.getAuthorizersByCompany(cashOutOrder.company)
-  	def legalRepresentatives = cashOutOrder.company.legalRepresentatives
-  	def message = "La empresa ${cashOutOrder.company.toString()} desea realizar una orden de retiro por ${cashOutOrder.amount} para cuenta ${cashOutOrder.account.toString()}"
-  	sendNotificationToUsers(authorizers,cashOutOrder,message)
-  	sendNotificationToUsers(legalRepresentatives,cashOutOrder,message)
-  	cashOutOrder.status = CashOutOrderStatus.IN_PROCESS
-  	cashOutOrder.save()
-  	cashOutOrder
-  }
-
-	private def createEmailNotificacionToUser(Company company,String url,User user,String message) {
-		def emailNotificationAdminCommand = new EmailNotificationToIntegratedCommand()
-		emailNotificationAdminCommand.emailResponse = user.profile.email
-		emailNotificationAdminCommand.nameCompany = company.toString()
-		emailNotificationAdminCommand.message = message
-		emailNotificationAdminCommand.url = url
-		emailNotificationAdminCommand
-	}
-
-  private def sendNotificationToUsers(def userList, CashOutOrder cashOutOrder,String message) {
-  	def url = "${grailsApplication.config.cashOutOrder.url}${cashOutOrder.id}"
-  	userList.each {user ->
-  		def messageCommand = createEmailNotificacionToUser(cashOutOrder.company,url, user,message)
-  		restService.sendCommand(messageCommand, grailsApplication.config.emailer.notificationIntegrated)
-  	}
-  }
 
   def getCashoutOrderStatus(String status){
     def cashoutOrderStatuses = []
