@@ -7,7 +7,7 @@ class SaleOrder {
 
   String rfc
   String clientName
-  String uuid
+  String uuid = UUID.randomUUID().toString().replace('-','')[0..15]
   String folio
   Date dateCreated
   Date lastUpdated

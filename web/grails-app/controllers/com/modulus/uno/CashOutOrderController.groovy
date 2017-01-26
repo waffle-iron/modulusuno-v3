@@ -160,7 +160,6 @@ class CashOutOrderController {
       if (missingAuthorizers) {
         flash.error = "No tienes suficientes Autorizadores te hacen falta ${missingAuthorizers}"
       } else {
-        cashOutOrderService.notificationToAuthorizersAndLegalRepresentatives(cashOutOrder)
         cashOutOrder.status = CashOutOrderStatus.TO_AUTHORIZED
         cashOutOrder.save(flush:true)
         emailSenderService.notifyCashOutOrderChangeStatus(cashOutOrder)

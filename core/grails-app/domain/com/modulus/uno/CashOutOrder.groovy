@@ -8,6 +8,7 @@ class CashOutOrder {
   BankAccount account
   RejectReason rejectReason
   String comments
+  String uuid = UUID.randomUUID().toString().replace('-','')[0..15]
 
   CashOutOrderStatus status = CashOutOrderStatus.CREATED
 
