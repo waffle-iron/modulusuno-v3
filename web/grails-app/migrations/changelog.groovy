@@ -6,4 +6,5 @@ databaseChangeLog = {
   include file: 'adding-colunm-reference-to-payment.groovy'
   include file: 'adding-uuid-to-purchase-order.groovy'
   include file: 'initializeUuidToPurchaseOrder.groovy'
+    include file: 'adding-unique-to-variable-of-corporate.groovy'
 }
