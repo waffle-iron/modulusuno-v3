@@ -1,6 +1,9 @@
 package com.modulus.uno
 
 class StpDeposit {
+  Date dateCreated
+  Date lastUpdated
+
   Long operationNumber
   Date operationDate
   String payerKey
@@ -15,6 +18,8 @@ class StpDeposit {
   String paymentConcept
   Long numericalReference
   String companyNameStp
+
+  StpDepositStatus status = StpDepositStatus.RECIBIDO
 
   static constraints = {
     operationNumber nullable:false
