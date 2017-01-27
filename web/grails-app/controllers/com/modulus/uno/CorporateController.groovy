@@ -21,9 +21,13 @@ class CorporateController {
       return
     }
 
+    if (corporateService.createRoute53(corporate)) {
+      flash.error = "La ruta que se desea dar de alta ya existe"
+      respond corporate.errors, view:'create'
+      return
+    }
     corporateService.saveNewCorporate(corporate)
     corporateService.createAVirtualHostNginx(corporate)
-    corporateService.createRoute53(corporate)
     request.withFormat {
       form multipartForm {
         flash.message = message(code:'default.created.message', args:[message(code: 'corporate.label',
