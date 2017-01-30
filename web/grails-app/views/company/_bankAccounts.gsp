@@ -1,9 +1,14 @@
 <div class="property-value" aria-labelledby="${label}-label">
   <ul>
     <g:each var="bankAccount" in="${company.banksAccounts.sort{it.banco.name}}">
+      <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
+        ${bankAccount.accountNumber} - ${bankAccount.banco}
+      </sec:ifAnyGranted>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
     <li class="subList">
       <g:link action="edit" controller="bankAccount" params="[company:company.id, companyBankAccount:true]" id="${bankAccount.id}">${bankAccount.accountNumber} - ${bankAccount.banco}</g:link> <g:if test="${bankAccount.concentradora}">Cuenta Concentradora</g:if>
     </li>
+      </sec:ifAnyGranted>
     </g:each>
   </ul>
 </div>
