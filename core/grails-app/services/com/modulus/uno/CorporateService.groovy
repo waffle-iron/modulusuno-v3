@@ -23,11 +23,22 @@ class CorporateService {
   def createRoute53(Corporate corporate) {
     def valueHost = System.env['VALUE_HOST_IP']
     def baseUrl = System.env['DOMAIN_BASE_URL']
-    awsRoute53Service.createRecordSet(corporate.corporateUrl,"-api${baseUrl}", valueHost)
-    awsRoute53Service.createRecordSet(corporate.corporateUrl,baseUrl, valueHost)
-    true
+    def listResultSets = awsRoute53Service.getResourceRecordSet()
+    if (!existRecordSetInAWS(listResultSets,corporate.corporateUrl)) {
+      awsRoute53Service.createRecordSet(corporate.corporateUrl,"-api${baseUrl}", valueHost)
+      awsRoute53Service.createRecordSet(corporate.corporateUrl,baseUrl, valueHost)
+      return false
+    } else {
+      return true
+    }
   }
 
+  private existRecordSetInAWS(def listResultSets, def corporateUrl) {
+    def result
+    result = listResultSets.find{ set -> set.name == "${corporateUrl}${System.env['DOMAIN_BASE_URL']}."}
+    result = listResultSets.find{ set -> set.name == "${corporateUrl}-api${System.env['DOMAIN_BASE_URL']}."}
+    result? true: false
+  }
 
   def createAVirtualHostNginx(Corporate corporate) {
     def baseUrl = System.env['DOMAIN_BASE_URL']
