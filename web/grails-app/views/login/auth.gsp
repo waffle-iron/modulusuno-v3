@@ -36,7 +36,6 @@
                   <br/>
                   <button id="btn-success" type="submit" class="btn btn-lg btn-primary btn-block">Ingresar</button>
                   <hr>
-                  <g:link controller="user" action="create" class="btn btn-block btn-default">Nuevo? Regístrate Aquí</g:link>
                 </fieldset>
                 <br>
                 <p class="small">

@@ -1,5 +1,8 @@
 package com.modulus.uno
 
+import grails.transaction.Transactional
+
+@Transactional
 class UserService {
 
   def recoveryService
@@ -11,18 +14,18 @@ class UserService {
     profile.name = params.profile.name
     profile.lastName = params.profile.lastName
     profile.motherLastName = params.profile.motherLastName
-    profile.email = params.profile.email
-    profile.rfc = params.profile.rfc
-    profile.curp = params.profile.curp
+    profile.email = params.profile.email ?: ""
+    if (params.profile.rfc)
+      profile.rfc = params.profile.rfc
+    if (params.profile.curp)
+      profile.curp = params.profile.curp
     profile.trademark = params.profile.trademark
-    profile.fullName = params.profile.fullName
+    profile.fullName = params.profile.fullName ?: ""
     profile.birthDate = params.profile.birthDate
-    if (params.telephone?.id) {
-      updateTelephoneOfUser(params)
-    } else {
-      profile.addToTelephones(createTelephone(params))
-    }
     profile.save()
+    user.profile = profile
+    user.save()
+    user
   }
 
   def containsUsersWithDocumentsByCompany(def listOfUsers,Company company) {
