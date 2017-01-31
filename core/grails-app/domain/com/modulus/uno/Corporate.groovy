@@ -8,7 +8,7 @@ class Corporate {
   static  hasMany =[companies:Company,users: User]
 
   static constraints = {
-    nameCorporate: nullable:false
-    corporateUrl: nullable:false
+    nameCorporate nullable:false, unique:true
+    corporateUrl nullable:false, unique:true
   }
 }

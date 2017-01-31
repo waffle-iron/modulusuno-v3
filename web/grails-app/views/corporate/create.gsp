@@ -41,11 +41,16 @@
             </g:if>
             <g:hasErrors bean="${corporate}">
               <ul class="errors alert alert-danger alert-dismissable" role="alert">
-                <g:eachError bean="${corporate}">
+                <g:eachError bean="${corporate}" var="error">
                   <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
                 </g:eachError>
               </ul>
             </g:hasErrors>
+            <g:if test="${flash.error}">
+            <div class="errors alert alert-danger alert-dismissable">
+              ${flash.error}
+            </div>
+            </g:if>
             <g:form action="save">
               <fieldset class="form">
                 <g:render template="form" bean="${corporate}" />
