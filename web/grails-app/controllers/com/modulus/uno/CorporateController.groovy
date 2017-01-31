@@ -124,7 +124,7 @@ class CorporateController {
 
     companyService.saveInsideAndAssingCorporate(company,corporate.id)
     managerApplicationService.acceptingCompanyToIntegrate(company.id, user.profile.email)
-    createCommissionsToCompany(company)
+    //createCommissionsToCompany(company)
     redirect(action:"companies",id:corporate.id)
   }
 

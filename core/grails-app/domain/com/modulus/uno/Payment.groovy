@@ -5,6 +5,7 @@ class Payment {
   BigDecimal amount
   PaymentStatus status = PaymentStatus.PENDING
   SaleOrder saleOrder
+  String rfc
 
   Date dateCreated
   Date lastUpdated
@@ -14,5 +15,6 @@ class Payment {
   static constraints = {
     amount nullable:false
     saleOrder nullable:true
+    rfc nullable:true
   }
 }

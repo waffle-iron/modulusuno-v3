@@ -233,4 +233,17 @@ class SaleOrderController {
     saleOrderService.deleteItemFromSaleOrder(item.saleOrder, item)
     redirect action:'show', id:idSaleOrder
   }
+
+  def conciliationSaleOrderPerClients() {
+    def company = Company.get(session.company)
+    def clients = businessEntityService.findBusinessEntityByKeyword(params.q, "CLIENT", company)
+    [clients: clients,params:params]
+  }
+
+  def searchSaleOrderExcecuteByClient() {
+    Company company = Company.get(session.company)
+    List saleOrders = SaleOrder.findAllByRfcAndStatus(params.rfc, SaleOrderStatus.EJECUTADA)
+    List payments = Payment.findAllByRfcAndStatus(params.rfc, PaymentStatus.PENDING)
+    render view:"/payment/reconcile", model:[payments: payments, saleOrders:saleOrders, company: company]
+  }
 }
