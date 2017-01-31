@@ -75,7 +75,11 @@ class BusinessEntityController {
 
   def edit(BusinessEntity businessEntity) {
     String clientProviderType = businessEntityService.getClientProviderType(businessEntity.rfc)
-    respond businessEntity, model:[clientProviderType:clientProviderType]
+    def employeeLink
+    if (clientProviderType == "EMPLEADO") {
+      employeeLink = EmployeeLink.findByEmployeeRef(businessEntity.rfc)
+    }
+    respond businessEntity, model:[curp:employeeLink?.curp, clientProviderType:clientProviderType]
   }
 
   @Transactional
@@ -95,19 +99,8 @@ class BusinessEntityController {
     }
 
     def company = Company.findById(session.company.toLong())
-    LeadType leadType = LeadType."${params.clientProviderType}"
-    if(businessEntity.type == BusinessEntityType.FISICA){
-      businessEntityService.updateNamesToBusinessEntity(businessEntity, (String[])[params.name, params.lastName, params.motherLastName])
-    } else {
-      businessEntityService.updateDataToBusinessEntity(businessEntity, params.businessName)
-    }
-    businessEntityService.deleteLinksForRfc(businessEntity.rfc)
-    if(leadType == LeadType.CLIENTE || leadType == LeadType.CLIENTE_PROVEEDOR){
-      clientService.addClientToCompany(businessEntity, company)
-    }
-    if(leadType == LeadType.PROVEEDOR || leadType == LeadType.CLIENTE_PROVEEDOR){
-      providerService.addProviderToCompany(businessEntity, company)
-    }
+
+    businessEntityService.updateBusinessEntity(businessEntity, company, params)
 
     request.withFormat {
       form multipartForm {
