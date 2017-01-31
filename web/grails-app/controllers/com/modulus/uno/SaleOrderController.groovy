@@ -3,7 +3,9 @@ package com.modulus.uno
 import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 import wslite.rest.*
+import grails.transaction.Transactional
 
+@Transactional
 class SaleOrderController {
 
   static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
