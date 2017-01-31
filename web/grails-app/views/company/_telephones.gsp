@@ -1,12 +1,12 @@
 <div class="property-value" aria-labelledby="${label}-label">
   <ul>
     <g:each var="telephone" in="${company.telephones}">
-      <g:if test="ROLE_CORPORATIVE">
+      <sec:ifAnyGranted roles="ROLE_CORPORATIVE">
         ${telephones.toString()}
-      </g:if>
-      <g:else>
+      </sec:ifAnyGranted>
+      <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_LEGAL_REPRESENTATIVE_VISOR">
         <li class="subList"><g:link controller="telephone" action="editForCompany" id="${telephone.id}" >${telephone.toString()}</g:link></li>
-      </g:else>
+      </sec:ifAnyGranted>
     </g:each>
   </ul>
 </div>
