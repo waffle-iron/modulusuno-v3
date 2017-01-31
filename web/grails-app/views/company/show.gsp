@@ -94,6 +94,10 @@
 <g:link action="rejected" class="btn btn-default" id="${company.id}">Revisar Razones de Rechazo</g:link>
 </g:if>
 </sec:ifAnyGranted>
+<g:if test="${!company.accounts}" >
+
+<g:link controller="company" action="crearCuentaSTP" id="${company.id}" class="btn btn-danger btn-block">Generar Cuenta STP</g:link>
+</g:if>
 </div>
 </div>
 </div>
