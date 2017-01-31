@@ -1,9 +1,7 @@
 package com.modulus.uno
 
 import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
 class UserController {
 
   def userService
@@ -38,12 +36,10 @@ class UserController {
     respond user,model:[company:session.company]
   }
 
-  @Transactional
   def update() {
     def user = User.get(params.user)
     Company company = Company.get(session.company)
-    legalRepresentativeService.assignLegalRepresentativeToCompany(company.id,user.id)
-    userService.addInformationToLegalRepresentative(user,params)
+    user = userService.addInformationToLegalRepresentative(user,params)
     render view:"show", model:[user:user,company:session.company]
   }
 

@@ -61,56 +61,23 @@
         <div class="col-lg-4">
           <asset:image width="25%" class="img-circle" src="Logosimbolo-ModulusUno-vFINAL-big.png"/>
           <h2>REGISTRA</h2>
-          <p>Registra a todos tus clientes, proveedores, emeplados, colaboradores, productos o inventarios.
+          <p>Registra a todos tus clientes, proveedores, empleados, colaboradores, productos o inventarios.
           Lleva fácilmente su control.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
           <asset:image width="25%" class="img-circle" src="Logosimbolo-ModulusUno-vFINAL-big.png"/>
           <h2>OPERA</h2>
           <p>Realiza depósitos, retiros o pagos. Recibe cobranza, actualiza inventarios.
           Todo de una manera muy sencilla.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
           <asset:image width="25%" class="img-circle" src="Logosimbolo-ModulusUno-vFINAL-big.png"/>
           <h2>CONSULTA</h2>
           <p>Cuanto debo? Cuanto me deben? Que hay que pagar esta semana?
           Tan fácil como consultarlo.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
       </div><!-- /.row -->
 
-      <hr class="featurette-divider">
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5">
-          <asset:image  class="featurette-image img-responsive center-block" src="Logosimbolo-ModulusUno-vFINAL-big.png"/>
-        </div>
-      </div>
-      <hr class="featurette-divider">
-      <div class="row featurette">
-        <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5 col-md-pull-7">
-          <asset:image  class="featurette-image img-responsive center-block" src="Logosimbolo-ModulusUno-vFINAL-big.png"/>
-        </div>
-      </div>
-      <hr class="featurette-divider">
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5">
-          <asset:image  class="featurette-image img-responsive center-block" src="Logosimbolo-ModulusUno-vFINAL-big.png"/>
-        </div>
-      </div>
       <hr class="featurette-divider">
       <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
