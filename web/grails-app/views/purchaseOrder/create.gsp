@@ -123,14 +123,14 @@
               <input type="hidden" name="providerId" value="${provider.id}" />
               <input type="hidden" name="isMoneyBackOrder" value="${purchaseOrder.isMoneyBackOrder}"/>
               <input type="hidden" name="company" value="${params.company.id}"/>
-              <div class="form-control">
+              <div class="">
                 <label>Fecha de Pago<font color="red"> *Requerida</font></label>
                 <input type="text" id="datepicker" name="fechaPago" required="required">
               </div>
               <br/>
-              <div class="">
+              <div class="form-group">
                 <label>Notas</label>
-                <textarea rows="4" cols="50" name="note" id="note" ></textarea>
+                <textarea class="form-control" rows="4" cols="50" name="note" id="note" ></textarea>
               </div>
               <br/>
               <p>

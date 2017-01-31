@@ -116,9 +116,9 @@ class PurchaseOrderController {
       render view:'show', model:[purchaseOrder:order, amountExcceds: "El monto excede el total del pago de la order de compra"]
       return
     }
-    PaymentToPurchase payment = new PaymentToPurchase(amount:amount)
     String messageSuccess = message(code:"purchaseOrder.already.executed")
     if (companyService.enoughBalanceCompany(order.company, order.total)){
+      PaymentToPurchase payment = new PaymentToPurchase(amount:amount)
       if (purchaseOrderIsInStatus(order, PurchaseOrderStatus.AUTORIZADA)) {
         purchaseOrderService.payPurchaseOrder(order,payment)
         messageSuccess = message(code:"purchaseOrder.executed.message")

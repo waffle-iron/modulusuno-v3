@@ -4,9 +4,8 @@
     <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesDeposito-${action}">
       Depósitos <i class="fa fa-caret-down"></i>
     </a>
-    <ul class="collapse nav" id="ordenesDeposito-${action}">
       <li>
-        <ul style="padding-left:5em;">
+        <ul class="collapse nav" id="ordenesDeposito-${action}" style="padding-left:2em;">
           <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
           <li>
             <g:link controller="depositOrder" action="create">Nueva</g:link>
@@ -19,16 +18,14 @@
           </sec:ifAnyGranted>
         </ul>
       </li>
-    </ul>
   </li>
   <li>
   <li>
     <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#cashoutOrder-${action}">
       Retiros <i class="fa fa-caret-down"></i>
     </a>
-    <ul class="collapse nav" id="cashoutOrder-${action}">
       <li>
-        <ul style="padding-left:5em;">
+        <ul class="collapse nav" id="cashoutOrder-${action}" style="padding-left:2em;">
           <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
           <li>
             <g:link controller="cashOutOrder" action="create">Nueva</g:link>
@@ -41,15 +38,13 @@
           </sec:ifAnyGranted>
         </ul>
       </li>
-    </ul>
   </li>
   <li>
     <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#saleOrder-${action}">
       Ordenes de Venta <i class="fa fa-caret-down"></i>
     </a>
-    <ul class="collapse nav" id="saleOrder-${action}">
       <li>
-        <ul style="padding-left:5em;">
+        <ul class="collapse nav" id="saleOrder-${action}" style="padding-left:2em;">
           <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
           <li>
             <g:link controller="saleOrder" action="create">Nueva</g:link>
@@ -62,7 +57,6 @@
           </sec:ifAnyGranted>
         </ul>
       </li>
-    </ul>
   </li>
 
 
@@ -70,9 +64,8 @@
     <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesCompra-${action}">
       Órdenes de Compra <i class="fa fa-caret-down"></i>
     </a>
-    <ul class="collapse nav" id="ordenesCompra-${action}">
       <li>
-        <ul style="padding-left:5em;">
+        <ul class="collapse nav" id="ordenesCompra-${action}" style="padding-left:2em;">
           <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
           <li>
             <g:link controller="purchaseOrder" action="create">Nueva</g:link>
@@ -85,15 +78,13 @@
           </sec:ifAnyGranted>
         </ul>
       </li>
-    </ul>
   </li>
   <li>
     <a href="javascript:;" data-parent="#operaciones" data-toggle="collapse" class="accordion-toggle" data-target="#ordenesReembolso-${action}">
       Reembolsos a Empleados <i class="fa fa-caret-down"></i>
     </a>
-    <ul class="collapse nav" id="ordenesReembolso-${action}">
       <li>
-        <ul style="padding-left:5em;">
+        <ul class="collapse nav" id="ordenesReembolso-${action}" style="padding-left:2em;">
           <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_EJECUTOR,ROLE_OPERATOR_EJECUTOR">
           <li>
             <g:link controller="purchaseOrder" action="createMoneyBackOrder">Nueva</g:link>
@@ -106,15 +97,13 @@
           </sec:ifAnyGranted>
         </ul>
       </li>
-    </ul>
   </li>
   <li>
     <a href="javascript:;" data-parent="#consultas" data-toggle="collapse" class="accordion-toggle" data-target="#feesReceipt-${action}">
       Recibo de Honorarios<i class="fa fa-caret-down"></i>
     </a>
-    <ul class="collapse nav" id="feesReceipt-${action}">
       <li>
-        <ul style="padding-left:5em;">
+        <ul class="collapse nav" id="feesReceipt-${action}" style="padding-left:2em;">
           <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
           <li>
             <g:link controller="feesReceipt" action="list">
@@ -129,7 +118,6 @@
           </sec:ifAnyGranted>
         </ul>
       </li>
-    </ul>
   </li>
   <sec:ifAnyGranted roles="ROLE_LEGAL_REPRESENTATIVE_VISOR,ROLE_OPERATOR_VISOR">
     <li>
