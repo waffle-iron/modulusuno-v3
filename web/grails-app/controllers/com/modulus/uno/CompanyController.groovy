@@ -62,6 +62,13 @@ class CompanyController {
     respond company,model:[edit:true]
   }
 
+  def crearCuentaSTP() {
+  User user = springSecurityService.currentUser
+  def company = Company.findById(params.id.toLong())
+  managerApplicationService.acceptingCompanyToIntegrate(company.id, user.profile.email)
+  redirect(action:"show")
+  }
+
   @Transactional
   def update(Company company) {
     if (company == null) {
