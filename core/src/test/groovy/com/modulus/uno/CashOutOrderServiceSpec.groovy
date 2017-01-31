@@ -8,6 +8,12 @@ import grails.test.mixin.Mock
 @Mock([Company,User,UserRole,Role,Profile,BankAccount,CashOutOrder,Authorization])
 class CashOutOrderServiceSpec extends Specification {
 
+  ModulusUnoService modulusUnoService = Mock(ModulusUnoService)
+
+  def setup() {
+    service.modulusUnoService = modulusUnoService
+  }
+
   def "adding a autorization to cashOut order"() {
     given:
       def company = new Company().save(validate:false)
@@ -42,6 +48,21 @@ class CashOutOrderServiceSpec extends Specification {
       isAvailable == false
   }
 
+  def "Should approve a cashout order"() {
+    given:"A cashout order"
+      def company = new Company().save(validate:false)
+      def cashout = new CashOutOrder()
+      cashout.amount = 100
+      cashout.timoneUuid = "12qw34er56ty78ui90op"
+      cashout.timoneAccount = "1630000002"
+      cashout.account = new BankAccount().save(validate:false)
+      cashout.company = company
+      cashout.save()
+    when:
+      def cashResult = service.authorizeAndDoCashOutOrder(cashout)
+    then:
+      1 * modulusUnoService.approveCashOutOrder(_)
+  }
 
   private def createUserWithRole(String username, String password, String email, def userRole) {
       def user = User.findByUsername(username) ?: new User(username:username,
