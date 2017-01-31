@@ -8,6 +8,7 @@ class CorporateService {
   RecoveryService recoveryService
   def springSecurityService
   def awsRoute53Service
+  def grailsResourceLocator
 
   def addCompanyToCorporate(Corporate corporate, Company company) {
     corporate.addToCompanies(company)
@@ -30,8 +31,8 @@ class CorporateService {
 
   def createAVirtualHostNginx(Corporate corporate) {
     def baseUrl = System.env['DOMAIN_BASE_URL']
-    def destFile = System.env['NGINX_LOCAL']
-    createWebAndApiViHost(corporate, baseUrl, destFile)
+    def tempDirectory = System.env['FILES_NGINX']
+    createWebAndApiViHost(corporate, baseUrl, tempDirectory)
     "sudo service nginx reload".execute()
 
   }
@@ -91,8 +92,9 @@ class CorporateService {
   }
 
   private def createWebAndApiViHost(Corporate corporate, String baseUrl, String destFile) {
-    def fileDefaultWeb =  new File('src/main/groovy/com/modulus/uno/web.txt')
-    def fileDefaultApi =  new File('src/main/groovy/com/modulus/uno/api.txt')
+    def file = corporate.getClass().getClassLoader().getResource("web.txt").file
+    def fileDefaultWeb =  new File(corporate.getClass().getClassLoader().getResource("web.txt").file)
+    def fileDefaultApi =  new File(corporate.getClass().getClassLoader().getResource("api.txt").file)
     def fileNewWeb = new File("${destFile}${corporate.corporateUrl}.conf")
     def fileNewApi = new File("${destFile}api-${corporate.corporateUrl}.conf")
     copyAndReplaceTextInFile(fileDefaultWeb,fileNewWeb) { it.replaceAll('urlCorporate',"${corporate.corporateUrl}${baseUrl}" )}
