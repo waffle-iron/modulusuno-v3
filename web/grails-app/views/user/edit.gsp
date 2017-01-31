@@ -38,7 +38,7 @@
                   </g:eachError>
                 </ul>
               </g:hasErrors>
-              <g:form action="update">
+              <g:form action="update" class="form">
                 <fieldset class="form">
                   <input type="hidden" name="company" value="${company}" />
                   <input type="hidden" name="user" value="${user.id}" />
@@ -62,20 +62,7 @@
                       <g:select name="banco" from="${com.modulus.uno.Nationality.values()}" class="form-control" aria-controls="example-table"/>
                     </div>
 
-                      <div class="form-group">
-                        <label>Numero Telefónico</label>
-                        <input type="tel" name="number" class="form-control" pattern=".{10,}" required="true"/>
-                      </div>
-                       <div class="form-group">
-                        <label>Extensión</label>
-                        <input type="text" name="extension" class="form-control" />
-                      </div>
-                       <div class="form-group">
-                        <label>${message(code:'user.telephoneType')}</label>
-                        <g:select name="type" class="form-control" from="${com.modulus.uno.TelephoneType.values()}" />
-                      </div>
-
-                  </f:with>
+                                </f:with>
                 </fieldset>
                 <fieldset class="buttons">
                   <input class="save btn btn-default" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
