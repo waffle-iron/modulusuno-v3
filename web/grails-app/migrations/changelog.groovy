@@ -11,5 +11,5 @@ databaseChangeLog = {
   include file: 'initialize-uuid-from-cashout-order-existing.groovy'
   include file: 'adding-uuid-to-fees-receipt.groovy'
   include file: 'initialize-uuid-for-existing-fees-receipt.groovy'
-    include file: 'adding-columns-datecreated-lastupdated-and-status-to-stp-deposit.groovy'
+  include file: 'adding-columns-dates-and-status-to-stp-deposit.groovy'
 }
