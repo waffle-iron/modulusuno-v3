@@ -17,26 +17,24 @@ class StpDepositService {
   }
 
   private def processStpDeposit(StpDeposit stpDeposit) {
-    executeCashinIntoAccountM1(stpDeposit)
-    generatePaymentToConciliateBill(stpDeposit)
-  }
-
-  private def executeCashinIntoAccountM1(StpDeposit stpDeposit) {
     ModulusUnoAccount m1Account = ModulusUnoAccount.findByStpClabe(stpDeposit.accountBeneficiary)
-    if (m1Account) {
-      DepositOrder depositOrder = new DepositOrder()
-      depositOrder.amount = stpDeposit.amount
-      depositOrder.company = m1Account.company
-      modulusUnoService.generateACashinForIntegrated(depositOrder)
-    }
+    ClientLink client = ClientLink.findByStpClabe(stpDeposit.accountBeneficiary)
+    executeCashinIntoAccountM1(m1Account, client, stpDepositi)
+    generatePaymentToConciliateBill(m1Account, client, stpDeposit)
   }
 
-  private def generatePaymentToConciliateBill(StpDeposit stpDeposit) {
-    ClientLink client = ClientLink.findByStpClabe(stpDeposit.accountBeneficiary)
-    if (client) {
-      Payment payment = new Payment(amount:stpDeposit.amount, rfc:client.clientRef, company:client.company)
-      payment.save()
-    }
+  private def executeCashinIntoAccountM1(ModulusUnoAccount m1Account, ClientLink client, StpDeposit stpDeposit) {
+    DepositOrder depositOrder = new DepositOrder()
+    depositOrder.amount = stpDeposit.amount
+    depositOrder.company = m1Account ? m1Account.company : client.company
+    modulusUnoService.generateACashinForIntegrated(depositOrder)
+  }
+
+  private def generatePaymentToConciliateBill(ModulusUnoAccount m1Account, ClientLink client, StpDeposit stpDeposit) {
+    Payment payment = new Payment(amount:stpDeposit.amount)
+    payment.rfc = client ? client.clientRef : null
+    payment.company = m1Account ? m1Account.company : client.company
+    payment.save()
   }
 
   private StpDeposit saveNotification(String xml) {
