@@ -13,7 +13,7 @@
       <th class="text-center">Por Autorizar</th>
     </sec:ifAnyGranted>
   </tr>
-  <g:if test="${feesReceiptList.empty}">
+  <g:if test="${!feesReceiptList}">
     <div class="alert alert-danger" role="alert">
       <g:message code="feesReceipt.list.empty"/>
     </div>
