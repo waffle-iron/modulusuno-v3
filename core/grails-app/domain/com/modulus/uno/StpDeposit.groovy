@@ -1,8 +1,8 @@
 package com.modulus.uno
 
 class StpDeposit {
-  Date dateCreated
-  Date lastUpdated
+  Date dateCreated = new Date()
+  Date lastUpdated = new Date()
 
   Long operationNumber
   Date operationDate
