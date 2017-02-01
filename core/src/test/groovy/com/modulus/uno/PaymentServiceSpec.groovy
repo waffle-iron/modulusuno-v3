@@ -26,7 +26,6 @@ class PaymentServiceSpec extends Specification {
       def result = service.concilationForSaleOrderWithPayment(saleOrder.id, payment.id)
     then:"We expect payment conciliated"
       result.status == PaymentStatus.CONCILIATED
-      1 * modulusUnoService.cashInWithCommissionFromSaleOrder(_)
       1 * emailSenderService.notifySaleOrderChangeStatus(_)
   }
 
