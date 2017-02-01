@@ -7,16 +7,16 @@ class OrganizationService {
 
   RoleService roleService
   UserRoleService userRoleService
-  
+
   User createRolesForUserInCompanies(User user, Map rolesForCompanies){
     rolesForCompanies.each { companyName, rolesForThisCompany ->
-      Company company = Company.findByBussinessName(companyName)
+      Company company = Company.findByUuid(companyName)
 
       List<Role> roles = rolesForThisCompany.collect { role, value ->
         Role.findByAuthority(role)
       }
       if (rolesForThisCompany) {
-        roleService.createRolesForUserAtThisCompany(roles, user, company) 
+        roleService.createRolesForUserAtThisCompany(roles, user, company)
       }
     }
     user
@@ -36,10 +36,11 @@ class OrganizationService {
     user
   }
 
+  //TODO: Refactor companyName a uuid
   User updateRolesForUserInCompanies(String username, Map rolesForCompanies){
     User user = User.findByUsername(username)
     def companies = rolesForCompanies.collect { companyName, rolesForThisCompany ->
-      Company company = Company.findByBussinessName(companyName)
+      Company company = Company.findByUuid(companyName)
     }
     deleteRolesForUserInCompanies(user,companies)
     createRolesForUserInCompanies(user,rolesForCompanies)
