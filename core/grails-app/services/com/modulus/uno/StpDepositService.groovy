@@ -19,7 +19,7 @@ class StpDepositService {
   private def processStpDeposit(StpDeposit stpDeposit) {
     ModulusUnoAccount m1Account = ModulusUnoAccount.findByStpClabe(stpDeposit.accountBeneficiary)
     ClientLink client = ClientLink.findByStpClabe(stpDeposit.accountBeneficiary)
-    executeCashinIntoAccountM1(m1Account, client, stpDepositi)
+    executeCashinIntoAccountM1(m1Account, client, stpDeposit)
     generatePaymentToConciliateBill(m1Account, client, stpDeposit)
   }
 
