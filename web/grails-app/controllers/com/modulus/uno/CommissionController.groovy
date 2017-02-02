@@ -79,14 +79,13 @@ class CommissionController {
 
     if (commission.hasErrors()) {
       transactionStatus.setRollbackOnly()
-      respond commission.errors, view:'edit'
+      respond commission.errors, view:'edit', model:[company:commission.company]
       return
     }
 
-    if (commissionTypeAlreadyExists(commission.type)) {
+    if (commissionTypeAlreadyExists(commission)) {
       transactionStatus.setRollbackOnly()
-      flash.message = message(code: 'commission.already.exists')
-      respond commission, view:'edit'
+      respond commission, view:'edit', model:[company:commission.company]
       return
     }
 
@@ -122,8 +121,8 @@ class CommissionController {
     }
   }
 
-  private boolean commissionTypeAlreadyExists(CommissionType type) {
-
+  private Commission commissionTypeAlreadyExists(Commission commission) {
+    Commission.findByCompanyAndTypeAndIdNotEqual(commission.company, commission.type, commission.id)
   }
 
   protected void notFound() {
