@@ -12,4 +12,5 @@ databaseChangeLog = {
   include file: 'adding-uuid-to-fees-receipt.groovy'
   include file: 'initialize-uuid-for-existing-fees-receipt.groovy'
   include file: 'adding-unique-to-variable-of-corporate.groovy'
+  include file: 'adding-columns-dates-and-status-to-stp-deposit.groovy'
 }
