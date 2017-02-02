@@ -36,7 +36,6 @@ class PaymentService {
     Payment payment = Payment.get(paymentId)
     SaleOrder order = SaleOrder.get(saleOrderId)
     if(order){
-      modulusUnoService.cashInWithCommissionFromSaleOrder(order)
       payment.saleOrder = order
       payment.status = PaymentStatus.CONCILIATED
       order.status = SaleOrderStatus.PAGADA
