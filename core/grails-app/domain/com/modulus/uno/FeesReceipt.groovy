@@ -1,6 +1,8 @@
 package com.modulus.uno
 
 class FeesReceipt {
+
+  String uuid = UUID.randomUUID().toString().replace('-','')[0..15]
   String collaboratorName
   BigDecimal amount = 0.00
   BigDecimal iva = 0.00
