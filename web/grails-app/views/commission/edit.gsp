@@ -7,11 +7,11 @@
   </head>
   <body>
     <div class="page-title">
-      <h1><g:message code="commission.edit.label" args="[entityName]" /></h1>
-      <ol class="breadcrumb">
-        <li><i class="fa fa-caret-square-o-up"></i> Compañia</li>
-        <li class="active">Información de la Comisión</b></li>
-      </ol>
+      <h1>
+        <i class="fa fa-info-circle fa-3x"></i>
+        <g:message code="commission.edit.label" args="[entityName]" />
+        <small>${company}</small>
+      </h1>
     </div>
     <div id="edit-address" class="content scaffold-edit" role="main">
       <div class="portlet portlet-blue">
@@ -48,7 +48,6 @@
         </div>
       </div>
     </div>
-    <g:link class="list btn btn-default" action="index" params='[company:"${company.id}"]'><g:message code="commission.list.label" args="[entityName]" /></g:link>
-    <g:link class="create btn btn-default" action="create"  params='[company:"${company.id}"]' ><g:message code="commission.create.label" args="[entityName]" /></g:link>
+    <g:link class="list btn btn-default" action="index" params='[companyId:commission.company.id]'><g:message code="commission.list.label" args="[entityName]" /></g:link>
   </body>
 </html>

@@ -83,12 +83,18 @@ class CommissionController {
       return
     }
 
+    if (commissionTypeAlreadyExists(commission.type)) {
+      transactionStatus.setRollbackOnly()
+      flash.message = message(code: 'commission.already.exists')
+      respond commission, view:'edit'
+      return
+    }
 
     commission.save flush:true
 
     request.withFormat {
       form multipartForm {
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'commission.label', default: 'Commission'), commission.id])
+        flash.message = message(code: 'commission.updated.message')
         redirect commission
       }
       '*'{ respond commission, [status: OK] }
@@ -114,6 +120,10 @@ class CommissionController {
       }
       '*'{ render status: NO_CONTENT }
     }
+  }
+
+  private boolean commissionTypeAlreadyExists(CommissionType type) {
+
   }
 
   protected void notFound() {
