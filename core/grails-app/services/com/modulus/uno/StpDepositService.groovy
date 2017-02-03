@@ -19,6 +19,10 @@ class StpDepositService {
   private def processStpDeposit(StpDeposit stpDeposit) {
     ModulusUnoAccount m1Account = ModulusUnoAccount.findByStpClabe(stpDeposit.accountBeneficiary)
     ClientLink client = ClientLink.findByStpClabe(stpDeposit.accountBeneficiary)
+
+    log.info "Accoun company: ${m1Account}"
+    log.info "Account client: ${client}"
+
     executeCashinIntoAccountM1(m1Account, client, stpDeposit)
     generatePaymentToConciliateBill(m1Account, client, stpDeposit)
   }
@@ -28,6 +32,10 @@ class StpDepositService {
     depositOrder.amount = stpDeposit.amount
     depositOrder.company = m1Account ? m1Account.company : client.company
     modulusUnoService.generateACashinForIntegrated(depositOrder)
+
+    stpDeposit.status = StpDepositStatus.APLICADO
+    stpDeposit.save()
+    log.info "Deposit was applicated: ${stpDeposit.dump()}"
   }
 
   private def generatePaymentToConciliateBill(ModulusUnoAccount m1Account, ClientLink client, StpDeposit stpDeposit) {
@@ -35,12 +43,20 @@ class StpDepositService {
     payment.rfc = client ? client.clientRef : null
     payment.company = m1Account ? m1Account.company : client.company
     payment.save()
+    log.info "Payment was generated: ${payment?.dump()}"
   }
 
   private StpDeposit saveNotification(String xml) {
-    def notification = new XmlSlurper().parseText(xml)
+    def notification
+    try {
+      notification = new XmlSlurper().parseText(xml)
+    } catch (Exception ex) {
+      log.error "Excpetion in parsing: ${ex.message}"
+      throw new BusinessException ("Error parsing xml: ${ex.message}")
+    }
     StpDepositCommand command = createStpDepositCommand(notification)
     StpDeposit stpDeposit = command.createStpDeposit()
+    log.info "Recording deposit: ${stpDeposit.dump()}"
     stpDeposit.save()
     stpDeposit
   }
@@ -81,6 +97,7 @@ class StpDepositService {
     }
     stpDeposit.status = status
     stpDeposit.save()
+    log.info "Defined status:${stpDeposit.status}"
     status
   }
 
