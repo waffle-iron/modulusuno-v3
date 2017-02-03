@@ -17,10 +17,11 @@ class STPController {
   ])
   def stpDepositNotification() {
     try {
+      log.info "Receiving notificaction: ${params.notification}"
       def result = stpDepositService.notificationDepositFromStp(params.notification)
       respond result, status: 201, formats: ['json']
-    } catch (ex) {
-      response.sendError(422, "Missing parameters from notification")
+    } catch (Exception ex) {
+      response.sendError(422, "Missing parameters from notification, error: ${ex.message}")
     }
   }
 
