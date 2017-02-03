@@ -2,6 +2,7 @@ package com.modulus.uno
 
 import grails.transaction.Transactional
 import java.text.SimpleDateFormat
+import groovy.sql.Sql
 
 @Transactional
 class SaleOrderService {
@@ -12,6 +13,7 @@ class SaleOrderService {
   def grailsApplication
   def companyService
   def springSecurityService
+  def dataSource
 
   // TODO: Code Review
   def createSaleOrderWithAddress(Long companyId, Long clientId, Long addressId, def fechaCobro, String externalId, def note) {
@@ -191,4 +193,10 @@ class SaleOrderService {
     listResult
   }
 
+  def deleteSaleOrder(SaleOrder saleOrder) {
+    Sql sql = new Sql(dataSource)
+    sql.execute("delete from sale_order_item where sale_order_id=${saleOrder.id}")
+    sql.execute("delete from sale_order_address where sale_order_addresses_id=${saleOrder.id}")
+    saleOrder.delete()
+  }
 }

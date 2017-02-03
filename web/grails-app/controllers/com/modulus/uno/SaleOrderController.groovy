@@ -61,7 +61,7 @@ class SaleOrderController {
   }
 
   def deleteOrder(SaleOrder saleOrder) {
-    saleOrder.delete flush:true
+    saleOrderService.deleteSaleOrder(saleOrder)
     redirect action:'list'
   }
 
