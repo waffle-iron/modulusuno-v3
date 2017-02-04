@@ -84,7 +84,7 @@ class InvoiceService {
   }
 
   void cancelBill(SaleOrder saleOrder) {
-    CancelBillCommand cancelCommand = new CancelBillCommand(uuid:"${saleOrder.uuid}", rfc:"${saleOrder.company.rfc}")
+    CancelBillCommand cancelCommand = new CancelBillCommand(uuid:"${saleOrder.folio}", rfc:"${saleOrder.company.rfc}")
     restService.sendFacturaCommandWithAuth(cancelCommand, grailsApplication.config.modulus.cancelFactura)
   }
 
