@@ -10,9 +10,16 @@ class CompanyController {
 
   static allowedMethods = [save: "POST", update: "POST"]
 
-  @SwaggyList
+  def companyService
+  def managerApplicationService
+
+  @ApiOperation(value='Corporate list companies', response = Company, responseContainer = 'list')
+  @ApiImplicitParams ([
+    @ApiImplicitParam(name = 'corporateId', value = '', dataType = 'number',paramType = 'query')
+  ])
   def index() {
-    respond Company.list(),status: 200, formats: ['json']
+    def companies = Corporate.get(params.corporateId) ? Corporate.get(params.corporateId).companies.sort{it.bussinessName} : []
+    respond companies, status: 200, formats: ['json']
   }
 
   @SwaggyShow
@@ -32,13 +39,13 @@ class CompanyController {
       @ApiImplicitParam(name = 'employeeNumbers', value = '', dataType = 'integer',paramType = 'form'),
       @ApiImplicitParam(name = 'taxRegime', value = '["MORAL" or "FISICA_EMPRESARIAL"],', dataType = 'String',paramType = 'form'),
       @ApiImplicitParam(name = 'webSite', value = '', dataType = 'string',paramType = 'form'),
-      @ApiImplicitParam(name = 'artemisaId', value = '', dataType = 'number',paramType = 'form')
+      @ApiImplicitParam(name = 'artemisaId', value = '', dataType = 'number',paramType = 'form'),
+      @ApiImplicitParam(name = 'corporateId', value = '', dataType = 'number',paramType = 'form')
       ])
   def save(CompanyCommand command) {
-    def user = User.findById(3)
     def company = command.createCompany()
-    company.addToActors(user)
-    company.save()
+    companyService.saveInsideAndAssingCorporate(company,command.corporateId.toLong())
+    managerApplicationService.acceptingCompanyToIntegrate(company.id, "")
     respond company, status: 201, formats: ['json']
   }
 
