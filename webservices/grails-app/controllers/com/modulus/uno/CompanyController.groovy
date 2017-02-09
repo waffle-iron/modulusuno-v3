@@ -10,6 +10,9 @@ class CompanyController {
 
   static allowedMethods = [save: "POST", update: "POST"]
 
+  def companyService
+  def managerApplicationService
+
   @SwaggyList
   def index() {
     respond Company.list(),status: 200, formats: ['json']
@@ -32,13 +35,13 @@ class CompanyController {
       @ApiImplicitParam(name = 'employeeNumbers', value = '', dataType = 'integer',paramType = 'form'),
       @ApiImplicitParam(name = 'taxRegime', value = '["MORAL" or "FISICA_EMPRESARIAL"],', dataType = 'String',paramType = 'form'),
       @ApiImplicitParam(name = 'webSite', value = '', dataType = 'string',paramType = 'form'),
-      @ApiImplicitParam(name = 'artemisaId', value = '', dataType = 'number',paramType = 'form')
+      @ApiImplicitParam(name = 'artemisaId', value = '', dataType = 'number',paramType = 'form'),
+      @ApiImplicitParam(name = 'corporateId', value = '', dataType = 'number',paramType = 'form')
       ])
   def save(CompanyCommand command) {
-    def user = User.findById(3)
     def company = command.createCompany()
-    company.addToActors(user)
-    company.save()
+    companyService.saveInsideAndAssingCorporate(company,command.corporateId.toLong())
+    managerApplicationService.acceptingCompanyToIntegrate(company.id, "")
     respond company, status: 201, formats: ['json']
   }
 
