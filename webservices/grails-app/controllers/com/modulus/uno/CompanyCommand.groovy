@@ -11,6 +11,7 @@ class CompanyCommand implements Validateable {
   String grossAnnualBilling
   String numberOfAuthorizations
   String taxRegime
+  String corporateId
 
   Company createCompany() {
     new Company(
