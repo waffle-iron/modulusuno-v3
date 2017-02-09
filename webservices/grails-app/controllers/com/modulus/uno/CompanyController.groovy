@@ -13,9 +13,13 @@ class CompanyController {
   def companyService
   def managerApplicationService
 
-  @SwaggyList
+  @ApiOperation(value='Corporate list companies', response = Company, responseContainer = 'list')
+  @ApiImplicitParams ([
+    @ApiImplicitParam(name = 'corporateId', value = '', dataType = 'number',paramType = 'query')
+  ])
   def index() {
-    respond Company.list(),status: 200, formats: ['json']
+    def companies = Corporate.get(params.corporateId) ? Corporate.get(params.corporateId).companies.sort{it.bussinessName} : []
+    respond companies, status: 200, formats: ['json']
   }
 
   @SwaggyShow
