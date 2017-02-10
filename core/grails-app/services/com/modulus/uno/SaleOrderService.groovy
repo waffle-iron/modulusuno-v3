@@ -16,20 +16,28 @@ class SaleOrderService {
   def dataSource
 
   // TODO: Code Review
-  def createSaleOrderWithAddress(Long companyId, Long clientId, Long addressId, def fechaCobro, String externalId, def note) {
+  def createSaleOrderWithAddress(def params) {
+    Long companyId = params.companyId.toLong()
+    Long clientId = params.clientId.toLong()
+    Long addressId = params.addressId.toLong()
+    def fechaCobro = params.fechaCobro
+    String externalId = params.externalId ?: ""
+    def note = params.note
+    PaymentMethod paymentMethod = PaymentMethod.values().find { it.toString() == params.paymentMethod }
+
     if(!companyId && !clientId && !addressId){
       throw new BusinessException("No se puede crear la orden de venta...")
     }
     Company company = Company.get(companyId)
     BusinessEntity businessEntity = BusinessEntity.get(clientId)
-    SaleOrder saleOrder = createSaleOrder(businessEntity, company, fechaCobro, externalId, note)
+    SaleOrder saleOrder = createSaleOrder(businessEntity, company, fechaCobro, externalId, note, paymentMethod)
     Address address = Address.get(addressId)
     addTheAddressToSaleOrder(saleOrder, address)
     saleOrder
   }
 
-  def createSaleOrder(BusinessEntity businessEntity, Company company, def fechaCobro, String externalId, String note) {
-    def saleOrder = new SaleOrder(rfc:businessEntity.rfc, clientName: businessEntity.toString(), company:company, externalId:externalId, note:note)
+  def createSaleOrder(BusinessEntity businessEntity, Company company, def fechaCobro, String externalId, String note, PaymentMethod paymentMethod) {
+    def saleOrder = new SaleOrder(rfc:businessEntity.rfc, clientName: businessEntity.toString(), company:company, externalId:externalId, note:note, paymentMethod:paymentMethod)
     saleOrder.status = SaleOrderStatus.CREADA
     saleOrder.fechaCobro = Date.parse("dd/MM/yyyy", fechaCobro)
     saleOrder.save()
@@ -141,7 +149,7 @@ class SaleOrderService {
       saleOrder.fechaCobro = Date.parse("dd/MM/yyyy", params.fechaCobro)
       saleOrder.save()
     } else {
-      saleOrder = createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro, params.externalId, params.note)
+      saleOrder = createSaleOrderWithAddress(params)
     }
     saleOrder
   }
