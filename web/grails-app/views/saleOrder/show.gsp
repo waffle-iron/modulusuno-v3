@@ -1,6 +1,5 @@
 <%! import com.modulus.uno.UnitType %>
 <%! import com.modulus.uno.SaleOrderStatus %>
-<%! import com.modulus.uno.PaymentMethod %>
 <%! import com.modulus.uno.RejectReason %>
 <!DOCTYPE html>
 <html>
