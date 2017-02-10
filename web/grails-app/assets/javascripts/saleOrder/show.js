@@ -193,4 +193,15 @@ $("#btnExecute").click( function() {
     $("#executeSale").attr("action","/saleOrder/executeSaleOrder")
     $("#executeSale").submit()
   }
+
+  $('#product-name').keypress(function (e) {
+    var regex = new RegExp("^[\w \+-.#$%*();:]$");
+    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+
+    e.preventDefault();
+    return false;
+  });
 )
