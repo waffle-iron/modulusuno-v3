@@ -13,7 +13,7 @@ databaseChangeLog = {
     changeSet(author: "temoc (manual)", id: "initialize-payment-method-to-existing-sale-orders") {
       grailsChange {
         change {
-          sql.execute("update sale_order set payment_method='03 - TRANSFERENCIA ELECTRONICA'")
+          sql.execute("update sale_order set payment_method='TRANSFERENCIA_ELECTRONICA'")
         }
       }
     }
