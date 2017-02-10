@@ -12,7 +12,10 @@
       <h1>
         <i class="fa fa-info-circle fa-3x"></i>
         Comisiones
-        <small><g:message code="commission.list.label" /></small>
+        <small>
+          <g:message code="commission.list.label" /><br/>
+          ${company}
+        </small>
       </h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-caret-square-o-up"></i> Compañia</li>
