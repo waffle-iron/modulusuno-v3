@@ -152,14 +152,12 @@ class SaleOrderController {
   }
 
   def save() {
-    def saleOrder = saleOrderService.createSaleOrderWithAddress(params.long("companyId"),params.long("clientId"),params.long("addressId"), params.fechaCobro,"",params.note)
-
-    request.withFormat {
-      form multipartForm {
-        flash.message = message(code: 'saleOrder.created', args: [:])
-        redirect action:"show", id: saleOrder.id, params:params
-      }
-      '*' { respond saleOrder, [status: CREATED] }
+    def saleOrder = saleOrderService.createSaleOrderWithAddress(params)
+    if (saleOrder.id) {
+      redirect action:'show', id:saleOrder.id
+    } else {
+      flash.message = "No se pudo crear la orden de venta"
+      redirect action:'create'
     }
   }
 
