@@ -193,15 +193,17 @@ $("#btnExecute").click( function() {
     $("#executeSale").attr("action","/saleOrder/executeSaleOrder")
     $("#executeSale").submit()
   }
+)
 
-  $('#product-name').keypress(function (e) {
-    var regex = new RegExp("^[\w \+-.#$%*();:]$");
-    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+$('#product-name').keypress(function (e) {
+    var regex = new RegExp("^[a-zA-Z0-9 ñÑ\s\+\-.#$%*();:]$")
+    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode)
     if (regex.test(str)) {
-      return true;
+      return true
     }
 
-    e.preventDefault();
-    return false;
-  });
+    e.preventDefault()
+    return false
+  }
 )
+
