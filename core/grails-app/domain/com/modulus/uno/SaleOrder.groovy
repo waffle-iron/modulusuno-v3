@@ -16,6 +16,7 @@ class SaleOrder {
   String comments
 
   SaleOrderStatus status = SaleOrderStatus.CREADA
+  PaymentMethod paymentMethod = PaymentMethod.TRANSFERENCIA_ELECTRONICA
 
   Date fechaCobro
   String externalId

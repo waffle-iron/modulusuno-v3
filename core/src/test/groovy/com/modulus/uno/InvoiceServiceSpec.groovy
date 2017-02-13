@@ -42,7 +42,7 @@ class InvoiceServiceSpec extends Specification {
     and:"Sale Order item"
       SaleOrderItem saleOrderItem = new SaleOrderItem(sku:'sku1',name:'name', price:100, ieps:0, iva:16, quantity:2, unitType:UnitType.UNIDADES)
     and:"An sale order"
-      def saleOrder = new SaleOrder(rfc:'XXXX010101XXX',clientName:'clientName',addresses:[address], items:[saleOrderItem], company:company).save(validate:false)
+      def saleOrder = new SaleOrder(rfc:'XXXX010101XXX',clientName:'clientName',addresses:[address], items:[saleOrderItem], company:company, paymentMethod: PaymentMethod.TRANSFERENCIA_ELECTRONICA).save(validate:false)
     and:"A client"
       ClientLink client = new ClientLink(clientRef:'XXXX010101XXX', company:company).save(validate:false)
       ClientLink.metaClass.static.findByClientRefAndCompany = { client }
@@ -53,7 +53,7 @@ class InvoiceServiceSpec extends Specification {
       result.datosDeFacturacion.formaDePago == 'PAGO EN UNA SOLA EXHIBICION'
       result.datosDeFacturacion.tipoDeComprobante == 'ingreso'
       result.datosDeFacturacion.lugarDeExpedicion == 'CIUDAD DE MEXICO'
-      result.datosDeFacturacion.metodoDePago == 'TRANSFERENCIA ELECTRONICA'
+      result.datosDeFacturacion.metodoDePago == '03 - TRANSFERENCIA ELECTRONICA'
       result.datosDeFacturacion.numeroDeCuentaDePago == '1234567890'
       result.datosDeFacturacion.moneda == 'MXN'
 
@@ -108,7 +108,7 @@ class InvoiceServiceSpec extends Specification {
     and:"Sale Order item"
       SaleOrderItem saleOrderItem = new SaleOrderItem(sku:'sku1',name:'name', price:100, ieps:0, iva:16, quantity:2, unitType:UnitType.UNIDADES)
     and:"An sale order"
-      def saleOrder = new SaleOrder(rfc:'XXXX010101XXX',clientName:'clientName',addresses:[address], items:[saleOrderItem], company:company).save(validate:false)
+      def saleOrder = new SaleOrder(rfc:'XXXX010101XXX',clientName:'clientName',addresses:[address], items:[saleOrderItem], company:company, paymentMethod: PaymentMethod.EFECTIVO).save(validate:false)
     and:"A client"
       ClientLink client = new ClientLink(clientRef:'XXXX010101XXX', stpClabe:"999988887777666655", company:company).save(validate:false)
       ClientLink.metaClass.static.findByClientRefAndCompany = { client }
@@ -119,7 +119,7 @@ class InvoiceServiceSpec extends Specification {
       result.datosDeFacturacion.formaDePago == 'PAGO EN UNA SOLA EXHIBICION'
       result.datosDeFacturacion.tipoDeComprobante == 'ingreso'
       result.datosDeFacturacion.lugarDeExpedicion == 'CIUDAD DE MEXICO'
-      result.datosDeFacturacion.metodoDePago == 'TRANSFERENCIA ELECTRONICA'
+      result.datosDeFacturacion.metodoDePago == '01 - EFECTIVO'
       result.datosDeFacturacion.numeroDeCuentaDePago == '999988887777666655'
       result.datosDeFacturacion.moneda == 'MXN'
 
