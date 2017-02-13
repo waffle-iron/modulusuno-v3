@@ -13,9 +13,14 @@
     <link rel="stylesheet" href="/assets/third-party/EasyAutocomplete/dist/easy-autocomplete.min.css">
     <!--sobreescribir estilo selected-->
     <style>
-#eac-container-product-name li.selected {
-  text-decoration: none;
-}
+      #eac-container-product-name li.selected {
+        text-decoration: none;
+      }
+
+      #eac-container-sku li.selected {
+        text-decoration: none;
+      }
+
       .behind {
         z-index:0;
       }
@@ -62,6 +67,9 @@
                 ${address.city}, ${address.town}<br>
                 </dd>
                 </g:each>
+                <dt>Método de Pago:</dt>
+                <dd>${saleOrder.paymentMethod}</dd>
+
               </dl>
             </div>
           </div>

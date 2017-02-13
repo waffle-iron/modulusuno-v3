@@ -1,3 +1,4 @@
+<%! import com.modulus.uno.PaymentMethod %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -120,6 +121,10 @@
                 <textarea class="form-control" rows="4" cols="50" name="note" id="note" ></textarea>
               </div>
               <br/>
+              <div class="form-group">
+                <label>Método de Pago</label>
+                <g:select name="paymentMethod" from="${PaymentMethod.values()}"/>
+              </div>
               <p>
              <p>
               <button type="submit" class="btn btn-green btn-block">
