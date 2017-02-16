@@ -5,15 +5,15 @@ import grails.transaction.Transactional
 @Transactional
 class GroupNotifycationService {
 
-  def createNewGroup(def id, ArrayList<User>){
+  def createNewGroup(def id, ArrayList<User> usersList){
     println "Creando notification group"
   }
 
-  def updateUsersGroup(def groupId, ArrayList<User>){
+  def updateUsersGroup(def groupId, ArrayList<User> usersList){
     println "Actualizando lista de usuarios de un notification group"
   }
 
-  def updateNotifyId(def groupId, ArrayList<User>){
+  def updateNotifyId(def groupId, ArrayList<User> usersList){
     println "Actualizando idNotify de un notification group exitstentw"
    }
 }
