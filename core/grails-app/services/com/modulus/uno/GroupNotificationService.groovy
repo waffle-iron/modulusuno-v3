@@ -5,8 +5,8 @@ import grails.transaction.Transactional
 @Transactional
 class GroupNotificationService {
 
-  def createGroup(String something, ArrayList<User> usersList){
-    def newGroup = new GroupNotification(notificationId:something, users:usersList)
+  def createGroup(String notifyId, ArrayList<User> usersList){
+    def newGroup = new GroupNotification(notificationId:notifyId, users:usersList)
     newGroup.save()
     newGroup
   }

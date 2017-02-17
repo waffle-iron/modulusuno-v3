@@ -34,16 +34,8 @@ class GroupNotificationServiceSpec extends Specification {
     }
 
     def "Update a notification group"() {
-      given:"A user list for the first notification group"
-        def user1= new User(username:"User1",enabled:true,
-        profile:new Profile(name:"User1", email:"user1@me.com")).save(validate:false)
-        def user2= new User(username:"User2",enabled:true,
-        profile:new Profile(name:"User2", email:"user2@me.com")).save(validate:false)
-        def user3= new User(username:"User3", enabled:true,
-        profile:new Profile(name:"User3", email:"user3@me.com")).save(validate:false)
-        ArrayList<User> userList = [user1, user2, user3]
-      and:"A first notificationGroup"
-        GroupNotification firstNotificationGroup = service.createGroup("763gytdg327fgfg67fv5f", userList)
+      given:"A groupNotification"
+        GroupNotification firstGroup = createFirstUserGroup()
       and:"A new users list for update"
         def user4= new User(username:"newUser1",enabled:true,
         profile:new Profile(name:"newUser1", email:"user1new@me.com")).save(validate:false)
@@ -52,20 +44,28 @@ class GroupNotificationServiceSpec extends Specification {
         def user6= new User(username:"newUser3", enabled:true,
         profile:new Profile(name:"newUser3", email:"user3new@me.com")).save(validate:false)
         ArrayList<User> newUserList = [user4, user5, user6]
-
-      and:"a notification id"
+      and:"a  new notification id"
         def newNotificationId = "586d4944e1d4ae5diamon666"
-
-      and:"a notification Group id"
-        def groupId=firstNotificationGroup.id
-
       when:"we want to update the userList and the notificationId"
-        service.updateUsersGroup(groupId, newUserList)
-        service.updateNotifyId(groupId, newNotificationId)
-
+        service.updateUsersGroup(firstGroup.id, newUserList)
+        service.updateNotifyId(firstGroup.id, newNotificationId)
       then:"we should get"
-        firstNotificationGroup.users == newUserList
-        firstNotificationGroup.notificationId == newNotificationId
+        firstGroup.users == newUserList
+        firstGroup.notificationId == newNotificationId
+    }
+
+      private createFirstUserGroup(){
+        def user1= new User(username:"User1",enabled:true,
+        profile:new Profile(name:"User1", email:"user1@me.com")).save(validate:false)
+        def user2= new User(username:"User2",enabled:true,
+        profile:new Profile(name:"User2", email:"user2@me.com")).save(validate:false)
+        def user3= new User(username:"User3", enabled:true,
+        profile:new Profile(name:"User3", email:"user3@me.com")).save(validate:false)
+        ArrayList<User> userList = [user1, user2, user3]
+        def firstNotificationGroup = new GroupNotification(notificationId: "763gytdg327fgfg67fv5f", users: userList)
+        firstNotificationGroup.save()
+        firstNotificationGroup
+
     }
 
 }
