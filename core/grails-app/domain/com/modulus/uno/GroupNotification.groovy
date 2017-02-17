@@ -2,8 +2,11 @@ package com.modulus.uno
 
 class GroupNotification {
 
-    def notificationId
+    String notificationId
     ArrayList<User> users
+
+    static hasMany = [
+    ]
 
     static constraints = {
     }
