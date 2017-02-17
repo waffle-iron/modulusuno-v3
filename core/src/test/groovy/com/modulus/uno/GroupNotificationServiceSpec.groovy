@@ -43,7 +43,7 @@ class GroupNotificationServiceSpec extends Specification {
         profile:new Profile(name:"User3", email:"user3@me.com")).save(validate:false)
         ArrayList<User> userList = [user1, user2, user3]
       and:"A first notificationGroup"
-        def firstNotificationGroup = new GroupNotification(emailerId:"586d4944e1d4ae54524dd622", users:userList).save()
+        GroupNotification firstNotificationGroup = service.createGroup("763gytdg327fgfg67fv5f", userList)
       and:"A new users list for update"
         def user4= new User(username:"newUser1",enabled:true,
         profile:new Profile(name:"newUser1", email:"user1new@me.com")).save(validate:false)
@@ -59,13 +59,13 @@ class GroupNotificationServiceSpec extends Specification {
       and:"a notification Group id"
         def groupId=firstNotificationGroup.id
 
-      when:"we want to update the group"
-        service.updateUsersGroup(groupId, newUsersList)
-        service.updateNotifyId(groupId, notificationId)
+      when:"we want to update the userList and the notificationId"
+        service.updateUsersGroup(groupId, newUserList)
+        service.updateNotifyId(groupId, newNotificationId)
 
       then:"we should get"
-        firstNotificationGroup.notificationId == newNotificationId
         firstNotificationGroup.users == newUserList
+        firstNotificationGroup.notificationId == newNotificationId
     }
 
 }
