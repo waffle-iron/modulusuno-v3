@@ -47,8 +47,7 @@ class GroupNotificationServiceSpec extends Specification {
       and:"a  new notification id"
         def newNotificationId = "586d4944e1d4ae5diamon666"
       when:"we want to update the userList and the notificationId"
-        service.updateUsersGroup(firstGroup.id, newUserList)
-        service.updateNotifyId(firstGroup.id, newNotificationId)
+        service.updateGroupNotification(firstGroup.id, newUserList, newNotificationId)
       then:"we should get"
         firstGroup.users == newUserList
         firstGroup.notificationId == newNotificationId

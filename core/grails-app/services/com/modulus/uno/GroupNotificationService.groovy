@@ -11,17 +11,12 @@ class GroupNotificationService {
     newGroup
   }
 
-  def updateUsersGroup(def groupId, ArrayList<User> newUserList){
+  def updateGroupNotification(def groupId, ArrayList<User> newUserList, String newNotification){
     GroupNotification groupNotification = GroupNotification.findById(groupId)
       groupNotification.users=newUserList
+      groupNotification.notificationId = newNotification
       groupNotification.save()
   }
-
-  def updateNotifyId(def groupId, String newNotificationId){
-    GroupNotification groupNotification = GroupNotification.findById(groupId)
-      groupNotification.notificationId = newNotificationId
-      groupNotification.save()
-   }
 
   def deleteGroupNotification(def groupId){
     GroupNotification groupNotification = GroupNotification.findById(groupId)
