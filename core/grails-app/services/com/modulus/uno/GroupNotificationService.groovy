@@ -8,20 +8,19 @@ class GroupNotificationService {
   def createGroup(String something, ArrayList<User> usersList){
     def newGroup = new GroupNotification(notificationId:something, users:usersList)
     newGroup.save()
-    println "*"*30
-    println newGroup.id
-    println newGroup.notificationId
-    println newGroup.users
-    println "*"*30
     newGroup
   }
 
-  def updateUsersGroup(def groupId, ArrayList<User> usersList){
-    println "Actualizando lista de usuarios de un notification group"
+  def updateUsersGroup(def groupId, ArrayList<User> newUserList){
+    GroupNotification groupNotification = GroupNotification.findById(groupId)
+      groupNotification.users=newUserList
+      groupNotification.save()
   }
 
-  def updateNotifyId(def groupId, ArrayList<User> usersList){
-    println "Actualizando idNotify de un notification group exitstentw"
+  def updateNotifyId(def groupId, String newNotificationId){
+    GroupNotification groupNotification = GroupNotification.findById(groupId)
+      groupNotification.notificationId = newNotificationId
+      groupNotification.save()
    }
 
 }
