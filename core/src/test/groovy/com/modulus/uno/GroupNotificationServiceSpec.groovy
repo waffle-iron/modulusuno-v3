@@ -4,9 +4,6 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 import grails.test.mixin.Mock
 
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
- */
 @TestFor(GroupNotificationService)
 @Mock([GroupNotification, User])
 class GroupNotificationServiceSpec extends Specification {
@@ -22,15 +19,18 @@ class GroupNotificationServiceSpec extends Specification {
         profile:new Profile(name:"User2", email:"user2@me.com")).save(validate:false)
         def user3= new User(username:"User3", enabled:true,
         profile:new Profile(name:"User3", email:"user3@me.com")).save(validate:false)
+        def user0= new User(username:"User0", enabled:true,
+        profile:new Profile(name:"User0", email:"user0@me.com")).save(validate:false)
         ArrayList<User> userList = [user1, user2, user3]
       and:"a notification id"
         def notificationId = "586d4944e1d4ae54524dd622"
       when:"we want to save the group"
         def firstUserNotificationGroup = service.createGroup(notificationId, userList)
       then:"we should get"
-        //firstUserNotificationGroup.notificationId == "586d4944e1d4ae54524dd622"
-        //firstUserNotificationGroup.users == [user1, user2, user3]
-        true == false
+        firstUserNotificationGroup.id == 1
+        firstUserNotificationGroup.users == [user1, user2, user3]
+        firstUserNotificationGroup.users != [user1, user2, user0]
+        firstUserNotificationGroup.notificationId == "586d4944e1d4ae54524dd622"
     }
 
     def "Update a notification group"() {
@@ -64,9 +64,8 @@ class GroupNotificationServiceSpec extends Specification {
         service.updateNotifyId(groupId, notificationId)
 
       then:"we should get"
-        //firstNotificationGroup.notificationId == newNotificationId
-        //firstNotificationGroup.users == newUserList
-        true == false
+        firstNotificationGroup.notificationId == newNotificationId
+        firstNotificationGroup.users == newUserList
     }
 
 }
