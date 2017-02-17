@@ -6,8 +6,11 @@ class GroupNotification {
     ArrayList<User> users
 
     static hasMany = [
+      users:User
     ]
 
     static constraints = {
+      notificationId blank:false
+      users blank: false
     }
 }
