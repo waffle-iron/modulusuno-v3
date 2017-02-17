@@ -54,6 +54,15 @@ class GroupNotificationServiceSpec extends Specification {
         firstGroup.notificationId == newNotificationId
     }
 
+    def "Delete a notification group"(){
+      given:"A group notification"
+        GroupNotification firstGroup = createFirstUserGroup()
+      when:"we want to delete a group notification"
+        service.deleteGroupNotification(firstGroup.id)
+      then:"We shouldn't have any group notification"
+        assert !GroupNotification.findById(firstGroup.id)
+    }
+
       private createFirstUserGroup(){
         def user1= new User(username:"User1",enabled:true,
         profile:new Profile(name:"User1", email:"user1@me.com")).save(validate:false)

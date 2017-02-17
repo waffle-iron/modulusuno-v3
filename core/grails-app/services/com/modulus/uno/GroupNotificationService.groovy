@@ -23,4 +23,9 @@ class GroupNotificationService {
       groupNotification.save()
    }
 
+  def deleteGroupNotification(def groupId){
+    GroupNotification groupNotification = GroupNotification.findById(groupId)
+    groupNotification.delete()
+  }
+
 }
