@@ -71,7 +71,7 @@ class GroupNotificationServiceSpec extends Specification {
         profile:new Profile(name:"User3", email:"user3@me.com")).save(validate:false)
         ArrayList<User> userList = [user1, user2, user3]
         def firstNotificationGroup = new GroupNotification(notificationId: "763gytdg327fgfg67fv5f", users: userList)
-        firstNotificationGroup.save()
+        firstNotificationGroup.save(validate:false)
         firstNotificationGroup
 
     }
