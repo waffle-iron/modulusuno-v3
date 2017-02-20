@@ -3,7 +3,6 @@ package com.modulus.uno
 class GroupNotification {
 
     String notificationId
-    ArrayList<User> users
     String name
 
     static hasMany = [
