@@ -4,6 +4,7 @@ class GroupNotification {
 
     String notificationId
     ArrayList<User> users
+    String name
 
     static hasMany = [
       users:User
@@ -12,5 +13,6 @@ class GroupNotification {
     static constraints = {
       notificationId blank:false
       users blank: false
+      name blank: false
     }
 }
