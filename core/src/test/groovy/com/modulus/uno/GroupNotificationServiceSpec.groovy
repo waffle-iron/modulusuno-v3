@@ -31,9 +31,11 @@ class GroupNotificationServiceSpec extends Specification {
         firstUserNotificationGroup.id == 1
         firstUserNotificationGroup.name == "Contadores"
         firstUserNotificationGroup.name != "Null-Contadores"
-        firstUserNotificationGroup.users == [user1, user2, user3]
-        firstUserNotificationGroup.users != [user1, user2, user0]
         firstUserNotificationGroup.notificationId == "586d4944e1d4ae54524dd622"
+        assert firstUserNotificationGroup.users.contains(user1)
+        assert firstUserNotificationGroup.users.contains(user2)
+        assert firstUserNotificationGroup.users.contains(user3)
+        assert !firstUserNotificationGroup.users.contains(user0)
     }
 
     def "Update a notification group"() {
@@ -53,9 +55,11 @@ class GroupNotificationServiceSpec extends Specification {
       when:"we want to update the userList and the notificationId"
         service.updateGroupNotification(firstGroup.id, newName, newUserList, newNotificationId)
       then:"we should get"
-        firstGroup.users == newUserList
         firstGroup.name == "ContadoresGroup"
         firstGroup.notificationId == newNotificationId
+        assert firstGroup.users.contains(user4)
+        assert firstGroup.users.contains(user5)
+        assert firstGroup.users.contains(user6)
     }
 
     def "Delete a notification group"(){
