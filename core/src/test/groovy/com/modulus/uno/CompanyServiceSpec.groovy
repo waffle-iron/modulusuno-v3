@@ -474,4 +474,22 @@ and:
       result == false
   }
 
+  void "Should assign an alias stp to a company"() {
+    given:"A company"
+      Company company = createCompany()
+    and:"An account"
+      ModulusUnoAccount account = Mock(ModulusUnoAccount)
+      account.timoneUuid  = "1234567890"
+      account.save(validate:false)
+      company.accounts = [account]
+      company.status = CompanyStatus.ACCEPTED
+      company.save(validate:false)
+    and: "An alias stp"
+      String alias = "Alias-Stp"
+    when:
+      def result = service.assignAliasStpToCompany(company, alias)
+    then:
+      result.accounts.first().aliasStp == alias
+  }
+
 }
