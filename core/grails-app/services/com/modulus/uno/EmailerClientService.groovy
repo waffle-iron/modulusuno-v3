@@ -8,10 +8,11 @@ class EmailerClientService {
   WsliteConnectionService wsliteConnectionService
 
   def getEmailerStorage(){
-    def result = wsliteConnectionService.get("http://emailerv2.modulusuno.com", "/show")
+    def storage = wsliteConnectionService.get("http://emailerv2.modulusuno.com", "/show")
+    def emailerList = getEmailerList(storage)
   }
 
-  def getEmailerList(ArrayList emailerStorage){
+  private getEmailerList(def emailerStorage){
     def emailerList
     emailerList = emailerStorage.collect{ emailer ->
       ["id":emailer._id, "subject":emailer.subject]
