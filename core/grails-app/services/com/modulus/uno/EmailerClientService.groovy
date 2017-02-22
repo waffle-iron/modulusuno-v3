@@ -9,7 +9,7 @@ class EmailerClientService {
 
   def getEmailerStorage(){
     def storage = wsliteConnectionService.get("http://emailerv2.modulusuno.com", "/show")
-    getEmailerList(storage)
+    def emailersList = getEmailerList(storage)
   }
 
   private getEmailerList(def emailerStorage){
