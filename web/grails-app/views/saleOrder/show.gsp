@@ -45,7 +45,9 @@
       <g:if test="${flash.message}">
       <div class="alert alert-info">${flash.message}</div>
       </g:if>
+      <g:form controller="saleOrderItem" action="save">
       <g:render template="addItems"/>
+      </g:form>
       <g:render template="listItems"/>
     </div>
     <asset:javascript src="saleOrder/show.js"/>

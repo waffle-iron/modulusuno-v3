@@ -15,7 +15,6 @@
     </thead>
     <tbody>
       <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
-      <g:form controller="saleOrderItem" action="save">
       <g:hiddenField name="saleOrder.id" value="${saleOrder.id}"/>
       <tr>
         <td>
@@ -69,7 +68,6 @@
           </div>
         </td>
       </tr>
-      </g:form>
       </g:if>
     </tbody>
   </table>
