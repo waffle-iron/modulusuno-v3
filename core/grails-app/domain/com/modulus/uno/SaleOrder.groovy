@@ -22,8 +22,8 @@ class SaleOrder {
   String externalId
   Date originalDate
   String pdfTemplate
-
   String note
+  BigDecimal discount = new BigDecimal(0)
 
   static belongsTo = [company:Company]
 
@@ -57,6 +57,14 @@ class SaleOrder {
 
   def getSubtotal(){
     items*.amountWithoutTaxes.sum() ?: 0
+  }
+
+  def getAmountDiscount() {
+    getSubtotal()*(discount/100)
+  }
+
+  def getSubtotalWithDiscount() {
+    getSubtotal() - getAmountDiscount()
   }
 
   String toString(){
