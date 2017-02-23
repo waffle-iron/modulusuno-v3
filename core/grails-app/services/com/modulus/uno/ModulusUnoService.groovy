@@ -63,7 +63,17 @@ class ModulusUnoService {
     }
 
     BigDecimal amount = cashOutOrder.amount.setScale(2, RoundingMode.HALF_UP)
-    CashoutCommand command = new CashoutCommand(uuid:cashOutOrder.timoneUuid, clabe:cashOutOrder.account.clabe, bankCode:cashOutOrder.account.banco.bankingCode, amount:amount, fee:feeCommand.amount, beneficiary:cashOutOrder.company.bussinessName, concept:cashOutConcept.CashOutOrder, feeType:feeCommand.type)
+    CashoutCommand command = new CashoutCommand(
+      uuid:cashOutOrder.timoneUuid,
+      beneficiaryClabe:cashOutOrder.account.clabe,
+      bankCode:cashOutOrder.account.banco.bankingCode,
+      amount:amount, fee:feeCommand.amount,
+      beneficiary:cashOutOrder.company.bussinessName,
+      concept:cashOutConcept.CashOutOrder,
+      feeType:feeCommand.type,
+      payerName:cashOutOrder.company.accounts?.first()?.aliasStp,
+      payerClabe:cashOutOrder.company.accounts?.first()?.stpClabe
+    )
     restService.sendCommandWithAuth(command, grailsApplication.config.modulus.cashout)
   }
 
@@ -118,7 +128,18 @@ class ModulusUnoService {
       throw new CommissionException("No existe comisión para la operación")
     }
 
-    CashoutCommand command = new CashoutCommand(uuid:order.company.accounts?.first()?.timoneUuid, clabe:order.bankAccount.clabe, bankCode:order.bankAccount.banco.bankingCode, amount:payment.amount.setScale(2, RoundingMode.HALF_UP), fee:feeCommand.amount, beneficiary:order.providerName, concept:cashOutConcept.PurchaseOrder, feeType:feeCommand.type)
+    CashoutCommand command = new CashoutCommand(
+      uuid:order.company.accounts?.first()?.timoneUuid,
+      beneficiaryClabe:order.bankAccount.clabe,
+      bankCode:order.bankAccount.banco.bankingCode,
+      amount:payment.amount.setScale(2, RoundingMode.HALF_UP),
+      fee:feeCommand.amount,
+      beneficiary:order.providerName,
+      concept:cashOutConcept.PurchaseOrder,
+      feeType:feeCommand.type,
+      payerName:order.company.accounts?.first()?.aliasStp,
+      payerClabe:order.company.accounts?.first()?.stpClabe
+    )
     restService.sendCommandWithAuth(command, grailsApplication.config.modulus.cashout)
     command
 
