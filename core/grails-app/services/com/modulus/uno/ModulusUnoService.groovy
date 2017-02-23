@@ -7,6 +7,7 @@ import java.math.RoundingMode
 class ModulusUnoService {
 
   def restService
+  def corporateService
   def grailsApplication
 
   static final feeType = [
@@ -69,12 +70,18 @@ class ModulusUnoService {
       bankCode:cashOutOrder.account.banco.bankingCode,
       amount:amount, fee:feeCommand.amount,
       beneficiary:cashOutOrder.company.bussinessName,
+      emailBeneficiary:getMailFromLegalRepresentatitveCompany(cashOutOrder.company),
       concept:cashOutConcept.CashOutOrder,
       feeType:feeCommand.type,
       payerName:cashOutOrder.company.accounts?.first()?.aliasStp,
       payerClabe:cashOutOrder.company.accounts?.first()?.stpClabe
     )
     restService.sendCommandWithAuth(command, grailsApplication.config.modulus.cashout)
+  }
+
+  private String getMailFromLegalRepresentatitveCompany(Company company) {
+    def users = corporateService.findLegalRepresentativesOfCompany(company.id)
+    users?.first().profile.email
   }
 
   def consultBalanceOfAccount(String account) {
@@ -135,6 +142,8 @@ class ModulusUnoService {
       amount:payment.amount.setScale(2, RoundingMode.HALF_UP),
       fee:feeCommand.amount,
       beneficiary:order.providerName,
+      //TODO: Registrar el email de los proveedores
+      emailBeneficiary:"mailBeneficiary@mail.com",
       concept:cashOutConcept.PurchaseOrder,
       feeType:feeCommand.type,
       payerName:order.company.accounts?.first()?.aliasStp,
