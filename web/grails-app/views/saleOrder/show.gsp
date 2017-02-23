@@ -46,9 +46,11 @@
       <div class="alert alert-info">${flash.message}</div>
       </g:if>
       <g:form controller="saleOrderItem" action="save">
-      <g:render template="addItems"/>
+        <g:render template="addItems"/>
       </g:form>
-      <g:render template="listItems"/>
+      <g:form controller="saleOrder" action="applyDiscount">
+        <g:render template="listItems"/>
+      </g:form>
     </div>
     <asset:javascript src="saleOrder/show.js"/>
   </body>
