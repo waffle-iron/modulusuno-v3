@@ -24,6 +24,7 @@ class SaleOrderItemController {
   @Transactional
   def save(SaleOrderItemCommand command) {
     println "Command: ${command.dump()}"
+    println "Params: ${params}"
     if (!command) {
       transactionStatus.setRollbackOnly()
       notFound()
