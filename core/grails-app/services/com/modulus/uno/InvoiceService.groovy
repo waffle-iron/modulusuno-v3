@@ -35,6 +35,7 @@ class InvoiceService {
 
     command.emitter = company.rfc
     command.pdfTemplate = saleOrder.pdfTemplate
+    command.observaciones = saleOrder.note
 
     command.receptor.datosFiscales.rfc = saleOrder.rfc
     command.receptor.datosFiscales.razonSocial = saleOrder.clientName
