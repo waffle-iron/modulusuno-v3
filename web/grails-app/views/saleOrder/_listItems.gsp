@@ -3,7 +3,6 @@
 <div class="table-responsive">
   <table class="table table-condensed">
     <tbody>
-    <g:hiddenField name="saleOrder.id" value="${saleOrder.id}"/>
     <g:each in="${saleOrder.items.sort{it.id}}" var="item">
     <tr>
       <td><h3>${item.quantity}</h3></td>
@@ -40,53 +39,32 @@
     </g:each>
     </tbody>
     <tfooter>
-    <g:hiddenField name="id" value="${saleOrder.id}"/>
     <tr>
-      <td colspan="4">
-        <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
-          <strong>Descuento a aplicar (%):</strong>
-        </g:if>
-      </td>
-      <td class="text-right"><strong>Subtotal</strong></td>
+      <td colspan="5" class="text-right"><strong>Subtotal</strong></td>
       <td class="text-right">
         ${modulusuno.formatPrice(number:saleOrder.subtotal)}
       </td>
     </tr>
     <tr>
-      <td class="col-xs-2">
-        <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
-          <input class="form-control" name="discount" type="number" min="0" max="100" value="0" title="El descuento debe estar entre 0 y 100"/>
-        </g:if>
-      </td>
-      <td colspan="3">
-        <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
-          <button type="submit" class="btn btn-info">
-            <i class="fa fa-check"></i> Aplicar
-          </button>
-        </g:if>
-      </td>
-      <td class="text-right"><strong>Descuento</strong></td>
+      <td colspan="5" class="text-right"><strong>Descuento</strong></td>
       <td class="text-right">
-        <!--{modulusuno.formatPrice(number:saleOrder.amountDiscount)}-->
+        ${modulusuno.formatPrice(number:saleOrder.totalDiscount)}
       </td>
     </tr>
     <tr>
-      <td colspan="4"></td>
-      <td class="text-right"><strong>IEPS</strong></td>
+      <td colspan="5" class="text-right"><strong>IEPS</strong></td>
       <td class="text-right">
         ${modulusuno.formatPrice(number:saleOrder.totalIEPS)}
       </td>
     </tr>
     <tr>
-      <td colspan="4"></td>
-      <td class="text-right"><strong>IVA</strong></td>
+      <td colspan="5" class="text-right"><strong>IVA</strong></td>
       <td class="text-right">
         ${modulusuno.formatPrice(number:saleOrder.totalIVA)}
       </td>
     </tr>
     <tr>
-      <td colspan="4"></td>
-      <td class="text-right"><strong>Total</strong></td>
+      <td colspan="5" class="text-right"><strong>Total</strong></td>
       <td class="text-right">
         <strong>
           ${modulusuno.formatPrice(number:saleOrder.total)}
