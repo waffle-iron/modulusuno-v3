@@ -81,7 +81,7 @@ class ModulusUnoService {
 
   private String getMailFromLegalRepresentatitveCompany(Company company) {
     def users = corporateService.findLegalRepresentativesOfCompany(company.id)
-    users?.first().profile.email
+    users ? users.first().profile.email : ""
   }
 
   def consultBalanceOfAccount(String account) {
@@ -143,7 +143,7 @@ class ModulusUnoService {
       fee:feeCommand.amount,
       beneficiary:order.providerName,
       //TODO: Registrar el email de los proveedores
-      emailBeneficiary:"mailBeneficiary@mail.com",
+      emailBeneficiary:"",
       concept:cashOutConcept.PurchaseOrder,
       feeType:feeCommand.type,
       payerName:order.company.accounts?.first()?.aliasStp,
