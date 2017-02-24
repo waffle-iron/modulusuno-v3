@@ -31,6 +31,10 @@ class SaleOrderItem {
     this.price * (this.discount/100)
   }
 
+  BigDecimal getAppliedDiscount() {
+    this.quantity * this.getAmountDiscount()
+  }
+
   BigDecimal getPriceWithDiscount() {
     this.price - this.getAmountDiscount()
   }
