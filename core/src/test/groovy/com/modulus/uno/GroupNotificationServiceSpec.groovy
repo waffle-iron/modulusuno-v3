@@ -53,7 +53,7 @@ class GroupNotificationServiceSpec extends Specification {
         def newNotificationId = "586d4944e1d4ae5diamon666"
         def newName = "ContadoresGroup"
       when:"we want to update the userList and the notificationId"
-        service.updateGroupNotification(firstGroup.id, newName, newUserList, newNotificationId)
+        service.updateGroup(firstGroup.id, newName, newUserList, newNotificationId)
       then:"we should get"
         firstGroup.name == "ContadoresGroup"
         firstGroup.notificationId == newNotificationId
@@ -66,9 +66,34 @@ class GroupNotificationServiceSpec extends Specification {
       given:"A group notification"
         GroupNotification firstGroup = createFirstUserGroup()
       when:"we want to delete a group notification"
-        service.deleteGroupNotification(firstGroup.id)
+        service.deleteGroup(firstGroup.id)
       then:"We shouldn't have any group notification"
         assert !GroupNotification.findById(firstGroup.id)
+    }
+
+    def "Get a list of notification groups"(){
+      given:"Many notificationGroups"
+        GroupNotification firstGroup = createFirstUserGroup()
+        GroupNotification secondGroup = createFirstUserGroup()
+        GroupNotification thirdGroup = createFirstUserGroup()
+      when:"I want to know all the notification groups"
+        def groupsList = service.getGroupsList()
+      then:"We should get a list"
+        groupsList.contains(firstGroup)
+        groupsList.contains(secondGroup)
+        groupsList.contains(thirdGroup)
+    }
+
+    def "Find and get a specific groupNotification"(){
+        given:"A groupNotifications"
+        GroupNotification firstGroup = createFirstUserGroup()
+        GroupNotification secondGroup = createFirstUserGroup()
+        when:"We want to get the groupNotification with the id 2"
+        def idToFind = 2
+        def groupTwo = service.getGroup(idToFind)
+        then:"We should get the groupNotification with the id 2"
+        groupTwo.id == 2
+        groupTwo.id != 1
     }
 
       private createFirstUserGroup(){
