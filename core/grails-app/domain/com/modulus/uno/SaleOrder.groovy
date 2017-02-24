@@ -66,6 +66,10 @@ class SaleOrder {
     getSubtotal() - getAmountDiscount()
   }
 
+  BigDecimal getTotalDiscount(){
+    items*.appliedDiscount.sum() ?: 0
+  }
+
   String toString(){
     "${clientName} / \$ ${total.setScale(2, RoundingMode.HALF_UP)}"
   }
