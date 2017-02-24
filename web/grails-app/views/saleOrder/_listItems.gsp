@@ -40,7 +40,7 @@
     </g:each>
     </tbody>
     <tfooter>
-    <g:hiddenField name="saleOrder.id" value="${saleOrder.id}"/>
+    <g:hiddenField name="id" value="${saleOrder.id}"/>
     <tr>
       <td colspan="4">
         <g:if test="${saleOrder.status == SaleOrderStatus.CREADA}">
