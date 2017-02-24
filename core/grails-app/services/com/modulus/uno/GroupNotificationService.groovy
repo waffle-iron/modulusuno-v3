@@ -8,24 +8,8 @@ class GroupNotificationService {
   def corporateService
 
   def addNewGroup(def groupParams, def corporateId){
-
-   /*
-   log.info groupParams.userList.toString()
-   log.info groupParams.nameGroup
-   log.info groupParams.notificationId
-   log.info corporateId
-   */
-
+    //TODO: Problema al obtener los usuarios del checkbox, se estan registrando todos los usuarios del corpote.
    def corporateUsers = corporateService.findCorporateUsers(corporateId)
-
-   //Obtener los usuarios
-   /*
-   corporateUsers.each{
-    log.info "usuario comparado con los buscados${it}"
-    if (users.contains(it.id))
-      log.info "Se encontro que el usuario ${it.username} fue añadido al grupo"
-   }
-  */
    createGroup(groupParams.nameGroup, groupParams.notificationId, corporateUsers)
   }
 
@@ -34,7 +18,7 @@ class GroupNotificationService {
     newGroup.save()
   }
 
-  def updateGroupNotification(def groupId, String newNameGroup, ArrayList<User> newUserList, String newNotification){
+  def updateGroup(def groupId, String newNameGroup, ArrayList<User> newUserList, String newNotification){
     GroupNotification groupNotification = GroupNotification.findById(groupId)
       groupNotification.name=newNameGroup
       groupNotification.users=newUserList
@@ -42,9 +26,17 @@ class GroupNotificationService {
       groupNotification.save(validate:false)
   }
 
-  def deleteGroupNotification(def groupId){
+  def deleteGroup(def groupId){
     GroupNotification groupNotification = GroupNotification.findById(groupId)
     groupNotification.delete()
+  }
+
+  def getGroupsList(){
+    GroupNotification.findAll()
+  }
+
+  def getGroup(def groupId){
+    GroupNotification.findById(groupId)
   }
 
 }
