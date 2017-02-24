@@ -23,7 +23,6 @@ class SaleOrder {
   Date originalDate
   String pdfTemplate
   String note
-  BigDecimal discount = new BigDecimal(0)
 
   static belongsTo = [company:Company]
 
