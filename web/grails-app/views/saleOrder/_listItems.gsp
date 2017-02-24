@@ -14,6 +14,8 @@
         <dl class="dl-horizontal">
           <dt>Precio:</dt>
           <dd>${modulusuno.formatPrice(number:item.price)}</dd>
+          <dt>Descuento:</dt>
+          <dd>${modulusuno.formatPrice(number:item.amountDiscount)}</dd>
           <dt>IEPS:</dt>
           <dd>${modulusuno.formatPrice(number:item.amountIEPS)}</dd>
           <dt>IVA:</dt>
@@ -46,7 +48,7 @@
       </td>
     </tr>
     <tr>
-      <td colspan="5" class="text-right"><strong>Descuento</strong></td>
+      <td colspan="5" class="text-right"><strong>Descuentos</strong></td>
       <td class="text-right">
         ${modulusuno.formatPrice(number:saleOrder.totalDiscount)}
       </td>
