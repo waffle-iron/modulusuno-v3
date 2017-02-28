@@ -1,14 +1,13 @@
 package com.modulus.uno
 
 class Transition {
-  
+
+  State stateFrom
+  State stateTo  
   Action action
-  State stateTo
 
   Date dateCreated
   Date lastUpdated
-  
-  static belongsTo = [state: State]
 
   static constraints = {
     action nullable:false

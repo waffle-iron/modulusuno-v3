@@ -8,5 +8,6 @@ class Action {
 
   static constraints = {
     name nullable:false,blank:false
-  } 
+  }
+
 }
